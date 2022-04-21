@@ -6,15 +6,15 @@
 <title>
   Class: JSS::Policy
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::Policy";
   relpath = '../';
 </script>
@@ -113,15 +113,11 @@
     
 <p>A class implementing a JSS Policy.</p>
 
-<p>Like many API objects, the data comes from the API in sections, and the
-items in the :general section are mapped to direct attributes of this
-Class.</p>
+<p>Like many API objects, the data comes from the API in sections, and the items in the :general section are mapped to direct attributes of this Class.</p>
 
 <p>Policy instances are partially read-only:</p>
 <ul><li>
-<p>Due to limitations in the API implementation of policies, as well as the
-complexity of policy objects, only these attributes can be set and updated
-via the Policy class:</p>
+<p>Due to limitations in the API implementation of policies, as well as the complexity of policy objects, only these attributes can be set and updated via the Policy class:</p>
 </li><li><ul><li>
 <p>name</p>
 </li></ul>
@@ -221,8 +217,7 @@ via the Policy class:</p>
           <div class="docstring">
   <div class="discussion">
     
-<p>The hash key used for the JSON object output. It&#39;s also used in various
-error messages</p>
+<p>The hash key used for the JSON object output. It&#39;s also used in various error messages</p>
 
 
   </div>
@@ -238,8 +233,7 @@ error messages</p>
           <div class="docstring">
   <div class="discussion">
     
-<p>subsets available for fetching TODO: FilesProcesses and Maintenance
-don&#39;t seem to work</p>
+<p>subsets available for fetching TODO: FilesProcesses and Maintenance don&#39;t seem to work</p>
 
 
   </div>
@@ -249,23 +243,23 @@ don&#39;t seem to work</p>
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='qsymbols_beg'>%i[
-</span><span class='tstring_content'>  general</span><span class='words_sep'>
-</span><span class='tstring_content'>  scope</span><span class='words_sep'>
-</span><span class='tstring_content'>  selfservice</span><span class='words_sep'>
-</span><span class='tstring_content'>  self_service</span><span class='words_sep'>
-</span><span class='tstring_content'>  packages</span><span class='words_sep'>
-</span><span class='tstring_content'>  scripts</span><span class='words_sep'>
-</span><span class='tstring_content'>  printers</span><span class='words_sep'>
-</span><span class='tstring_content'>  dockitems</span><span class='words_sep'>
-</span><span class='tstring_content'>  dock_items</span><span class='words_sep'>
-</span><span class='tstring_content'>  reboot</span><span class='words_sep'>
-</span><span class='tstring_content'>  userinteraction</span><span class='words_sep'>
-</span><span class='tstring_content'>  user_interaction</span><span class='words_sep'>
-</span><span class='tstring_content'>  disk_encryption</span><span class='words_sep'>
-</span><span class='tstring_content'>  diskencryption</span><span class='words_sep'>
-</span><span class='tstring_content'>  accountmaintenance</span><span class='words_sep'>
-</span><span class='tstring_content'>  account_maintenance</span><span class='words_sep'>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='words_sep'>
+  </span><span class='tstring_content'>general</span><span class='words_sep'>
+  </span><span class='tstring_content'>scope</span><span class='words_sep'>
+  </span><span class='tstring_content'>selfservice</span><span class='words_sep'>
+  </span><span class='tstring_content'>self_service</span><span class='words_sep'>
+  </span><span class='tstring_content'>packages</span><span class='words_sep'>
+  </span><span class='tstring_content'>scripts</span><span class='words_sep'>
+  </span><span class='tstring_content'>printers</span><span class='words_sep'>
+  </span><span class='tstring_content'>dockitems</span><span class='words_sep'>
+  </span><span class='tstring_content'>dock_items</span><span class='words_sep'>
+  </span><span class='tstring_content'>reboot</span><span class='words_sep'>
+  </span><span class='tstring_content'>userinteraction</span><span class='words_sep'>
+  </span><span class='tstring_content'>user_interaction</span><span class='words_sep'>
+  </span><span class='tstring_content'>disk_encryption</span><span class='words_sep'>
+  </span><span class='tstring_content'>diskencryption</span><span class='words_sep'>
+  </span><span class='tstring_content'>accountmaintenance</span><span class='words_sep'>
+  </span><span class='tstring_content'>account_maintenance</span><span class='words_sep'>
 </span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="UPLOAD_TYPES-constant" class="">UPLOAD_TYPES =
@@ -319,20 +313,20 @@ don&#39;t seem to work</p>
         <dt id="SECTIONS-constant" class="">SECTIONS =
           
         </dt>
-        <dd><pre class="code"><span class='qsymbols_beg'>%i[
-</span><span class='tstring_content'>  general</span><span class='words_sep'>
-</span><span class='tstring_content'>  maintenance</span><span class='words_sep'>
-</span><span class='tstring_content'>  account_maintenance</span><span class='words_sep'>
-</span><span class='tstring_content'>  scripts</span><span class='words_sep'>
-</span><span class='tstring_content'>  self_service</span><span class='words_sep'>
-</span><span class='tstring_content'>  package_configuration</span><span class='words_sep'>
-</span><span class='tstring_content'>  scope</span><span class='words_sep'>
-</span><span class='tstring_content'>  user_interaction</span><span class='words_sep'>
-</span><span class='tstring_content'>  reboot</span><span class='words_sep'>
-</span><span class='tstring_content'>  files_processes</span><span class='words_sep'>
-</span><span class='tstring_content'>  dock_items</span><span class='words_sep'>
-</span><span class='tstring_content'>  disk_encryption</span><span class='words_sep'>
-</span><span class='tstring_content'>  printers</span><span class='words_sep'>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='words_sep'>
+  </span><span class='tstring_content'>general</span><span class='words_sep'>
+  </span><span class='tstring_content'>maintenance</span><span class='words_sep'>
+  </span><span class='tstring_content'>account_maintenance</span><span class='words_sep'>
+  </span><span class='tstring_content'>scripts</span><span class='words_sep'>
+  </span><span class='tstring_content'>self_service</span><span class='words_sep'>
+  </span><span class='tstring_content'>package_configuration</span><span class='words_sep'>
+  </span><span class='tstring_content'>scope</span><span class='words_sep'>
+  </span><span class='tstring_content'>user_interaction</span><span class='words_sep'>
+  </span><span class='tstring_content'>reboot</span><span class='words_sep'>
+  </span><span class='tstring_content'>files_processes</span><span class='words_sep'>
+  </span><span class='tstring_content'>dock_items</span><span class='words_sep'>
+  </span><span class='tstring_content'>disk_encryption</span><span class='words_sep'>
+  </span><span class='tstring_content'>printers</span><span class='words_sep'>
 </span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="FREQUENCIES-constant" class="">FREQUENCIES =
@@ -346,6 +340,15 @@ don&#39;t seem to work</p>
   <span class='label'>daily:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Once every day</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
   <span class='label'>weekly:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Once every week</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
   <span class='label'>monthly:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Once every month</span><span class='tstring_end'>&#39;</span></span>
+<span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="RETRY_EVENTS-constant" class="">RETRY_EVENTS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span>
+  <span class='label'>none:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>none</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>checkin:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>check-in</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>trigger:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>trigger</span><span class='tstring_end'>&#39;</span></span>
 <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="RESTART_WHEN-constant" class="">RESTART_WHEN =
@@ -372,8 +375,7 @@ don&#39;t seem to work</p>
           <div class="docstring">
   <div class="discussion">
     
-<p>Note: any other value in :specify_startup is a path to some other drive to
-boot from, e.g. /Volumes/Foo</p>
+<p>Note: any other value in :specify_startup is a path to some other drive to boot from, e.g. /Volumes/Foo</p>
 
 
   </div>
@@ -532,22 +534,21 @@ boot from, e.g. /Volumes/Foo</p>
           
         </dt>
         <dd><pre class="code"><span class='lbrace'>{</span>
-  <span class='label'>day:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Day</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
-  <span class='label'>days:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Day</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
-  <span class='label'>week:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Week</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
-  <span class='label'>weeks:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Week</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
-  <span class='label'>month:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Month</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
-  <span class='label'>months:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Month</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
-  <span class='label'>year:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Year</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
-  <span class='label'>years:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Year</span><span class='tstring_end'>&#39;</span></span>
+  <span class='label'>day:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Days</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>days:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Days</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>week:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Weeks</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>weeks:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Weeks</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>month:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Months</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>months:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Months</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>year:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Years</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>years:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Years</span><span class='tstring_end'>&#39;</span></span>
 <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="OBJECT_HISTORY_OBJECT_TYPE-constant" class="">OBJECT_HISTORY_OBJECT_TYPE =
           <div class="docstring">
   <div class="discussion">
     
-<p>the object type for this object in the object history table. See
-<span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
+<p>the object type for this object in the object history table. See <span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
 
 
   </div>
@@ -606,6 +607,22 @@ boot from, e.g. /Volumes/Foo</p>
 </div>
         </dt>
         <dd><pre class="code"><span class='const'><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></span></pre></dd>
+      
+        <dt id="SCRIPT_PARAMETERS_AVAILABLE-constant" class="">SCRIPT_PARAMETERS_AVAILABLE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>All valid script parameters</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>parameter4</span><span class='words_sep'> </span><span class='tstring_content'>parameter5</span><span class='words_sep'> </span><span class='tstring_content'>parameter6</span><span class='words_sep'> </span><span class='tstring_content'>parameter7</span><span class='words_sep'> </span><span class='tstring_content'>parameter8</span><span class='words_sep'> </span><span class='tstring_content'>parameter9</span><span class='words_sep'> </span><span class='tstring_content'>parameter10</span><span class='words_sep'> </span><span class='tstring_content'>parameter11</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
     </dl>
   
@@ -1404,8 +1421,7 @@ boot from, e.g. /Volumes/Foo</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Each Hash has these keys about the category - :id =&gt; [Integer] the JSS
-id of the category - :name =&gt; [String] the name of the category.</p>
+<p>Each Hash has these keys about the category - :id =&gt; [Integer] the JSS id of the category - :name =&gt; [String] the name of the category.</p>
 </div></span>
   
 </li>
@@ -1535,8 +1551,7 @@ id of the category - :name =&gt; [String] the name of the category.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Should an extra window appear before the user can install the item? (OSX
-SSvc only).</p>
+<p>Should an extra window appear before the user can install the item? (OSX SSvc only).</p>
 </div></span>
   
 </li>
@@ -1796,8 +1811,7 @@ SSvc only).</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Should self service give reminders by displaying the notification
-repeatedly?.</p>
+<p>Should self service give reminders by displaying the notification repeatedly?.</p>
 </div></span>
   
 </li>
@@ -2006,8 +2020,7 @@ repeatedly?.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The triggers that cause this policy to execute on a client when the
-@trigger is “EVENT”.</p>
+<p>The triggers that cause this policy to execute on a client when the @trigger is “EVENT”.</p>
 </div></span>
   
 </li>
@@ -2163,6 +2176,39 @@ repeatedly?.</p>
 
   
     <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#flush_logs-class_method" title="flush_logs (class method)">.<strong>flush_logs</strong>(policy, older_than: 0, period: :days, computers: [], api: JSS.api)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Flush logs for a given policy older than some number of days, weeks, months or years, possibly limited to one or more computers.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
       Instance Method Summary
       <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
@@ -2187,8 +2233,7 @@ repeatedly?.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Add a Directory Bidning to the list of directory_bindings handled by this
-policy.</p>
+<p>Add a Directory Bidning to the list of directory_bindings handled by this policy.</p>
 </div></span>
   
 </li>
@@ -2368,8 +2413,7 @@ policy.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Sets the Disk Encryption application to “Apply” and sets the correct disk
-encryption configuration ID using either the name or id.</p>
+<p>Sets the Disk Encryption application to “Apply” and sets the correct disk encryption configuration ID using either the name or id.</p>
 </div></span>
   
 </li>
@@ -2799,8 +2843,7 @@ encryption configuration ID using either the name or id.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Given a category name or id, return the name and id TODO: use
-APIObject.exist? and/or APIObject.valid_id.</p>
+<p>Given a category name or id, return the name and id TODO: use APIObject.exist? and/or APIObject.valid_id.</p>
 </div></span>
   
 </li>
@@ -2833,7 +2876,7 @@ APIObject.exist? and/or APIObject.valid_id.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#flush_logs-instance_method" title="#flush_logs (instance method)">#<strong>flush_logs</strong>(older_than: 0, period: :days)  &#x21d2; void </a>
+      <a href="#flush_logs-instance_method" title="#flush_logs (instance method)">#<strong>flush_logs</strong>(older_than: 0, period: :days, computers: [])  &#x21d2; void </a>
     
 
     
@@ -2848,8 +2891,7 @@ APIObject.exist? and/or APIObject.valid_id.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Flush all policy logs for this policy older than some number of days,
-weeks, months or years.</p>
+<p>Flush logs for this policy older than some number of days, weeks, months or years, possibly limited to one or more computers.</p>
 </div></span>
   
 </li>
@@ -3000,8 +3042,7 @@ weeks, months or years.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Change the name of this item Remember to #update to push changes to the
-server.</p>
+<p>Change the name of this item Remember to #update to push changes to the server.</p>
 </div></span>
   
 </li>
@@ -3026,6 +3067,54 @@ server.</p>
   
     <span class="summary_desc"><div class='inline'>
 <p>What to do at reboot when No User Logged In.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#notify_failed_retries=-instance_method" title="#notify_failed_retries= (instance method)">#<strong>notify_failed_retries=</strong>(bool)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#notify_failed_retries%3F-instance_method" title="#notify_failed_retries? (instance method)">#<strong>notify_failed_retries?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #notify_failed_retries, #notify_on_each_failed_retry)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Should admins be notified of failed retry attempts.</p>
 </div></span>
   
 </li>
@@ -3102,8 +3191,7 @@ server.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Call this during initialization of objects that have a scope and the scope
-instance will be created from @init_data.</p>
+<p>Call this during initialization of objects that have a scope and the scope instance will be created from @init_data.</p>
 </div></span>
   
 </li>
@@ -3201,8 +3289,7 @@ instance will be created from @init_data.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Sets the Disk Encryption application to “Remediate” and sets the
-remediation key type to individual.</p>
+<p>Sets the Disk Encryption application to “Remediate” and sets the remediation key type to individual.</p>
 </div></span>
   
 </li>
@@ -3405,6 +3492,102 @@ remediation key type to individual.</p>
   
     <span class="summary_desc"><div class='inline'>
 <p>Remove a category from those for this item in SSvc.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#retry_attempts-instance_method" title="#retry_attempts (instance method)">#<strong>retry_attempts</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>How many times wil the policy be retried if it fails.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#retry_attempts=-instance_method" title="#retry_attempts= (instance method)">#<strong>retry_attempts=</strong>(int)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Set the number of times to retry if the policy fails.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#retry_event-instance_method" title="#retry_event (instance method)">#<strong>retry_event</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The event that causes a policy retry.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#retry_event=-instance_method" title="#retry_event= (instance method)">#<strong>retry_event=</strong>(evt)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Set the event that causes a retry if the policy fails.</p>
 </div></span>
   
 </li>
@@ -3775,6 +3958,30 @@ remediation key type to individual.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#set_script_parameters-instance_method" title="#set_script_parameters (instance method)">#<strong>set_script_parameters</strong>(identifier, **opts)  &#x21d2; Array </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Set a script parameter.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#set_search_by_path-instance_method" title="#set_search_by_path (instance method)">#<strong>set_search_by_path</strong>(path, delete = false)  &#x21d2; void </a>
     
 
@@ -3790,8 +3997,7 @@ remediation key type to individual.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Set the path to search for, a String or Pathname, and whether or not to
-delete it if found.</p>
+<p>Set the path to search for, a String or Pathname, and whether or not to delete it if found.</p>
 </div></span>
   
 </li>
@@ -4111,8 +4317,7 @@ delete it if found.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Set Startup Disk Only Supports &#39;Specify Local Startup Disk&#39; at the
-moment.</p>
+<p>Set Startup Disk Only Supports &#39;Specify Local Startup Disk&#39; at the moment.</p>
 </div></span>
   
 </li>
@@ -4256,7 +4461,7 @@ moment.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#upload-instance_method" title="#upload (instance method)">#<strong>upload</strong>(type, local_file)  &#x21d2; String </a>
+      <a href="#upload-instance_method" title="#upload (instance method)">#<strong>upload</strong>(type, local_file, force_ipa_upload: false)  &#x21d2; Boolean </a>
     
 
     
@@ -4276,8 +4481,7 @@ moment.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Upload a file to the JSS via the REST Resource of the object to which this
-module is mixed in.</p>
+<p>instance method wrapper for class method.</p>
 </div></span>
   
 </li>
@@ -4420,7 +4624,7 @@ module is mixed in.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns a new instance of Policy</p>
+<p>Returns a new instance of Policy.</p>
 
 
   </div>
@@ -4441,92 +4645,6 @@ module is mixed in.</p>
       <pre class="lines">
 
 
-611
-612
-613
-614
-615
-616
-617
-618
-619
-620
-621
-622
-623
-624
-625
-626
-627
-628
-629
-630
-631
-632
-633
-634
-635
-636
-637
-638
-639
-640
-641
-642
-643
-644
-645
-646
-647
-648
-649
-650
-651
-652
-653
-654
-655
-656
-657
-658
-659
-660
-661
-662
-663
-664
-665
-666
-667
-668
-669
-670
-671
-672
-673
-674
-675
-676
-677
-678
-679
-680
-681
-682
-683
-684
-685
-686
-687
-688
-689
-690
-691
-692
-693
-694
-695
-696
 697
 698
 699
@@ -4545,17 +4663,105 @@ module is mixed in.</p>
 712
 713
 714
-715</pre>
+715
+716
+717
+718
+719
+720
+721
+722
+723
+724
+725
+726
+727
+728
+729
+730
+731
+732
+733
+734
+735
+736
+737
+738
+739
+740
+741
+742
+743
+744
+745
+746
+747
+748
+749
+750
+751
+752
+753
+754
+755
+756
+757
+758
+759
+760
+761
+762
+763
+764
+765
+766
+767
+768
+769
+770
+771
+772
+773
+774
+775
+776
+777
+778
+779
+780
+781
+782
+783
+784
+785
+786
+787
+788
+789
+790
+791
+792
+793
+794
+795
+796
+797
+798
+799
+800
+801
+802
+803
+804</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 611</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 697</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>super</span>
 
   <span class='kw'>if</span> <span class='ivar'>@in_jss</span>
     <span class='id identifier rubyid_gen'>gen</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='rbracket'>]</span>
-    <span class='ivar'>@frequency</span> <span class='op'>=</span> <span class='id identifier rubyid_gen'>gen</span><span class='lbracket'>[</span><span class='symbol'>:frequency</span><span class='rbracket'>]</span>
     <span class='ivar'>@target_drive</span> <span class='op'>=</span> <span class='id identifier rubyid_gen'>gen</span><span class='lbracket'>[</span><span class='symbol'>:target_drive</span><span class='rbracket'>]</span>
     <span class='ivar'>@offline</span> <span class='op'>=</span> <span class='id identifier rubyid_gen'>gen</span><span class='lbracket'>[</span><span class='symbol'>:offline</span><span class='rbracket'>]</span>
     <span class='ivar'>@enabled</span> <span class='op'>=</span> <span class='id identifier rubyid_gen'>gen</span><span class='lbracket'>[</span><span class='symbol'>:enabled</span><span class='rbracket'>]</span>
@@ -4571,6 +4777,10 @@ module is mixed in.</p>
       <span class='label'>trigger_enrollment_complete:</span> <span class='id identifier rubyid_gen'>gen</span><span class='lbracket'>[</span><span class='symbol'>:trigger_enrollment_complete</span><span class='rbracket'>]</span><span class='comma'>,</span>
       <span class='label'>trigger_other:</span> <span class='id identifier rubyid_gen'>gen</span><span class='lbracket'>[</span><span class='symbol'>:trigger_other</span><span class='rbracket'>]</span>
     <span class='rbrace'>}</span>
+    <span class='ivar'>@frequency</span> <span class='op'>=</span> <span class='id identifier rubyid_gen'>gen</span><span class='lbracket'>[</span><span class='symbol'>:frequency</span><span class='rbracket'>]</span>
+    <span class='ivar'>@retry_event</span> <span class='op'>=</span> <span class='id identifier rubyid_gen'>gen</span><span class='lbracket'>[</span><span class='symbol'>:retry_event</span><span class='rbracket'>]</span>
+    <span class='ivar'>@retry_attempts</span> <span class='op'>=</span> <span class='id identifier rubyid_gen'>gen</span><span class='lbracket'>[</span><span class='symbol'>:retry_attempts</span><span class='rbracket'>]</span>
+    <span class='ivar'>@notify_failed_retries</span> <span class='op'>=</span> <span class='id identifier rubyid_gen'>gen</span><span class='lbracket'>[</span><span class='symbol'>:notify_on_each_failed_retry</span><span class='rbracket'>]</span>
 
     <span class='id identifier rubyid_dtl'>dtl</span> <span class='op'>=</span> <span class='id identifier rubyid_gen'>gen</span><span class='lbracket'>[</span><span class='symbol'>:date_time_limitations</span><span class='rbracket'>]</span>
 
@@ -4703,8 +4913,7 @@ module is mixed in.</p>
 </li><li>
 <p>:password =&gt; “foobar”,</p>
 </li><li>
-<p>:password_sha256=&gt;
-“c3ab8ff13720e8ad9047dd39466b3c8974e592c2fa383d4a3960714caef0c4f2”</p>
+<p>:password_sha256=&gt; “c3ab8ff13720e8ad9047dd39466b3c8974e592c2fa383d4a3960714caef0c4f2”</p>
 </li></ul>
 
 <p>TODO: make individial getters/setters as for @files_processes</p>
@@ -4734,12 +4943,12 @@ module is mixed in.</p>
       <pre class="lines">
 
 
-496
-497
-498</pre>
+582
+583
+584</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 496</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 582</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_accounts'>accounts</span>
   <span class='ivar'>@accounts</span>
@@ -4767,8 +4976,7 @@ module is mixed in.</p>
 
 <p>The keys are:</p>
 <ul><li>
-<p>:no_execute_on - An array of short day names as strings, e.g. [“Sun”,
-“Mon”, “Tue”]</p>
+<p>:no_execute_on - An array of short day names as strings, e.g. [“Sun”, “Mon”, “Tue”]</p>
 </li><li>
 <p>:no_execute_start - Time</p>
 </li><li>
@@ -4777,13 +4985,9 @@ module is mixed in.</p>
 <p>:network_connection - String</p>
 </li></ul>
 
-<p>The data for the first three comes from the API in the
-date_time_limitations hash of the general section. The fourth comes from
-the network_requirements of the general section of the API, but the UI
-shows them in the Client Side Limitations area.</p>
+<p>The data for the first three comes from the API in the date_time_limitations hash of the general section. The fourth comes from the network_requirements of the general section of the API, but the UI shows them in the Client Side Limitations area.</p>
 
-<p>This attribute is just for convience and consistency, and just refers to
-the data in their API locations</p>
+<p>This attribute is just for convience and consistency, and just refers to the data in their API locations</p>
 
 
   </div>
@@ -4810,12 +5014,12 @@ the data in their API locations</p>
       <pre class="lines">
 
 
-385
-386
-387</pre>
+471
+472
+473</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 385</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 471</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_client_side_limitations'>client_side_limitations</span>
   <span class='ivar'>@client_side_limitations</span>
@@ -4841,8 +5045,7 @@ the data in their API locations</p>
     
 <p>The directory bindings applied</p>
 
-<p>each hash is like: {:name =&gt; “LDAP”, :id =&gt; 4} TODO: handle as for
-packages &amp; scripts</p>
+<p>each hash is like: {:name =&gt; “LDAP”, :id =&gt; 4} TODO: handle as for packages &amp; scripts</p>
 
 
   </div>
@@ -4869,12 +5072,12 @@ packages &amp; scripts</p>
       <pre class="lines">
 
 
-459
-460
-461</pre>
+545
+546
+547</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 459</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 545</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_directory_bindings'>directory_bindings</span>
   <span class='ivar'>@directory_bindings</span>
@@ -4900,8 +5103,7 @@ packages &amp; scripts</p>
     
 <p>Disk encryption options for this policy</p>
 
-<p>The hash looks like {:disk_encryption_configuration_id =&gt; 3, :action
-=&gt; “apply”}</p>
+<p>The hash looks like {:disk_encryption_configuration_id =&gt; 3, :action =&gt; “apply”}</p>
 
 
   </div>
@@ -4928,12 +5130,12 @@ packages &amp; scripts</p>
       <pre class="lines">
 
 
-596
-597
-598</pre>
+682
+683
+684</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 596</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 682</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_disk_encryption'>disk_encryption</span>
   <span class='ivar'>@disk_encryption</span>
@@ -4959,8 +5161,7 @@ packages &amp; scripts</p>
     
 <p>The dock items handled by this policy</p>
 
-<p>each item hash looks like: {:name =&gt; “Mail”, :id =&gt; 14, :action
-=&gt; “Add To Beginning”}</p>
+<p>each item hash looks like: {:name =&gt; “Mail”, :id =&gt; 14, :action =&gt; “Add To Beginning”}</p>
 
 
   </div>
@@ -4987,12 +5188,12 @@ packages &amp; scripts</p>
       <pre class="lines">
 
 
-589
-590
-591</pre>
+675
+676
+677</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 589</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 675</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_dock_items'>dock_items</span>
   <span class='ivar'>@dock_items</span>
@@ -5020,7 +5221,7 @@ packages &amp; scripts</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns is the policy enabled?</p>
+<p>Returns is the policy enabled?.</p>
 
 
   </div>
@@ -5052,12 +5253,12 @@ packages &amp; scripts</p>
       <pre class="lines">
 
 
-303
-304
-305</pre>
+389
+390
+391</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 303</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 389</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_enabled'>enabled</span>
   <span class='ivar'>@enabled</span>
@@ -5113,12 +5314,12 @@ packages &amp; scripts</p>
       <pre class="lines">
 
 
-435
-436
-437</pre>
+521
+522
+523</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 435</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 521</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_fix_byhost'>fix_byhost</span>
   <span class='ivar'>@fix_byhost</span>
@@ -5174,12 +5375,12 @@ packages &amp; scripts</p>
       <pre class="lines">
 
 
-443
-444
-445</pre>
+529
+530
+531</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 443</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 529</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_flush_system_cache'>flush_system_cache</span>
   <span class='ivar'>@flush_system_cache</span>
@@ -5235,12 +5436,12 @@ packages &amp; scripts</p>
       <pre class="lines">
 
 
-451
-452
-453</pre>
+537
+538
+539</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 451</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 537</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_flush_user_cache'>flush_user_cache</span>
   <span class='ivar'>@flush_user_cache</span>
@@ -5264,7 +5465,7 @@ packages &amp; scripts</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns how often to run the policy on each computer</p>
+<p>Returns how often to run the policy on each computer.</p>
 
 
   </div>
@@ -5296,12 +5497,12 @@ packages &amp; scripts</p>
       <pre class="lines">
 
 
-294
-295
-296</pre>
+380
+381
+382</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 294</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 380</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_frequency'>frequency</span>
   <span class='ivar'>@frequency</span>
@@ -5334,7 +5535,7 @@ packages &amp; scripts</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The icon used in self-service</p>
+<p>Returns The icon used in self-service.</p>
 
 
   </div>
@@ -5386,7 +5587,7 @@ packages &amp; scripts</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Is this thing available in Self Service?</p>
+<p>Returns Is this thing available in Self Service?.</p>
 
 
   </div>
@@ -5461,12 +5662,12 @@ packages &amp; scripts</p>
       <pre class="lines">
 
 
-447
-448
-449</pre>
+533
+534
+535</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 447</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 533</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_install_cached_pkgs'>install_cached_pkgs</span>
   <span class='ivar'>@install_cached_pkgs</span>
@@ -5532,12 +5733,12 @@ packages &amp; scripts</p>
       <pre class="lines">
 
 
-476
-477
-478</pre>
+562
+563
+564</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 476</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 562</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_management_account'>management_account</span>
   <span class='ivar'>@management_account</span>
@@ -5566,7 +5767,7 @@ packages &amp; scripts</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns do we have unsaved changes?</p>
+<p>Returns do we have unsaved changes?.</p>
 
 
   </div>
@@ -5609,7 +5810,7 @@ packages &amp; scripts</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns should be policy be available offline</p>
+<p>Returns should be policy be available offline.</p>
 
 
   </div>
@@ -5641,12 +5842,12 @@ packages &amp; scripts</p>
       <pre class="lines">
 
 
-300
-301
-302</pre>
+386
+387
+388</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 300</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 386</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_offline'>offline</span>
   <span class='ivar'>@offline</span>
@@ -5670,7 +5871,7 @@ packages &amp; scripts</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the open firmware mode and password</p>
+<p>Returns the open firmware mode and password.</p>
 
 
   </div>
@@ -5702,12 +5903,12 @@ packages &amp; scripts</p>
       <pre class="lines">
 
 
-462
-463
-464</pre>
+548
+549
+550</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 462</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 548</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_open_firmware_efi_password'>open_firmware_efi_password</span>
   <span class='ivar'>@open_firmware_efi_password</span>
@@ -5742,11 +5943,10 @@ main General hash.
 Second off - when you set a non-default dist.point in the
 packages section of the UI, that value shows up in both
 this :target_drive and the general one, but the :distribution_point
-value here stays empty.</code></pre>
+value here stays empty.
+</code></pre>
 
-<p>The hash looks like: :distribution_point =&gt; “”, :force_afp_smb =&gt;
-false, :netboot_server =&gt; “current”, :target_drive =&gt; “default”, :sus
-=&gt; “default”</p>
+<p>The hash looks like: :distribution_point =&gt; “”, :force_afp_smb =&gt; false, :netboot_server =&gt; “current”, :target_drive =&gt; “default”, :sus =&gt; “default”</p>
 
 
   </div>
@@ -5773,12 +5973,12 @@ false, :netboot_server =&gt; “current”, :target_drive =&gt; “default”, :
       <pre class="lines">
 
 
-330
-331
-332</pre>
+416
+417
+418</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 330</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 416</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_override_default_settings'>override_default_settings</span>
   <span class='ivar'>@override_default_settings</span>
@@ -5846,12 +6046,12 @@ false, :netboot_server =&gt; “current”, :target_drive =&gt; “default”, :
       <pre class="lines">
 
 
-509
-510
-511</pre>
+595
+596
+597</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 509</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 595</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_packages'>packages</span>
   <span class='ivar'>@packages</span>
@@ -5907,12 +6107,12 @@ false, :netboot_server =&gt; “current”, :target_drive =&gt; “default”, :
       <pre class="lines">
 
 
-426
-427
-428</pre>
+512
+513
+514</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 426</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 512</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_permissions_repair'>permissions_repair</span>
   <span class='ivar'>@permissions_repair</span>
@@ -5938,8 +6138,7 @@ false, :netboot_server =&gt; “current”, :target_drive =&gt; “default”, :
     
 <p>The printers handled by this policy</p>
 
-<p>Each Hash looks like: {:make_default =&gt; false, :name =&gt; “torlan”,
-:id =&gt; 3, :action =&gt; “install”}</p>
+<p>Each Hash looks like: {:make_default =&gt; false, :name =&gt; “torlan”, :id =&gt; 3, :action =&gt; “install”}</p>
 
 
   </div>
@@ -5966,12 +6165,12 @@ false, :netboot_server =&gt; “current”, :target_drive =&gt; “default”, :
       <pre class="lines">
 
 
-603
-604
-605</pre>
+689
+690
+691</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 603</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 689</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_printers'>printers</span>
   <span class='ivar'>@printers</span>
@@ -6039,12 +6238,12 @@ false, :netboot_server =&gt; “current”, :target_drive =&gt; “default”, :
       <pre class="lines">
 
 
-567
-568
-569</pre>
+653
+654
+655</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 567</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 653</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_reboot_options'>reboot_options</span>
   <span class='ivar'>@reboot_options</span>
@@ -6104,12 +6303,12 @@ false, :netboot_server =&gt; “current”, :target_drive =&gt; “default”, :
       <pre class="lines">
 
 
-430
-431
-432</pre>
+516
+517
+518</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 430</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 516</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_recon'>recon</span>
   <span class='ivar'>@recon</span>
@@ -6165,12 +6364,12 @@ false, :netboot_server =&gt; “current”, :target_drive =&gt; “default”, :
       <pre class="lines">
 
 
-439
-440
-441</pre>
+525
+526
+527</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 439</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 525</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_reset_name'>reset_name</span>
   <span class='ivar'>@reset_name</span>
@@ -6276,12 +6475,12 @@ false, :netboot_server =&gt; “current”, :target_drive =&gt; “default”, :
       <pre class="lines">
 
 
-529
-530
-531</pre>
+615
+616
+617</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 529</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 615</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_scripts'>scripts</span>
   <span class='ivar'>@scripts</span>
@@ -6319,11 +6518,9 @@ false, :netboot_server =&gt; “current”, :target_drive =&gt; “default”, :
 
 <p>Most objects also include one or both of these keys:</p>
 <ul><li>
-<p>:display_in =&gt; [Boolean] should the item be displayed in this category
-in SSvc? (not MobDevConfProfiles)</p>
+<p>:display_in =&gt; [Boolean] should the item be displayed in this category in SSvc? (not MobDevConfProfiles)</p>
 </li><li>
-<p>:feature_in =&gt; [Boolean] should the item be featured in this category in
-SSVC? (macOS targets only)</p>
+<p>:feature_in =&gt; [Boolean] should the item be featured in this category in SSVC? (macOS targets only)</p>
 </li></ul>
 
 
@@ -6372,7 +6569,7 @@ SSVC? (macOS targets only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The verbage that appears in SelfSvc for this item</p>
+<p>Returns The verbage that appears in SelfSvc for this item.</p>
 
 
   </div>
@@ -6520,8 +6717,7 @@ SSVC? (macOS targets only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Should an extra window appear before the user can install the item?
-(OSX SSvc only)</p>
+<p>Returns Should an extra window appear before the user can install the item? (OSX SSvc only).</p>
 
 
   </div>
@@ -6540,8 +6736,7 @@ SSVC? (macOS targets only)</p>
       
         &mdash;
         <div class='inline'>
-<p>Should an extra window appear before the user can install the item? (OSX
-SSvc only)</p>
+<p>Should an extra window appear before the user can install the item? (OSX SSvc only)</p>
 </div>
       
     </li>
@@ -6618,7 +6813,7 @@ SSvc only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The message text of the notification</p>
+<p>Returns The message text of the notification.</p>
 
 
   </div>
@@ -6714,8 +6909,7 @@ SSvc only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns How should notifications be sent either :ssvc_only or
-:ssvc_and_nctr</p>
+<p>Returns How should notifications be sent either :ssvc_only or :ssvc_and_nctr.</p>
 
 
   </div>
@@ -6767,7 +6961,7 @@ SSvc only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Should jamf send notifications to self service?</p>
+<p>Returns Should jamf send notifications to self service?.</p>
 
 
   </div>
@@ -6863,7 +7057,7 @@ SSvc only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns How often (in days) should reminders be given</p>
+<p>Returns How often (in days) should reminders be given.</p>
 
 
   </div>
@@ -6915,8 +7109,7 @@ SSvc only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Should self service give reminders by displaying the notification
-repeatedly?</p>
+<p>Returns Should self service give reminders by displaying the notification repeatedly?.</p>
 
 
   </div>
@@ -6935,8 +7128,7 @@ repeatedly?</p>
       
         &mdash;
         <div class='inline'>
-<p>Should self service give reminders by displaying the notification
-repeatedly?</p>
+<p>Should self service give reminders by displaying the notification repeatedly?</p>
 </div>
       
     </li>
@@ -7013,7 +7205,7 @@ repeatedly?</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns one of the keys in PROFILE_REMOVAL_BY_USER</p>
+<p>Returns one of the keys in PROFILE_REMOVAL_BY_USER.</p>
 
 
   </div>
@@ -7060,10 +7252,7 @@ repeatedly?</p>
 
 <p>The keys are :activation and :expiration, both are Times.</p>
 
-<p>the data comes from the API in the date_time_limitations hash of the
-general section, but the UI shows them in the Server Side Limitations area.
-This attribute is just for convience and consistency, and just refers to
-the data in their API locations</p>
+<p>the data comes from the API in the date_time_limitations hash of the general section, but the UI shows them in the Server Side Limitations area. This attribute is just for convience and consistency, and just refers to the data in their API locations</p>
 
 
   </div>
@@ -7090,12 +7279,12 @@ the data in their API locations</p>
       <pre class="lines">
 
 
-367
-368
-369</pre>
+453
+454
+455</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 367</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 453</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_server_side_limitations'>server_side_limitations</span>
   <span class='ivar'>@server_side_limitations</span>
@@ -7119,7 +7308,7 @@ the data in their API locations</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns a string with the site name</p>
+<p>Returns a string with the site name.</p>
 
 
   </div>
@@ -7151,12 +7340,12 @@ the data in their API locations</p>
       <pre class="lines">
 
 
-307
-308
-309</pre>
+393
+394
+395</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 307</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 393</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_site'>site</span>
   <span class='ivar'>@site</span>
@@ -7180,7 +7369,7 @@ the data in their API locations</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns which drive should the policy target</p>
+<p>Returns which drive should the policy target.</p>
 
 
   </div>
@@ -7212,12 +7401,12 @@ the data in their API locations</p>
       <pre class="lines">
 
 
-297
-298
-299</pre>
+383
+384
+385</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 297</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 383</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_target_drive'>target_drive</span>
   <span class='ivar'>@target_drive</span>
@@ -7243,8 +7432,7 @@ the data in their API locations</p>
     
 <p>Either EVENT or USER_INITIATED</p>
 
-<p>If it&#39;s EVENT, then one or more of the members @trigger_events must
-true.</p>
+<p>If it&#39;s EVENT, then one or more of the members @trigger_events must true.</p>
 
 
   </div>
@@ -7271,12 +7459,12 @@ true.</p>
       <pre class="lines">
 
 
-392
-393
-394</pre>
+478
+479
+480</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 392</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 478</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_trigger'>trigger</span>
   <span class='ivar'>@trigger</span>
@@ -7300,11 +7488,9 @@ true.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The triggers that cause this policy to execute on a client when the
-@trigger is “EVENT”</p>
+<p>The triggers that cause this policy to execute on a client when the @trigger is “EVENT”</p>
 
-<p>This is a hash with the following keys. Each comes from the API as a key in
-the :general hash, but they make more sense separated out like this.</p>
+<p>This is a hash with the following keys. Each comes from the API as a key in the :general hash, but they make more sense separated out like this.</p>
 <ul><li>
 <p>:trigger_startup  =&gt; Bool</p>
 </li><li>
@@ -7326,8 +7512,7 @@ the :general hash, but they make more sense separated out like this.</p>
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_set_trigger_event'>set_trigger_event</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_new_val'>new_val</span><span class='rparen'>)</span>
 </code></pre>
 
-<p>where type is one of the keys in TRIGGER_EVENTS and new val is the new
-value (usually boolean)</p>
+<p>where type is one of the keys in TRIGGER_EVENTS and new val is the new value (usually boolean)</p>
 
 
   </div>
@@ -7354,12 +7539,12 @@ value (usually boolean)</p>
       <pre class="lines">
 
 
-413
-414
-415</pre>
+499
+500
+501</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 413</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 499</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_trigger_events'>trigger_events</span>
   <span class='ivar'>@trigger_events</span>
@@ -7383,7 +7568,7 @@ value (usually boolean)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns can the user defer the policy?</p>
+<p>Returns can the user defer the policy?.</p>
 
 
   </div>
@@ -7415,12 +7600,12 @@ value (usually boolean)</p>
       <pre class="lines">
 
 
-542
-543
-544</pre>
+628
+629
+630</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 542</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 628</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_user_may_defer'>user_may_defer</span>
   <span class='ivar'>@user_may_defer</span>
@@ -7444,7 +7629,7 @@ value (usually boolean)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns when is the user no longer allowed to defer?</p>
+<p>Returns when is the user no longer allowed to defer?.</p>
 
 
   </div>
@@ -7476,12 +7661,12 @@ value (usually boolean)</p>
       <pre class="lines">
 
 
-545
-546
-547</pre>
+631
+632
+633</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 545</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 631</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_user_may_defer_until'>user_may_defer_until</span>
   <span class='ivar'>@user_may_defer_until</span>
@@ -7509,7 +7694,7 @@ value (usually boolean)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the message shown the user at policy end</p>
+<p>Returns the message shown the user at policy end.</p>
 
 
   </div>
@@ -7541,12 +7726,12 @@ value (usually boolean)</p>
       <pre class="lines">
 
 
-551
-552
-553</pre>
+637
+638
+639</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 551</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 637</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_user_message_finish'>user_message_finish</span>
   <span class='ivar'>@user_message_finish</span>
@@ -7570,7 +7755,7 @@ value (usually boolean)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the message shown the user at policy start</p>
+<p>Returns the message shown the user at policy start.</p>
 
 
   </div>
@@ -7602,12 +7787,12 @@ value (usually boolean)</p>
       <pre class="lines">
 
 
-548
-549
-550</pre>
+634
+635
+636</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 548</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 634</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_user_message_start'>user_message_start</span>
   <span class='ivar'>@user_message_start</span>
@@ -7663,12 +7848,12 @@ value (usually boolean)</p>
       <pre class="lines">
 
 
-422
-423
-424</pre>
+508
+509
+510</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 422</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 508</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_verify_startup_disk'>verify_startup_disk</span>
   <span class='ivar'>@verify_startup_disk</span>
@@ -7680,6 +7865,189 @@ value (usually boolean)</p>
     
   </div>
 
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="flush_logs-class_method">
+  
+    .<strong>flush_logs</strong>(policy, older_than: 0, period: :days, computers: [], api: JSS.api)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Flush logs for a given policy older than some number of days, weeks, months or years, possibly limited to one or more computers.</p>
+
+<p>With no parameters, flushes all logs for the policy for all computers.</p>
+
+<p>NOTE: Currently the API doesn&#39;t have a way to flush only failed policies.</p>
+
+<p>WARNING: Log flushing can take a long time, and the API call doesnt return until its finished. The connection timeout will be temporarily raised to 30 minutes, unless it&#39;s already higher.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>policy</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The id or name of the policy to flush</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>older_than</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>0</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>0, 1, 2, 3, or 6</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>period</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>:days</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>:days, :weeks, :months, or :years</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>computers</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;Integer,<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>[]</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Identifiers of the target computers either ids, names, SNs, macaddrs, or UDIDs. If omitted, flushes logs for all computers</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the API  connection to use.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 321</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_flush_logs'>flush_logs</span><span class='lparen'>(</span><span class='id identifier rubyid_policy'>policy</span><span class='comma'>,</span> <span class='label'>older_than:</span> <span class='int'>0</span><span class='comma'>,</span> <span class='label'>period:</span> <span class='symbol'>:days</span><span class='comma'>,</span> <span class='label'>computers:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_orig_timeout'>orig_timeout</span> <span class='op'>=</span> <span class='id identifier rubyid_api'>api</span><span class='period'>.</span><span class='id identifier rubyid_cnx'>cnx</span><span class='period'>.</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_timeout'>timeout</span>
+  <span class='id identifier rubyid_pol_id'>pol_id</span> <span class='op'>=</span> <span class='id identifier rubyid_valid_id'>valid_id</span> <span class='id identifier rubyid_policy'>policy</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No Policy identified by &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_policy'>policy</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_pol_id'>pol_id</span>
+
+  <span class='id identifier rubyid_older_than'>older_than</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#LOG_FLUSH_INTERVAL_INTEGERS-constant" title="JSS::Policy::LOG_FLUSH_INTERVAL_INTEGERS (constant)">LOG_FLUSH_INTERVAL_INTEGERS</a></span></span><span class='lbracket'>[</span><span class='id identifier rubyid_older_than'>older_than</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>older_than must be one of these integers: </span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#LOG_FLUSH_INTERVAL_INTEGERS-constant" title="JSS::Policy::LOG_FLUSH_INTERVAL_INTEGERS (constant)">LOG_FLUSH_INTERVAL_INTEGERS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, </span><span class='tstring_end'>&#39;</span></span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_older_than'>older_than</span>
+
+  <span class='id identifier rubyid_period'>period</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#LOG_FLUSH_INTERVAL_PERIODS-constant" title="JSS::Policy::LOG_FLUSH_INTERVAL_PERIODS (constant)">LOG_FLUSH_INTERVAL_PERIODS</a></span></span><span class='lbracket'>[</span><span class='id identifier rubyid_period'>period</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>period must be one of these symbols: :</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#LOG_FLUSH_INTERVAL_PERIODS-constant" title="JSS::Policy::LOG_FLUSH_INTERVAL_PERIODS (constant)">LOG_FLUSH_INTERVAL_PERIODS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, :</span><span class='tstring_end'>&#39;</span></span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_period'>period</span>
+
+  <span class='id identifier rubyid_computers'>computers</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_computers'>computers</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_computers'>computers</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></span>
+
+  <span class='comment'># log flushes can be really slow
+</span>  <span class='id identifier rubyid_api'>api</span><span class='period'>.</span><span class='id identifier rubyid_timeout'>timeout</span> <span class='op'>=</span> <span class='int'>1800</span> <span class='kw'>unless</span> <span class='id identifier rubyid_orig_timeout'>orig_timeout</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_orig_timeout'>orig_timeout</span> <span class='op'>&gt;</span> <span class='int'>1800</span>
+
+  <span class='kw'>return</span> <span class='id identifier rubyid_api'>api</span><span class='period'>.</span><span class='id identifier rubyid_delete_rsrc'>delete_rsrc</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#LOG_FLUSH_RSRC-constant" title="JSS::Policy::LOG_FLUSH_RSRC (constant)">LOG_FLUSH_RSRC</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/policy/id/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_pol_id'>pol_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>/interval/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_older_than'>older_than</span><span class='embexpr_end'>}</span><span class='tstring_content'>+</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_period'>period</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_computers'>computers</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+
+  <span class='id identifier rubyid_flush_logs_for_specific_computers'>flush_logs_for_specific_computers</span> <span class='id identifier rubyid_pol_id'>pol_id</span><span class='comma'>,</span> <span class='id identifier rubyid_older_than'>older_than</span><span class='comma'>,</span> <span class='id identifier rubyid_period'>period</span><span class='comma'>,</span> <span class='id identifier rubyid_computers'>computers</span><span class='comma'>,</span> <span class='id identifier rubyid_api'>api</span>
+<span class='kw'>ensure</span>
+  <span class='id identifier rubyid_api'>api</span><span class='period'>.</span><span class='id identifier rubyid_timeout'>timeout</span> <span class='op'>=</span> <span class='id identifier rubyid_orig_timeout'>orig_timeout</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
@@ -7697,9 +8065,7 @@ value (usually boolean)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Add a Directory Bidning to the list of directory_bindings handled by this
-policy. If the directory binding already exists in the policy, nil is
-returned and no changes are made.</p>
+<p>Add a Directory Bidning to the list of directory_bindings handled by this policy. If the directory binding already exists in the policy, nil is returned and no changes are made.</p>
 
 
   </div>
@@ -7735,8 +8101,7 @@ returned and no changes are made.</p>
       
         &mdash;
         <div class='inline'>
-<p>where to add this directory binding among the list of directory_bindings.
-Zero-based, :start and 0 are the same, as are :end and -1. Defaults to :end</p>
+<p>where to add this directory binding among the list of directory_bindings. Zero-based, :start and 0 are the same, as are :end and -1. Defaults to :end</p>
 </div>
       
     </li>
@@ -7755,8 +8120,7 @@ Zero-based, :start and 0 are the same, as are :end and -1. Defaults to :end</p>
       
         &mdash;
         <div class='inline'>
-<p>the new @directory_bindings array, nil if directory_binding was already in
-the policy</p>
+<p>the new @directory_bindings array, nil if directory_binding was already in the policy</p>
 </div>
       
     </li>
@@ -7769,26 +8133,26 @@ the policy</p>
       <pre class="lines">
 
 
-1341
-1342
-1343
-1344
-1345
-1346
-1347
-1348
-1349
-1350
-1351
-1352
-1353
-1354
-1355
-1356
-1357</pre>
+1562
+1563
+1564
+1565
+1566
+1567
+1568
+1569
+1570
+1571
+1572
+1573
+1574
+1575
+1576
+1577
+1578</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1341</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1562</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_directory_binding'>add_directory_binding</span><span class='lparen'>(</span><span class='id identifier rubyid_identifier'>identifier</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='id identifier rubyid_validate_directory_binding_opts'>validate_directory_binding_opts</span> <span class='id identifier rubyid_identifier'>identifier</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span>
@@ -7851,25 +8215,25 @@ the policy</p>
       <pre class="lines">
 
 
-1439
-1440
-1441
-1442
-1443
-1444
-1445
-1446
-1447
-1448
-1449
-1450
-1451
-1452
-1453
-1454</pre>
+1660
+1661
+1662
+1663
+1664
+1665
+1666
+1667
+1668
+1669
+1670
+1671
+1672
+1673
+1674
+1675</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1439</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1660</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_dock_item'>add_dock_item</span><span class='lparen'>(</span><span class='id identifier rubyid_identifier'>identifier</span><span class='comma'>,</span> <span class='id identifier rubyid_action'>action</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DockItem.html" title="JSS::DockItem (class)">DockItem</a></span></span><span class='period'>.</span><span class='id identifier rubyid_valid_id'><span class='object_link'><a href="APIObject.html#valid_id-class_method" title="JSS::APIObject.valid_id (method)">valid_id</a></span></span> <span class='id identifier rubyid_identifier'>identifier</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span>
@@ -7904,8 +8268,7 @@ the policy</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Add a package to the list of pkgs handled by this policy. If the pkg
-already exists in the policy, nil is returned and no changes are made.</p>
+<p>Add a package to the list of pkgs handled by this policy. If the pkg already exists in the policy, nil is returned and no changes are made.</p>
 
 
   </div>
@@ -7941,8 +8304,7 @@ already exists in the policy, nil is returned and no changes are made.</p>
       
         &mdash;
         <div class='inline'>
-<p>where to add this pkg among the list of pkgs. Zero-based, :start and 0 are
-the same, as are :end and -1. Defaults to :end</p>
+<p>where to add this pkg among the list of pkgs. Zero-based, :start and 0 are the same, as are :end and -1. Defaults to :end</p>
 </div>
       
     </li>
@@ -8038,30 +8400,30 @@ the same, as are :end and -1. Defaults to :end</p>
       <pre class="lines">
 
 
-1193
-1194
-1195
-1196
-1197
-1198
-1199
-1200
-1201
-1202
-1203
-1204
-1205
-1206
-1207
-1208
-1209
-1210
-1211
-1212
-1213</pre>
+1367
+1368
+1369
+1370
+1371
+1372
+1373
+1374
+1375
+1376
+1377
+1378
+1379
+1380
+1381
+1382
+1383
+1384
+1385
+1386
+1387</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1193</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1367</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_package'>add_package</span><span class='lparen'>(</span><span class='id identifier rubyid_identifier'>identifier</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='id identifier rubyid_validate_package_opts'>validate_package_opts</span><span class='lparen'>(</span><span class='id identifier rubyid_identifier'>identifier</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
@@ -8137,8 +8499,7 @@ the same, as are :end and -1. Defaults to :end</p>
       
         &mdash;
         <div class='inline'>
-<p>where to add this printer object among the list of printer objects.
-Zero-based, :start and 0 are the same, as are :end and -1. Defaults to :end</p>
+<p>where to add this printer object among the list of printer objects. Zero-based, :start and 0 are the same, as are :end and -1. Defaults to :end</p>
 </div>
       
     </li>
@@ -8154,8 +8515,7 @@ Zero-based, :start and 0 are the same, as are :end and -1. Defaults to :end</p>
       
         &mdash;
         <div class='inline'>
-<p>One of the PRINTER_ACTIONS symbols. What you want done with the printer
-object upon policy execution.</p>
+<p>One of the PRINTER_ACTIONS symbols. What you want done with the printer object upon policy execution.</p>
 </div>
       
     </li>
@@ -8219,28 +8579,28 @@ object upon policy execution.</p>
       <pre class="lines">
 
 
-1403
-1404
-1405
-1406
-1407
-1408
-1409
-1410
-1411
-1412
-1413
-1414
-1415
-1416
-1417
-1418
-1419
-1420
-1421</pre>
+1624
+1625
+1626
+1627
+1628
+1629
+1630
+1631
+1632
+1633
+1634
+1635
+1636
+1637
+1638
+1639
+1640
+1641
+1642</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1403</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1624</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_printer'>add_printer</span><span class='lparen'>(</span><span class='id identifier rubyid_identifier'>identifier</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='id identifier rubyid_validate_printer_opts'>validate_printer_opts</span> <span class='id identifier rubyid_identifier'>identifier</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span>
@@ -8278,9 +8638,7 @@ object upon policy execution.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Add a script to the list of SCRIPT_PRIORITIESipts run by this policy. If
-the script already exists in the policy, nil is returned and no changes are
-made.</p>
+<p>Add a script to the list of SCRIPT_PRIORITIESipts run by this policy. If the script already exists in the policy, nil is returned and no changes are made.</p>
 
 
   </div>
@@ -8402,35 +8760,35 @@ made.</p>
       <pre class="lines">
 
 
-1278
-1279
-1280
-1281
-1282
-1283
-1284
-1285
-1286
-1287
-1288
-1289
-1290
-1291
-1292
-1293
-1294
-1295
-1296
-1297
-1298
-1299
-1300
-1301
-1302
-1303</pre>
+1452
+1453
+1454
+1455
+1456
+1457
+1458
+1459
+1460
+1461
+1462
+1463
+1464
+1465
+1466
+1467
+1468
+1469
+1470
+1471
+1472
+1473
+1474
+1475
+1476
+1477</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1278</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1452</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_script'>add_script</span><span class='lparen'>(</span><span class='id identifier rubyid_identifier'>identifier</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='id identifier rubyid_validate_script_opts'>validate_script_opts</span><span class='lparen'>(</span><span class='id identifier rubyid_identifier'>identifier</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
@@ -8517,11 +8875,12 @@ made.</p>
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>should this item appear in the SelfSvc page for the category? Only
-meaningful in applicable classes</p>
+<p>should this item appear in the SelfSvc page for the category? Only meaningful in applicable classes</p>
 </div>
       
     </li>
@@ -8534,12 +8893,12 @@ meaningful in applicable classes</p>
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>should this item be featured in the SelfSvc page for the category? Only
-meaningful in applicable classes. NOTE: this will always be false if
-display_in is false.</p>
+<p>should this item be featured in the SelfSvc page for the category? Only meaningful in applicable classes. NOTE: this will always be false if display_in is false.</p>
 </div>
       
     </li>
@@ -8603,8 +8962,7 @@ display_in is false.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Sets the Disk Encryption application to “Apply” and sets the correct disk
-encryption configuration ID using either the name or id.</p>
+<p>Sets the Disk Encryption application to “Apply” and sets the correct disk encryption configuration ID using either the name or id.</p>
 
 
   </div>
@@ -8647,24 +9005,24 @@ encryption configuration ID using either the name or id.</p>
       <pre class="lines">
 
 
-1517
-1518
-1519
-1520
-1521
-1522
-1523
-1524
-1525
-1526
-1527
-1528
-1529
-1530
-1531</pre>
+1738
+1739
+1740
+1741
+1742
+1743
+1744
+1745
+1746
+1747
+1748
+1749
+1750
+1751
+1752</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1517</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1738</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_apply_encryption_configuration'>apply_encryption_configuration</span><span class='lparen'>(</span><span class='id identifier rubyid_identifier'>identifier</span><span class='rparen'>)</span>
 
@@ -8703,8 +9061,7 @@ encryption configuration ID using either the name or id.</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the category of this object. Any of the NON_CATEGORIES values will
-unset the category</p>
+<p>Change the category of this object. Any of the NON_CATEGORIES values will unset the category</p>
 
 
   </div>
@@ -8865,8 +9222,7 @@ unset the category</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The name of the category for this object. For backward compatibility, this
-is aliased to just &#39;category&#39;</p>
+<p>The name of the category for this object. For backward compatibility, this is aliased to just &#39;category&#39;</p>
 
 
   </div>
@@ -8958,8 +9314,7 @@ is aliased to just &#39;category&#39;</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>make a clone of this API object, with a new name. The class must be
-creatable</p>
+<p>make a clone of this API object, with a new name. The class must be creatable</p>
 
 
   </div>
@@ -8992,11 +9347,12 @@ creatable</p>
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to
-instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
 </div>
       
     </li>
@@ -9082,7 +9438,7 @@ instantiate this object</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Should the searched-for path be deleted if found?</p>
+<p>Returns Should the searched-for path be deleted if found?.</p>
 
 
   </div>
@@ -9114,12 +9470,12 @@ instantiate this object</p>
       <pre class="lines">
 
 
-1097
-1098
-1099</pre>
+1271
+1272
+1273</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1097</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1271</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_delete_file?'>delete_file?</span>
   <span class='ivar'>@files_processes</span><span class='lbracket'>[</span><span class='symbol'>:delete_file</span><span class='rbracket'>]</span>
@@ -9141,7 +9497,7 @@ instantiate this object</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the id&#39;s of the directory_bindings handled by the policy</p>
+<p>Returns the id&#39;s of the directory_bindings handled by the policy.</p>
 
 
   </div>
@@ -9173,12 +9529,12 @@ instantiate this object</p>
       <pre class="lines">
 
 
-1320
-1321
-1322</pre>
+1541
+1542
+1543</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1320</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1541</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_directory_binding_ids'>directory_binding_ids</span>
   <span class='ivar'>@directory_bindings</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span> <span class='id identifier rubyid_p'>p</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
@@ -9200,7 +9556,7 @@ instantiate this object</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the names of the directory_bindings handled by the policy</p>
+<p>Returns the names of the directory_bindings handled by the policy.</p>
 
 
   </div>
@@ -9232,12 +9588,12 @@ instantiate this object</p>
       <pre class="lines">
 
 
-1325
-1326
-1327</pre>
+1546
+1547
+1548</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1325</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1546</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_directory_binding_names'>directory_binding_names</span>
   <span class='ivar'>@directory_bindings</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span> <span class='id identifier rubyid_p'>p</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
@@ -9273,12 +9629,12 @@ instantiate this object</p>
       <pre class="lines">
 
 
-737
-738
-739</pre>
+826
+827
+828</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 737</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 826</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_disable'>disable</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_enabled'>enabled</span> <span class='op'>=</span> <span class='kw'>false</span>
@@ -9314,14 +9670,14 @@ instantiate this object</p>
       <pre class="lines">
 
 
-984
-985
-986
-987
-988</pre>
+1158
+1159
+1160
+1161
+1162</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 984</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1158</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_do_not_reboot'>do_not_reboot</span>
   <span class='ivar'>@reboot_options</span><span class='lbracket'>[</span><span class='symbol'>:user_logged_in</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Do not restart</span><span class='tstring_end'>&#39;</span></span>
@@ -9345,7 +9701,7 @@ instantiate this object</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the id&#39;s of the dock_items handled by the policy</p>
+<p>Returns the id&#39;s of the dock_items handled by the policy.</p>
 
 
   </div>
@@ -9377,12 +9733,12 @@ instantiate this object</p>
       <pre class="lines">
 
 
-1375
-1376
-1377</pre>
+1596
+1597
+1598</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1375</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1596</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_dock_item_ids'>dock_item_ids</span>
   <span class='ivar'>@dock_items</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span> <span class='id identifier rubyid_p'>p</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
@@ -9404,7 +9760,7 @@ instantiate this object</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the names of the dock_items handled by the policy</p>
+<p>Returns the names of the dock_items handled by the policy.</p>
 
 
   </div>
@@ -9436,12 +9792,12 @@ instantiate this object</p>
       <pre class="lines">
 
 
-1380
-1381
-1382</pre>
+1601
+1602
+1603</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1380</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1601</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_dock_item_names'>dock_item_names</span>
   <span class='ivar'>@dock_items</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span> <span class='id identifier rubyid_p'>p</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
@@ -9477,12 +9833,12 @@ instantiate this object</p>
       <pre class="lines">
 
 
-732
-733
-734</pre>
+821
+822
+823</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 732</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 821</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_enable'>enable</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_enabled'>enabled</span> <span class='op'>=</span> <span class='kw'>true</span>
@@ -9509,8 +9865,7 @@ instantiate this object</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Given a category name or id, return the name and id TODO: use
-APIObject.exist? and/or APIObject.valid_id</p>
+<p>Given a category name or id, return the name and id TODO: use APIObject.exist? and/or APIObject.valid_id</p>
 
 
   </div>
@@ -9618,14 +9973,14 @@ APIObject.exist? and/or APIObject.valid_id</p>
       <pre class="lines">
 
 
-1010
-1011
-1012
-1013
-1014</pre>
+1184
+1185
+1186
+1187
+1188</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1010</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1184</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_file_vault_2_reboot='>file_vault_2_reboot=</span><span class='lparen'>(</span><span class='id identifier rubyid_fv_bool'>fv_bool</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>FileVault 2 Reboot must be a Boolean</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_fv_bool'>fv_bool</span><span class='period'>.</span><span class='id identifier rubyid_jss_boolean?'>jss_boolean?</span>
@@ -9640,7 +9995,7 @@ APIObject.exist? and/or APIObject.valid_id</p>
       <div class="method_details ">
   <h3 class="signature " id="flush_logs-instance_method">
   
-    #<strong>flush_logs</strong>(older_than: 0, period: :days)  &#x21d2; <tt>void</tt> 
+    #<strong>flush_logs</strong>(older_than: 0, period: :days, computers: [])  &#x21d2; <tt>void</tt> 
   
 
   
@@ -9649,13 +10004,13 @@ APIObject.exist? and/or APIObject.valid_id</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Flush all policy logs for this policy older than some number of days,
-weeks, months or years.</p>
+<p>Flush logs for this policy older than some number of days, weeks, months or years, possibly limited to one or more computers</p>
 
-<p>With no parameters, flushes all logs</p>
+<p>With no parameters, flushes all logs for all computers</p>
 
-<p>NOTE: Currently the API doesn&#39;t have a way to flush only failed
-policies.</p>
+<p>NOTE: Currently the API doesn&#39;t have a way to flush only failed policies.</p>
+
+<p>WARNING: Log flushing can take a long time, and the API call doesnt return until its finished. The connection timeout will be temporarily raised to 30 minutes, unless it&#39;s already higher.</p>
 
 
   </div>
@@ -9671,6 +10026,8 @@ policies.</p>
       
         <span class='type'>(<tt>Integer</tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>0</tt>)</em>
       
       
         &mdash;
@@ -9688,10 +10045,30 @@ policies.</p>
         <span class='type'>(<tt>Symbol</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>:days</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
 <p>:days, :weeks, :months, or :years</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>computers</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;Integer,<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>[]</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Identifiers of the target computers either ids, names, SNs, macaddrs, or UDIDs</p>
 </div>
       
     </li>
@@ -9718,39 +10095,31 @@ policies.</p>
       <pre class="lines">
 
 
-1638
-1639
-1640
-1641
-1642
-1643
-1644
-1645
-1646
-1647
-1648
-1649
-1650
-1651
-1652</pre>
+1866
+1867
+1868
+1869
+1870
+1871
+1872
+1873
+1874
+1875
+1876</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1638</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1866</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_flush_logs'>flush_logs</span><span class='lparen'>(</span><span class='label'>older_than:</span> <span class='int'>0</span><span class='comma'>,</span> <span class='label'>period:</span> <span class='symbol'>:days</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_flush_logs'>flush_logs</span><span class='lparen'>(</span><span class='label'>older_than:</span> <span class='int'>0</span><span class='comma'>,</span> <span class='label'>period:</span> <span class='symbol'>:days</span><span class='comma'>,</span> <span class='label'>computers:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Policy doesn&#39;t exist in the JSS. Use #create first.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='ivar'>@in_jss</span>
 
-  <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="#LOG_FLUSH_INTERVAL_INTEGERS-constant" title="JSS::Policy::LOG_FLUSH_INTERVAL_INTEGERS (constant)">LOG_FLUSH_INTERVAL_INTEGERS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_older_than'>older_than</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>older_than must be one of these integers: </span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#LOG_FLUSH_INTERVAL_INTEGERS-constant" title="JSS::Policy::LOG_FLUSH_INTERVAL_INTEGERS (constant)">LOG_FLUSH_INTERVAL_INTEGERS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, </span><span class='tstring_end'>&#39;</span></span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-  <span class='kw'>end</span>
-
-  <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="#LOG_FLUSH_INTERVAL_PERIODS-constant" title="JSS::Policy::LOG_FLUSH_INTERVAL_PERIODS (constant)">LOG_FLUSH_INTERVAL_PERIODS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_period'>period</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>period must be one of these symbols: :</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#LOG_FLUSH_INTERVAL_PERIODS-constant" title="JSS::Policy::LOG_FLUSH_INTERVAL_PERIODS (constant)">LOG_FLUSH_INTERVAL_PERIODS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, :</span><span class='tstring_end'>&#39;</span></span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-  <span class='kw'>end</span>
-
-  <span class='id identifier rubyid_interval'>interval</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#LOG_FLUSH_INTERVAL_INTEGERS-constant" title="JSS::Policy::LOG_FLUSH_INTERVAL_INTEGERS (constant)">LOG_FLUSH_INTERVAL_INTEGERS</a></span></span><span class='lbracket'>[</span><span class='id identifier rubyid_older_than'>older_than</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>+</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#LOG_FLUSH_INTERVAL_PERIODS-constant" title="JSS::Policy::LOG_FLUSH_INTERVAL_PERIODS (constant)">LOG_FLUSH_INTERVAL_PERIODS</a></span></span><span class='lbracket'>[</span><span class='id identifier rubyid_period'>period</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-
-  <span class='ivar'>@api</span><span class='period'>.</span><span class='id identifier rubyid_delete_rsrc'>delete_rsrc</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#LOG_FLUSH_RSRC-constant" title="JSS::Policy::LOG_FLUSH_RSRC (constant)">LOG_FLUSH_RSRC</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/policy/id/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@id</span><span class='embexpr_end'>}</span><span class='tstring_content'>/interval/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_interval'>interval</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="JSS::Policy (class)">Policy</a></span></span><span class='period'>.</span><span class='id identifier rubyid_flush_logs'><span class='object_link'><a href="#flush_logs-class_method" title="JSS::Policy.flush_logs (method)">flush_logs</a></span></span><span class='lparen'>(</span>
+    <span class='ivar'>@id</span><span class='comma'>,</span>
+    <span class='label'>older_than:</span> <span class='id identifier rubyid_older_than'>older_than</span><span class='comma'>,</span>
+    <span class='label'>period:</span> <span class='id identifier rubyid_period'>period</span><span class='comma'>,</span>
+    <span class='label'>computers:</span> <span class='id identifier rubyid_computers'>computers</span><span class='comma'>,</span>
+    <span class='label'>api:</span> <span class='ivar'>@api</span>
+  <span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -9801,12 +10170,12 @@ policies.</p>
       <pre class="lines">
 
 
-1063
-1064
-1065</pre>
+1237
+1238
+1239</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1063</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1237</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_kill_process?'>kill_process?</span>
   <span class='ivar'>@files_processes</span><span class='lbracket'>[</span><span class='symbol'>:kill_process</span><span class='rbracket'>]</span>
@@ -9828,7 +10197,7 @@ policies.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The term to seach for using the locate command</p>
+<p>Returns The term to seach for using the locate command.</p>
 
 
   </div>
@@ -9860,12 +10229,12 @@ policies.</p>
       <pre class="lines">
 
 
-1141
-1142
-1143</pre>
+1315
+1316
+1317</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1141</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1315</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_locate_file'>locate_file</span>
   <span class='ivar'>@files_processes</span><span class='lbracket'>[</span><span class='symbol'>:locate_file</span><span class='rbracket'>]</span>
@@ -9934,14 +10303,14 @@ policies.</p>
       <pre class="lines">
 
 
-1151
-1152
-1153
-1154
-1155</pre>
+1325
+1326
+1327
+1328
+1329</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1151</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1325</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_locate_file='>locate_file=</span><span class='lparen'>(</span><span class='id identifier rubyid_term'>term</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Term to locate must be a String</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_term'>term</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span>
@@ -10012,14 +10381,14 @@ policies.</p>
       <pre class="lines">
 
 
-997
-998
-999
-1000
-1001</pre>
+1171
+1172
+1173
+1174
+1175</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 997</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1171</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_minutes_until_reboot='>minutes_until_reboot=</span><span class='lparen'>(</span><span class='id identifier rubyid_minutes'>minutes</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Minutes until reboot must be an Integer</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_minutes'>minutes</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Integer</span>
@@ -10048,8 +10417,7 @@ policies.</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the name of this item Remember to #update to push changes to the
-server.</p>
+<p>Change the name of this item Remember to #update to push changes to the server.</p>
 
 
   </div>
@@ -10152,19 +10520,155 @@ server.</p>
       <pre class="lines">
 
 
-896
-897
-898
-899
-900</pre>
+1070
+1071
+1072
+1073
+1074</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 896</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1070</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_no_user_logged_in='>no_user_logged_in=</span><span class='lparen'>(</span><span class='id identifier rubyid_no_user_option'>no_user_option</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>no_user_logged_in options: </span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#NO_USER_LOGGED_IN-constant" title="JSS::Policy::NO_USER_LOGGED_IN (constant)">NO_USER_LOGGED_IN</a></span></span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, </span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="#NO_USER_LOGGED_IN-constant" title="JSS::Policy::NO_USER_LOGGED_IN (constant)">NO_USER_LOGGED_IN</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_no_user_option'>no_user_option</span>
   <span class='ivar'>@reboot_options</span><span class='lbracket'>[</span><span class='symbol'>:no_user_logged_in</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_no_user_option'>no_user_option</span>
   <span class='ivar'>@need_to_update</span> <span class='op'>=</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="notify_failed_retries=-instance_method">
+  
+    #<strong>notify_failed_retries=</strong>(bool)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>bool</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Should admins be notified of failed retry attempts</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+918
+919
+920
+921
+922
+923
+924
+925</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 918</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_notify_failed_retries='>notify_failed_retries=</span><span class='lparen'>(</span><span class='id identifier rubyid_bool'>bool</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_validate_retry_opt'>validate_retry_opt</span>
+  <span class='id identifier rubyid_bool'>bool</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Validate.html" title="JSS::Validate (module)">Validate</a></span></span><span class='period'>.</span><span class='id identifier rubyid_boolean'><span class='object_link'><a href="Validate.html#boolean-class_method" title="JSS::Validate.boolean (method)">boolean</a></span></span> <span class='id identifier rubyid_bool'>bool</span>
+  <span class='kw'>return</span> <span class='kw'>if</span> <span class='ivar'>@notify_failed_retries</span> <span class='op'>==</span> <span class='id identifier rubyid_bool'>bool</span>
+
+  <span class='ivar'>@notify_failed_retries</span> <span class='op'>=</span> <span class='id identifier rubyid_bool'>bool</span>
+  <span class='ivar'>@need_to_update</span> <span class='op'>=</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="notify_failed_retries?-instance_method">
+  
+    #<strong>notify_failed_retries?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='notify_failed_retries-instance_method'>notify_failed_retries</span>, <span id='notify_on_each_failed_retry-instance_method'>notify_on_each_failed_retry</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns Should admins be notified of failed retry attempts.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Should admins be notified of failed retry attempts</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+908
+909
+910
+911
+912</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 908</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_notify_failed_retries?'>notify_failed_retries?</span>
+  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="#FREQUENCIES-constant" title="JSS::Policy::FREQUENCIES (constant)">FREQUENCIES</a></span></span><span class='lbracket'>[</span><span class='symbol'>:once_per_computer</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='ivar'>@frequency</span>
+
+  <span class='ivar'>@notify_failed_retries</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -10183,7 +10687,7 @@ server.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the id&#39;s of the packages handled by the policy</p>
+<p>Returns the id&#39;s of the packages handled by the policy.</p>
 
 
   </div>
@@ -10215,12 +10719,12 @@ server.</p>
       <pre class="lines">
 
 
-1164
-1165
-1166</pre>
+1338
+1339
+1340</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1164</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1338</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_package_ids'>package_ids</span>
   <span class='ivar'>@packages</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span> <span class='id identifier rubyid_p'>p</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
@@ -10242,7 +10746,7 @@ server.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the names of the packages handled by the policy</p>
+<p>Returns the names of the packages handled by the policy.</p>
 
 
   </div>
@@ -10274,12 +10778,12 @@ server.</p>
       <pre class="lines">
 
 
-1169
-1170
-1171</pre>
+1343
+1344
+1345</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1169</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1343</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_package_names'>package_names</span>
   <span class='ivar'>@packages</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span> <span class='id identifier rubyid_p'>p</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
@@ -10310,8 +10814,7 @@ server.</p>
   You should avoid using this method if possible, as it may be removed or be changed in the future.
 </p>
 <p class="note returns_void">This method returns an undefined value.</p>
-<p>Call this during initialization of objects that have a scope and the scope
-instance will be created from @init_data</p>
+<p>Call this during initialization of objects that have a scope and the scope instance will be created from @init_data</p>
 
 
   </div>
@@ -10334,7 +10837,7 @@ instance will be created from @init_data</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the id&#39;s of the printers handled by the policy</p>
+<p>Returns the id&#39;s of the printers handled by the policy.</p>
 
 
   </div>
@@ -10366,16 +10869,16 @@ instance will be created from @init_data</p>
       <pre class="lines">
 
 
-1465
-1466
-1467
-1468
-1469
-1470
-1471</pre>
+1686
+1687
+1688
+1689
+1690
+1691
+1692</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1465</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1686</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_printer_ids'>printer_ids</span>
     <span class='kw'>begin</span>
@@ -10401,7 +10904,7 @@ instance will be created from @init_data</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the names of the printers handled by the policy</p>
+<p>Returns the names of the printers handled by the policy.</p>
 
 
   </div>
@@ -10433,16 +10936,16 @@ instance will be created from @init_data</p>
       <pre class="lines">
 
 
-1474
-1475
-1476
-1477
-1478
-1479
-1480</pre>
+1695
+1696
+1697
+1698
+1699
+1700
+1701</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1474</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1695</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_printer_names'>printer_names</span>
     <span class='kw'>begin</span>
@@ -10519,14 +11022,14 @@ instance will be created from @init_data</p>
       <pre class="lines">
 
 
-920
-921
-922
-923
-924</pre>
+1094
+1095
+1096
+1097
+1098</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 920</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1094</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_reboot_message='>reboot_message=</span><span class='lparen'>(</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Reboot message must be a String</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_message'>message</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span>
@@ -10550,8 +11053,7 @@ instance will be created from @init_data</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Sets the Disk Encryption application to “Remediate” and sets the
-remediation key type to individual.</p>
+<p>Sets the Disk Encryption application to “Remediate” and sets the remediation key type to individual.</p>
 
 
   </div>
@@ -10594,26 +11096,26 @@ remediation key type to individual.</p>
       <pre class="lines">
 
 
-1492
-1493
-1494
-1495
-1496
-1497
-1498
-1499
-1500
-1501
-1502
-1503
-1504
-1505
-1506
-1507
-1508</pre>
+1713
+1714
+1715
+1716
+1717
+1718
+1719
+1720
+1721
+1722
+1723
+1724
+1725
+1726
+1727
+1728
+1729</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1492</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1713</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_reissue_key'>reissue_key</span><span class='lparen'>(</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='ivar'>@disk_encryption</span><span class='lbracket'>[</span><span class='symbol'>:action</span><span class='rbracket'>]</span> <span class='op'>!=</span> <span class='const'><span class='object_link'><a href="#DISK_ENCRYPTION_ACTIONS-constant" title="JSS::Policy::DISK_ENCRYPTION_ACTIONS (constant)">DISK_ENCRYPTION_ACTIONS</a></span></span><span class='lbracket'>[</span><span class='symbol'>:remediate</span><span class='rbracket'>]</span>
@@ -10701,14 +11203,14 @@ remediation key type to individual.</p>
       <pre class="lines">
 
 
-1366
-1367
-1368
-1369
-1370</pre>
+1587
+1588
+1589
+1590
+1591</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1366</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1587</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_remove_directory_binding'>remove_directory_binding</span><span class='lparen'>(</span><span class='id identifier rubyid_identifier'>identifier</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_removed'>removed</span> <span class='op'>=</span> <span class='ivar'>@directory_bindings</span><span class='period'>.</span><span class='id identifier rubyid_delete_if'>delete_if</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_s'>s</span><span class='op'>|</span> <span class='id identifier rubyid_s'>s</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='id identifier rubyid_identifier'>identifier</span> <span class='op'>||</span> <span class='id identifier rubyid_s'>s</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='id identifier rubyid_identifier'>identifier</span> <span class='rbrace'>}</span>
@@ -10746,15 +11248,15 @@ remediation key type to individual.</p>
       <pre class="lines">
 
 
-1457
-1458
-1459
-1460
-1461
-1462</pre>
+1678
+1679
+1680
+1681
+1682
+1683</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1457</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1678</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_remove_dock_item'>remove_dock_item</span><span class='lparen'>(</span><span class='id identifier rubyid_identifier'>identifier</span><span class='rparen'>)</span>
   <span class='comment'># TODO: Add validation against JSS::DockItem
@@ -10822,17 +11324,17 @@ remediation key type to individual.</p>
       <pre class="lines">
 
 
-1540
-1541
-1542
-1543
-1544
-1545
-1546
-1547</pre>
+1761
+1762
+1763
+1764
+1765
+1766
+1767
+1768</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1540</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1761</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_remove_encryption_configuration'>remove_encryption_configuration</span><span class='lparen'>(</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_hash'>hash</span> <span class='op'>=</span> <span class='lbrace'>{</span>
@@ -10939,14 +11441,14 @@ remediation key type to individual.</p>
       <pre class="lines">
 
 
-1221
-1222
-1223
-1224
-1225</pre>
+1395
+1396
+1397
+1398
+1399</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1221</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1395</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_remove_package'>remove_package</span><span class='lparen'>(</span><span class='id identifier rubyid_identifier'>identifier</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_removed'>removed</span> <span class='op'>=</span> <span class='ivar'>@packages</span><span class='period'>.</span><span class='id identifier rubyid_delete_if'>delete_if</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span> <span class='id identifier rubyid_p'>p</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='id identifier rubyid_identifier'>identifier</span> <span class='op'>||</span> <span class='id identifier rubyid_p'>p</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='id identifier rubyid_identifier'>identifier</span> <span class='rbrace'>}</span>
@@ -11038,15 +11540,15 @@ remediation key type to individual.</p>
       <pre class="lines">
 
 
-1431
-1432
-1433
-1434
-1435
-1436</pre>
+1652
+1653
+1654
+1655
+1656
+1657</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1431</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1652</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_remove_printer'>remove_printer</span><span class='lparen'>(</span><span class='id identifier rubyid_identifier'>identifier</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_removed'>removed</span> <span class='op'>=</span> <span class='ivar'>@printers</span><span class='period'>.</span><span class='id identifier rubyid_delete_if'>delete_if</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span> <span class='id identifier rubyid_p'>p</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='id identifier rubyid_identifier'>identifier</span> <span class='op'>||</span> <span class='id identifier rubyid_p'>p</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='id identifier rubyid_identifier'>identifier</span> <span class='rbrace'>}</span>
@@ -11123,14 +11625,14 @@ remediation key type to individual.</p>
       <pre class="lines">
 
 
-1311
-1312
-1313
-1314
-1315</pre>
+1485
+1486
+1487
+1488
+1489</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1311</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1485</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_remove_script'>remove_script</span><span class='lparen'>(</span><span class='id identifier rubyid_identifier'>identifier</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_removed'>removed</span> <span class='op'>=</span> <span class='ivar'>@scripts</span><span class='period'>.</span><span class='id identifier rubyid_delete_if'>delete_if</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_s'>s</span><span class='op'>|</span> <span class='id identifier rubyid_s'>s</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='id identifier rubyid_identifier'>identifier</span> <span class='op'>||</span> <span class='id identifier rubyid_s'>s</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='id identifier rubyid_identifier'>identifier</span> <span class='rbrace'>}</span>
@@ -11191,6 +11693,328 @@ remediation key type to individual.</p>
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="retry_attempts-instance_method">
+  
+    #<strong>retry_attempts</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns How many times wil the policy be retried if it fails. -1 means no retries,  otherwise, an integer from 1 to 10.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>How many times wil the policy be retried if it fails. -1 means no retries,  otherwise, an integer from 1 to 10</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+879
+880
+881
+882
+883</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 879</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_retry_attempts'>retry_attempts</span>
+  <span class='kw'>return</span> <span class='int'>0</span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="#FREQUENCIES-constant" title="JSS::Policy::FREQUENCIES (constant)">FREQUENCIES</a></span></span><span class='lbracket'>[</span><span class='symbol'>:once_per_computer</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='ivar'>@frequency</span>
+
+  <span class='ivar'>@retry_attempts</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="retry_attempts=-instance_method">
+  
+    #<strong>retry_attempts=</strong>(int)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Set the number of times to retry if the policy fails. One of the ways to turn off policy retry is to set this to 0 or -1 The other is to set retry_event to :none</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>From</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>-1 to 10</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">JSS::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+892
+893
+894
+895
+896
+897
+898
+899
+900
+901
+902
+903
+904
+905</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 892</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_retry_attempts='>retry_attempts=</span><span class='lparen'>(</span><span class='id identifier rubyid_int'>int</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_validate_retry_opt'>validate_retry_opt</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Retry attempts must be an integer from 0-10</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_int'>int</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Integer</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='lparen'>(</span><span class='op'>-</span><span class='int'>1</span><span class='op'>..</span><span class='int'>10</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_int'>int</span><span class='rparen'>)</span>
+
+  <span class='comment'># if zero or -1, turn off retries
+</span>  <span class='kw'>if</span> <span class='id identifier rubyid_int'>int</span> <span class='op'>&lt;=</span> <span class='int'>0</span>
+    <span class='ivar'>@retry_event</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#RETRY_EVENTS-constant" title="JSS::Policy::RETRY_EVENTS (constant)">RETRY_EVENTS</a></span></span><span class='lbracket'>[</span><span class='symbol'>:none</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_int'>int</span> <span class='op'>=</span> <span class='op'>-</span><span class='int'>1</span>
+  <span class='kw'>end</span>
+  <span class='kw'>return</span> <span class='kw'>if</span> <span class='ivar'>@retry_attempts</span> <span class='op'>==</span> <span class='id identifier rubyid_int'>int</span>
+
+  <span class='ivar'>@retry_attempts</span> <span class='op'>=</span> <span class='id identifier rubyid_int'>int</span>
+  <span class='ivar'>@need_to_update</span> <span class='op'>=</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="retry_event-instance_method">
+  
+    #<strong>retry_event</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The event that causes a policy retry.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The event that causes a policy retry</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+847
+848
+849
+850
+851</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 847</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_retry_event'>retry_event</span>
+  <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="#RETRY_EVENTS-constant" title="JSS::Policy::RETRY_EVENTS (constant)">RETRY_EVENTS</a></span></span><span class='lbracket'>[</span><span class='symbol'>:none</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="#FREQUENCIES-constant" title="JSS::Policy::FREQUENCIES (constant)">FREQUENCIES</a></span></span><span class='lbracket'>[</span><span class='symbol'>:once_per_computer</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='ivar'>@frequency</span>
+
+  <span class='ivar'>@retry_event</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="retry_event=-instance_method">
+  
+    #<strong>retry_event=</strong>(evt)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Set the event that causes a retry if the policy fails. One of the ways to turn off policy retry is to set this to :none The other is to set the retry_attempts to 0</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>A</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>key or value from RETRY_EVENTS</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">JSS::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+860
+861
+862
+863
+864
+865
+866
+867
+868
+869
+870
+871
+872
+873
+874
+875</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 860</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_retry_event='>retry_event=</span><span class='lparen'>(</span><span class='id identifier rubyid_evt'>evt</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_validate_retry_opt'>validate_retry_opt</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Retry event must be one of :</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#RETRY_EVENTS-constant" title="JSS::Policy::RETRY_EVENTS (constant)">RETRY_EVENTS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, :</span><span class='tstring_end'>&#39;</span></span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="#RETRY_EVENTS-constant" title="JSS::Policy::RETRY_EVENTS (constant)">RETRY_EVENTS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_evt'>evt</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='const'><span class='object_link'><a href="#RETRY_EVENTS-constant" title="JSS::Policy::RETRY_EVENTS (constant)">RETRY_EVENTS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_value?'>value?</span><span class='lparen'>(</span><span class='id identifier rubyid_evt'>evt</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_evt'>evt</span> <span class='op'>=</span> <span class='id identifier rubyid_evt'>evt</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Symbol</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='const'><span class='object_link'><a href="#RETRY_EVENTS-constant" title="JSS::Policy::RETRY_EVENTS (constant)">RETRY_EVENTS</a></span></span><span class='lbracket'>[</span><span class='id identifier rubyid_evt'>evt</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='id identifier rubyid_evt'>evt</span>
+  <span class='kw'>return</span> <span class='kw'>if</span> <span class='id identifier rubyid_evt'>evt</span> <span class='op'>==</span> <span class='ivar'>@retry_event</span>
+
+  <span class='comment'># if the event is not &#39;none&#39; and attempts is &lt;= 0,
+</span>  <span class='comment'># set events to 1, or the API won&#39;t accept it
+</span>  <span class='kw'>unless</span> <span class='id identifier rubyid_evt'>evt</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="#RETRY_EVENTS-constant" title="JSS::Policy::RETRY_EVENTS (constant)">RETRY_EVENTS</a></span></span><span class='lbracket'>[</span><span class='symbol'>:none</span><span class='rbracket'>]</span>
+    <span class='ivar'>@retry_attempts</span> <span class='op'>=</span> <span class='int'>1</span> <span class='kw'>unless</span> <span class='ivar'>@retry_attempts</span><span class='period'>.</span><span class='id identifier rubyid_positive?'>positive?</span>
+  <span class='kw'>end</span>
+
+  <span class='ivar'>@retry_event</span> <span class='op'>=</span> <span class='id identifier rubyid_evt'>evt</span>
+  <span class='ivar'>@need_to_update</span> <span class='op'>=</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="run-instance_method">
   
     #<strong>run</strong>(show_output = false)  &#x21d2; <tt>Boolean</tt><sup>?</sup> 
@@ -11228,8 +12052,7 @@ remediation key type to individual.</p>
       
         &mdash;
         <div class='inline'>
-<p>should the stdout and stderr of the &#39;jamf policy&#39; command be sent
-to stdout in realtime?</p>
+<p>should the stdout and stderr of the &#39;jamf policy&#39; command be sent to stdout in realtime?</p>
 </div>
       
     </li>
@@ -11248,8 +12071,7 @@ to stdout in realtime?</p>
       
         &mdash;
         <div class='inline'>
-<p>The success of the &#39;jamf policy&#39; command, or nil if the policy
-couldn&#39;t be executed (out of scope, policy disabled, etc)</p>
+<p>The success of the &#39;jamf policy&#39; command, or nil if the policy couldn&#39;t be executed (out of scope, policy disabled, etc)</p>
 </div>
       
     </li>
@@ -11262,15 +12084,15 @@ couldn&#39;t be executed (out of scope, policy disabled, etc)</p>
       <pre class="lines">
 
 
-1616
-1617
-1618
-1619
-1620
-1621</pre>
+1837
+1838
+1839
+1840
+1841
+1842</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1616</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1837</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_run'>run</span><span class='lparen'>(</span><span class='id identifier rubyid_show_output'>show_output</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='id identifier rubyid_enabled?'>enabled?</span>
@@ -11331,12 +12153,12 @@ couldn&#39;t be executed (out of scope, policy disabled, etc)</p>
       <pre class="lines">
 
 
-1020
-1021
-1022</pre>
+1194
+1195
+1196</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1020</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1194</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_run_command'>run_command</span>
   <span class='ivar'>@files_processes</span><span class='lbracket'>[</span><span class='symbol'>:run_command</span><span class='rbracket'>]</span>
@@ -11409,14 +12231,14 @@ couldn&#39;t be executed (out of scope, policy disabled, etc)</p>
       <pre class="lines">
 
 
-1031
-1032
-1033
-1034
-1035</pre>
+1205
+1206
+1207
+1208
+1209</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1031</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1205</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_run_command='>run_command=</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Command to run must be a String</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_command'>command</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span>
@@ -11440,7 +12262,7 @@ couldn&#39;t be executed (out of scope, policy disabled, etc)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the id&#39;s of the scripts handled by the policy</p>
+<p>Returns the id&#39;s of the scripts handled by the policy.</p>
 
 
   </div>
@@ -11472,12 +12294,12 @@ couldn&#39;t be executed (out of scope, policy disabled, etc)</p>
       <pre class="lines">
 
 
-1230
-1231
-1232</pre>
+1404
+1405
+1406</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1230</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1404</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_script_ids'>script_ids</span>
   <span class='ivar'>@scripts</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span> <span class='id identifier rubyid_p'>p</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
@@ -11499,7 +12321,7 @@ couldn&#39;t be executed (out of scope, policy disabled, etc)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the names of the scripts handled by the policy</p>
+<p>Returns the names of the scripts handled by the policy.</p>
 
 
   </div>
@@ -11531,12 +12353,12 @@ couldn&#39;t be executed (out of scope, policy disabled, etc)</p>
       <pre class="lines">
 
 
-1235
-1236
-1237</pre>
+1409
+1410
+1411</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1235</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1409</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_script_names'>script_names</span>
   <span class='ivar'>@scripts</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span> <span class='id identifier rubyid_p'>p</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
@@ -11558,7 +12380,7 @@ couldn&#39;t be executed (out of scope, policy disabled, etc)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The path to search for</p>
+<p>Returns The path to search for.</p>
 
 
   </div>
@@ -11590,16 +12412,16 @@ couldn&#39;t be executed (out of scope, policy disabled, etc)</p>
       <pre class="lines">
 
 
-1087
-1088
-1089
-1090
-1091
-1092
-1093</pre>
+1261
+1262
+1263
+1264
+1265
+1266
+1267</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1087</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1261</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_search_by_path'>search_by_path</span>
   <span class='kw'>if</span> <span class='ivar'>@files_processes</span><span class='lbracket'>[</span><span class='symbol'>:search_by_path</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -11625,7 +12447,7 @@ couldn&#39;t be executed (out of scope, policy disabled, etc)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The process name to search for on the client</p>
+<p>Returns The process name to search for on the client.</p>
 
 
   </div>
@@ -11657,12 +12479,12 @@ couldn&#39;t be executed (out of scope, policy disabled, etc)</p>
       <pre class="lines">
 
 
-1057
-1058
-1059</pre>
+1231
+1232
+1233</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1057</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1231</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_search_for_process'>search_for_process</span>
   <span class='ivar'>@files_processes</span><span class='lbracket'>[</span><span class='symbol'>:search_for_process</span><span class='rbracket'>]</span>
@@ -11689,7 +12511,7 @@ couldn&#39;t be executed (out of scope, policy disabled, etc)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The url to view this thing in Self Service</p>
+<p>Returns The url to view this thing in Self Service.</p>
 
 
   </div>
@@ -11827,7 +12649,7 @@ couldn&#39;t be executed (out of scope, policy disabled, etc)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The url to view this thing in Self Service</p>
+<p>Returns The url to view this thing in Self Service.</p>
 
 
   </div>
@@ -11915,14 +12737,14 @@ couldn&#39;t be executed (out of scope, policy disabled, etc)</p>
       <pre class="lines">
 
 
-802
-803
-804
-805
-806</pre>
+976
+977
+978
+979
+980</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 802</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 976</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_server_side_activation='>server_side_activation=</span><span class='lparen'>(</span><span class='id identifier rubyid_activation'>activation</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Activation must be a Time</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_activation'>activation</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../Time.html" title="Time (class)">Time</a></span></span>
@@ -11993,14 +12815,14 @@ couldn&#39;t be executed (out of scope, policy disabled, etc)</p>
       <pre class="lines">
 
 
-814
-815
-816
-817
-818</pre>
+988
+989
+990
+991
+992</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 814</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 988</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_server_side_expiration='>server_side_expiration=</span><span class='lparen'>(</span><span class='id identifier rubyid_expiration'>expiration</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Expiration must be a Time</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_expiration'>expiration</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../Time.html" title="Time (class)">Time</a></span></span>
@@ -12026,8 +12848,7 @@ couldn&#39;t be executed (out of scope, policy disabled, etc)</p>
     
 <p>Interact with management account settings</p>
 
-<p>Reference: <a
-href="https://developer.jamf.com/documentation#resources-with-passwords">developer.jamf.com/documentation#resources-with-passwords</a></p>
+<p>Reference: <a href="https://developer.jamf.com/documentation#resources-with-passwords">developer.jamf.com/documentation#resources-with-passwords</a></p>
 
 
   </div>
@@ -12092,43 +12913,43 @@ href="https://developer.jamf.com/documentation#resources-with-passwords">develop
       <pre class="lines">
 
 
-1557
-1558
-1559
-1560
-1561
-1562
-1563
-1564
-1565
-1566
-1567
-1568
-1569
-1570
-1571
-1572
-1573
-1574
-1575
-1576
-1577
-1578
-1579
-1580
-1581
-1582
-1583
-1584
-1585
-1586
-1587
-1588
-1589
-1590</pre>
+1778
+1779
+1780
+1781
+1782
+1783
+1784
+1785
+1786
+1787
+1788
+1789
+1790
+1791
+1792
+1793
+1794
+1795
+1796
+1797
+1798
+1799
+1800
+1801
+1802
+1803
+1804
+1805
+1806
+1807
+1808
+1809
+1810
+1811</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1557</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1778</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_management_account'>set_management_account</span><span class='lparen'>(</span><span class='id identifier rubyid_action'>action</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
   <span class='comment'># TODO: Add proper error handling
@@ -12170,6 +12991,158 @@ href="https://developer.jamf.com/documentation#resources-with-passwords">develop
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="set_script_parameters-instance_method">
+  
+    #<strong>set_script_parameters</strong>(identifier, **opts)  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Set a script parameter</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>identifier</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>identifier the id or name of a script in this policy</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>opts</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>opts the options to alter for this script</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>[String]</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a customizable set of options</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    
+    
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the scripts array</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">JSS::NoSuchItemError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1523
+1524
+1525
+1526
+1527
+1528
+1529
+1530
+1531
+1532
+1533
+1534
+1535
+1536</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1523</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_set_script_parameters'>set_script_parameters</span><span class='lparen'>(</span><span class='id identifier rubyid_identifier'>identifier</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Script.html" title="JSS::Script (class)">Script</a></span></span><span class='period'>.</span><span class='id identifier rubyid_valid_id'><span class='object_link'><a href="APIObject.html#valid_id-class_method" title="JSS::APIObject.valid_id (method)">valid_id</a></span></span> <span class='id identifier rubyid_identifier'>identifier</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No script matches &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_identifier'>identifier</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_id'>id</span>
+
+  <span class='id identifier rubyid_script_data'>script_data</span> <span class='op'>=</span> <span class='ivar'>@scripts</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_s'>s</span><span class='op'>|</span> <span class='id identifier rubyid_s'>s</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='id identifier rubyid_id'>id</span> <span class='rbrace'>}</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Script </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_id'>id</span><span class='embexpr_end'>}</span><span class='tstring_content'> is not configured. Use add_script method.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_script_data'>script_data</span>
+
+  <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_parameter'>parameter</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
+    <span class='id identifier rubyid_script_data'>script_data</span><span class='lbracket'>[</span><span class='id identifier rubyid_parameter'>parameter</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span> <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="#SCRIPT_PARAMETERS_AVAILABLE-constant" title="JSS::Policy::SCRIPT_PARAMETERS_AVAILABLE (constant)">SCRIPT_PARAMETERS_AVAILABLE</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_parameter'>parameter</span>
+  <span class='kw'>end</span>
+
+  <span class='ivar'>@need_to_update</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='ivar'>@scripts</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="set_search_by_path-instance_method">
   
     #<strong>set_search_by_path</strong>(path, delete = false)  &#x21d2; <tt>void</tt> 
@@ -12181,11 +13154,9 @@ href="https://developer.jamf.com/documentation#resources-with-passwords">develop
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Set the path to search for, a String or Pathname, and whether or not to
-delete it if found.</p>
+<p>Set the path to search for, a String or Pathname, and whether or not to delete it if found.</p>
 
-<p>Setter methods (which end with =) can&#39;t easily take multiple arguments,
-so we instead name them “set_blah_blah” rather than “blah_blah=”</p>
+<p>Setter methods (which end with =) can&#39;t easily take multiple arguments, so we instead name them “set_blah_blah” rather than “blah_blah=”</p>
 
 
   </div>
@@ -12250,15 +13221,15 @@ so we instead name them “set_blah_blah” rather than “blah_blah=”</p>
       <pre class="lines">
 
 
-1114
-1115
-1116
-1117
-1118
-1119</pre>
+1288
+1289
+1290
+1291
+1292
+1293</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1114</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1288</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_search_by_path'>set_search_by_path</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_delete'>delete</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Path to search for must be a String or a Pathname</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_path'>path</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id identifier rubyid_path'>path</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></span><span class='rparen'>)</span>
@@ -12285,8 +13256,7 @@ so we instead name them “set_blah_blah” rather than “blah_blah=”</p>
     <p class="note returns_void">This method returns an undefined value.</p>
 <p>Set the process name to search for, and if it should be killed if found.</p>
 
-<p>Setter methods (which end with =) can&#39;t easily take multiple arguments,
-so we instead name them “set_blah_blah” rather than “blah_blah=”</p>
+<p>Setter methods (which end with =) can&#39;t easily take multiple arguments, so we instead name them “set_blah_blah” rather than “blah_blah=”</p>
 
 
   </div>
@@ -12338,14 +13308,14 @@ so we instead name them “set_blah_blah” rather than “blah_blah=”</p>
       <pre class="lines">
 
 
-1079
-1080
-1081
-1082
-1083</pre>
+1253
+1254
+1255
+1256
+1257</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1079</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1253</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_search_for_process'>set_search_for_process</span><span class='lparen'>(</span><span class='id identifier rubyid_process'>process</span><span class='comma'>,</span> <span class='id identifier rubyid_kill'>kill</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='ivar'>@files_processes</span><span class='lbracket'>[</span><span class='symbol'>:search_for_process</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_process'>process</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
@@ -12432,19 +13402,19 @@ so we instead name them “set_blah_blah” rather than “blah_blah=”</p>
       <pre class="lines">
 
 
-785
-786
-787
-788
-789
-790
-791
-792
-793
-794</pre>
+959
+960
+961
+962
+963
+964
+965
+966
+967
+968</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 785</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 959</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_trigger_event'>set_trigger_event</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_new_val'>new_val</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Trigger type must be one of </span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#TRIGGER_EVENTS-constant" title="JSS::Policy::TRIGGER_EVENTS (constant)">TRIGGER_EVENTS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, </span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="#TRIGGER_EVENTS-constant" title="JSS::Policy::TRIGGER_EVENTS (constant)">TRIGGER_EVENTS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span>
@@ -12506,8 +13476,7 @@ so we instead name them “set_blah_blah” rather than “blah_blah=”</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the site of this object. Any of the NON_SITES values will unset the
-site</p>
+<p>Change the site of this object. Any of the NON_SITES values will unset the site</p>
 
 
   </div>
@@ -12664,8 +13633,7 @@ site</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The name of the site for this object. For backward compatibility, this is
-aliased to just &#39;site&#39;</p>
+<p>The name of the site for this object. For backward compatibility, this is aliased to just &#39;site&#39;</p>
 
 
   </div>
@@ -12799,14 +13767,14 @@ aliased to just &#39;site&#39;</p>
       <pre class="lines">
 
 
-972
-973
-974
-975
-976</pre>
+1146
+1147
+1148
+1149
+1150</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 972</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1146</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_specify_startup='>specify_startup=</span><span class='lparen'>(</span><span class='id identifier rubyid_startup_volume'>startup_volume</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_startup_volume'>startup_volume</span><span class='embexpr_end'>}</span><span class='tstring_content'> is not a valid Startup Disk</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_startup_volume'>startup_volume</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span>
@@ -12830,7 +13798,7 @@ aliased to just &#39;site&#39;</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The term to search for using spotlight</p>
+<p>Returns The term to search for using spotlight.</p>
 
 
   </div>
@@ -12862,12 +13830,12 @@ aliased to just &#39;site&#39;</p>
       <pre class="lines">
 
 
-1123
-1124
-1125</pre>
+1297
+1298
+1299</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1123</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1297</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_spotlight_search'>spotlight_search</span>
   <span class='ivar'>@files_processes</span><span class='lbracket'>[</span><span class='symbol'>:spotlight_search</span><span class='rbracket'>]</span>
@@ -12936,14 +13904,14 @@ aliased to just &#39;site&#39;</p>
       <pre class="lines">
 
 
-1133
-1134
-1135
-1136
-1137</pre>
+1307
+1308
+1309
+1310
+1311</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1133</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1307</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_spotlight_search='>spotlight_search=</span><span class='lparen'>(</span><span class='id identifier rubyid_term'>term</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Spotlight search term must be a String</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_term'>term</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span>
@@ -12967,8 +13935,7 @@ aliased to just &#39;site&#39;</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Set Startup Disk Only Supports &#39;Specify Local Startup Disk&#39; at the
-moment</p>
+<p>Set Startup Disk Only Supports &#39;Specify Local Startup Disk&#39; at the moment</p>
 
 
   </div>
@@ -13010,15 +13977,15 @@ moment</p>
       <pre class="lines">
 
 
-958
-959
-960
-961
-962
-963</pre>
+1132
+1133
+1134
+1135
+1136
+1137</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 958</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1132</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_startup_disk='>startup_disk=</span><span class='lparen'>(</span><span class='id identifier rubyid_startup_disk_option'>startup_disk_option</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_startup_disk_option'>startup_disk_option</span><span class='embexpr_end'>}</span><span class='tstring_content'> is not a valid Startup Disk</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_startup_disk_option'>startup_disk_option</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span>
@@ -13161,13 +14128,13 @@ moment</p>
       <pre class="lines">
 
 
-1050
-1051
-1052
-1053</pre>
+1224
+1225
+1226
+1227</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1050</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1224</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_update_locate_database='>update_locate_database=</span><span class='lparen'>(</span><span class='id identifier rubyid_bool'>bool</span><span class='rparen'>)</span>
   <span class='ivar'>@files_processes</span><span class='lbracket'>[</span><span class='symbol'>:update_locate_database</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Validate.html" title="JSS::Validate (module)">Validate</a></span></span><span class='period'>.</span><span class='id identifier rubyid_boolean'><span class='object_link'><a href="Validate.html#boolean-class_method" title="JSS::Validate.boolean (method)">boolean</a></span></span> <span class='id identifier rubyid_bool'>bool</span>
@@ -13190,7 +14157,7 @@ moment</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Should we update the database used by the locate command?</p>
+<p>Returns Should we update the database used by the locate command?.</p>
 
 
   </div>
@@ -13222,12 +14189,12 @@ moment</p>
       <pre class="lines">
 
 
-1040
-1041
-1042</pre>
+1214
+1215
+1216</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1040</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1214</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_update_locate_database?'>update_locate_database?</span>
   <span class='ivar'>@files_processes</span><span class='lbracket'>[</span><span class='symbol'>:update_locate_database</span><span class='rbracket'>]</span>
@@ -13240,7 +14207,7 @@ moment</p>
       <div class="method_details ">
   <h3 class="signature " id="upload-instance_method">
   
-    #<strong>upload</strong>(type, local_file)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+    #<strong>upload</strong>(type, local_file, force_ipa_upload: false)  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -13254,8 +14221,9 @@ moment</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Upload a file to the JSS via the REST Resource of the object to which this
-module is mixed in.</p>
+<p>instance method wrapper for class method</p>
+
+<p>Upload a file to the JSS to be stored with this instance of the class mixing in the Uploadable module</p>
 
 
   </div>
@@ -13275,8 +14243,7 @@ module is mixed in.</p>
       
         &mdash;
         <div class='inline'>
-<p>the type of upload happening. Must be one of the keys defined in the
-class&#39;s UPLOAD_TYPES Hash.</p>
+<p>the type of upload happening. Must be one of the keys defined in the class&#39;s UPLOAD_TYPES Hash.</p>
 </div>
       
     </li>
@@ -13297,6 +14264,24 @@ class&#39;s UPLOAD_TYPES Hash.</p>
       
     </li>
   
+    <li>
+      
+        <span class='name'>force_ipa_upload</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Should the server upload the .ipa file to JCDS or AWS if such are confgured for use?</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 <p class="tag_title">Returns:</p>
@@ -13305,13 +14290,13 @@ class&#39;s UPLOAD_TYPES Hash.</p>
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>The xml response from the server.</p>
+<p>was the  upload successful?</p>
 </div>
       
     </li>
@@ -13393,14 +14378,14 @@ class&#39;s UPLOAD_TYPES Hash.</p>
       <pre class="lines">
 
 
-908
-909
-910
-911
-912</pre>
+1082
+1083
+1084
+1085
+1086</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 908</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1082</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_user_logged_in='>user_logged_in=</span><span class='lparen'>(</span><span class='id identifier rubyid_logged_in_option'>logged_in_option</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>user_logged_in options: </span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#USER_LOGGED_IN-constant" title="JSS::Policy::USER_LOGGED_IN (constant)">USER_LOGGED_IN</a></span></span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, </span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="#USER_LOGGED_IN-constant" title="JSS::Policy::USER_LOGGED_IN (constant)">USER_LOGGED_IN</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_logged_in_option'>logged_in_option</span>
@@ -13475,14 +14460,14 @@ class&#39;s UPLOAD_TYPES Hash.</p>
       <pre class="lines">
 
 
-943
-944
-945
-946
-947</pre>
+1117
+1118
+1119
+1120
+1121</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 943</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1117</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_user_message_end='>user_message_end=</span><span class='lparen'>(</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>User message must be a String</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_message'>message</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span>
@@ -13617,16 +14602,16 @@ class&#39;s UPLOAD_TYPES Hash.</p>
       <pre class="lines">
 
 
-1598
-1599
-1600
-1601
-1602
-1603
-1604</pre>
+1819
+1820
+1821
+1822
+1823
+1824
+1825</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1598</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/policy.rb', line 1819</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_verify_management_password'>verify_management_password</span><span class='lparen'>(</span><span class='id identifier rubyid_password'>password</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Management password must be a string.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_password'>password</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span>
@@ -13645,9 +14630,9 @@ class&#39;s UPLOAD_TYPES Hash.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:45 2020 by
+  Generated on Wed Feb  2 11:06:06 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

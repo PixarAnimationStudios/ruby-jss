@@ -6,15 +6,15 @@
 <title>
   Class: JSS::ExtensionAttribute
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::ExtensionAttribute";
   relpath = '../';
 </script>
@@ -113,32 +113,22 @@
     
 <p>The parent class of ExtensionAttribute objects in the JSS.</p>
 
-<p>The API extension attribute objects work with the definitions of extension
-attributes, not the resulting values stored in the JSS with the inventory
-reports.</p>
+<p>The API extension attribute objects work with the definitions of extension attributes, not the resulting values stored in the JSS with the inventory reports.</p>
 
-<p>This superclass, however, uses the <span class='object_link'><a href="AdvancedSearch.html" title="JSS::AdvancedSearch (class)">AdvancedSearch</a></span> subclasses to provide
-access to the reported values in two ways:</p>
+<p>This superclass, however, uses the <span class='object_link'><a href="AdvancedSearch.html" title="JSS::AdvancedSearch (class)">AdvancedSearch</a></span> subclasses to provide access to the reported values in two ways:</p>
 <ul><li>
-<p>A list of  target objects with a certain value for the ExtensionAttribute
-instance. See the <span class='object_link'><a href="#all_with_result-instance_method" title="JSS::ExtensionAttribute#all_with_result (method)">#all_with_result</a></span> method for details</p>
+<p>A list of  target objects with a certain value for the ExtensionAttribute instance. See the <span class='object_link'><a href="#all_with_result-instance_method" title="JSS::ExtensionAttribute#all_with_result (method)">#all_with_result</a></span> method for details</p>
 </li><li>
-<p>A list of the most recent value for this ExtensionAttribute in all targets
-in the JSS</p>
+<p>A list of the most recent value for this ExtensionAttribute in all targets in the JSS</p>
 </li></ul>
 
-<p>The <span class='object_link'><a href="ComputerExtensionAttribute.html" title="JSS::ComputerExtensionAttribute (class)">ComputerExtensionAttribute</a></span> subclass offers a
-<span class='object_link'><a href="ComputerExtensionAttribute.html#history-instance_method" title="JSS::ComputerExtensionAttribute#history (method)">ComputerExtensionAttribute#history</a></span> method providing the history of values
-for the EA for one computer. This requires MySQL access to the JSS database
-since that history isn&#39;t available via the API.</p>
+<p>The <span class='object_link'><a href="ComputerExtensionAttribute.html" title="JSS::ComputerExtensionAttribute (class)">ComputerExtensionAttribute</a></span> subclass offers a <span class='object_link'><a href="ComputerExtensionAttribute.html#history-instance_method" title="JSS::ComputerExtensionAttribute#history (method)">ComputerExtensionAttribute#history</a></span> method providing the history of values for the EA for one computer. This requires MySQL access to the JSS database since that history isn&#39;t available via the API.</p>
 
 <p>Subclasses of ExtensionAttribute must define these constants:</p>
 <ul><li>
-<p>TARGET_CLASS - the <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span> subclass to which the extention attribute
-applies. e.g. <span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span></p>
+<p>TARGET_CLASS - the <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span> subclass to which the extention attribute applies. e.g. <span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span></p>
 </li><li>
-<p>ALL_TARGETS_CRITERION - a <span class='object_link'><a href="Criteriable/Criterion.html" title="JSS::Criteriable::Criterion (class)">Criteriable::Criterion</a></span> instance that will
-be used in an <span class='object_link'><a href="AdvancedSearch.html" title="JSS::AdvancedSearch (class)">AdvancedSearch</a></span> to find all of members of the TARGET_CLASS</p>
+<p>ALL_TARGETS_CRITERION - a <span class='object_link'><a href="Criteriable/Criterion.html" title="JSS::Criteriable::Criterion (class)">Criteriable::Criterion</a></span> instance that will be used in an <span class='object_link'><a href="AdvancedSearch.html" title="JSS::AdvancedSearch (class)">AdvancedSearch</a></span> to find all of members of the TARGET_CLASS</p>
 </li></ul>
 
 
@@ -171,8 +161,7 @@ be used in an <span class='object_link'><a href="AdvancedSearch.html" title="JSS
           <div class="docstring">
   <div class="discussion">
     
-<p>What kinds of data can be created by EAs? Note, Dates must be in the format
-“YYYY-MM-DD hh:mm:ss”</p>
+<p>What kinds of data can be created by EAs? Note, Dates must be in the format “YYYY-MM-DD hh:mm:ss”</p>
 
 
   </div>
@@ -213,10 +202,7 @@ be used in an <span class='object_link'><a href="AdvancedSearch.html" title="JSS
           <div class="docstring">
   <div class="discussion">
     
-<p>ExtensionAttributes refer to the numeric data type as “Integer” but the
-ext. attr values that come with extendable objects refer to that data type
-as “Number”.  Here&#39;s an array with both, so we can work with ether more
-easily.</p>
+<p>ExtensionAttributes refer to the numeric data type as “Integer” but the ext. attr values that come with extendable objects refer to that data type as “Number”.  Here&#39;s an array with both, so we can work with ether more easily.</p>
 
 
   </div>
@@ -382,8 +368,7 @@ easily.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The LDAP attribute for the User&#39;s ldap entry that maps to this EA, when
-input type is INPUT_TYPE_LDAP.</p>
+<p>The LDAP attribute for the User&#39;s ldap entry that maps to this EA, when input type is INPUT_TYPE_LDAP.</p>
 </div></span>
   
 </li>
@@ -591,8 +576,7 @@ input type is INPUT_TYPE_LDAP.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Get an Array of Hashes for all inventory objects with a desired result in
-their latest report for this EA.</p>
+<p>Get an Array of Hashes for all inventory objects with a desired result in their latest report for this EA.</p>
 </div></span>
   
 </li>
@@ -832,8 +816,7 @@ their latest report for this EA.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Change the name of this item Remember to #update to push changes to the
-server.</p>
+<p>Change the name of this item Remember to #update to push changes to the server.</p>
 </div></span>
   
 </li>
@@ -885,7 +868,7 @@ server.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns a new instance of ExtensionAttribute</p>
+<p>Returns a new instance of ExtensionAttribute.</p>
 
 
   </div>
@@ -939,7 +922,8 @@ server.</p>
 182
 183
 184
-185</pre>
+185
+186</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 152</span>
@@ -974,9 +958,10 @@ server.</p>
   <span class='comment'># deprecated - no longer in the UI
 </span>  <span class='ivar'>@recon_display</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:recon_display</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='ivar'>@web_display</span>
 
-  <span class='comment'># the name of the EA might have spaces and caps, which the will come to us as symbols with the spaces
-</span>  <span class='comment'># as underscores, like this.
-</span>  <span class='ivar'>@symbolized_name</span> <span class='op'>=</span> <span class='ivar'>@name</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>-| </span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>_</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+  <span class='comment'># When used in Advanced Search results, the EA name
+</span>  <span class='comment'># has colons removed, spaces &amp; dashes turned to underscores.
+</span>  <span class='comment'># and then ruby-jss symbolizes the name.
+</span>  <span class='ivar'>@symbolized_name</span> <span class='op'>=</span> <span class='ivar'>@name</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>:</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>-| </span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>_</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1002,8 +987,7 @@ server.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the LDAP attribute for the User&#39;s ldap entry that maps to this
-EA, when input type is INPUT_TYPE_LDAP</p>
+<p>Returns the LDAP attribute for the User&#39;s ldap entry that maps to this EA, when input type is INPUT_TYPE_LDAP.</p>
 
 
   </div>
@@ -1022,8 +1006,7 @@ EA, when input type is INPUT_TYPE_LDAP</p>
       
         &mdash;
         <div class='inline'>
-<p>the LDAP attribute for the User&#39;s ldap entry that maps to this EA, when
-input type is INPUT_TYPE_LDAP</p>
+<p>the LDAP attribute for the User&#39;s ldap entry that maps to this EA, when input type is INPUT_TYPE_LDAP</p>
 </div>
       
     </li>
@@ -1065,7 +1048,7 @@ input type is INPUT_TYPE_LDAP</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the type of data created by the EA. Must be one of DATA_TYPES</p>
+<p>Returns the type of data created by the EA. Must be one of DATA_TYPES.</p>
 
 
   </div>
@@ -1130,7 +1113,7 @@ input type is INPUT_TYPE_LDAP</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns description of the ext attrib</p>
+<p>Returns description of the ext attrib.</p>
 
 
   </div>
@@ -1257,7 +1240,7 @@ input type is INPUT_TYPE_LDAP</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns do we have unsaved changes?</p>
+<p>Returns do we have unsaved changes?.</p>
 
 
   </div>
@@ -1300,8 +1283,7 @@ input type is INPUT_TYPE_LDAP</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the choices available in the UI when the @input_type is “Pop-up
-Menu”</p>
+<p>Returns the choices available in the UI when the @input_type is “Pop-up Menu”.</p>
 
 
   </div>
@@ -1362,7 +1344,7 @@ Menu”</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns In which part of the web UI does the data appear?</p>
+<p>Returns In which part of the web UI does the data appear?.</p>
 
 
   </div>
@@ -1428,19 +1410,16 @@ Menu”</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Get an Array of Hashes for all inventory objects with a desired result in
-their latest report for this EA.</p>
+<p>Get an Array of Hashes for all inventory objects with a desired result in their latest report for this EA.</p>
 
-<p>Each Hash is one inventory object (computer, mobile device, user), with
-these keys:</p>
+<p>Each Hash is one inventory object (computer, mobile device, user), with these keys:</p>
 
 <pre class="code ruby"><code class="ruby">:id - the computer id
 :name - the computer name
-:value - the matching ext attr value for the objects latest report.</code></pre>
+:value - the matching ext attr value for the objects latest report.
+</code></pre>
 
-<p>This is done by creating a temprary <span class='object_link'><a href="AdvancedSearch.html" title="JSS::AdvancedSearch (class)">AdvancedSearch</a></span> for objects with
-matching values in the EA field, then getting the #search_results hash from
-it.</p>
+<p>This is done by creating a temprary <span class='object_link'><a href="AdvancedSearch.html" title="JSS::AdvancedSearch (class)">AdvancedSearch</a></span> for objects with matching values in the EA field, then getting the #search_results hash from it.</p>
 
 <p>The AdvancedSearch is then deleted.</p>
 
@@ -1525,7 +1504,6 @@ it.</p>
       <pre class="lines">
 
 
-390
 391
 392
 393
@@ -1555,10 +1533,11 @@ it.</p>
 417
 418
 419
-420</pre>
+420
+421</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 390</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 391</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_all_with_result'>all_with_result</span><span class='lparen'>(</span><span class='id identifier rubyid_search_type'>search_type</span><span class='comma'>,</span> <span class='id identifier rubyid_desired_value'>desired_value</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EA Not In JSS! Use #create to create this </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='op'>::</span><span class='const'>RSRC_OBJECT_KEY</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='ivar'>@in_jss</span>
@@ -1613,8 +1592,7 @@ it.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>make a clone of this API object, with a new name. The class must be
-creatable</p>
+<p>make a clone of this API object, with a new name. The class must be creatable</p>
 
 
   </div>
@@ -1647,11 +1625,12 @@ creatable</p>
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to
-instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
 </div>
       
     </li>
@@ -1724,13 +1703,13 @@ instantiate this object</p>
       <pre class="lines">
 
 
-192
 193
 194
-195</pre>
+195
+196</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 192</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 193</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_create'>create</span>
   <span class='id identifier rubyid_validate_for_save'>validate_for_save</span>
@@ -1772,7 +1751,6 @@ instantiate this object</p>
       <pre class="lines">
 
 
-208
 209
 210
 211
@@ -1784,10 +1762,11 @@ instantiate this object</p>
 217
 218
 219
-220</pre>
+220
+221</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 208</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 209</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_delete'>delete</span>
   <span class='id identifier rubyid_orig_open_timeout'>orig_open_timeout</span> <span class='op'>=</span> <span class='ivar'>@api</span><span class='period'>.</span><span class='id identifier rubyid_cnx'>cnx</span><span class='period'>.</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:open_timeout</span><span class='rbracket'>]</span>
@@ -1844,12 +1823,12 @@ instantiate this object</p>
       <pre class="lines">
 
 
-230
 231
-232</pre>
+232
+233</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 230</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 231</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_from_ldap?'>from_ldap?</span>
   <span class='ivar'>@input_type</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="#INPUT_TYPE_LDAP-constant" title="JSS::ExtensionAttribute::INPUT_TYPE_LDAP (constant)">INPUT_TYPE_LDAP</a></span></span>
@@ -1896,12 +1875,12 @@ instantiate this object</p>
       <pre class="lines">
 
 
-226
 227
-228</pre>
+228
+229</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 226</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 227</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_from_popup_menu?'>from_popup_menu?</span>
   <span class='ivar'>@input_type</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="#INPUT_TYPE_POPUP-constant" title="JSS::ExtensionAttribute::INPUT_TYPE_POPUP (constant)">INPUT_TYPE_POPUP</a></span></span>
@@ -1948,12 +1927,12 @@ instantiate this object</p>
       <pre class="lines">
 
 
-234
 235
-236</pre>
+236
+237</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 234</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 235</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_from_script?'>from_script?</span>
   <span class='ivar'>@input_type</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="#INPUT_TYPE_SCRIPT-constant" title="JSS::ExtensionAttribute::INPUT_TYPE_SCRIPT (constant)">INPUT_TYPE_SCRIPT</a></span></span>
@@ -2000,12 +1979,12 @@ instantiate this object</p>
       <pre class="lines">
 
 
-222
 223
-224</pre>
+224
+225</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 222</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 223</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_from_text_field?'>from_text_field?</span>
   <span class='ivar'>@input_type</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="#INPUT_TYPE_FIELD-constant" title="JSS::ExtensionAttribute::INPUT_TYPE_FIELD (constant)">INPUT_TYPE_FIELD</a></span></span>
@@ -2029,18 +2008,16 @@ instantiate this object</p>
     
 <p>for this EA on all inventory objects in the JSS.</p>
 
-<p>Each Hash is one inventory object (computer, mobile device, user), with
-these keys:</p>
+<p>Each Hash is one inventory object (computer, mobile device, user), with these keys:</p>
 
 <pre class="code ruby"><code class="ruby">:id - the jss id
 :name - the object (computer, user, mobiledevice) name
 :value - the most recent ext attr value for the object.
 :as_of - the timestamp of when the value was collected (nil for User EAs, or for devices that have never collected inventory)
-:username - the username associated with the object</code></pre>
+:username - the username associated with the object
+</code></pre>
 
-<p>This is done by creating a temporary <span class='object_link'><a href="AdvancedSearch.html" title="JSS::AdvancedSearch (class)">AdvancedSearch</a></span> for all objects, with
-the EA as a display field. The #search_result then contains the desired
-data.</p>
+<p>This is done by creating a temporary <span class='object_link'><a href="AdvancedSearch.html" title="JSS::AdvancedSearch (class)">AdvancedSearch</a></span> for all objects, with the EA as a display field. The #search_result then contains the desired data.</p>
 
 <p>The AdvancedSearch is then deleted.</p>
 
@@ -2095,7 +2072,6 @@ data.</p>
       <pre class="lines">
 
 
-447
 448
 449
 450
@@ -2134,10 +2110,11 @@ data.</p>
 483
 484
 485
-486</pre>
+486
+487</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 447</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 448</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_latest_values'>latest_values</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EA Not In JSS! Use #create to create this </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='op'>::</span><span class='const'>RSRC_OBJECT_KEY</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='ivar'>@in_jss</span>
@@ -2201,8 +2178,7 @@ data.</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the name of this item Remember to #update to push changes to the
-server.</p>
+<p>Change the name of this item Remember to #update to push changes to the server.</p>
 
 
   </div>
@@ -2277,15 +2253,15 @@ server.</p>
       <pre class="lines">
 
 
-199
 200
 201
 202
 203
-204</pre>
+204
+205</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 199</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extension_attribute.rb', line 200</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_update'>update</span>
   <span class='id identifier rubyid_validate_for_save'>validate_for_save</span>
@@ -2303,9 +2279,9 @@ server.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:31 2020 by
+  Generated on Wed Feb  2 11:05:53 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

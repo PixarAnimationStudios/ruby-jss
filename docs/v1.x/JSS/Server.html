@@ -6,15 +6,15 @@
 <title>
   Class: JSS::Server
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::Server";
   relpath = '../';
 </script>
@@ -104,15 +104,11 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>A class representing the currently-connected JSS Server in a
-JSS::APIConnection instance.</p>
+<p>A class representing the currently-connected JSS Server in a JSS::APIConnection instance.</p>
 
-<p>The <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span> instance has a JSS::Server instance in its #server
-attribute. It is created fresh every time <span class='object_link'><a href="APIConnection.html#connect-instance_method" title="JSS::APIConnection#connect (method)">APIConnection#connect</a></span> is
-called.</p>
+<p>The <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span> instance has a JSS::Server instance in its #server attribute. It is created fresh every time <span class='object_link'><a href="APIConnection.html#connect-instance_method" title="JSS::APIConnection#connect (method)">APIConnection#connect</a></span> is called.</p>
 
-<p>That&#39;s the only time it should be instantiated, and all access should
-be through the #server attribute of the APIConnection instance.</p>
+<p>That&#39;s the only time it should be instantiated, and all access should be through the #server attribute of the APIConnection instance.</p>
 
 
   </div>
@@ -450,8 +446,7 @@ be through the #server attribute of the APIConnection instance.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Initialize! THe jss_data to be passed in is the JSON output of the
-&#39;jssuser&#39; resource on the API server.</p>
+<p>Initialize! THe jss_data to be passed in is the JSON output of the &#39;jssuser&#39; resource on the API server.</p>
 </div></span>
   
 </li>
@@ -501,8 +496,31 @@ be through the #server attribute of the APIConnection instance.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Remove the api object from the instance_variables used to create
-pretty-print (pp) output.</p>
+<p>Remove the api object from the instance_variables used to create pretty-print (pp) output.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update_activation_code-instance_method" title="#update_activation_code (instance method)">#<strong>update_activation_code</strong>(org:, code:)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Update the activation code and organization name for this server.</p>
 </div></span>
   
 </li>
@@ -526,15 +544,9 @@ pretty-print (pp) output.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Initialize! THe jss_data to be passed in is the JSON output of the
-&#39;jssuser&#39; resource on the API server. the jssuser resource is
-readable by anyone with a JSS acct regardless of their permissions.
-However, it&#39;s marked as &#39;deprecated&#39;. Hopefully jamf will keep
-this basic level of info available for basic authentication and JSS version
-checking.</p>
+<p>Initialize! THe jss_data to be passed in is the JSON output of the &#39;jssuser&#39; resource on the API server. the jssuser resource is readable by anyone with a JSS acct regardless of their permissions. However, it&#39;s marked as &#39;deprecated&#39;. Hopefully jamf will keep this basic level of info available for basic authentication and JSS version checking.</p>
 
-<p>The &#39;api&#39; is a reference to the JSS::APIConnection instance which
-this JSS::Server instance is a part of.</p>
+<p>The &#39;api&#39; is a reference to the JSS::APIConnection instance which this JSS::Server instance is a part of.</p>
 
 
   </div>
@@ -598,7 +610,7 @@ this JSS::Server instance is a part of.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The APIConnection object that contains this instance of Server</p>
+<p>Returns The APIConnection object that contains this instance of Server.</p>
 
 
   </div>
@@ -659,7 +671,7 @@ this JSS::Server instance is a part of.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the type of server licence</p>
+<p>Returns the type of server licence.</p>
 
 
   </div>
@@ -810,7 +822,7 @@ this JSS::Server instance is a part of.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the license product name</p>
+<p>Returns the license product name.</p>
 
 
   </div>
@@ -957,8 +969,7 @@ this JSS::Server instance is a part of.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>@return [String] The version of the JSS. See the method
-JSS.parse_jss_version</p>
+<p>@return [String] The version of the JSS. See the method JSS.parse_jss_version</p>
 
 
   </div>
@@ -1006,7 +1017,7 @@ JSS.parse_jss_version</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the activation code for the server licence</p>
+<p>Returns the activation code for the server licence.</p>
 
 
   </div>
@@ -1071,7 +1082,7 @@ JSS.parse_jss_version</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the organization to which the server is licensed</p>
+<p>Returns the organization to which the server is licensed.</p>
 
 
   </div>
@@ -1132,8 +1143,7 @@ JSS.parse_jss_version</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Remove the api object from the instance_variables used to create
-pretty-print (pp) output.</p>
+<p>Remove the api object from the instance_variables used to create pretty-print (pp) output.</p>
 
 
   </div>
@@ -1165,14 +1175,14 @@ pretty-print (pp) output.</p>
       <pre class="lines">
 
 
-119
-120
-121
-122
-123</pre>
+134
+135
+136
+137
+138</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/server.rb', line 119</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/server.rb', line 134</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_pretty_print_instance_variables'>pretty_print_instance_variables</span>
   <span class='id identifier rubyid_vars'>vars</span> <span class='op'>=</span> <span class='id identifier rubyid_instance_variables'>instance_variables</span><span class='period'>.</span><span class='id identifier rubyid_sort'>sort</span>
@@ -1184,14 +1194,101 @@ pretty-print (pp) output.</p>
 </table>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="update_activation_code-instance_method">
+  
+    #<strong>update_activation_code</strong>(org:, code:)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Update the activation code and organization name for this server</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>org:</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the organization to which the server is licensed</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>code:</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the activation code for the server licence</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+119
+120
+121
+122
+123
+124
+125
+126</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/server.rb', line 119</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_update_activation_code'>update_activation_code</span><span class='lparen'>(</span><span class='label'>org:</span><span class='comma'>,</span> <span class='label'>code:</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_xml'>xml</span> <span class='op'>=</span> <span class='const'>REXML</span><span class='op'>::</span><span class='const'>Document</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="APIConnection.html#XML_HEADER-constant" title="JSS::APIConnection::XML_HEADER (constant)">XML_HEADER</a></span></span>
+  <span class='id identifier rubyid_acode'>acode</span> <span class='op'>=</span> <span class='id identifier rubyid_xml'>xml</span><span class='period'>.</span><span class='id identifier rubyid_add_element'>add_element</span> <span class='const'><span class='object_link'><a href="#ACTIVATION_CODE_KEY-constant" title="JSS::Server::ACTIVATION_CODE_KEY (constant)">ACTIVATION_CODE_KEY</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+  <span class='id identifier rubyid_acode'>acode</span><span class='period'>.</span><span class='id identifier rubyid_add_element'>add_element</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>organization_name</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span> <span class='op'>=</span> <span class='id identifier rubyid_org'>org</span>
+  <span class='id identifier rubyid_acode'>acode</span><span class='period'>.</span><span class='id identifier rubyid_add_element'>add_element</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>code</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span> <span class='op'>=</span> <span class='id identifier rubyid_code'>code</span>
+
+  <span class='ivar'>@api</span><span class='period'>.</span><span class='id identifier rubyid_put_rsrc'>put_rsrc</span> <span class='const'><span class='object_link'><a href="#ACTIVATION_CODE_RSRC-constant" title="JSS::Server::ACTIVATION_CODE_RSRC (constant)">ACTIVATION_CODE_RSRC</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_xml'>xml</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:29 2020 by
+  Generated on Wed Feb  2 11:05:51 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

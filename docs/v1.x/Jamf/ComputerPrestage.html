@@ -6,15 +6,15 @@
 <title>
   Class: Jamf::ComputerPrestage
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "Jamf::ComputerPrestage";
   relpath = '../';
 </script>
@@ -141,7 +141,7 @@
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>v1</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>v2</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="RSRC_PATH-constant" class="">RSRC_PATH =
           
@@ -152,8 +152,7 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>Object Model / Attributes See APIObject class documentation for details of
-how the OBJECT_MODEL hash works.</p>
+<p>Object Model / Attributes See APIObject class documentation for details of how the OBJECT_MODEL hash works.</p>
 
 
   </div>
@@ -168,28 +167,35 @@ how the OBJECT_MODEL hash works.</p>
   <span class='comment'># @!attribute skipSetupItems
 </span>  <span class='comment'>#   @return [Jamf::ComputerPrestageSkipSetupItems]
 </span>  <span class='label'>skipSetupItems:</span> <span class='lbrace'>{</span>
-    <span class='label'>class:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ComputerPrestageSkipSetupItems.html" title="Jamf::ComputerPrestageSkipSetupItems (class)">ComputerPrestageSkipSetupItems</a></span></span>
+    <span class='label'>class:</span> <span class='symbol'>:hash</span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
 
   <span class='comment'># @!attribute isInstallProfilesDuringSetup
 </span>  <span class='comment'>#   @return [Boolean]
-</span>  <span class='label'>isInstallProfilesDuringSetup:</span> <span class='lbrace'>{</span>
+</span>  <span class='label'>installProfilesDuringSetup:</span> <span class='lbrace'>{</span>
     <span class='label'>class:</span> <span class='symbol'>:boolean</span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
 
   <span class='comment'># @!attribute prestageInstalledProfileIds
 </span>  <span class='comment'>#   @return [Array&lt;Integer&gt;]
 </span>  <span class='label'>prestageInstalledProfileIds:</span> <span class='lbrace'>{</span>
-    <span class='label'>class:</span> <span class='symbol'>:integer</span><span class='comma'>,</span>
+    <span class='label'>class:</span> <span class='symbol'>:j_id</span><span class='comma'>,</span>
     <span class='label'>multi:</span> <span class='kw'>true</span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
 
   <span class='comment'># @!attribute customPackageIds
 </span>  <span class='comment'>#   @return [Array&lt;Integer&gt;]
 </span>  <span class='label'>customPackageIds:</span> <span class='lbrace'>{</span>
-    <span class='label'>class:</span> <span class='symbol'>:integer</span><span class='comma'>,</span>
+    <span class='label'>class:</span> <span class='symbol'>:j_id</span><span class='comma'>,</span>
     <span class='label'>multi:</span> <span class='kw'>true</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute customPackageDistributionPointId
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>customPackageDistributionPointId:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:j_id</span>
   <span class='rbrace'>}</span>
+
 <span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
     </dl>
@@ -256,6 +262,10 @@ how the OBJECT_MODEL hash works.</p>
   
   
   
+  
+  
+  
+  
   <div id="instance_attr_details" class="attr_details">
     <h2>Instance Attribute Details</h2>
     
@@ -278,7 +288,7 @@ how the OBJECT_MODEL hash works.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute versionLock</p>
+<p>Returns the value of attribute versionLock.</p>
 
 
   </div>
@@ -295,9 +305,9 @@ how the OBJECT_MODEL hash works.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:27:01 2020 by
+  Generated on Wed Feb  2 11:06:20 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

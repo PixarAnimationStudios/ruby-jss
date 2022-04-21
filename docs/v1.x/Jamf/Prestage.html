@@ -6,15 +6,15 @@
 <title>
   Class: Jamf::Prestage
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "Jamf::Prestage";
   relpath = '../';
 </script>
@@ -93,7 +93,7 @@
   
   <dl>
       <dt>Extended by:</dt>
-      <dd><span class='object_link'><a href="Abstract.html" title="Jamf::Abstract (module)">Abstract</a></span>, <span class='object_link'><a href="UnCreatable.html" title="Jamf::UnCreatable (module)">UnCreatable</a></span></dd>
+      <dd><span class='object_link'><a href="BaseClass.html" title="Jamf::BaseClass (module)">BaseClass</a></span></dd>
   </dl>
   
   
@@ -110,7 +110,7 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/jamf/api/abstract_classes/prestage.rb</dd>
+    <dd>lib/jamf/api/base_classes/prestage.rb</dd>
   </dl>
   
 </div>
@@ -118,7 +118,7 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>A building defined in the JSS</p>
+<p>The parent class of ComputerPrestage, and MobileDevicePrestage holding common code.</p>
 
 
   </div>
@@ -143,8 +143,7 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>Object Model / Attributes See APIObject class documentation for details of
-how the OBJECT_MODEL hash works.</p>
+<p>Object Model / Attributes See APIObject class documentation for details of how the OBJECT_MODEL hash works.</p>
 
 
   </div>
@@ -157,9 +156,9 @@ how the OBJECT_MODEL hash works.</p>
         <dd><pre class="code"><span class='lbrace'>{</span>
 
   <span class='comment'># @!attribute [r] id
-</span>  <span class='comment'>#   @return [Integer]
+</span>  <span class='comment'>#   @return [String]
 </span>  <span class='label'>id:</span> <span class='lbrace'>{</span>
-    <span class='label'>class:</span> <span class='symbol'>:integer</span><span class='comma'>,</span>
+    <span class='label'>class:</span> <span class='symbol'>:j_id</span><span class='comma'>,</span>
     <span class='label'>identifier:</span> <span class='symbol'>:primary</span><span class='comma'>,</span>
     <span class='label'>readonly:</span> <span class='kw'>true</span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
@@ -171,18 +170,18 @@ how the OBJECT_MODEL hash works.</p>
     <span class='label'>identifier:</span> <span class='kw'>true</span><span class='comma'>,</span>
     <span class='label'>validator:</span> <span class='symbol'>:non_empty_string</span><span class='comma'>,</span>
     <span class='label'>required:</span> <span class='kw'>true</span><span class='comma'>,</span>
-    <span class='label'>aliases:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>name</span><span class='words_sep'>]</span>
+    <span class='label'>aliases:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>name</span><span class='tstring_end'>]</span></span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
 
-  <span class='comment'># @!attribute isMandatory
+  <span class='comment'># @!attribute mandatory
 </span>  <span class='comment'>#   @return [Boolean]
-</span>  <span class='label'>isMandatory:</span> <span class='lbrace'>{</span>
+</span>  <span class='label'>mandatory:</span> <span class='lbrace'>{</span>
     <span class='label'>class:</span> <span class='symbol'>:boolean</span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
 
-  <span class='comment'># @!attribute isMdmRemovable
+  <span class='comment'># @!attribute mdmRemovable
 </span>  <span class='comment'>#   @return [Boolean]
-</span>  <span class='label'>isMdmRemovable:</span> <span class='lbrace'>{</span>
+</span>  <span class='label'>mdmRemovable:</span> <span class='lbrace'>{</span>
     <span class='label'>class:</span> <span class='symbol'>:boolean</span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
 
@@ -204,9 +203,9 @@ how the OBJECT_MODEL hash works.</p>
     <span class='label'>class:</span> <span class='symbol'>:string</span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
 
-  <span class='comment'># @!attribute isDefaultPrestage
+  <span class='comment'># @!attribute defaultPrestage
 </span>  <span class='comment'>#   @return [Boolean]
-</span>  <span class='label'>isDefaultPrestage:</span> <span class='lbrace'>{</span>
+</span>  <span class='label'>defaultPrestage:</span> <span class='lbrace'>{</span>
     <span class='label'>class:</span> <span class='symbol'>:boolean</span><span class='comma'>,</span>
     <span class='label'>aliases:</span> <span class='lbracket'>[</span><span class='symbol'>:default?</span><span class='rbracket'>]</span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
@@ -214,24 +213,24 @@ how the OBJECT_MODEL hash works.</p>
   <span class='comment'># @!attribute enrollmentSiteId
 </span>  <span class='comment'>#   @return [Integer]
 </span>  <span class='label'>enrollmentSiteId:</span> <span class='lbrace'>{</span>
-    <span class='label'>class:</span> <span class='symbol'>:integer</span>
+    <span class='label'>class:</span> <span class='symbol'>:j_id</span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
 
-  <span class='comment'># @!attribute isKeepExistingSiteMembership
+  <span class='comment'># @!attribute keepExistingSiteMembership
 </span>  <span class='comment'>#   @return [Boolean]
-</span>  <span class='label'>isKeepExistingSiteMembership:</span> <span class='lbrace'>{</span>
+</span>  <span class='label'>keepExistingSiteMembership:</span> <span class='lbrace'>{</span>
     <span class='label'>class:</span> <span class='symbol'>:boolean</span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
 
-  <span class='comment'># @!attribute isKeepExistingLocationInformation
+  <span class='comment'># @!attribute keepExistingLocationInformation
 </span>  <span class='comment'>#   @return [Boolean]
-</span>  <span class='label'>isKeepExistingLocationInformation:</span> <span class='lbrace'>{</span>
+</span>  <span class='label'>keepExistingLocationInformation:</span> <span class='lbrace'>{</span>
     <span class='label'>class:</span> <span class='symbol'>:boolean</span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
 
-  <span class='comment'># @!attribute isRequireAuthentication
+  <span class='comment'># @!attribute requireAuthentication
 </span>  <span class='comment'>#   @return [Boolean]
-</span>  <span class='label'>isRequireAuthentication:</span> <span class='lbrace'>{</span>
+</span>  <span class='label'>requireAuthentication:</span> <span class='lbrace'>{</span>
     <span class='label'>class:</span> <span class='symbol'>:boolean</span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
 
@@ -241,30 +240,36 @@ how the OBJECT_MODEL hash works.</p>
     <span class='label'>class:</span> <span class='symbol'>:string</span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
 
-  <span class='comment'># @!attribute isEnableDeviceBasedActivationLock
+  <span class='comment'># @!attribute preventActivationLock
 </span>  <span class='comment'>#   @return [Boolean]
-</span>  <span class='label'>isEnableDeviceBasedActivationLock:</span> <span class='lbrace'>{</span>
+</span>  <span class='label'>preventActivationLock:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:boolean</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute enableDeviceBasedActivationLock
+</span>  <span class='comment'>#   @return [Boolean]
+</span>  <span class='label'>enableDeviceBasedActivationLock:</span> <span class='lbrace'>{</span>
     <span class='label'>class:</span> <span class='symbol'>:boolean</span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
 
   <span class='comment'># @!attribute deviceEnrollmentProgramInstanceId
 </span>  <span class='comment'>#   @return [Integer]
 </span>  <span class='label'>deviceEnrollmentProgramInstanceId:</span> <span class='lbrace'>{</span>
-    <span class='label'>class:</span> <span class='symbol'>:integer</span>
+    <span class='label'>class:</span> <span class='symbol'>:j_id</span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
 
   <span class='comment'># @!attribute locationInformation
 </span>  <span class='comment'>#   @return [Jamf::ComputerPrestageSkipSetupItems]
 </span>  <span class='label'>locationInformation:</span> <span class='lbrace'>{</span>
     <span class='label'>class:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PrestageLocation.html" title="Jamf::PrestageLocation (class)">PrestageLocation</a></span></span><span class='comma'>,</span>
-    <span class='label'>aliases:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>location</span><span class='words_sep'>]</span>
+    <span class='label'>aliases:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>location</span><span class='tstring_end'>]</span></span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
 
   <span class='comment'># @!attribute skipSetupItems
 </span>  <span class='comment'>#   @return [Jamf::ComputerPrestageSkipSetupItems]
 </span>  <span class='label'>purchasingInformation:</span> <span class='lbrace'>{</span>
     <span class='label'>class:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PrestagePurchasingData.html" title="Jamf::PrestagePurchasingData (class)">PrestagePurchasingData</a></span></span><span class='comma'>,</span>
-    <span class='label'>aliases:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>purchasing</span><span class='words_sep'>]</span>
+    <span class='label'>aliases:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>purchasing</span><span class='tstring_end'>]</span></span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
 
   <span class='comment'># @!attribute anchorCertificates
@@ -277,19 +282,37 @@ how the OBJECT_MODEL hash works.</p>
   <span class='comment'># @!attribute enrollmentCustomizationId
 </span>  <span class='comment'>#   @return [Integer]
 </span>  <span class='label'>enrollmentCustomizationId:</span> <span class='lbrace'>{</span>
-    <span class='label'>class:</span> <span class='symbol'>:integer</span>
+    <span class='label'>class:</span> <span class='symbol'>:j_id</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute language
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>language:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute region
+</span>  <span class='comment'>#   @return [String]
+</span>  <span class='label'>region:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute autoAdvanceSetup
+</span>  <span class='comment'>#   @return [Boolean]
+</span>  <span class='label'>autoAdvanceSetup:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='symbol'>:boolean</span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
 
   <span class='comment'># @!attribute profileUUID
 </span>  <span class='comment'>#   @return [String]
-</span>  <span class='label'>profileUUID:</span> <span class='lbrace'>{</span>
+</span>  <span class='label'>profileUuid:</span> <span class='lbrace'>{</span>
     <span class='label'>class:</span> <span class='symbol'>:string</span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
 
   <span class='comment'># @!attribute siteId
 </span>  <span class='comment'>#   @return [Integer]
 </span>  <span class='label'>siteId:</span> <span class='lbrace'>{</span>
-    <span class='label'>class:</span> <span class='symbol'>:integer</span>
+    <span class='label'>class:</span> <span class='symbol'>:j_id</span>
   <span class='rbrace'>}</span>
 
 <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
@@ -371,7 +394,57 @@ how the OBJECT_MODEL hash works.</p>
       <li class="public ">
   <span class="summary_signature">
     
+      <a href="#autoAdvanceSetup-instance_method" title="#autoAdvanceSetup (instance method)">#<strong>autoAdvanceSetup</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#deviceEnrollmentProgramInstanceId-instance_method" title="#deviceEnrollmentProgramInstanceId (instance method)">#<strong>deviceEnrollmentProgramInstanceId</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#enableDeviceBasedActivationLock-instance_method" title="#enableDeviceBasedActivationLock (instance method)">#<strong>enableDeviceBasedActivationLock</strong>  &#x21d2; Boolean </a>
     
 
     
@@ -446,7 +519,7 @@ how the OBJECT_MODEL hash works.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#isEnableDeviceBasedActivationLock-instance_method" title="#isEnableDeviceBasedActivationLock (instance method)">#<strong>isEnableDeviceBasedActivationLock</strong>  &#x21d2; Boolean </a>
+      <a href="#keepExistingLocationInformation-instance_method" title="#keepExistingLocationInformation (instance method)">#<strong>keepExistingLocationInformation</strong>  &#x21d2; Boolean </a>
     
 
     
@@ -471,7 +544,7 @@ how the OBJECT_MODEL hash works.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#isKeepExistingLocationInformation-instance_method" title="#isKeepExistingLocationInformation (instance method)">#<strong>isKeepExistingLocationInformation</strong>  &#x21d2; Boolean </a>
+      <a href="#keepExistingSiteMembership-instance_method" title="#keepExistingSiteMembership (instance method)">#<strong>keepExistingSiteMembership</strong>  &#x21d2; Boolean </a>
     
 
     
@@ -496,32 +569,7 @@ how the OBJECT_MODEL hash works.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#isKeepExistingSiteMembership-instance_method" title="#isKeepExistingSiteMembership (instance method)">#<strong>isKeepExistingSiteMembership</strong>  &#x21d2; Boolean </a>
-    
-
-    
-  </span>
-  
-  
-  
-    
-    
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-    
-      <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#isRequireAuthentication-instance_method" title="#isRequireAuthentication (instance method)">#<strong>isRequireAuthentication</strong>  &#x21d2; Boolean </a>
+      <a href="#language-instance_method" title="#language (instance method)">#<strong>language</strong>  &#x21d2; String </a>
     
 
     
@@ -571,7 +619,82 @@ how the OBJECT_MODEL hash works.</p>
       <li class="public ">
   <span class="summary_signature">
     
+      <a href="#preventActivationLock-instance_method" title="#preventActivationLock (instance method)">#<strong>preventActivationLock</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#profileUUID-instance_method" title="#profileUUID (instance method)">#<strong>profileUUID</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#region-instance_method" title="#region (instance method)">#<strong>region</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#requireAuthentication-instance_method" title="#requireAuthentication (instance method)">#<strong>requireAuthentication</strong>  &#x21d2; Boolean </a>
     
 
     
@@ -693,6 +816,35 @@ how the OBJECT_MODEL hash works.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#allocate-class_method" title="#allocate (class method)">.<strong>allocate</strong>(*args, &amp;block)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="BaseClass.html#allocate-class_method" title="Jamf::BaseClass#allocate (method)">BaseClass</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Can&#39;t allocate if base class.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#assign-class_method" title="assign (class method)">.<strong>assign</strong>(*sns_to_assign, to_prestage:, cnx: Jamf.cnx)  &#x21d2; Jamf::PrestageScope </a>
     
 
@@ -732,8 +884,7 @@ how the OBJECT_MODEL hash works.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Is the given serialNumber assigned to any prestage, or to the given
-prestage if a prestage_ident is specified?.</p>
+<p>Is the given serialNumber assigned to any prestage, or to the given prestage if a prestage_ident is specified?.</p>
 </div></span>
   
 </li>
@@ -766,7 +917,7 @@ prestage if a prestage_ident is specified?.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#creatable%3F-class_method" title="#creatable? (class method)">.<strong>creatable?</strong>  &#x21d2; Boolean </a>
+      <a href="#base_class%3F-class_method" title="#base_class? (class method)">.<strong>base_class?</strong>  &#x21d2; Boolean </a>
     
 
     
@@ -774,7 +925,7 @@ prestage if a prestage_ident is specified?.</p>
   
     <span class="note title not_defined_here">
       extended
-      from <span class='object_link'><a href="UnCreatable.html#creatable%3F-class_method" title="Jamf::UnCreatable#creatable? (method)">UnCreatable</a></span>
+      from <span class='object_link'><a href="BaseClass.html#base_class%3F-class_method" title="Jamf::BaseClass#base_class? (method)">BaseClass</a></span>
     </span>
   
   
@@ -825,7 +976,7 @@ prestage if a prestage_ident is specified?.</p>
   
     <span class="note title not_defined_here">
       extended
-      from <span class='object_link'><a href="Abstract.html#new-class_method" title="Jamf::Abstract#new (method)">Abstract</a></span>
+      from <span class='object_link'><a href="BaseClass.html#new-class_method" title="Jamf::BaseClass#new (method)">BaseClass</a></span>
     </span>
   
   
@@ -837,8 +988,7 @@ prestage if a prestage_ident is specified?.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>when any extended class or subclass of an extended class is instntiated
-check that it isn&#39;t in the abstract list.</p>
+<p>Can&#39;t instantiate if base_class.</p>
 </div></span>
   
 </li>
@@ -862,8 +1012,7 @@ check that it isn&#39;t in the abstract list.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Return all scoped serial numbers and the id of the prestage they are
-assigned to.</p>
+<p>Return all scoped serial numbers and the id of the prestage they are assigned to.</p>
 </div></span>
   
 </li>
@@ -920,6 +1069,35 @@ assigned to.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#stop_if_base_class-class_method" title="#stop_if_base_class (class method)">.<strong>stop_if_base_class</strong>(action = DEFAULT_ACTION)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      extended
+      from <span class='object_link'><a href="BaseClass.html#stop_if_base_class-class_method" title="Jamf::BaseClass#stop_if_base_class (method)">BaseClass</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>raise an exception if this class is a base class.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#unassign-class_method" title="unassign (class method)">.<strong>unassign</strong>(*sns_to_unassign, from_prestage:, cnx: Jamf.cnx)  &#x21d2; Jamf::PrestageScope </a>
     
 
@@ -959,10 +1137,7 @@ assigned to.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>We subtract the serials_by_prestage_id.keys from all known DEP SNs rather
-than just looking for Jamf::DeviceEnrollment.devices  with status REMOVED,
-because of the delay in updating the status for
-Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
+<p>We subtract the serials_by_prestage_id.keys from all known DEP SNs rather than just looking for Jamf::DeviceEnrollment.devices  with status REMOVED, because of the delay in updating the status for Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
 </div></span>
   
 </li>
@@ -1194,6 +1369,10 @@ Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
   
   
   
+  
+  
+  
+  
   <div id="instance_attr_details" class="attr_details">
     <h2>Instance Attribute Details</h2>
     
@@ -1239,7 +1418,7 @@ Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
 </pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/prestage.rb', line 162</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 165</span>
 
 </pre>
     </td>
@@ -1289,7 +1468,57 @@ Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
 </pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/prestage.rb', line 130</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 127</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="autoAdvanceSetup=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="autoAdvanceSetup-instance_method">
+  
+    #<strong>autoAdvanceSetup</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 190</span>
 
 </pre>
     </td>
@@ -1339,7 +1568,57 @@ Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
 </pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/prestage.rb', line 142</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 145</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="enableDeviceBasedActivationLock=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="enableDeviceBasedActivationLock-instance_method">
+  
+    #<strong>enableDeviceBasedActivationLock</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 139</span>
 
 </pre>
     </td>
@@ -1389,7 +1668,7 @@ Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
 </pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/prestage.rb', line 169</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 172</span>
 
 </pre>
     </td>
@@ -1439,7 +1718,7 @@ Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
 </pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/prestage.rb', line 106</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 103</span>
 
 </pre>
     </td>
@@ -1448,11 +1727,11 @@ Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
 </div>
     
       
-      <span id="isEnableDeviceBasedActivationLock=-instance_method"></span>
+      <span id="keepExistingLocationInformation=-instance_method"></span>
       <div class="method_details ">
-  <h3 class="signature " id="isEnableDeviceBasedActivationLock-instance_method">
+  <h3 class="signature " id="keepExistingLocationInformation-instance_method">
   
-    #<strong>isEnableDeviceBasedActivationLock</strong>  &#x21d2; <tt>Boolean</tt> 
+    #<strong>keepExistingLocationInformation</strong>  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -1489,7 +1768,7 @@ Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
 </pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/prestage.rb', line 136</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 115</span>
 
 </pre>
     </td>
@@ -1498,11 +1777,11 @@ Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
 </div>
     
       
-      <span id="isKeepExistingLocationInformation=-instance_method"></span>
+      <span id="keepExistingSiteMembership=-instance_method"></span>
       <div class="method_details ">
-  <h3 class="signature " id="isKeepExistingLocationInformation-instance_method">
+  <h3 class="signature " id="keepExistingSiteMembership-instance_method">
   
-    #<strong>isKeepExistingLocationInformation</strong>  &#x21d2; <tt>Boolean</tt> 
+    #<strong>keepExistingSiteMembership</strong>  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -1539,7 +1818,7 @@ Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
 </pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/prestage.rb', line 118</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 109</span>
 
 </pre>
     </td>
@@ -1548,11 +1827,11 @@ Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
 </div>
     
       
-      <span id="isKeepExistingSiteMembership=-instance_method"></span>
+      <span id="language=-instance_method"></span>
       <div class="method_details ">
-  <h3 class="signature " id="isKeepExistingSiteMembership-instance_method">
+  <h3 class="signature " id="language-instance_method">
   
-    #<strong>isKeepExistingSiteMembership</strong>  &#x21d2; <tt>Boolean</tt> 
+    #<strong>language</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
   
 
   
@@ -1572,7 +1851,7 @@ Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
     <li>
       
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
       
@@ -1589,57 +1868,7 @@ Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
 </pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/prestage.rb', line 112</span>
-
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      
-      <span id="isRequireAuthentication=-instance_method"></span>
-      <div class="method_details ">
-  <h3 class="signature " id="isRequireAuthentication-instance_method">
-  
-    #<strong>isRequireAuthentication</strong>  &#x21d2; <tt>Boolean</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/prestage.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 178</span>
 
 </pre>
     </td>
@@ -1652,7 +1881,7 @@ Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
       <div class="method_details ">
   <h3 class="signature " id="locationInformation-instance_method">
   
-    #<strong>locationInformation</strong>  &#x21d2; <tt><span class='object_link'><a href="ComputerPrestageSkipSetupItems.html" title="Jamf::ComputerPrestageSkipSetupItems (class)">Jamf::ComputerPrestageSkipSetupItems</a></span></tt> 
+    #<strong>locationInformation</strong>  &#x21d2; <tt>Jamf::ComputerPrestageSkipSetupItems</tt> 
   
 
   
@@ -1672,7 +1901,7 @@ Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="ComputerPrestageSkipSetupItems.html" title="Jamf::ComputerPrestageSkipSetupItems (class)">Jamf::ComputerPrestageSkipSetupItems</a></span></tt>)</span>
+        <span class='type'>(<tt>Jamf::ComputerPrestageSkipSetupItems</tt>)</span>
       
       
       
@@ -1689,7 +1918,57 @@ Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
 </pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/prestage.rb', line 148</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 151</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="preventActivationLock=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="preventActivationLock-instance_method">
+  
+    #<strong>preventActivationLock</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 133</span>
 
 </pre>
     </td>
@@ -1739,7 +2018,107 @@ Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
 </pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/prestage.rb', line 175</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 196</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="region=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="region-instance_method">
+  
+    #<strong>region</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 184</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="requireAuthentication=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="requireAuthentication-instance_method">
+  
+    #<strong>requireAuthentication</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 121</span>
 
 </pre>
     </td>
@@ -1789,7 +2168,7 @@ Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
 </pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/prestage.rb', line 181</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 202</span>
 
 </pre>
     </td>
@@ -1802,7 +2181,7 @@ Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
       <div class="method_details ">
   <h3 class="signature " id="skipSetupItems-instance_method">
   
-    #<strong>skipSetupItems</strong>  &#x21d2; <tt><span class='object_link'><a href="ComputerPrestageSkipSetupItems.html" title="Jamf::ComputerPrestageSkipSetupItems (class)">Jamf::ComputerPrestageSkipSetupItems</a></span></tt> 
+    #<strong>skipSetupItems</strong>  &#x21d2; <tt>Jamf::ComputerPrestageSkipSetupItems</tt> 
   
 
   
@@ -1822,7 +2201,7 @@ Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="ComputerPrestageSkipSetupItems.html" title="Jamf::ComputerPrestageSkipSetupItems (class)">Jamf::ComputerPrestageSkipSetupItems</a></span></tt>)</span>
+        <span class='type'>(<tt>Jamf::ComputerPrestageSkipSetupItems</tt>)</span>
       
       
       
@@ -1839,7 +2218,7 @@ Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
 </pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/prestage.rb', line 155</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 158</span>
 
 </pre>
     </td>
@@ -1866,7 +2245,7 @@ Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute versionLock</p>
+<p>Returns the value of attribute versionLock.</p>
 
 
   </div>
@@ -1885,7 +2264,35 @@ Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="assign-class_method">
+  <h3 class="signature first" id="allocate-class_method">
+  
+    .<strong>allocate</strong>(*args, &amp;block)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="BaseClass.html#allocate-class_method" title="Jamf::BaseClass#allocate (method)">BaseClass</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Can&#39;t allocate if base class</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="assign-class_method">
   
     .<strong>assign</strong>(*sns_to_assign, to_prestage:, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="PrestageScope.html" title="Jamf::PrestageScope (class)">Jamf::PrestageScope</a></span></tt> 
   
@@ -1941,38 +2348,38 @@ Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
       <pre class="lines">
 
 
-317
-318
-319
-320
-321
-322
-323
-324
-325
-326
-327
-328
-329
-330
-331
-332
-333
-334
-335
-336
-337
-338
-339
-340
-341
 342
 343
 344
-345</pre>
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/prestage.rb', line 317</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 342</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_assign'>assign</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_sns_to_assign'>sns_to_assign</span><span class='comma'>,</span> <span class='label'>to_prestage:</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Jamf.html#cnx-class_method" title="Jamf.cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_prestage_id'>prestage_id</span> <span class='op'>=</span> <span class='id identifier rubyid_valid_id'>valid_id</span> <span class='id identifier rubyid_to_prestage'>to_prestage</span>
@@ -1994,7 +2401,7 @@ Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
 </span>  <span class='id identifier rubyid_prestage_name'>prestage_name</span> <span class='op'>=</span> <span class='id identifier rubyid_map_all'>map_all</span><span class='lparen'>(</span><span class='symbol'>:id</span><span class='comma'>,</span> <span class='label'>to:</span> <span class='symbol'>:displayName</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='id identifier rubyid_prestage_id'>prestage_id</span><span class='rbracket'>]</span>
 
   <span class='id identifier rubyid_scope_rsrc'>scope_rsrc</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='op'>::</span><span class='const'>RSRC_VERSION</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='op'>::</span><span class='const'>RSRC_PATH</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_prestage_id'>prestage_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#SCOPE_RSRC-constant" title="Jamf::Prestage::SCOPE_RSRC (constant)">SCOPE_RSRC</a></span></span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-  <span class='id identifier rubyid_scope'>scope</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PrestageScope.html" title="Jamf::PrestageScope (class)">PrestageScope</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Abstract.html#new-instance_method" title="Jamf::Abstract#new (method)">new</a></span></span> <span class='id identifier rubyid_cnx'>cnx</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_scope_rsrc'>scope_rsrc</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_scope'>scope</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PrestageScope.html" title="Jamf::PrestageScope (class)">PrestageScope</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="BaseClass.html#new-instance_method" title="Jamf::BaseClass#new (method)">new</a></span></span> <span class='id identifier rubyid_cnx'>cnx</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_scope_rsrc'>scope_rsrc</span><span class='rparen'>)</span>
 
   <span class='comment'># add the new sns to the existing ones
 </span>  <span class='id identifier rubyid_new_scope_sns'>new_scope_sns</span> <span class='op'>=</span> <span class='id identifier rubyid_scope'>scope</span><span class='period'>.</span><span class='id identifier rubyid_assignments'>assignments</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:serialNumber</span><span class='rparen'>)</span>
@@ -2020,148 +2427,9 @@ Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Is the given serialNumber assigned to any prestage, or to the given
-prestage if a prestage_ident is specified?</p>
+<p>Is the given serialNumber assigned to any prestage, or to the given prestage if a prestage_ident is specified?</p>
 
-<p>NOTE: If a serial number isn&#39;t assigned to any prestage, it may really
-be unassigned or it may not exist in your DEP. To see if a SN exists in one
-of your Device Enrollment instances, use Jamf::DeviceEnrollment.include?</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  <p class="tag_title">Parameters:</p>
-<ul class="param">
-  
-    <li>
-      
-        <span class='name'>sn</span>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>the serial number to look for</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>refresh</span>
-      
-      
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>re-read the list from the API?</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>cnx</span>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>the API connection to use</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>Is the sn assigned, at all or to the given prestage?</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-281
-282
-283
-284
-285
-286
-287
-288
-289
-290
-291
-292
-293</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/prestage.rb', line 281</span>
-
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_assigned?'>assigned?</span><span class='lparen'>(</span><span class='id identifier rubyid_sn'>sn</span><span class='comma'>,</span> <span class='id identifier rubyid_prestage_ident'>prestage_ident</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>refresh:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Jamf.html#cnx-class_method" title="Jamf.cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_assigned_id'>assigned_id</span> <span class='op'>=</span> <span class='id identifier rubyid_assigned_prestage_id'>assigned_prestage_id</span><span class='lparen'>(</span><span class='id identifier rubyid_sn'>sn</span><span class='comma'>,</span> <span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span>
-  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id identifier rubyid_assigned_id'>assigned_id</span>
-
-  <span class='kw'>if</span> <span class='id identifier rubyid_prestage_ident'>prestage_ident</span>
-    <span class='id identifier rubyid_psid'>psid</span> <span class='op'>=</span> <span class='id identifier rubyid_valid_id'>valid_id</span> <span class='id identifier rubyid_prestage_ident'>prestage_ident</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="Jamf::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='embexpr_end'>}</span><span class='tstring_content'> matching &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_prestage_ident'>prestage_ident</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_psid'>psid</span>
-
-    <span class='kw'>return</span> <span class='id identifier rubyid_psid'>psid</span> <span class='op'>==</span> <span class='id identifier rubyid_assigned_id'>assigned_id</span>
-  <span class='kw'>end</span>
-
-  <span class='kw'>true</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="assigned_prestage_id-class_method">
-  
-    .<strong>assigned_prestage_id</strong>(sn, refresh = false, cnx: Jamf.cnx)  &#x21d2; <tt>Integer</tt><sup>?</sup> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>The id of the prestage to which the given serialNumber is assigned. nil if
-not assigned or not in DEP.</p>
-
-<p>NOTE: If a serial number isn&#39;t assigned to any prestage, it may really
-be unassigned or it may not exist in your DEP. To see if a SN exists in one
-of your Device Enrollment instances, use Jamf::DeviceEnrollment.include?</p>
+<p>NOTE: If a serial number isn&#39;t assigned to any prestage, it may really be unassigned or it may not exist in your DEP. To see if a SN exists in one of your Device Enrollment instances, use Jamf::DeviceEnrollment.include?</p>
 
 
   </div>
@@ -2212,6 +2480,145 @@ of your Device Enrollment instances, use Jamf::DeviceEnrollment.include?</p>
         <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the API connection to use</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Is the sn assigned, at all or to the given prestage?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 306</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_assigned?'>assigned?</span><span class='lparen'>(</span><span class='id identifier rubyid_sn'>sn</span><span class='comma'>,</span> <span class='id identifier rubyid_prestage_ident'>prestage_ident</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>refresh:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Jamf.html#cnx-class_method" title="Jamf.cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_assigned_id'>assigned_id</span> <span class='op'>=</span> <span class='id identifier rubyid_assigned_prestage_id'>assigned_prestage_id</span><span class='lparen'>(</span><span class='id identifier rubyid_sn'>sn</span><span class='comma'>,</span> <span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id identifier rubyid_assigned_id'>assigned_id</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_prestage_ident'>prestage_ident</span>
+    <span class='id identifier rubyid_psid'>psid</span> <span class='op'>=</span> <span class='id identifier rubyid_valid_id'>valid_id</span> <span class='id identifier rubyid_prestage_ident'>prestage_ident</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="Jamf::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='embexpr_end'>}</span><span class='tstring_content'> matching &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_prestage_ident'>prestage_ident</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_psid'>psid</span>
+
+    <span class='kw'>return</span> <span class='id identifier rubyid_psid'>psid</span> <span class='op'>==</span> <span class='id identifier rubyid_assigned_id'>assigned_id</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="assigned_prestage_id-class_method">
+  
+    .<strong>assigned_prestage_id</strong>(sn, refresh = false, cnx: Jamf.cnx)  &#x21d2; <tt>Integer</tt><sup>?</sup> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The id of the prestage to which the given serialNumber is assigned. nil if not assigned or not in DEP.</p>
+
+<p>NOTE: If a serial number isn&#39;t assigned to any prestage, it may really be unassigned or it may not exist in your DEP. To see if a SN exists in one of your Device Enrollment instances, use Jamf::DeviceEnrollment.include?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>sn</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the serial number to look for</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>refresh</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>re-read the list from the API?</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -2247,12 +2654,12 @@ of your Device Enrollment instances, use Jamf::DeviceEnrollment.include?</p>
       <pre class="lines">
 
 
-258
-259
-260</pre>
+283
+284
+285</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/prestage.rb', line 258</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 283</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_assigned_prestage_id'>assigned_prestage_id</span><span class='lparen'>(</span><span class='id identifier rubyid_sn'>sn</span><span class='comma'>,</span> <span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Jamf.html#cnx-class_method" title="Jamf.cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_serials_by_prestage_id'>serials_by_prestage_id</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='id identifier rubyid_sn'>sn</span><span class='rbracket'>]</span>
@@ -2263,9 +2670,9 @@ of your Device Enrollment instances, use Jamf::DeviceEnrollment.include?</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="creatable?-class_method">
+  <h3 class="signature " id="base_class?-class_method">
   
-    .<strong>creatable?</strong>  &#x21d2; <tt>Boolean</tt> 
+    .<strong>base_class?</strong>  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -2273,7 +2680,7 @@ of your Device Enrollment instances, use Jamf::DeviceEnrollment.include?</p>
   
     <span class="not_defined_here">
       Originally defined in module
-        <span class='object_link'><a href="UnCreatable.html#creatable%3F-class_method" title="Jamf::UnCreatable#creatable? (method)">UnCreatable</a></span>
+        <span class='object_link'><a href="BaseClass.html#base_class%3F-class_method" title="Jamf::BaseClass#base_class? (method)">BaseClass</a></span>
     </span>
   
 </h3><div class="docstring">
@@ -2313,8 +2720,7 @@ of your Device Enrollment instances, use Jamf::DeviceEnrollment.include?</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Return the Prestage subclass that is marked as default, i.e. the one that
-new SNs are assigned to when first added. Nil if no default is defined</p>
+<p>Return the Prestage subclass that is marked as default, i.e. the one that new SNs are assigned to when first added. Nil if no default is defined</p>
 
 
   </div>
@@ -2341,21 +2747,29 @@ new SNs are assigned to when first added. Nil if no default is defined</p>
       <pre class="lines">
 
 
-203
-204
-205
-206
-207
-208</pre>
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/prestage.rb', line 203</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 224</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_default'>default</span>
-  <span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='id identifier rubyid_all'>all</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_ps'>ps</span><span class='op'>|</span> <span class='id identifier rubyid_ps'>ps</span><span class='lbracket'>[</span><span class='symbol'>:isDefaultPrestage</span><span class='rbracket'>]</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='period'>.</span><span class='id identifier rubyid_dig'>dig</span> <span class='symbol'>:id</span>
-  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='id identifier rubyid_id'>id</span>
+  <span class='comment'># only one can be true at a time, so sort desc by that field,
+</span>  <span class='comment'># and the true one will be at the top
+</span>  <span class='id identifier rubyid_default_prestage_data'>default_prestage_data</span> <span class='op'>=</span> <span class='id identifier rubyid_all'>all</span><span class='lparen'>(</span><span class='label'>sort:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>defaultPrestage:desc</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>paged:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>page_size:</span> <span class='int'>1</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span>
 
-  <span class='id identifier rubyid_fetch'>fetch</span> <span class='label'>id:</span> <span class='id identifier rubyid_id'>id</span>
+  <span class='comment'># Just in case there was no true one, make sure defaultPrestage is true
+</span>  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_default_prestage_data'>default_prestage_data</span><span class='op'>&amp;.</span><span class='id identifier rubyid_dig'>dig</span><span class='lparen'>(</span><span class='symbol'>:defaultPrestage</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_fetch'>fetch</span> <span class='label'>id:</span> <span class='id identifier rubyid_default_prestage_data'>default_prestage_data</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2373,33 +2787,19 @@ new SNs are assigned to when first added. Nil if no default is defined</p>
   
     <span class="not_defined_here">
       Originally defined in module
-        <span class='object_link'><a href="Abstract.html#new-class_method" title="Jamf::Abstract#new (method)">Abstract</a></span>
+        <span class='object_link'><a href="BaseClass.html#new-class_method" title="Jamf::BaseClass#new (method)">BaseClass</a></span>
     </span>
   
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>when any extended class or subclass of an extended class is instntiated
-check that it isn&#39;t in the abstract list.</p>
+<p>Can&#39;t instantiate if base_class</p>
 
 
   </div>
 </div>
 <div class="tags">
   
-<p class="tag_title">Raises:</p>
-<ul class="raise">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="Jamf::UnsupportedError (class)">Jamf::UnsupportedError</a></span></tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
 
 </div>
 </div>
@@ -2416,8 +2816,7 @@ check that it isn&#39;t in the abstract list.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Return all scoped serial numbers and the id of the prestage they are
-assigned to. Data is cached, use a truthy first param to refresh.</p>
+<p>Return all scoped serial numbers and the id of the prestage they are assigned to. Data is cached, use a truthy first param to refresh.</p>
 
 
   </div>
@@ -2451,6 +2850,8 @@ assigned to. Data is cached, use a truthy first param to refresh.</p>
       
         <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
       
       
         &mdash;
@@ -2487,14 +2888,14 @@ assigned to. Data is cached, use a truthy first param to refresh.</p>
       <pre class="lines">
 
 
-219
-220
-221
-222
-223</pre>
+244
+245
+246
+247
+248</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/prestage.rb', line 219</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 244</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_serials_by_prestage_id'>serials_by_prestage_id</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Jamf.html#cnx-class_method" title="Jamf.cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
   <span class='ivar'>@serials_by_prestage_rsrc</span> <span class='op'>||=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='op'>::</span><span class='const'>RSRC_VERSION</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='op'>::</span><span class='const'>RSRC_PATH</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#SCOPE_RSRC-constant" title="Jamf::Prestage::SCOPE_RSRC (constant)">SCOPE_RSRC</a></span></span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
@@ -2553,6 +2954,8 @@ assigned to. Data is cached, use a truthy first param to refresh.</p>
         <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -2601,15 +3004,15 @@ assigned to. Data is cached, use a truthy first param to refresh.</p>
       <pre class="lines">
 
 
-236
-237
-238
-239
-240
-241</pre>
+261
+262
+263
+264
+265
+266</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/prestage.rb', line 236</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 261</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_serials_for_prestage'>serials_for_prestage</span><span class='lparen'>(</span><span class='id identifier rubyid_prestage_ident'>prestage_ident</span><span class='comma'>,</span> <span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Jamf.html#cnx-class_method" title="Jamf.cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='id identifier rubyid_valid_id'>valid_id</span> <span class='id identifier rubyid_prestage_ident'>prestage_ident</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span>
@@ -2634,7 +3037,7 @@ assigned to. Data is cached, use a truthy first param to refresh.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The serial numbers of known hardware not in DEP at all</p>
+<p>Returns The serial numbers of known hardware not in DEP at all.</p>
 
 
   </div>
@@ -2666,13 +3069,13 @@ assigned to. Data is cached, use a truthy first param to refresh.</p>
       <pre class="lines">
 
 
-310
-311
-312
-313</pre>
+335
+336
+337
+338</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/prestage.rb', line 310</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 335</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_sns_not_in_device_enrollment'>sns_not_in_device_enrollment</span>
   <span class='comment'># type = self == Jamf::MobileDevicePrestage ? :mobiledevices : :computers
@@ -2681,6 +3084,34 @@ assigned to. Data is cached, use a truthy first param to refresh.</p>
     </td>
   </tr>
 </table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="stop_if_base_class-class_method">
+  
+    .<strong>stop_if_base_class</strong>(action = DEFAULT_ACTION)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="BaseClass.html#stop_if_base_class-class_method" title="Jamf::BaseClass#stop_if_base_class (method)">BaseClass</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>raise an exception if this class is a base class</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
 </div>
     
       <div class="method_details ">
@@ -2740,28 +3171,28 @@ assigned to. Data is cached, use a truthy first param to refresh.</p>
       <pre class="lines">
 
 
-349
-350
-351
-352
-353
-354
-355
-356
-357
-358
-359
-360
-361
-362
-363
-364
-365
-366
-367</pre>
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/prestage.rb', line 349</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 374</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_unassign'>unassign</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_sns_to_unassign'>sns_to_unassign</span><span class='comma'>,</span> <span class='label'>from_prestage:</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Jamf.html#cnx-class_method" title="Jamf.cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_prestage_id'>prestage_id</span> <span class='op'>=</span> <span class='id identifier rubyid_valid_id'>valid_id</span> <span class='id identifier rubyid_from_prestage'>from_prestage</span>
@@ -2775,7 +3206,7 @@ assigned to. Data is cached, use a truthy first param to refresh.</p>
 </span>  <span class='id identifier rubyid_prestage_name'>prestage_name</span> <span class='op'>=</span> <span class='id identifier rubyid_map_all'>map_all</span><span class='lparen'>(</span><span class='symbol'>:id</span><span class='comma'>,</span> <span class='label'>to:</span> <span class='symbol'>:displayName</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='id identifier rubyid_prestage_id'>prestage_id</span><span class='rbracket'>]</span>
 
   <span class='id identifier rubyid_scope_rsrc'>scope_rsrc</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='op'>::</span><span class='const'>RSRC_VERSION</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='op'>::</span><span class='const'>RSRC_PATH</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_prestage_id'>prestage_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#SCOPE_RSRC-constant" title="Jamf::Prestage::SCOPE_RSRC (constant)">SCOPE_RSRC</a></span></span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-  <span class='id identifier rubyid_scope'>scope</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PrestageScope.html" title="Jamf::PrestageScope (class)">PrestageScope</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Abstract.html#new-instance_method" title="Jamf::Abstract#new (method)">new</a></span></span> <span class='id identifier rubyid_cnx'>cnx</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_scope_rsrc'>scope_rsrc</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_scope'>scope</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PrestageScope.html" title="Jamf::PrestageScope (class)">PrestageScope</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="BaseClass.html#new-instance_method" title="Jamf::BaseClass#new (method)">new</a></span></span> <span class='id identifier rubyid_cnx'>cnx</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_scope_rsrc'>scope_rsrc</span><span class='rparen'>)</span>
 
   <span class='id identifier rubyid_new_scope_sns'>new_scope_sns</span> <span class='op'>=</span> <span class='id identifier rubyid_scope'>scope</span><span class='period'>.</span><span class='id identifier rubyid_assignments'>assignments</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:serialNumber</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_new_scope_sns'>new_scope_sns</span> <span class='op'>-=</span> <span class='id identifier rubyid_sns_to_unassign'>sns_to_unassign</span>
@@ -2799,10 +3230,7 @@ assigned to. Data is cached, use a truthy first param to refresh.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>We subtract the serials_by_prestage_id.keys from all known DEP SNs rather
-than just looking for Jamf::DeviceEnrollment.devices  with status REMOVED,
-because of the delay in updating the status for
-Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
+<p>We subtract the serials_by_prestage_id.keys from all known DEP SNs rather than just looking for Jamf::DeviceEnrollment.devices  with status REMOVED, because of the delay in updating the status for Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
 
 
   </div>
@@ -2821,8 +3249,7 @@ Jamf::DeviceEnrollment::Devices, which must come from apple.</p>
       
         &mdash;
         <div class='inline'>
-<p>The serial numbers of devices that are in DEP but not assigned to any
-prestage</p>
+<p>The serial numbers of devices that are in DEP but not assigned to any prestage</p>
 </div>
       
     </li>
@@ -2835,13 +3262,13 @@ prestage</p>
       <pre class="lines">
 
 
-303
-304
-305
-306</pre>
+328
+329
+330
+331</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/prestage.rb', line 303</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 328</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_unassigned_sns'>unassigned_sns</span><span class='lparen'>(</span><span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Jamf.html#cnx-class_method" title="Jamf.cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_type'>type</span> <span class='op'>=</span> <span class='kw'>self</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="MobileDevicePrestage.html" title="Jamf::MobileDevicePrestage (class)">MobileDevicePrestage</a></span></span> <span class='op'>?</span> <span class='symbol'>:mobiledevices</span> <span class='op'>:</span> <span class='symbol'>:computers</span>
@@ -2888,19 +3315,19 @@ prestage</p>
       <pre class="lines">
 
 
-424
-425
-426
-427
-428
-429
-430
-431
-432
-433</pre>
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/prestage.rb', line 424</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 449</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_assign'>assign</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_sns_to_assign'>sns_to_assign</span><span class='rparen'>)</span>
   <span class='ivar'>@scope</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_assign'>assign</span><span class='lparen'>(</span><span class='id identifier rubyid_sns_to_assign'>sns_to_assign</span><span class='comma'>,</span> <span class='label'>to_prestage:</span> <span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='ivar'>@cnx</span><span class='rparen'>)</span>
@@ -2980,12 +3407,12 @@ prestage</p>
       <pre class="lines">
 
 
-418
-419
-420</pre>
+443
+444
+445</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/prestage.rb', line 418</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 443</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_assigned?'>assigned?</span><span class='lparen'>(</span><span class='id identifier rubyid_sn'>sn</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_assigned_sns'>assigned_sns</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_sn'>sn</span>
@@ -3007,7 +3434,7 @@ prestage</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the serialnumbers assigned to this prestage</p>
+<p>Returns the serialnumbers assigned to this prestage.</p>
 
 
   </div>
@@ -3039,12 +3466,12 @@ prestage</p>
       <pre class="lines">
 
 
-408
-409
-410</pre>
+433
+434
+435</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/prestage.rb', line 408</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 433</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_assigned_sns'>assigned_sns</span>
   <span class='id identifier rubyid_scope'>scope</span><span class='period'>.</span><span class='id identifier rubyid_assignments'>assignments</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:serialNumber</span><span class='rparen'>)</span>
@@ -3086,15 +3513,15 @@ prestage</p>
       <pre class="lines">
 
 
-446
-447
-448
-449
-450
-451</pre>
+471
+472
+473
+474
+475
+476</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/prestage.rb', line 446</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 471</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save'>save</span>
   <span class='kw'>super</span>
@@ -3168,26 +3595,26 @@ prestage</p>
       <pre class="lines">
 
 
-395
-396
-397
-398
-399
-400
-401
-402
-403
-404
-405</pre>
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/prestage.rb', line 395</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 420</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_scope'>scope</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='ivar'>@scope</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_refresh'>refresh</span>
   <span class='kw'>return</span> <span class='ivar'>@scope</span> <span class='kw'>if</span> <span class='ivar'>@scope</span>
 
-  <span class='ivar'>@scope</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PrestageScope.html" title="Jamf::PrestageScope (class)">PrestageScope</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Abstract.html#new-instance_method" title="Jamf::Abstract#new (method)">new</a></span></span> <span class='ivar'>@cnx</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_scope_rsrc'>scope_rsrc</span><span class='rparen'>)</span>
+  <span class='ivar'>@scope</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PrestageScope.html" title="Jamf::PrestageScope (class)">PrestageScope</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="BaseClass.html#new-instance_method" title="Jamf::BaseClass#new (method)">new</a></span></span> <span class='ivar'>@cnx</span><span class='period'>.</span><span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='id identifier rubyid_scope_rsrc'>scope_rsrc</span><span class='rparen'>)</span>
   <span class='kw'>unless</span> <span class='ivar'>@scope</span><span class='period'>.</span><span class='id identifier rubyid_versionLock'>versionLock</span> <span class='op'>==</span> <span class='ivar'>@versionLock</span>
     <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="VersionLockError.html" title="Jamf::VersionLockError (class)">VersionLockError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='embexpr_end'>}</span><span class='tstring_content'> &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; has been modified since it was fetched. Please refetch and try again</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
@@ -3235,17 +3662,17 @@ prestage</p>
       <pre class="lines">
 
 
-436
-437
-438
-439
-440
-441
-442
-443</pre>
+461
+462
+463
+464
+465
+466
+467
+468</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/abstract_classes/prestage.rb', line 436</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/base_classes/prestage.rb', line 461</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unassign'>unassign</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_sns_to_unassign'>sns_to_unassign</span><span class='rparen'>)</span>
   <span class='ivar'>@scope</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_unassign'>unassign</span><span class='lparen'>(</span><span class='id identifier rubyid_sns_to_unassign'>sns_to_unassign</span><span class='comma'>,</span> <span class='label'>from_prestage:</span> <span class='ivar'>@id</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='ivar'>@cnx</span><span class='rparen'>)</span>
@@ -3265,9 +3692,9 @@ prestage</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:51 2020 by
+  Generated on Wed Feb  2 11:06:11 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

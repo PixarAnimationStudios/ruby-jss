@@ -6,15 +6,15 @@
 <title>
   Class: JSS::Icon
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::Icon";
   relpath = '../';
 </script>
@@ -106,9 +106,7 @@
     
 <p>An Icon in the JSS, used in Self Service.</p>
 
-<p>At the moment, icons are not API objects, they are collections of data
-stored in the JSS that might be included in some API object&#39;s Self
-Service data.</p>
+<p>At the moment, icons are not API objects, they are collections of data stored in the JSS that might be included in some API object&#39;s Self Service data.</p>
 
 <p>The data available for an icon are:</p>
 <ul><li>
@@ -121,16 +119,11 @@ Service data.</p>
 <p>data: the icon file itself, base-64 encoded.</p>
 </li></ul>
 
-<p>Icon instances are read-only. To change the icon for a self-servable
-object, see <span class='object_link'><a href="SelfServable.html#icon=-instance_method" title="JSS::SelfServable#icon= (method)">SelfServable#icon=</a></span>.</p>
+<p>Icon instances are read-only. To change the icon for a self-servable object, see <span class='object_link'><a href="SelfServable.html#icon=-instance_method" title="JSS::SelfServable#icon= (method)">SelfServable#icon=</a></span>.</p>
 
-<p>NOTE: Since icons are not APIObjects, there&#39;s no way to see a list of
-them via the API. The JSS::Icon class methods .all, .all_ids, and
-.all_names require MySQL database access. See <span class='object_link'><a href="DBConnection.html" title="JSS::DBConnection (class)">DBConnection</a></span>.</p>
+<p>NOTE: Since icons are not APIObjects, there&#39;s no way to see a list of them via the API. The JSS::Icon class methods .all, .all_ids, and .all_names require MySQL database access. See <span class='object_link'><a href="DBConnection.html" title="JSS::DBConnection (class)">DBConnection</a></span>.</p>
 
-<p>This also means, if you use multiple API connections, you&#39;ll have to
-make sure to connect to the correct MySQL server for the APIConnection you
-care about.</p>
+<p>This also means, if you use multiple API connections, you&#39;ll have to make sure to connect to the correct MySQL server for the APIConnection you care about.</p>
 
 
   </div>
@@ -294,10 +287,7 @@ care about.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Return an Array of { id:, name: } Hashes for all icons known to the JSS
-Since Icon lists aren&#39;t accessible via the API, this method must query
-the SQL database directly, and will raise an exception if you aren&#39;t
-connected to the database.</p>
+<p>Return an Array of { id:, name: } Hashes for all icons known to the JSS Since Icon lists aren&#39;t accessible via the API, this method must query the SQL database directly, and will raise an exception if you aren&#39;t connected to the database.</p>
 </div></span>
   
 </li>
@@ -404,8 +394,7 @@ connected to the database.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Remove the data  object from the instance_variables used to create
-pretty-print (pp) output.</p>
+<p>Remove the data  object from the instance_variables used to create pretty-print (pp) output.</p>
 </div></span>
   
 </li>
@@ -497,8 +486,7 @@ pretty-print (pp) output.</p>
       
         &mdash;
         <div class='inline'>
-<p>The :self_service_icon Hash from the :self_service Hash of an object&#39;s
-API @init_data</p>
+<p>The :self_service_icon Hash from the :self_service Hash of an object&#39;s API @init_data</p>
 </div>
       
     </li>
@@ -653,7 +641,7 @@ API @init_data</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the icon&#39;s id in the JSS</p>
+<p>Returns the icon&#39;s id in the JSS.</p>
 
 
   </div>
@@ -718,7 +706,7 @@ API @init_data</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the icon&#39;s name in the JSS NOTE: these are not unique</p>
+<p>Returns the icon&#39;s name in the JSS NOTE: these are not unique.</p>
 
 
   </div>
@@ -779,7 +767,7 @@ API @init_data</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The URI for downloading or previewing the icon from the JSS</p>
+<p>Returns The URI for downloading or previewing the icon from the JSS.</p>
 
 
   </div>
@@ -845,10 +833,7 @@ API @init_data</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Return an Array of { id:, name: } Hashes for all icons known to the JSS
-Since Icon lists aren&#39;t accessible via the API, this method must query
-the SQL database directly, and will raise an exception if you aren&#39;t
-connected to the database.</p>
+<p>Return an Array of { id:, name: } Hashes for all icons known to the JSS Since Icon lists aren&#39;t accessible via the API, this method must query the SQL database directly, and will raise an exception if you aren&#39;t connected to the database.</p>
 
 
   </div>
@@ -1022,8 +1007,7 @@ connected to the database.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>An Array of all icon names known to the JSS. See <span class='object_link'><a href="#all-class_method" title="JSS::Icon.all (method)">all</a></span>. NOTE: Icon
-names are not unique</p>
+<p>An Array of all icon names known to the JSS. See <span class='object_link'><a href="#all-class_method" title="JSS::Icon.all (method)">all</a></span>. NOTE: Icon names are not unique</p>
 
 
   </div>
@@ -1110,8 +1094,7 @@ names are not unique</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Remove the data  object from the instance_variables used to create
-pretty-print (pp) output.</p>
+<p>Remove the data  object from the instance_variables used to create pretty-print (pp) output.</p>
 
 
   </div>
@@ -1176,8 +1159,7 @@ pretty-print (pp) output.</p>
     <p class="note returns_void">This method returns an undefined value.</p>
 <p>Save the icon to a file.</p>
 
-<p>If the path given is an existing directory, the icon&#39;s current filename
-will be used, if known.</p>
+<p>If the path given is an existing directory, the icon&#39;s current filename will be used, if known.</p>
 
 
   </div>
@@ -1315,9 +1297,9 @@ will be used, if known.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:29 2020 by
+  Generated on Wed Feb  2 11:05:51 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

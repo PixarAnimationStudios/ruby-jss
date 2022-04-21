@@ -6,15 +6,15 @@
 <title>
   Module: JSS::Extendable
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::Extendable";
   relpath = '../';
 </script>
@@ -93,18 +93,11 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>A mix-in module for handling extension attribute data for objects in the
-JSS.</p>
+<p>A mix-in module for handling extension attribute data for objects in the JSS.</p>
 
-<p>This module provides standardized ways to deal with Extension Attribute
-data in objects that gather that data  (<span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span>s,
-<span class='object_link'><a href="MobileDevice.html" title="JSS::MobileDevice (class)">MobileDevice</a></span>s, and <span class='object_link'><a href="User.html" title="JSS::User (class)">User</a></span>s). For working with the Extension
-Attributes themselves, see <span class='object_link'><a href="ExtensionAttribute.html" title="JSS::ExtensionAttribute (class)">ExtensionAttribute</a></span> and its subclasses.</p>
+<p>This module provides standardized ways to deal with Extension Attribute data in objects that gather that data  (<span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span>s, <span class='object_link'><a href="MobileDevice.html" title="JSS::MobileDevice (class)">MobileDevice</a></span>s, and <span class='object_link'><a href="User.html" title="JSS::User (class)">User</a></span>s). For working with the Extension Attributes themselves, see <span class='object_link'><a href="ExtensionAttribute.html" title="JSS::ExtensionAttribute (class)">ExtensionAttribute</a></span> and its subclasses.</p>
 
-<p>API objects that have Extension Attribute data return it in an Array of
-Hashes, one for each defined ExtensionAttribute for the class; i.e. a
-<span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span>&#39;s Array has one Hash for each
-<span class='object_link'><a href="ComputerExtensionAttribute.html" title="JSS::ComputerExtensionAttribute (class)">ComputerExtensionAttribute</a></span> defined in the JSS.</p>
+<p>API objects that have Extension Attribute data return it in an Array of Hashes, one for each defined ExtensionAttribute for the class; i.e. a <span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span>&#39;s Array has one Hash for each <span class='object_link'><a href="ComputerExtensionAttribute.html" title="JSS::ComputerExtensionAttribute (class)">ComputerExtensionAttribute</a></span> defined in the JSS.</p>
 
 <p>The Hash keys are:</p>
 <ul><li>
@@ -114,22 +107,17 @@ Hashes, one for each defined ExtensionAttribute for the class; i.e. a
 </li><li>
 <p>:type =&gt; the data type of the ExtAttr value</p>
 </li><li>
-<p>:value =&gt; the value for the ExtAttr for this object as of the last
-report.</p>
+<p>:value =&gt; the value for the ExtAttr for this object as of the last report.</p>
 </li></ul>
 
-<p>Classes including this module must define the constant EXT_ATTRIB_CLASS
-specifying which <span class='object_link'><a href="ExtensionAttribute.html" title="JSS::ExtensionAttribute (class)">ExtensionAttribute</a></span> subclass defines the relevant
-extension attributes. For Example, <span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span> sets this:</p>
+<p>Classes including this module must define the constant EXT_ATTRIB_CLASS specifying which <span class='object_link'><a href="ExtensionAttribute.html" title="JSS::ExtensionAttribute (class)">ExtensionAttribute</a></span> subclass defines the relevant extension attributes. For Example, <span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span> sets this:</p>
 
 <pre class="code ruby"><code class="ruby"><span class='const'>EXT_ATTRIB_CLASS</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ComputerExtensionAttribute.html" title="JSS::ComputerExtensionAttribute (class)">ComputerExtensionAttribute</a></span></span>
 </code></pre>
 
-<p>Parsing also populates @ext_attrs which is a Hash of name =&gt; value for
-each EA.</p>
+<p>Parsing also populates @ext_attrs which is a Hash of name =&gt; value for each EA.</p>
 
-<p>When updating or creating, those classes must add the REXML output of
-<span class='object_link'><a href="#ext_attr_xml-instance_method" title="JSS::Extendable#ext_attr_xml (method)">#ext_attr_xml</a></span> to their rest_xml output.</p>
+<p>When updating or creating, those classes must add the REXML output of <span class='object_link'><a href="#ext_attr_xml-instance_method" title="JSS::Extendable#ext_attr_xml (method)">#ext_attr_xml</a></span> to their rest_xml output.</p>
 
 
   </div>
@@ -260,8 +248,7 @@ each EA.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>EA names =&gt; data type (one of &#39;String&#39;, &#39;Number&#39;, or
-&#39;Date&#39;).</p>
+<p>EA names =&gt; data type (one of &#39;String&#39;, &#39;Number&#39;, or &#39;Date&#39;).</p>
 </div></span>
   
 </li>
@@ -285,8 +272,7 @@ each EA.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>TODO: make this (and all XML amending) method take the in-progress XML doc
-and add (or not) the EA xml to it.</p>
+<p>TODO: make this (and all XML amending) method take the in-progress XML doc and add (or not) the EA xml to it.</p>
 </div></span>
   
 </li>
@@ -334,9 +320,7 @@ and add (or not) the EA xml to it.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Populate @extension_attributes (the Array of Hashes that comes from the
-API) and @ext_attr_names, which is a Hash mapping the EA names to their
-values.</p>
+<p>Populate @extension_attributes (the Array of Hashes that comes from the API) and @ext_attr_names, which is a Hash mapping the EA names to their values.</p>
 </div></span>
   
 </li>
@@ -408,8 +392,7 @@ values.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>is the value being passed to set_ext_attr valid? Converts values as needed
-(e.g. strings to integers or Times).</p>
+<p>is the value being passed to set_ext_attr valid? Converts values as needed (e.g. strings to integers or Times).</p>
 </div></span>
   
 </li>
@@ -457,8 +440,7 @@ values.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Raise an error if the named EA has a popup menu, but the provided value
-isn&#39;t one of the menu items.</p>
+<p>Raise an error if the named EA has a popup menu, but the provided value isn&#39;t one of the menu items.</p>
 </div></span>
   
 </li>
@@ -485,7 +467,7 @@ isn&#39;t one of the menu items.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The extension attribute values for the object</p>
+<p>Returns The extension attribute values for the object.</p>
 
 
   </div>
@@ -517,12 +499,12 @@ isn&#39;t one of the menu items.</p>
       <pre class="lines">
 
 
+73
 74
-75
-76</pre>
+75</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extendable.rb', line 74</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extendable.rb', line 73</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_extension_attributes'>extension_attributes</span>
   <span class='ivar'>@extension_attributes</span>
@@ -551,7 +533,7 @@ isn&#39;t one of the menu items.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the names of all known EAs</p>
+<p>Returns the names of all known EAs.</p>
 
 
   </div>
@@ -583,12 +565,12 @@ isn&#39;t one of the menu items.</p>
       <pre class="lines">
 
 
+96
 97
-98
-99</pre>
+98</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extendable.rb', line 97</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extendable.rb', line 96</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ea_names'>ea_names</span>
   <span class='id identifier rubyid_ea_types'>ea_types</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span>
@@ -610,8 +592,7 @@ isn&#39;t one of the menu items.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns EA names =&gt; data type (one of &#39;String&#39;,
-&#39;Number&#39;, or &#39;Date&#39;)</p>
+<p>Returns EA names =&gt; data type (one of &#39;String&#39;, &#39;Number&#39;, or &#39;Date&#39;).</p>
 
 
   </div>
@@ -630,8 +611,7 @@ isn&#39;t one of the menu items.</p>
       
         &mdash;
         <div class='inline'>
-<p>EA names =&gt; data type (one of &#39;String&#39;, &#39;Number&#39;, or
-&#39;Date&#39;)</p>
+<p>EA names =&gt; data type (one of &#39;String&#39;, &#39;Number&#39;, or &#39;Date&#39;)</p>
 </div>
       
     </li>
@@ -644,16 +624,16 @@ isn&#39;t one of the menu items.</p>
       <pre class="lines">
 
 
+102
 103
 104
 105
 106
 107
-108
-109</pre>
+108</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extendable.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extendable.rb', line 102</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ea_types'>ea_types</span>
   <span class='kw'>return</span> <span class='ivar'>@ea_types</span> <span class='kw'>if</span> <span class='ivar'>@ea_types</span>
@@ -683,9 +663,7 @@ isn&#39;t one of the menu items.</p>
   You should avoid using this method if possible, as it may be removed or be changed in the future.
 </p>
 
-<p>TODO: make this (and all XML amending) method take the in-progress XML doc
-and add (or not) the EA xml to it. See how Sitable#add_site_to_xml works,
-as called from Computer.rest_xml</p>
+<p>TODO: make this (and all XML amending) method take the in-progress XML doc and add (or not) the EA xml to it. See how Sitable#add_site_to_xml works, as called from Computer.rest_xml</p>
 
 
   </div>
@@ -704,8 +682,7 @@ as called from Computer.rest_xml</p>
       
         &mdash;
         <div class='inline'>
-<p>An &lt;extension_attribute&gt; element to be included in the rest_xml of
-objects that mix-in this module.</p>
+<p>An &lt;extension_attribute&gt; element to be included in the rest_xml of objects that mix-in this module.</p>
 </div>
       
     </li>
@@ -718,6 +695,7 @@ objects that mix-in this module.</p>
       <pre class="lines">
 
 
+218
 219
 220
 221
@@ -741,13 +719,14 @@ objects that mix-in this module.</p>
 239</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extendable.rb', line 219</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extendable.rb', line 218</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ext_attr_xml'>ext_attr_xml</span>
   <span class='ivar'>@changed_eas</span> <span class='op'>||=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_eaxml'>eaxml</span> <span class='op'>=</span> <span class='const'>REXML</span><span class='op'>::</span><span class='const'>Element</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>extension_attributes</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
   <span class='ivar'>@extension_attributes</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_ea'>ea</span><span class='op'>|</span>
     <span class='kw'>next</span> <span class='kw'>unless</span> <span class='ivar'>@changed_eas</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_ea'>ea</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span>
+
     <span class='id identifier rubyid_ea_el'>ea_el</span> <span class='op'>=</span> <span class='id identifier rubyid_eaxml'>eaxml</span><span class='period'>.</span><span class='id identifier rubyid_add_element'>add_element</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>extension_attribute</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
     <span class='id identifier rubyid_ea_el'>ea_el</span><span class='period'>.</span><span class='id identifier rubyid_add_element'>add_element</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>name</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span> <span class='op'>=</span> <span class='id identifier rubyid_ea'>ea</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span>
 
@@ -781,8 +760,7 @@ objects that mix-in this module.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>An easier-to-use hash of EA name to EA value. This isn&#39;t created until
-its needed, to speed up instantiation.</p>
+<p>An easier-to-use hash of EA name to EA value. This isn&#39;t created until its needed, to speed up instantiation.</p>
 
 
   </div>
@@ -796,6 +774,7 @@ its needed, to speed up instantiation.</p>
       <pre class="lines">
 
 
+113
 114
 115
 116
@@ -819,11 +798,10 @@ its needed, to speed up instantiation.</p>
 134
 135
 136
-137
-138</pre>
+137</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extendable.rb', line 114</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extendable.rb', line 113</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ext_attrs'>ext_attrs</span>
   <span class='kw'>return</span> <span class='ivar'>@ext_attrs</span> <span class='kw'>if</span> <span class='ivar'>@ext_attrs</span>
@@ -867,10 +845,7 @@ its needed, to speed up instantiation.</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Populate @extension_attributes (the Array of Hashes that comes from the
-API) and @ext_attr_names, which is a Hash mapping the EA names to their
-values. This is called during initialization for all objects that mix in
-this module</p>
+<p>Populate @extension_attributes (the Array of Hashes that comes from the API) and @ext_attr_names, which is a Hash mapping the EA names to their values. This is called during initialization for all objects that mix in this module</p>
 
 
   </div>
@@ -884,17 +859,17 @@ this module</p>
       <pre class="lines">
 
 
+85
 86
 87
 88
 89
 90
 91
-92
-93</pre>
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extendable.rb', line 86</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extendable.rb', line 85</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_parse_ext_attrs'>parse_ext_attrs</span>
   <span class='ivar'>@extension_attributes</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:extension_attributes</span><span class='rbracket'>]</span>
@@ -925,33 +900,20 @@ this module</p>
 
 <p>The new value is validated based on the data type of the Ext. Attrib:</p>
 <ul><li>
-<p>If the ext. attrib. is defined with a data type of Integer/Number, the
-value must be an Integer.</p>
+<p>If the ext. attrib. is defined with a data type of Integer/Number, the value must be an Integer.</p>
 </li><li>
-<p>If defined with a data type of Date, the value will be parsed as a
-timestamp, and parsing may raise an exception. Dates can&#39;t be blank.</p>
+<p>If defined with a data type of Date, the value will be parsed as a timestamp, and parsing may raise an exception. Dates can&#39;t be blank.</p>
 </li><li>
 <p>If defined wth data type of String, `to_s` will be called on the value.</p>
 </li></ul>
 
-<p>By default, the full EA definition object is fetched to see if the EA&#39;s
-input type is &#39;popup menu&#39;, and if so, the new value must be one of
-the defined popup choices, or blank.</p>
+<p>By default, the full EA definition object is fetched to see if the EA&#39;s input type is &#39;popup menu&#39;, and if so, the new value must be one of the defined popup choices, or blank.</p>
 
-<p>The EA definitions used for popup validation are cached, so we don&#39;t
-have to reach out to the server every time. If you expect the definition to
-have changed since it was cached, provide a truthy value to the refresh:
-parameter</p>
+<p>The EA definitions used for popup validation are cached, so we don&#39;t have to reach out to the server every time. If you expect the definition to have changed since it was cached, provide a truthy value to the refresh: parameter</p>
 
-<p>To bypass popup validation complepletely, provide a falsey value to the
-validate_popup_choice: parameter. WARNING: beware that your value is the
-correct type and format, or you might get errors when saving back to the
-API.</p>
+<p>To bypass popup validation complepletely, provide a falsey value to the validate_popup_choice: parameter. WARNING: beware that your value is the correct type and format, or you might get errors when saving back to the API.</p>
 
-<p>Note that while the Jamf Pro Web interface does not allow editing the
-values of Extension Attributes populated by Scripts or LDAP,  the API does
-allow it. Bear in mind however that those values will be reset again at the
-next recon.</p>
+<p>Note that while the Jamf Pro Web interface does not allow editing the values of Extension Attributes populated by Scripts or LDAP,  the API does allow it. Bear in mind however that those values will be reset again at the next recon.</p>
 
 
   </div>
@@ -1000,6 +962,8 @@ next recon.</p>
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -1015,6 +979,8 @@ next recon.</p>
       
         <span class='type'>(<tt>Boolean</tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
       
       
         &mdash;
@@ -1046,6 +1012,7 @@ next recon.</p>
       <pre class="lines">
 
 
+182
 183
 184
 185
@@ -1061,11 +1028,10 @@ next recon.</p>
 195
 196
 197
-198
-199</pre>
+198</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extendable.rb', line 183</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extendable.rb', line 182</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_ext_attr'>set_ext_attr</span><span class='lparen'>(</span><span class='id identifier rubyid_ea_name'>ea_name</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='label'>validate_popup_choice:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>refresh:</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Unknown Extension Attribute Name: &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_ea_name'>ea_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_ea_types'>ea_types</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span> <span class='id identifier rubyid_ea_name'>ea_name</span>
@@ -1128,12 +1094,12 @@ next recon.</p>
       <pre class="lines">
 
 
+204
 205
-206
-207</pre>
+206</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extendable.rb', line 205</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/extendable.rb', line 204</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unsaved_eas?'>unsaved_eas?</span>
   <span class='ivar'>@need_to_update</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@changed_eas</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ivar'>@changed_eas</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -1155,11 +1121,9 @@ next recon.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>is the value being passed to set_ext_attr valid? Converts values as needed
-(e.g. strings to integers or Times)</p>
+<p>is the value being passed to set_ext_attr valid? Converts values as needed (e.g. strings to integers or Times)</p>
 
-<p>If the EA is defined to hold a string, any value is accepted and converted
-with #to_s</p>
+<p>If the EA is defined to hold a string, any value is accepted and converted with #to_s</p>
 
 <p>Note: All EAs can be blank</p>
 
@@ -1369,8 +1333,7 @@ with #to_s</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Raise an error if the named EA has a popup menu, but the provided value
-isn&#39;t one of the menu items</p>
+<p>Raise an error if the named EA has a popup menu, but the provided value isn&#39;t one of the menu items</p>
 
 
   </div>
@@ -1437,9 +1400,9 @@ isn&#39;t one of the menu items</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:23 2020 by
+  Generated on Wed Feb  2 11:05:45 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

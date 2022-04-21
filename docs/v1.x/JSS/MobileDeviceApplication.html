@@ -6,15 +6,15 @@
 <title>
   Class: JSS::MobileDeviceApplication
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::MobileDeviceApplication";
   relpath = '../';
 </script>
@@ -164,8 +164,7 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>The hash key used for the JSON object output. It&#39;s also used in various
-error messages</p>
+<p>The hash key used for the JSON object output. It&#39;s also used in various error messages</p>
 
 
   </div>
@@ -228,15 +227,14 @@ error messages</p>
 </div>
         </dt>
         <dd><pre class="code"><span class='lbrace'>{</span>
-  <span class='label'>bundle_id:</span> <span class='lbrace'>{</span> <span class='label'>aliases:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>bundleid</span><span class='words_sep'>]</span><span class='comma'>,</span> <span class='label'>fetch_rsrc_key:</span> <span class='symbol'>:bundleid</span> <span class='rbrace'>}</span>
+  <span class='label'>bundle_id:</span> <span class='lbrace'>{</span> <span class='label'>aliases:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>bundleid</span><span class='tstring_end'>]</span></span><span class='comma'>,</span> <span class='label'>fetch_rsrc_key:</span> <span class='symbol'>:bundleid</span> <span class='rbrace'>}</span>
 <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="OBJECT_HISTORY_OBJECT_TYPE-constant" class="">OBJECT_HISTORY_OBJECT_TYPE =
           <div class="docstring">
   <div class="discussion">
     
-<p>the object type for this object in the object history table. See
-<span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
+<p>the object type for this object in the object history table. See <span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
 
 
   </div>
@@ -295,6 +293,25 @@ error messages</p>
 </div>
         </dt>
         <dd><pre class="code"><span class='const'><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></span></pre></dd>
+      
+        <dt id="OS_TYPES-constant" class="">OS_TYPES =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>possible values for os_type</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span>
+  <span class='label'>ios:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>iOS</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>tvos:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>tvOS</span><span class='tstring_end'>&#39;</span></span>
+<span class='rbrace'>}</span></pre></dd>
       
     </dl>
   
@@ -859,6 +876,33 @@ error messages</p>
       <li class="public ">
   <span class="summary_signature">
     
+      <a href="#os_type-instance_method" title="#os_type (instance method)">#<strong>os_type</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Is this an iOS or tvOS app?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#prevent_backup_of_app_data-instance_method" title="#prevent_backup_of_app_data (instance method)">#<strong>prevent_backup_of_app_data</strong>  &#x21d2; Boolean </a>
     
 
@@ -877,8 +921,7 @@ error messages</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Should this app be able to backup its data when the device does its backups
-(to icloud or itunes)?.</p>
+<p>Should this app be able to backup its data when the device does its backups (to icloud or itunes)?.</p>
 </div></span>
   
 </li>
@@ -1034,8 +1077,7 @@ error messages</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Each Hash has these keys about the category - :id =&gt; [Integer] the JSS
-id of the category - :name =&gt; [String] the name of the category.</p>
+<p>Each Hash has these keys about the category - :id =&gt; [Integer] the JSS id of the category - :name =&gt; [String] the name of the category.</p>
 </div></span>
   
 </li>
@@ -1165,8 +1207,7 @@ id of the category - :name =&gt; [String] the name of the category.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Should an extra window appear before the user can install the item? (OSX
-SSvc only).</p>
+<p>Should an extra window appear before the user can install the item? (OSX SSvc only).</p>
 </div></span>
   
 </li>
@@ -1426,8 +1467,7 @@ SSvc only).</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Should self service give reminders by displaying the notification
-repeatedly?.</p>
+<p>Should self service give reminders by displaying the notification repeatedly?.</p>
 </div></span>
   
 </li>
@@ -1520,8 +1560,7 @@ repeatedly?.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>If the user installs this app on their own, should Jamf take over managing
-it?.</p>
+<p>If the user installs this app on their own, should Jamf take over managing it?.</p>
 </div></span>
   
 </li>
@@ -1534,7 +1573,7 @@ it?.</p>
     
 
     
-      (also: #vpp_total_licenses, #vpp_license_count)
+      (also: #vpp_licenses_total)
     
   </span>
   
@@ -1653,6 +1692,8 @@ it?.</p>
       <a href="#vpp_admin_account_id-instance_method" title="#vpp_admin_account_id (instance method)">#<strong>vpp_admin_account_id</strong>  &#x21d2; Integer </a>
     
 
+    
+      (also: #vpp_account_id)
     
   </span>
   
@@ -2014,8 +2055,7 @@ it?.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Given a category name or id, return the name and id TODO: use
-APIObject.exist? and/or APIObject.valid_id.</p>
+<p>Given a category name or id, return the name and id TODO: use APIObject.exist? and/or APIObject.valid_id.</p>
 </div></span>
   
 </li>
@@ -2070,8 +2110,7 @@ APIObject.exist? and/or APIObject.valid_id.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Change the name of this item Remember to #update to push changes to the
-server.</p>
+<p>Change the name of this item Remember to #update to push changes to the server.</p>
 </div></span>
   
 </li>
@@ -2100,8 +2139,7 @@ server.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Call this during initialization of objects that have a scope and the scope
-instance will be created from @init_data.</p>
+<p>Call this during initialization of objects that have a scope and the scope instance will be created from @init_data.</p>
 </div></span>
   
 </li>
@@ -2125,8 +2163,7 @@ instance will be created from @init_data.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Remove the various cached data from the instance_variables used to create
-pretty-print (pp) output.</p>
+<p>Remove the various cached data from the instance_variables used to create pretty-print (pp) output.</p>
 </div></span>
   
 </li>
@@ -2596,7 +2633,7 @@ pretty-print (pp) output.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#upload-instance_method" title="#upload (instance method)">#<strong>upload</strong>(type, local_file)  &#x21d2; String </a>
+      <a href="#upload-instance_method" title="#upload (instance method)">#<strong>upload</strong>(type, local_file, force_ipa_upload: false)  &#x21d2; Boolean </a>
     
 
     
@@ -2616,8 +2653,7 @@ pretty-print (pp) output.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Upload a file to the JSS via the REST Resource of the object to which this
-module is mixed in.</p>
+<p>instance method wrapper for class method.</p>
 </div></span>
   
 </li>
@@ -2626,7 +2662,7 @@ module is mixed in.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#upload_ipa-instance_method" title="#upload_ipa (instance method)">#<strong>upload_ipa</strong>(path)  &#x21d2; void </a>
+      <a href="#upload_ipa-instance_method" title="#upload_ipa (instance method)">#<strong>upload_ipa</strong>(path, force_ipa_upload: false)  &#x21d2; void </a>
     
 
     
@@ -2671,6 +2707,37 @@ module is mixed in.</p>
   
     <span class="summary_desc"><div class='inline'>
 <p>Can this thing be removed by the user?.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#vpp_admin_account_name-instance_method" title="#vpp_admin_account_name (instance method)">#<strong>vpp_admin_account_name</strong>  &#x21d2; String </a>
+    
+
+    
+      (also: #vpp_account_name)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="VPPable.html#vpp_admin_account_name-instance_method" title="JSS::VPPable#vpp_admin_account_name (method)">VPPable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The name of the vpp admin acct for this object.</p>
 </div></span>
   
 </li>
@@ -2726,14 +2793,6 @@ module is mixed in.</p>
       <pre class="lines">
 
 
-187
-188
-189
-190
-191
-192
-193
-194
 195
 196
 197
@@ -2749,10 +2808,19 @@ module is mixed in.</p>
 207
 208
 209
-210</pre>
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 187</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 195</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
   <span class='kw'>super</span>
@@ -2762,6 +2830,7 @@ module is mixed in.</p>
   <span class='ivar'>@bundle_id</span> <span class='op'>=</span> <span class='id identifier rubyid_general'>general</span><span class='lbracket'>[</span><span class='symbol'>:bundle_id</span><span class='rbracket'>]</span>
   <span class='ivar'>@version</span> <span class='op'>=</span> <span class='id identifier rubyid_general'>general</span><span class='lbracket'>[</span><span class='symbol'>:version</span><span class='rbracket'>]</span>
   <span class='ivar'>@ipa</span> <span class='op'>=</span> <span class='id identifier rubyid_general'>general</span><span class='lbracket'>[</span><span class='symbol'>:ipa</span><span class='rbracket'>]</span>
+  <span class='ivar'>@os_type</span> <span class='op'>=</span> <span class='id identifier rubyid_general'>general</span><span class='lbracket'>[</span><span class='symbol'>:os_type</span><span class='rbracket'>]</span>
   <span class='ivar'>@provisioning_profile</span> <span class='op'>=</span> <span class='id identifier rubyid_general'>general</span><span class='lbracket'>[</span><span class='symbol'>:provisioning_profile</span><span class='rbracket'>]</span>
   <span class='ivar'>@url</span> <span class='op'>=</span> <span class='id identifier rubyid_general'>general</span><span class='lbracket'>[</span><span class='symbol'>:url</span><span class='rbracket'>]</span>
   <span class='ivar'>@itunes_store_url</span> <span class='op'>=</span> <span class='id identifier rubyid_general'>general</span><span class='lbracket'>[</span><span class='symbol'>:itunes_store_url</span><span class='rbracket'>]</span>
@@ -2847,7 +2916,7 @@ module is mixed in.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns e.g. com.company.appname</p>
+<p>Returns e.g. com.company.appname.</p>
 
 
   </div>
@@ -2879,12 +2948,12 @@ module is mixed in.</p>
       <pre class="lines">
 
 
-117
-118
-119</pre>
+122
+123
+124</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 117</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 122</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_bundle_id'>bundle_id</span>
   <span class='ivar'>@bundle_id</span>
@@ -2908,9 +2977,7 @@ module is mixed in.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Pre-configuration data for installing the app. Currently
-there&#39;s only one key in the :configuration hash, :preferences, which
-contains a plist &lt;dict&gt; element with config data.</p>
+<p>Returns Pre-configuration data for installing the app. Currently there&#39;s only one key in the :configuration hash, :preferences, which contains a plist &lt;dict&gt; element with config data.</p>
 
 
   </div>
@@ -2929,9 +2996,7 @@ contains a plist &lt;dict&gt; element with config data.</p>
       
         &mdash;
         <div class='inline'>
-<p>Pre-configuration data for installing the app. Currently there&#39;s only
-one key in the :configuration hash, :preferences, which contains a plist
-&lt;dict&gt; element with config data.</p>
+<p>Pre-configuration data for installing the app. Currently there&#39;s only one key in the :configuration hash, :preferences, which contains a plist &lt;dict&gt; element with config data.</p>
 </div>
       
     </li>
@@ -2944,12 +3009,12 @@ one key in the :configuration hash, :preferences, which contains a plist
       <pre class="lines">
 
 
-178
-179
-180</pre>
+186
+187
+188</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 178</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 186</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_configuration_prefs'>configuration_prefs</span>
   <span class='ivar'>@configuration_prefs</span>
@@ -2973,7 +3038,7 @@ one key in the :configuration hash, :preferences, which contains a plist
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Should this app be mananged?</p>
+<p>Returns Should this app be mananged?.</p>
 
 
   </div>
@@ -3005,12 +3070,12 @@ one key in the :configuration hash, :preferences, which contains a plist
       <pre class="lines">
 
 
-148
-149
-150</pre>
+156
+157
+158</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 148</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 156</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_deploy_as_managed_app'>deploy_as_managed_app</span>
   <span class='ivar'>@deploy_as_managed_app</span>
@@ -3059,12 +3124,12 @@ one key in the :configuration hash, :preferences, which contains a plist
       <pre class="lines">
 
 
-114
-115
-116</pre>
+119
+120
+121</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 114</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 119</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_description'>description</span>
   <span class='ivar'>@description</span>
@@ -3088,7 +3153,7 @@ one key in the :configuration hash, :preferences, which contains a plist
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The user-facing name (i.e. in self service)</p>
+<p>Returns The user-facing name (i.e. in self service).</p>
 
 
   </div>
@@ -3120,12 +3185,12 @@ one key in the :configuration hash, :preferences, which contains a plist
       <pre class="lines">
 
 
-111
-112
-113</pre>
+116
+117
+118</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 111</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 116</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_display_name'>display_name</span>
   <span class='ivar'>@display_name</span>
@@ -3149,7 +3214,7 @@ one key in the :configuration hash, :preferences, which contains a plist
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns If :host_externally is true, the URL for the app</p>
+<p>Returns If :host_externally is true, the URL for the app.</p>
 
 
   </div>
@@ -3181,12 +3246,12 @@ one key in the :configuration hash, :preferences, which contains a plist
       <pre class="lines">
 
 
-173
-174
-175</pre>
+181
+182
+183</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 173</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 181</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_external_url'>external_url</span>
   <span class='ivar'>@external_url</span>
@@ -3214,7 +3279,7 @@ one key in the :configuration hash, :preferences, which contains a plist
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns is this a free app?</p>
+<p>Returns is this a free app?.</p>
 
 
   </div>
@@ -3246,12 +3311,12 @@ one key in the :configuration hash, :preferences, which contains a plist
       <pre class="lines">
 
 
-162
-163
-164</pre>
+170
+171
+172</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 162</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 170</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_free'>free</span>
   <span class='ivar'>@free</span>
@@ -3275,7 +3340,7 @@ one key in the :configuration hash, :preferences, which contains a plist
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Does the app itself come from outside the JSS?</p>
+<p>Returns Does the app itself come from outside the JSS?.</p>
 
 
   </div>
@@ -3307,12 +3372,12 @@ one key in the :configuration hash, :preferences, which contains a plist
       <pre class="lines">
 
 
-170
-171
-172</pre>
+178
+179
+180</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 170</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 178</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_host_externally'>host_externally</span>
   <span class='ivar'>@host_externally</span>
@@ -3345,7 +3410,7 @@ one key in the :configuration hash, :preferences, which contains a plist
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The icon used in self-service</p>
+<p>Returns The icon used in self-service.</p>
 
 
   </div>
@@ -3397,7 +3462,7 @@ one key in the :configuration hash, :preferences, which contains a plist
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Is this thing available in Self Service?</p>
+<p>Returns Is this thing available in Self Service?.</p>
 
 
   </div>
@@ -3465,12 +3530,12 @@ one key in the :configuration hash, :preferences, which contains a plist
       <pre class="lines">
 
 
-123
-124
-125</pre>
+128
+129
+130</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 123</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 128</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_internal_app'>internal_app</span>
   <span class='ivar'>@internal_app</span>
@@ -3494,7 +3559,7 @@ one key in the :configuration hash, :preferences, which contains a plist
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The .ipa file info</p>
+<p>Returns The .ipa file info.</p>
 
 
   </div>
@@ -3526,12 +3591,12 @@ one key in the :configuration hash, :preferences, which contains a plist
       <pre class="lines">
 
 
-126
-127
-128</pre>
+131
+132
+133</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 126</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 131</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ipa'>ipa</span>
   <span class='ivar'>@ipa</span>
@@ -3555,7 +3620,7 @@ one key in the :configuration hash, :preferences, which contains a plist
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The app&#39;s country/region code in the iTunes store</p>
+<p>Returns The app&#39;s country/region code in the iTunes store.</p>
 
 
   </div>
@@ -3587,12 +3652,12 @@ one key in the :configuration hash, :preferences, which contains a plist
       <pre class="lines">
 
 
-142
-143
-144</pre>
+150
+151
+152</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 142</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 150</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_itunes_country_region'>itunes_country_region</span>
   <span class='ivar'>@itunes_country_region</span>
@@ -3616,7 +3681,7 @@ one key in the :configuration hash, :preferences, which contains a plist
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The URL of this item in the iTunes store, if applicable</p>
+<p>Returns The URL of this item in the iTunes store, if applicable.</p>
 
 
   </div>
@@ -3648,12 +3713,12 @@ one key in the :configuration hash, :preferences, which contains a plist
       <pre class="lines">
 
 
-135
-136
-137</pre>
+143
+144
+145</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 135</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 143</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_itunes_store_url'>itunes_store_url</span>
   <span class='ivar'>@itunes_store_url</span>
@@ -3677,7 +3742,7 @@ one key in the :configuration hash, :preferences, which contains a plist
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The last time the app and data was synced from iTunes (I think)</p>
+<p>Returns The last time the app and data was synced from iTunes (I think).</p>
 
 
   </div>
@@ -3709,12 +3774,12 @@ one key in the :configuration hash, :preferences, which contains a plist
       <pre class="lines">
 
 
-145
-146
-147</pre>
+153
+154
+155</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 145</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 153</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_itunes_sync_time'>itunes_sync_time</span>
   <span class='ivar'>@itunes_sync_time</span>
@@ -3738,7 +3803,7 @@ one key in the :configuration hash, :preferences, which contains a plist
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns should the JSS update the icon and description from the app source?</p>
+<p>Returns should the JSS update the icon and description from the app source?.</p>
 
 
   </div>
@@ -3770,12 +3835,12 @@ one key in the :configuration hash, :preferences, which contains a plist
       <pre class="lines">
 
 
-159
-160
-161</pre>
+167
+168
+169</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 159</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 167</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_keep_description_and_icon_up_to_date'>keep_description_and_icon_up_to_date</span>
   <span class='ivar'>@keep_description_and_icon_up_to_date</span>
@@ -3803,7 +3868,7 @@ one key in the :configuration hash, :preferences, which contains a plist
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Will this still appear in SelfSvc after installation (I think)</p>
+<p>Returns Will this still appear in SelfSvc after installation (I think).</p>
 
 
   </div>
@@ -3835,12 +3900,12 @@ one key in the :configuration hash, :preferences, which contains a plist
       <pre class="lines">
 
 
-138
-139
-140</pre>
+146
+147
+148</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 138</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 146</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_make_available_after_install'>make_available_after_install</span>
   <span class='ivar'>@make_available_after_install</span>
@@ -3869,7 +3934,7 @@ one key in the :configuration hash, :preferences, which contains a plist
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns do we have unsaved changes?</p>
+<p>Returns do we have unsaved changes?.</p>
 
 
   </div>
@@ -3899,6 +3964,67 @@ one key in the :configuration hash, :preferences, which contains a plist
 </div>
     
       
+      <span id="os_type=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="os_type-instance_method">
+  
+    #<strong>os_type</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns Is this an iOS or tvOS app?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Is this an iOS or tvOS app?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+140
+141
+142</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 140</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_os_type'>os_type</span>
+  <span class='ivar'>@os_type</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
       <span id="prevent_backup_of_app_data=-instance_method"></span>
       <div class="method_details ">
   <h3 class="signature " id="prevent_backup_of_app_data-instance_method">
@@ -3912,8 +4038,7 @@ one key in the :configuration hash, :preferences, which contains a plist
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Should this app be able to backup its data when the device does its
-backups (to icloud or itunes)?</p>
+<p>Returns Should this app be able to backup its data when the device does its backups (to icloud or itunes)?.</p>
 
 
   </div>
@@ -3932,8 +4057,7 @@ backups (to icloud or itunes)?</p>
       
         &mdash;
         <div class='inline'>
-<p>Should this app be able to backup its data when the device does its backups
-(to icloud or itunes)?</p>
+<p>Should this app be able to backup its data when the device does its backups (to icloud or itunes)?</p>
 </div>
       
     </li>
@@ -3946,12 +4070,12 @@ backups (to icloud or itunes)?</p>
       <pre class="lines">
 
 
-155
-156
-157</pre>
+163
+164
+165</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 155</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 163</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_prevent_backup_of_app_data'>prevent_backup_of_app_data</span>
   <span class='ivar'>@prevent_backup_of_app_data</span>
@@ -3975,7 +4099,7 @@ backups (to icloud or itunes)?</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The provisioning profile info for this app</p>
+<p>Returns The provisioning profile info for this app.</p>
 
 
   </div>
@@ -4007,12 +4131,12 @@ backups (to icloud or itunes)?</p>
       <pre class="lines">
 
 
-129
-130
-131</pre>
+134
+135
+136</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 129</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 134</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_provisioning_profile'>provisioning_profile</span>
   <span class='ivar'>@provisioning_profile</span>
@@ -4081,7 +4205,7 @@ backups (to icloud or itunes)?</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Should the app be removed when the device is unmanaged?</p>
+<p>Returns Should the app be removed when the device is unmanaged?.</p>
 
 
   </div>
@@ -4113,12 +4237,12 @@ backups (to icloud or itunes)?</p>
       <pre class="lines">
 
 
-151
-152
-153</pre>
+159
+160
+161</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 151</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 159</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_remove_app_when_mdm_profile_is_removed'>remove_app_when_mdm_profile_is_removed</span>
   <span class='ivar'>@remove_app_when_mdm_profile_is_removed</span>
@@ -4186,11 +4310,9 @@ backups (to icloud or itunes)?</p>
 
 <p>Most objects also include one or both of these keys:</p>
 <ul><li>
-<p>:display_in =&gt; [Boolean] should the item be displayed in this category
-in SSvc? (not MobDevConfProfiles)</p>
+<p>:display_in =&gt; [Boolean] should the item be displayed in this category in SSvc? (not MobDevConfProfiles)</p>
 </li><li>
-<p>:feature_in =&gt; [Boolean] should the item be featured in this category in
-SSVC? (macOS targets only)</p>
+<p>:feature_in =&gt; [Boolean] should the item be featured in this category in SSVC? (macOS targets only)</p>
 </li></ul>
 
 
@@ -4239,7 +4361,7 @@ SSVC? (macOS targets only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The verbage that appears in SelfSvc for this item</p>
+<p>Returns The verbage that appears in SelfSvc for this item.</p>
 
 
   </div>
@@ -4387,8 +4509,7 @@ SSVC? (macOS targets only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Should an extra window appear before the user can install the item?
-(OSX SSvc only)</p>
+<p>Returns Should an extra window appear before the user can install the item? (OSX SSvc only).</p>
 
 
   </div>
@@ -4407,8 +4528,7 @@ SSVC? (macOS targets only)</p>
       
         &mdash;
         <div class='inline'>
-<p>Should an extra window appear before the user can install the item? (OSX
-SSvc only)</p>
+<p>Should an extra window appear before the user can install the item? (OSX SSvc only)</p>
 </div>
       
     </li>
@@ -4485,7 +4605,7 @@ SSvc only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The message text of the notification</p>
+<p>Returns The message text of the notification.</p>
 
 
   </div>
@@ -4581,8 +4701,7 @@ SSvc only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns How should notifications be sent either :ssvc_only or
-:ssvc_and_nctr</p>
+<p>Returns How should notifications be sent either :ssvc_only or :ssvc_and_nctr.</p>
 
 
   </div>
@@ -4634,7 +4753,7 @@ SSvc only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Should jamf send notifications to self service?</p>
+<p>Returns Should jamf send notifications to self service?.</p>
 
 
   </div>
@@ -4730,7 +4849,7 @@ SSvc only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns How often (in days) should reminders be given</p>
+<p>Returns How often (in days) should reminders be given.</p>
 
 
   </div>
@@ -4782,8 +4901,7 @@ SSvc only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Should self service give reminders by displaying the notification
-repeatedly?</p>
+<p>Returns Should self service give reminders by displaying the notification repeatedly?.</p>
 
 
   </div>
@@ -4802,8 +4920,7 @@ repeatedly?</p>
       
         &mdash;
         <div class='inline'>
-<p>Should self service give reminders by displaying the notification
-repeatedly?</p>
+<p>Should self service give reminders by displaying the notification repeatedly?</p>
 </div>
       
     </li>
@@ -4880,7 +4997,7 @@ repeatedly?</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns one of the keys in PROFILE_REMOVAL_BY_USER</p>
+<p>Returns one of the keys in PROFILE_REMOVAL_BY_USER.</p>
 
 
   </div>
@@ -4923,8 +5040,7 @@ repeatedly?</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns If the user installs this app on their own, should Jamf take over
-managing it?</p>
+<p>Returns If the user installs this app on their own, should Jamf take over managing it?.</p>
 
 
   </div>
@@ -4943,8 +5059,7 @@ managing it?</p>
       
         &mdash;
         <div class='inline'>
-<p>If the user installs this app on their own, should Jamf take over managing
-it?</p>
+<p>If the user installs this app on their own, should Jamf take over managing it?</p>
 </div>
       
     </li>
@@ -4957,12 +5072,12 @@ it?</p>
       <pre class="lines">
 
 
-167
-168
-169</pre>
+175
+176
+177</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 167</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 175</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_take_over_management'>take_over_management</span>
   <span class='ivar'>@take_over_management</span>
@@ -4982,7 +5097,7 @@ it?</p>
 
   
     <span class="aliases">Also known as:
-    <span class="names"><span id='vpp_total_licenses-instance_method'>vpp_total_licenses</span>, <span id='vpp_license_count-instance_method'>vpp_license_count</span></span>
+    <span class="names"><span id='vpp_licenses_total-instance_method'>vpp_licenses_total</span></span>
     </span>
   
 
@@ -5031,7 +5146,7 @@ it?</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The URL for downloading this app</p>
+<p>Returns The URL for downloading this app.</p>
 
 
   </div>
@@ -5063,12 +5178,12 @@ it?</p>
       <pre class="lines">
 
 
-132
-133
-134</pre>
+137
+138
+139</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 132</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 137</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_url'>url</span>
   <span class='ivar'>@url</span>
@@ -5162,12 +5277,12 @@ it?</p>
       <pre class="lines">
 
 
-120
-121
-122</pre>
+125
+126
+127</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 120</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 125</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_version'>version</span>
   <span class='ivar'>@version</span>
@@ -5185,6 +5300,10 @@ it?</p>
     #<strong>vpp_admin_account_id</strong>  &#x21d2; <tt>Integer</tt>  <span class="extras">(readonly)</span>
   
 
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='vpp_account_id-instance_method'>vpp_account_id</span></span>
+    </span>
   
 
   
@@ -5320,11 +5439,12 @@ it?</p>
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>should this item appear in the SelfSvc page for the category? Only
-meaningful in applicable classes</p>
+<p>should this item appear in the SelfSvc page for the category? Only meaningful in applicable classes</p>
 </div>
       
     </li>
@@ -5337,12 +5457,12 @@ meaningful in applicable classes</p>
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>should this item be featured in the SelfSvc page for the category? Only
-meaningful in applicable classes. NOTE: this will always be false if
-display_in is false.</p>
+<p>should this item be featured in the SelfSvc page for the category? Only meaningful in applicable classes. NOTE: this will always be false if display_in is false.</p>
 </div>
       
     </li>
@@ -5411,8 +5531,7 @@ display_in is false.</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the category of this object. Any of the NON_CATEGORIES values will
-unset the category</p>
+<p>Change the category of this object. Any of the NON_CATEGORIES values will unset the category</p>
 
 
   </div>
@@ -5573,8 +5692,7 @@ unset the category</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The name of the category for this object. For backward compatibility, this
-is aliased to just &#39;category&#39;</p>
+<p>The name of the category for this object. For backward compatibility, this is aliased to just &#39;category&#39;</p>
 
 
   </div>
@@ -5666,8 +5784,7 @@ is aliased to just &#39;category&#39;</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>make a clone of this API object, with a new name. The class must be
-creatable</p>
+<p>make a clone of this API object, with a new name. The class must be creatable</p>
 
 
   </div>
@@ -5700,11 +5817,12 @@ creatable</p>
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to
-instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
 </div>
       
     </li>
@@ -5791,8 +5909,7 @@ instantiate this object</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Given a category name or id, return the name and id TODO: use
-APIObject.exist? and/or APIObject.valid_id</p>
+<p>Given a category name or id, return the name and id TODO: use APIObject.exist? and/or APIObject.valid_id</p>
 
 
   </div>
@@ -5858,8 +5975,7 @@ APIObject.exist? and/or APIObject.valid_id</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the name of this item Remember to #update to push changes to the
-server.</p>
+<p>Change the name of this item Remember to #update to push changes to the server.</p>
 
 
   </div>
@@ -5924,8 +6040,7 @@ server.</p>
   You should avoid using this method if possible, as it may be removed or be changed in the future.
 </p>
 <p class="note returns_void">This method returns an undefined value.</p>
-<p>Call this during initialization of objects that have a scope and the scope
-instance will be created from @init_data</p>
+<p>Call this during initialization of objects that have a scope and the scope instance will be created from @init_data</p>
 
 
   </div>
@@ -5948,8 +6063,7 @@ instance will be created from @init_data</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Remove the various cached data from the instance_variables used to create
-pretty-print (pp) output.</p>
+<p>Remove the various cached data from the instance_variables used to create pretty-print (pp) output.</p>
 
 
   </div>
@@ -5981,14 +6095,14 @@ pretty-print (pp) output.</p>
       <pre class="lines">
 
 
-453
-454
-455
-456
-457</pre>
+494
+495
+496
+497
+498</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 453</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 494</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_pretty_print_instance_variables'>pretty_print_instance_variables</span>
   <span class='id identifier rubyid_vars'>vars</span> <span class='op'>=</span> <span class='kw'>super</span>
@@ -6090,8 +6204,7 @@ pretty-print (pp) output.</p>
     <p class="note returns_void">This method returns an undefined value.</p>
 <p>Save the application to a file.</p>
 
-<p>If the path given is an existing directory, the ipa&#39;s current filename
-will be used, if known.</p>
+<p>If the path given is an existing directory, the ipa&#39;s current filename will be used, if known.</p>
 
 
   </div>
@@ -6156,18 +6269,18 @@ will be used, if known.</p>
       <pre class="lines">
 
 
-425
-426
-427
-428
-429
-430
-431
-432
-433</pre>
+463
+464
+465
+466
+467
+468
+469
+470
+471</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 425</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 463</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_save_ipa'>save_ipa</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_overwrite'>overwrite</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='ivar'>@ipa</span><span class='lbracket'>[</span><span class='symbol'>:data</span><span class='rbracket'>]</span>
@@ -6200,7 +6313,7 @@ will be used, if known.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The url to view this thing in Self Service</p>
+<p>Returns The url to view this thing in Self Service.</p>
 
 
   </div>
@@ -6338,7 +6451,7 @@ will be used, if known.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The url to view this thing in Self Service</p>
+<p>Returns The url to view this thing in Self Service.</p>
 
 
   </div>
@@ -6412,8 +6525,7 @@ will be used, if known.</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the site of this object. Any of the NON_SITES values will unset the
-site</p>
+<p>Change the site of this object. Any of the NON_SITES values will unset the site</p>
 
 
   </div>
@@ -6570,8 +6682,7 @@ site</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The name of the site for this object. For backward compatibility, this is
-aliased to just &#39;site&#39;</p>
+<p>The name of the site for this object. For backward compatibility, this is aliased to just &#39;site&#39;</p>
 
 
   </div>
@@ -6733,7 +6844,7 @@ aliased to just &#39;site&#39;</p>
       <div class="method_details ">
   <h3 class="signature " id="upload-instance_method">
   
-    #<strong>upload</strong>(type, local_file)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+    #<strong>upload</strong>(type, local_file, force_ipa_upload: false)  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -6747,8 +6858,9 @@ aliased to just &#39;site&#39;</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Upload a file to the JSS via the REST Resource of the object to which this
-module is mixed in.</p>
+<p>instance method wrapper for class method</p>
+
+<p>Upload a file to the JSS to be stored with this instance of the class mixing in the Uploadable module</p>
 
 
   </div>
@@ -6768,8 +6880,7 @@ module is mixed in.</p>
       
         &mdash;
         <div class='inline'>
-<p>the type of upload happening. Must be one of the keys defined in the
-class&#39;s UPLOAD_TYPES Hash.</p>
+<p>the type of upload happening. Must be one of the keys defined in the class&#39;s UPLOAD_TYPES Hash.</p>
 </div>
       
     </li>
@@ -6790,6 +6901,24 @@ class&#39;s UPLOAD_TYPES Hash.</p>
       
     </li>
   
+    <li>
+      
+        <span class='name'>force_ipa_upload</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Should the server upload the .ipa file to JCDS or AWS if such are confgured for use?</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 <p class="tag_title">Returns:</p>
@@ -6798,13 +6927,13 @@ class&#39;s UPLOAD_TYPES Hash.</p>
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>The xml response from the server.</p>
+<p>was the  upload successful?</p>
 </div>
       
     </li>
@@ -6830,7 +6959,7 @@ class&#39;s UPLOAD_TYPES Hash.</p>
       <div class="method_details ">
   <h3 class="signature " id="upload_ipa-instance_method">
   
-    #<strong>upload_ipa</strong>(path)  &#x21d2; <tt>void</tt> 
+    #<strong>upload_ipa</strong>(path, force_ipa_upload: false)  &#x21d2; <tt>void</tt> 
   
 
   
@@ -6864,6 +6993,24 @@ class&#39;s UPLOAD_TYPES Hash.</p>
       
     </li>
   
+    <li>
+      
+        <span class='name'>force_ipa_upload</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Should the server upload the .ipa file to JCDS or AWS if such are confgured for use?</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 
@@ -6873,18 +7020,18 @@ class&#39;s UPLOAD_TYPES Hash.</p>
       <pre class="lines">
 
 
-441
-442
-443
-444
-445</pre>
+482
+483
+484
+485
+486</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 441</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mobile_device_application.rb', line 482</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_upload_ipa'>upload_ipa</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_upload_ipa'>upload_ipa</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='label'>force_ipa_upload:</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_new_ipa'>new_ipa</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_path'>path</span>
-  <span class='id identifier rubyid_upload'>upload</span><span class='lparen'>(</span><span class='symbol'>:app</span><span class='comma'>,</span> <span class='id identifier rubyid_new_ipa'>new_ipa</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_upload'>upload</span><span class='lparen'>(</span><span class='symbol'>:app</span><span class='comma'>,</span> <span class='id identifier rubyid_new_ipa'>new_ipa</span><span class='comma'>,</span> <span class='label'>force_ipa_upload:</span> <span class='id identifier rubyid_force_ipa_upload'>force_ipa_upload</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_refresh_ipa'>refresh_ipa</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -6938,14 +7085,64 @@ class&#39;s UPLOAD_TYPES Hash.</p>
 </div>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="vpp_admin_account_name-instance_method">
+  
+    #<strong>vpp_admin_account_name</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='vpp_account_name-instance_method'>vpp_account_name</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="VPPable.html#vpp_admin_account_name-instance_method" title="JSS::VPPable#vpp_admin_account_name (method)">VPPable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The name of the vpp admin acct for this object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The name of the vpp admin acct for this object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
   </div>
 
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:41 2020 by
+  Generated on Wed Feb  2 11:06:01 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

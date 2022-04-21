@@ -6,15 +6,15 @@
 <title>
   Module: JSS::Locatable
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::Locatable";
   relpath = '../';
 </script>
@@ -95,8 +95,7 @@
     
 <p>A mix-in module for handling location/user data for objects in the JSS.</p>
 
-<p>The JSS objects that have location data return it in a :location subset,
-which all have basically the same data,a simple hash with these keys:</p>
+<p>The JSS objects that have location data return it in a :location subset, which all have basically the same data,a simple hash with these keys:</p>
 <ul><li>
 <p>:building =&gt; String,</p>
 </li><li>
@@ -115,12 +114,9 @@ which all have basically the same data,a simple hash with these keys:</p>
 <p>:username =&gt; String</p>
 </li></ul>
 
-<p>Including this module in an <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span> subclass will give it attributes
-matching those keys.</p>
+<p>Including this module in an <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span> subclass will give it attributes matching those keys.</p>
 
-<p>If the subclass is creatable or updatable, calling <span class='object_link'><a href="#location_xml-instance_method" title="JSS::Locatable#location_xml (method)">#location_xml</a></span> returns
-a REXML element representing the location subset, to be included with the
-#rest_xml output of the subclass.</p>
+<p>If the subclass is creatable or updatable, calling <span class='object_link'><a href="#location_xml-instance_method" title="JSS::Locatable#location_xml (method)">#location_xml</a></span> returns a REXML element representing the location subset, to be included with the #rest_xml output of the subclass.</p>
 
 
   </div>
@@ -467,8 +463,7 @@ a REXML element representing the location subset, to be included with the
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Return a REXML &lt;location&gt; element to be included in the rest_xml of
-objects that have a Location subset.</p>
+<p>Return a REXML &lt;location&gt; element to be included in the rest_xml of objects that have a Location subset.</p>
 </div></span>
   
 </li>
@@ -492,9 +487,7 @@ objects that have a Location subset.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Call this during initialization of objects that have a Location subset and
-the location attributes will be populated (as primary attributes) from
-@init_data.</p>
+<p>Call this during initialization of objects that have a Location subset and the location attributes will be populated (as primary attributes) from @init_data.</p>
 </div></span>
   
 </li>
@@ -1019,7 +1012,7 @@ the location attributes will be populated (as primary attributes) from
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Does this item have location data?</p>
+<p>Returns Does this item have location data?.</p>
 
 
   </div>
@@ -1094,8 +1087,7 @@ the location attributes will be populated (as primary attributes) from
     
 <p>All the location data in a Hash, as it comes from the API.</p>
 
-<p>The reason it isn&#39;t stored this way is to prevent editing of the hash
-directly.</p>
+<p>The reason it isn&#39;t stored this way is to prevent editing of the hash directly.</p>
 
 
   </div>
@@ -1176,8 +1168,7 @@ directly.</p>
   You should avoid using this method if possible, as it may be removed or be changed in the future.
 </p>
 
-<p>Return a REXML &lt;location&gt; element to be included in the rest_xml of
-objects that have a Location subset</p>
+<p>Return a REXML &lt;location&gt; element to be included in the rest_xml of objects that have a Location subset</p>
 
 
   </div>
@@ -1249,9 +1240,7 @@ objects that have a Location subset</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Call this during initialization of objects that have a Location subset and
-the location attributes will be populated (as primary attributes) from
-@init_data</p>
+<p>Call this during initialization of objects that have a Location subset and the location attributes will be populated (as primary attributes) from @init_data</p>
 
 
   </div>
@@ -1301,9 +1290,9 @@ the location attributes will be populated (as primary attributes) from
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:23 2020 by
+  Generated on Wed Feb  2 11:05:45 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

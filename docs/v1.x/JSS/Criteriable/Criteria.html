@@ -6,15 +6,15 @@
 <title>
   Class: JSS::Criteriable::Criteria
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::Criteriable::Criteria";
   relpath = '../../';
 </script>
@@ -104,11 +104,9 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>This class stores an array of <span class='object_link'><a href="Criterion.html" title="JSS::Criteriable::Criterion (class)">Criterion</a></span> instances and
-provides methods for working with them as a group.</p>
+<p>This class stores an array of <span class='object_link'><a href="Criterion.html" title="JSS::Criteriable::Criterion (class)">Criterion</a></span> instances and provides methods for working with them as a group.</p>
 
-<p><span class='object_link'><a href="../APIObject.html" title="JSS::APIObject (class)">APIObject</a></span> subclasses that include <span class='object_link'><a href="../Criteriable.html" title="JSS::Criteriable (module)">JSS::Criteriable</a></span> have a
-:criteria attribute which holds one Criteria object.</p>
+<p><span class='object_link'><a href="../APIObject.html" title="JSS::APIObject (class)">APIObject</a></span> subclasses that include <span class='object_link'><a href="../Criteriable.html" title="JSS::Criteriable (module)">JSS::Criteriable</a></span> have a :criteria attribute which holds one Criteria object.</p>
 
 <p>Objects that contain Criteria objects need to</p>
 <ul><li>
@@ -117,8 +115,7 @@ provides methods for working with them as a group.</p>
 <p>implement #should_update, which the Criteria object calls when it changes.</p>
 </li></ul>
 
-<p>Both of those tasks are handled by the <span class='object_link'><a href="../Criteriable.html" title="JSS::Criteriable (module)">JSS::Criteriable</a></span> module and are
-mixed in when it&#39;s included.</p>
+<p>Both of those tasks are handled by the <span class='object_link'><a href="../Criteriable.html" title="JSS::Criteriable (module)">JSS::Criteriable</a></span> module and are mixed in when it&#39;s included.</p>
 
 <p>See <span class='object_link'><a href="../Criteriable.html" title="JSS::Criteriable (module)">JSS::Criteriable</a></span> for examples</p>
 
@@ -212,8 +209,7 @@ mixed in when it&#39;s included.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The group of JSS::Criteriable::Criterion instances making up these
-Criteria.</p>
+<p>The group of JSS::Criteriable::Criterion instances making up these Criteria.</p>
 </div></span>
   
 </li>
@@ -396,8 +392,7 @@ Criteria.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Remove the various cached data from the instance_variables used to create
-pretty-print (pp) output.</p>
+<p>Remove the various cached data from the instance_variables used to create pretty-print (pp) output.</p>
 </div></span>
   
 </li>
@@ -493,7 +488,7 @@ pretty-print (pp) output.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns a new instance of Criteria</p>
+<p>Returns a new instance of Criteria.</p>
 
 
   </div>
@@ -564,7 +559,7 @@ pretty-print (pp) output.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns a reference to the object containing these Criteria</p>
+<p>Returns a reference to the object containing these Criteria.</p>
 
 
   </div>
@@ -625,8 +620,7 @@ pretty-print (pp) output.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the group of JSS::Criteriable::Criterion instances making up these
-Criteria</p>
+<p>Returns the group of JSS::Criteriable::Criterion instances making up these Criteria.</p>
 
 
   </div>
@@ -1023,8 +1017,7 @@ Criteria</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Remove the various cached data from the instance_variables used to create
-pretty-print (pp) output.</p>
+<p>Remove the various cached data from the instance_variables used to create pretty-print (pp) output.</p>
 
 
   </div>
@@ -1094,13 +1087,12 @@ pretty-print (pp) output.</p>
   <div class="note notetag">
     <strong>Note:</strong>
     <div class='inline'>
-<p>This can&#39;t be a private method for this class since container classes
-must call it</p>
+<p>This can&#39;t be a private method for this class since container classes must call it</p>
 </div>
   </div>
 
 
-<p>Returns the xml element for the criteria</p>
+<p>Returns the xml element for the criteria.</p>
 
 
   </div>
@@ -1183,9 +1175,7 @@ must call it</p>
       
         &mdash;
         <div class='inline'>
-<p>the priority/index of the criterion being changed. The index must already
-exist. Otherwise use #append_criterion, #prepend_criterion, or
-#insert_criterion</p>
+<p>the priority/index of the criterion being changed. The index must already exist. Otherwise use #append_criterion, #prepend_criterion, or #insert_criterion</p>
 </div>
       
     </li>
@@ -1297,9 +1287,9 @@ exist. Otherwise use #append_criterion, #prepend_criterion, or
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:27 2020 by
+  Generated on Wed Feb  2 11:05:49 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

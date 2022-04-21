@@ -6,15 +6,15 @@
 <title>
   Class: Jamf::Department
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "Jamf::Department";
   relpath = '../';
 </script>
@@ -95,7 +95,7 @@
   
   <dl>
       <dt>Includes:</dt>
-      <dd><span class='object_link'><a href="ChangeLog.html" title="Jamf::ChangeLog (module)">ChangeLog</a></span>, <span class='object_link'><a href="Referable.html" title="Jamf::Referable (module)">Referable</a></span></dd>
+      <dd><span class='object_link'><a href="ChangeLog.html" title="Jamf::ChangeLog (module)">ChangeLog</a></span></dd>
   </dl>
   
   
@@ -165,14 +165,13 @@
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>delete-departments</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>delete-multiple</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="OBJECT_MODEL-constant" class="">OBJECT_MODEL =
           <div class="docstring">
   <div class="discussion">
     
-<p>Object Model / Attributes See APIObject class documentation for details of
-how the OBJECT_MODEL hash works.</p>
+<p>Object Model / Attributes See APIObject class documentation for details of how the OBJECT_MODEL hash works.</p>
 
 
   </div>
@@ -308,7 +307,7 @@ how the OBJECT_MODEL hash works.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#change_log-instance_method" title="#change_log (instance method)">#<strong>change_log</strong>(refresh = false, cnx: Jamf.cnx)  &#x21d2; Array&lt;Jamf::ChangeHistoryEntry&gt; </a>
+      <a href="#change_log-instance_method" title="#change_log (instance method)">#<strong>change_log</strong>(sort: nil, filter: nil, paged: nil, page_size: nil, refresh: false, cnx: Jamf.cnx)  &#x21d2; Array&lt;Jamf::ChangeLogEntry&gt; </a>
     
 
     
@@ -337,7 +336,7 @@ how the OBJECT_MODEL hash works.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#reference-instance_method" title="#reference (instance method)">#<strong>reference</strong>  &#x21d2; self.class::GenericReference </a>
+      <a href="#change_log_count-instance_method" title="#change_log_count (instance method)">#<strong>change_log_count</strong>(cnx: Jamf.cnx)  &#x21d2; Integer </a>
     
 
     
@@ -345,7 +344,7 @@ how the OBJECT_MODEL hash works.</p>
   
     <span class="note title not_defined_here">
       included
-      from <span class='object_link'><a href="Referable.html#reference-instance_method" title="Jamf::Referable#reference (method)">Referable</a></span>
+      from <span class='object_link'><a href="ChangeLog.html#change_log_count-instance_method" title="Jamf::ChangeLog#change_log_count (method)">ChangeLog</a></span>
     </span>
   
   
@@ -357,7 +356,36 @@ how the OBJECT_MODEL hash works.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>A reference to this object.</p>
+<p>how many change log entries are there? needed when using paged #change_log calls.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#next_page_of_change_log-instance_method" title="#next_page_of_change_log (instance method)">#<strong>next_page_of_change_log</strong>  &#x21d2; Array&lt;Jamf::ChangeHistoryEntry&gt; </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="ChangeLog.html#next_page_of_change_log-instance_method" title="Jamf::ChangeLog#next_page_of_change_log (method)">ChangeLog</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Fetch the next page of a paged #change_log request Returns an empty array if there&#39;s been no paged request or if the last one has no more pages.</p>
 </div></span>
   
 </li>
@@ -367,6 +395,10 @@ how the OBJECT_MODEL hash works.</p>
   
 
 
+  
+  
+  
+  
   
   
   
@@ -431,7 +463,7 @@ how the OBJECT_MODEL hash works.</p>
 </pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/collection_resources/department.rb', line 57</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/collection_resources/department.rb', line 56</span>
 
 </pre>
     </td>
@@ -481,7 +513,7 @@ how the OBJECT_MODEL hash works.</p>
 </pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/collection_resources/department.rb', line 65</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/collection_resources/department.rb', line 64</span>
 
 </pre>
     </td>
@@ -515,8 +547,7 @@ how the OBJECT_MODEL hash works.</p>
     <p class="note returns_void">This method returns an undefined value.</p>
 <p>Add a note to this resource&#39;s change log.</p>
 
-<p>If the change history has been cached already, it is recached after adding
-the note.</p>
+<p>If the change history has been cached already, the cache is flushed after adding the note.</p>
 
 
   </div>
@@ -550,7 +581,7 @@ the note.</p>
       <div class="method_details ">
   <h3 class="signature " id="change_log-instance_method">
   
-    #<strong>change_log</strong>(refresh = false, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;Jamf::ChangeHistoryEntry&gt;</tt> 
+    #<strong>change_log</strong>(sort: nil, filter: nil, paged: nil, page_size: nil, refresh: false, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="ChangeLogEntry.html" title="Jamf::ChangeLogEntry (class)">Jamf::ChangeLogEntry</a></span>&gt;</tt> 
   
 
   
@@ -564,10 +595,11 @@ the note.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The change and note history for this resource.</p>
+<p>The change and note history for this resource. This is a collection of objects as a sub-resource of some primary resource. As such, retriving the change log returns an array of objects, and can be paged, sorted and filtered.</p>
 
-<p>The history is cached internally and only re-fetched when a truthy
-parameter is given.</p>
+<p>This method is very similar to CollectionResource.all, see the docs for that method for more details</p>
+
+<p>successive page.</p>
 
 
   </div>
@@ -575,6 +607,78 @@ parameter is given.</p>
 <div class="tags">
   <p class="tag_title">Parameters:</p>
 <ul class="param">
+  
+    <li>
+      
+        <span class='name'>sort</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Server-side sorting criteria in the format: property:direction, where direction is &#39;asc&#39; or &#39;desc&#39;. Multiple properties are supported, either as separate strings in an Array, or a single string, comma separated.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>filter</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An RSQL filter string. Not all change_log resources currently support filters, and if they don&#39;t, this will be ignored.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>paged</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Defaults to false. Returns only the first page of `page_size` log entries. Use <span class='object_link'><a href="ChangeLog.html#next_page_of_change_log-instance_method" title="Jamf::ChangeLog#next_page_of_change_log (method)">#next_page_of_change_log</a></span> to retrieve each</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>page_size</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>How many log entries are returned per page? Minimum is 1, maximum is 2000, default is 100. Ignored unless paged: is truthy. Note: the final page may contain fewer entries than the page_size</p>
+</div>
+      
+    </li>
   
     <li>
       
@@ -589,7 +693,25 @@ parameter is given.</p>
       
         &mdash;
         <div class='inline'>
-<p>re-fetch and re-cache the history</p>
+<p>re-fetch and re-cache the full list of all entries. Ignored if paged:, page_size:, sort:, or filter: are used.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use, default: Jamf.cnx. If this is an instance of a Collection Resource, this is always the connection from which it was fetched.</p>
 </div>
       
     </li>
@@ -602,13 +724,13 @@ parameter is given.</p>
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;Jamf::ChangeHistoryEntry&gt;</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="ChangeLogEntry.html" title="Jamf::ChangeLogEntry (class)">Jamf::ChangeLogEntry</a></span>&gt;</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>The change and note history for this resource</p>
+<p>The change log entries requested</p>
 </div>
       
     </li>
@@ -619,9 +741,9 @@ parameter is given.</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="reference-instance_method">
+  <h3 class="signature " id="change_log_count-instance_method">
   
-    #<strong>reference</strong>  &#x21d2; <tt>self.class::GenericReference</tt> 
+    #<strong>change_log_count</strong>(cnx: Jamf.cnx)  &#x21d2; <tt>Integer</tt> 
   
 
   
@@ -629,13 +751,81 @@ parameter is given.</p>
   
     <span class="not_defined_here">
       Originally defined in module
-        <span class='object_link'><a href="Referable.html#reference-instance_method" title="Jamf::Referable#reference (method)">Referable</a></span>
+        <span class='object_link'><a href="ChangeLog.html#change_log_count-instance_method" title="Jamf::ChangeLog#change_log_count (method)">ChangeLog</a></span>
     </span>
   
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns A reference to this object.</p>
+<p>how many change log entries are there? needed when using paged #change_log calls</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The API connection to use, default: Jamf.cnx This is ignored for instances of Collection Resources, which always use the same connection from which they were fetched.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>How many changelog entries exist?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="next_page_of_change_log-instance_method">
+  
+    #<strong>next_page_of_change_log</strong>  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;Jamf::ChangeHistoryEntry&gt;</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="ChangeLog.html#next_page_of_change_log-instance_method" title="Jamf::ChangeLog#next_page_of_change_log (method)">ChangeLog</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Fetch the next page of a paged #change_log request Returns an empty array if there&#39;s been no paged request or if the last one has no more pages.</p>
 
 
   </div>
@@ -648,13 +838,13 @@ parameter is given.</p>
     <li>
       
       
-        <span class='type'>(<tt>self.class::GenericReference</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;Jamf::ChangeHistoryEntry&gt;</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>A reference to this object.</p>
+<p>The next page of the change and note history for this resource</p>
 </div>
       
     </li>
@@ -669,9 +859,9 @@ parameter is given.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:58 2020 by
+  Generated on Wed Feb  2 11:06:17 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

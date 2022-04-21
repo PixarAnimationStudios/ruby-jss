@@ -6,15 +6,15 @@
 <title>
   Module: JSS::MDM::ClassMethods
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::MDM::ClassMethods";
   relpath = '../../';
 </script>
@@ -86,10 +86,7 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>See <a
-href="https://codereview.stackexchange.com/questions/23637/mixin-both-instance-and-class-methods-in-ruby">codereview.stackexchange.com/questions/23637/mixin-both-instance-and-class-methods-in-ruby</a>
-for discussion of this technique for mixing in both Class and Instance
-methods when including a module.</p>
+<p>See <a href="https://codereview.stackexchange.com/questions/23637/mixin-both-instance-and-class-methods-in-ruby">codereview.stackexchange.com/questions/23637/mixin-both-instance-and-class-methods-in-ruby</a> for discussion of this technique for mixing in both Class and Instance methods when including a module.</p>
 
 
   </div>
@@ -361,6 +358,30 @@ methods when including a module.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#disable_remote_desktop-instance_method" title="#disable_remote_desktop (instance method)">#<strong>disable_remote_desktop</strong>(targets, api: JSS.api)  &#x21d2; Hash{Integer=&gt;String} </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send a disable_remote_desktop command to one or more targets.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#disable_voice_roaming-instance_method" title="#disable_voice_roaming (instance method)">#<strong>disable_voice_roaming</strong>(targets, api: JSS.api)  &#x21d2; Hash{Integer=&gt;String} </a>
     
 
@@ -481,6 +502,30 @@ methods when including a module.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#enable_remote_desktop-instance_method" title="#enable_remote_desktop (instance method)">#<strong>enable_remote_desktop</strong>(targets, api: JSS.api)  &#x21d2; Hash{Integer=&gt;String} </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send an enable_remote_desktop command to one or more targets.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#enable_voice_roaming-instance_method" title="#enable_voice_roaming (instance method)">#<strong>enable_voice_roaming</strong>(targets, api: JSS.api)  &#x21d2; Hash{Integer=&gt;String} </a>
     
 
@@ -570,8 +615,7 @@ methods when including a module.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Generate the XML to send to the API, sending the MDM command to the
-targets.</p>
+<p>Generate the XML to send to the API, sending the MDM command to the targets.</p>
 </div></span>
   
 </li>
@@ -643,8 +687,7 @@ targets.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Convert the result of senting a computer MDM command into the appropriate
-hash.</p>
+<p>Convert the result of senting a computer MDM command into the appropriate hash.</p>
 </div></span>
   
 </li>
@@ -668,8 +711,7 @@ hash.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Convert the result of senting a device MDM command into the appropriate
-hash.</p>
+<p>Convert the result of senting a device MDM command into the appropriate hash.</p>
 </div></span>
   
 </li>
@@ -693,8 +735,7 @@ hash.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Convert the targets provided for sending a command into the final list of
-computers or mobile devices.</p>
+<p>Convert the targets provided for sending a command into the final list of computers or mobile devices.</p>
 </div></span>
   
 </li>
@@ -894,8 +935,7 @@ computers or mobile devices.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Validate that this command is known and can be sent to this kind of object,
-raising an error if not.</p>
+<p>Validate that this command is known and can be sent to this kind of object, raising an error if not.</p>
 </div></span>
   
 </li>
@@ -985,6 +1025,8 @@ raising an error if not.</p>
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -1020,12 +1062,12 @@ raising an error if not.</p>
       <pre class="lines">
 
 
-552
-553
-554</pre>
+558
+559
+560</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 552</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 558</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_blank_push'>blank_push</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_send_mdm_command'>send_mdm_command</span> <span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='symbol'>:blank_push</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
@@ -1080,6 +1122,8 @@ raising an error if not.</p>
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -1104,18 +1148,12 @@ raising an error if not.</p>
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid
-can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last
-device to have the command sent to it. (even in the Database, not just in
-the API). So instead, the Hash value is the status of the command for that
-device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always
-&#39;Command sent&#39; (an error will be raised if there are problems
-sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
 </div>
       
     </li>
@@ -1128,12 +1166,12 @@ sending)</p>
       <pre class="lines">
 
 
-685
-686
-687</pre>
+715
+716
+717</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 685</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 715</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_clear_passcode'>clear_passcode</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_send_mdm_command'>send_mdm_command</span> <span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='symbol'>:clear_passcode</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
@@ -1188,6 +1226,8 @@ sending)</p>
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -1212,18 +1252,12 @@ sending)</p>
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid
-can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last
-device to have the command sent to it. (even in the Database, not just in
-the API). So instead, the Hash value is the status of the command for that
-device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always
-&#39;Command sent&#39; (an error will be raised if there are problems
-sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
 </div>
       
     </li>
@@ -1236,12 +1270,12 @@ sending)</p>
       <pre class="lines">
 
 
-697
-698
-699</pre>
+727
+728
+729</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 697</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 727</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_clear_restrictions_password'>clear_restrictions_password</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_send_mdm_command'>send_mdm_command</span> <span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='symbol'>:clear_restrictions_password</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
@@ -1312,6 +1346,8 @@ sending)</p>
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -1336,18 +1372,12 @@ sending)</p>
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid
-can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last
-device to have the command sent to it. (even in the Database, not just in
-the API). So instead, the Hash value is the status of the command for that
-device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always
-&#39;Command sent&#39; (an error will be raised if there are problems
-sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
 </div>
       
     </li>
@@ -1360,12 +1390,12 @@ sending)</p>
       <pre class="lines">
 
 
-657
-658
-659</pre>
+663
+664
+665</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 657</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 663</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_delete_user'>delete_user</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='id identifier rubyid_user'>user</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_send_mdm_command'>send_mdm_command</span> <span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='symbol'>:delete_user</span><span class='comma'>,</span> <span class='label'>opts:</span> <span class='lbrace'>{</span> <span class='label'>user_name:</span> <span class='id identifier rubyid_user'>user</span> <span class='rbrace'>}</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
@@ -1424,6 +1454,8 @@ sending)</p>
         <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>&#39;&#39;</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -1440,6 +1472,8 @@ sending)</p>
         <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -1455,6 +1489,8 @@ sending)</p>
       
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
       
       
         &mdash;
@@ -1480,18 +1516,12 @@ sending)</p>
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid
-can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last
-device to have the command sent to it. (even in the Database, not just in
-the API). So instead, the Hash value is the status of the command for that
-device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always
-&#39;Command sent&#39; (an error will be raised if there are problems
-sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
 </div>
       
     </li>
@@ -1504,20 +1534,20 @@ sending)</p>
       <pre class="lines">
 
 
-570
-571
-572
-573
-574
-575
 576
 577
 578
 579
-580</pre>
+580
+581
+582
+583
+584
+585
+586</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 570</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 576</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_device_lock'>device_lock</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='label'>passcode:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>message:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='kw'>self</span><span class='op'>::</span><span class='const'>MDM_COMMAND_TARGET</span>
@@ -1600,6 +1630,8 @@ sending)</p>
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -1624,18 +1656,12 @@ sending)</p>
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid
-can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last
-device to have the command sent to it. (even in the Database, not just in
-the API). So instead, the Hash value is the status of the command for that
-device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always
-&#39;Command sent&#39; (an error will be raised if there are problems
-sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
 </div>
       
     </li>
@@ -1648,12 +1674,12 @@ sending)</p>
       <pre class="lines">
 
 
-762
-763
-764</pre>
+792
+793
+794</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 762</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 792</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_device_name'>device_name</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_send_mdm_command'>send_mdm_command</span> <span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='symbol'>:device_name</span><span class='comma'>,</span> <span class='label'>opts:</span> <span class='lbrace'>{</span> <span class='label'>device_name:</span> <span class='id identifier rubyid_name'>name</span> <span class='rbrace'>}</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
@@ -1708,6 +1734,8 @@ sending)</p>
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -1732,18 +1760,12 @@ sending)</p>
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid
-can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last
-device to have the command sent to it. (even in the Database, not just in
-the API). So instead, the Hash value is the status of the command for that
-device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always
-&#39;Command sent&#39; (an error will be raised if there are problems
-sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
 </div>
       
     </li>
@@ -1756,12 +1778,12 @@ sending)</p>
       <pre class="lines">
 
 
-865
-866
-867</pre>
+895
+896
+897</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 865</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 895</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_disable_app_analytics'>disable_app_analytics</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_send_mdm_command'>send_mdm_command</span> <span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='symbol'>:disable_app_analytics</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
@@ -1816,6 +1838,8 @@ sending)</p>
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -1840,18 +1864,12 @@ sending)</p>
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid
-can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last
-device to have the command sent to it. (even in the Database, not just in
-the API). So instead, the Hash value is the status of the command for that
-device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always
-&#39;Command sent&#39; (an error will be raised if there are problems
-sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
 </div>
       
     </li>
@@ -1864,12 +1882,12 @@ sending)</p>
       <pre class="lines">
 
 
-721
-722
-723</pre>
+751
+752
+753</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 721</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 751</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_disable_data_roaming'>disable_data_roaming</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_send_mdm_command'>send_mdm_command</span> <span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='symbol'>:disable_data_roaming</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
@@ -1924,6 +1942,8 @@ sending)</p>
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -1948,18 +1968,12 @@ sending)</p>
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid
-can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last
-device to have the command sent to it. (even in the Database, not just in
-the API). So instead, the Hash value is the status of the command for that
-device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always
-&#39;Command sent&#39; (an error will be raised if there are problems
-sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
 </div>
       
     </li>
@@ -1972,12 +1986,12 @@ sending)</p>
       <pre class="lines">
 
 
-889
-890
-891</pre>
+919
+920
+921</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 889</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 919</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_disable_diagnostic_submission'>disable_diagnostic_submission</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_send_mdm_command'>send_mdm_command</span> <span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='symbol'>:disable_diagnostic_submission</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
@@ -2032,6 +2046,8 @@ sending)</p>
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -2056,18 +2072,12 @@ sending)</p>
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid
-can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last
-device to have the command sent to it. (even in the Database, not just in
-the API). So instead, the Hash value is the status of the command for that
-device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always
-&#39;Command sent&#39; (an error will be raised if there are problems
-sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
 </div>
       
     </li>
@@ -2080,15 +2090,119 @@ sending)</p>
       <pre class="lines">
 
 
-952
-953
-954</pre>
+982
+983
+984</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 952</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 982</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_disable_lost_mode'>disable_lost_mode</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_send_mdm_command'>send_mdm_command</span> <span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='symbol'>:disable_lost_mode</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="disable_remote_desktop-instance_method">
+  
+    #<strong>disable_remote_desktop</strong>(targets, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../../Hash.html" title="Hash (class)">Hash</a></span>{Integer=&gt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>}</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send a disable_remote_desktop command to one or more targets</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>targets</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>, <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>,Integer&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>@see .send_mdm_command</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the API thru which to send the command</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Hash.html" title="Hash (class)">Hash</a></span>{Integer=&gt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>}</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Keys are the target device ids. Values depend on the kind of target:</p>
+<ul><li>
+<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
+</li><li>
+<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
+</li></ul>
+
+<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+687
+688
+689</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 687</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_disable_remote_desktop'>disable_remote_desktop</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_send_mdm_command'>send_mdm_command</span> <span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='symbol'>:disable_remote_desktop</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2140,6 +2254,8 @@ sending)</p>
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -2164,18 +2280,12 @@ sending)</p>
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid
-can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last
-device to have the command sent to it. (even in the Database, not just in
-the API). So instead, the Hash value is the status of the command for that
-device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always
-&#39;Command sent&#39; (an error will be raised if there are problems
-sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
 </div>
       
     </li>
@@ -2188,12 +2298,12 @@ sending)</p>
       <pre class="lines">
 
 
-745
-746
-747</pre>
+775
+776
+777</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 745</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 775</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_disable_voice_roaming'>disable_voice_roaming</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_send_mdm_command'>send_mdm_command</span> <span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='symbol'>:disable_voice_roaming</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
@@ -2248,6 +2358,8 @@ sending)</p>
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -2272,18 +2384,12 @@ sending)</p>
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid
-can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last
-device to have the command sent to it. (even in the Database, not just in
-the API). So instead, the Hash value is the status of the command for that
-device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always
-&#39;Command sent&#39; (an error will be raised if there are problems
-sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
 </div>
       
     </li>
@@ -2296,12 +2402,12 @@ sending)</p>
       <pre class="lines">
 
 
-853
-854
-855</pre>
+883
+884
+885</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 853</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 883</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_enable_app_analytics'>enable_app_analytics</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_send_mdm_command'>send_mdm_command</span> <span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='symbol'>:enable_app_analytics</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
@@ -2356,6 +2462,8 @@ sending)</p>
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -2380,18 +2488,12 @@ sending)</p>
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid
-can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last
-device to have the command sent to it. (even in the Database, not just in
-the API). So instead, the Hash value is the status of the command for that
-device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always
-&#39;Command sent&#39; (an error will be raised if there are problems
-sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
 </div>
       
     </li>
@@ -2404,12 +2506,12 @@ sending)</p>
       <pre class="lines">
 
 
-709
-710
-711</pre>
+739
+740
+741</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 709</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 739</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_enable_data_roaming'>enable_data_roaming</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_send_mdm_command'>send_mdm_command</span> <span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='symbol'>:enable_data_roaming</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
@@ -2464,6 +2566,8 @@ sending)</p>
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -2488,18 +2592,12 @@ sending)</p>
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid
-can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last
-device to have the command sent to it. (even in the Database, not just in
-the API). So instead, the Hash value is the status of the command for that
-device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always
-&#39;Command sent&#39; (an error will be raised if there are problems
-sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
 </div>
       
     </li>
@@ -2512,12 +2610,12 @@ sending)</p>
       <pre class="lines">
 
 
-877
-878
-879</pre>
+907
+908
+909</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 877</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 907</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_enable_diagnostic_submission'>enable_diagnostic_submission</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_send_mdm_command'>send_mdm_command</span> <span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='symbol'>:enable_diagnostic_submission</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
@@ -2574,6 +2672,8 @@ sending)</p>
         <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -2589,6 +2689,8 @@ sending)</p>
       
         <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
       
       
         &mdash;
@@ -2606,6 +2708,8 @@ sending)</p>
         <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -2621,6 +2725,8 @@ sending)</p>
       
         <span class='type'>(<tt>Boolean</tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
       
       
         &mdash;
@@ -2638,6 +2744,8 @@ sending)</p>
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -2653,6 +2761,8 @@ sending)</p>
       
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
       
       
         &mdash;
@@ -2678,18 +2788,12 @@ sending)</p>
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid
-can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last
-device to have the command sent to it. (even in the Database, not just in
-the API). So instead, the Hash value is the status of the command for that
-device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always
-&#39;Command sent&#39; (an error will be raised if there are problems
-sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
 </div>
       
     </li>
@@ -2715,27 +2819,27 @@ sending)</p>
       <pre class="lines">
 
 
-913
-914
-915
-916
-917
-918
-919
-920
-921
-922
-923
-924
-925
-926
-927
-928
-929
-930</pre>
+943
+944
+945
+946
+947
+948
+949
+950
+951
+952
+953
+954
+955
+956
+957
+958
+959
+960</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 913</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 943</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_enable_lost_mode'>enable_lost_mode</span><span class='lparen'>(</span>
       <span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span>
@@ -2754,6 +2858,110 @@ sending)</p>
   <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:lost_mode_with_sound</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>true</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_play_sound'>play_sound</span>
 
   <span class='id identifier rubyid_send_mdm_command'>send_mdm_command</span> <span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='symbol'>:enable_lost_mode</span><span class='comma'>,</span> <span class='label'>opts:</span> <span class='id identifier rubyid_opts'>opts</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="enable_remote_desktop-instance_method">
+  
+    #<strong>enable_remote_desktop</strong>(targets, api: JSS.api)  &#x21d2; <tt><span class='object_link'><a href="../../Hash.html" title="Hash (class)">Hash</a></span>{Integer=&gt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>}</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send an enable_remote_desktop command to one or more targets</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>targets</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>, <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>,Integer&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>@see .send_mdm_command</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>api</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the API thru which to send the command</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Hash.html" title="Hash (class)">Hash</a></span>{Integer=&gt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>}</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Keys are the target device ids. Values depend on the kind of target:</p>
+<ul><li>
+<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
+</li><li>
+<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
+</li></ul>
+
+<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+675
+676
+677</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 675</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_enable_remote_desktop'>enable_remote_desktop</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_send_mdm_command'>send_mdm_command</span> <span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='symbol'>:enable_remote_desktop</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2805,6 +3013,8 @@ sending)</p>
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -2829,18 +3039,12 @@ sending)</p>
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid
-can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last
-device to have the command sent to it. (even in the Database, not just in
-the API). So instead, the Hash value is the status of the command for that
-device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always
-&#39;Command sent&#39; (an error will be raised if there are problems
-sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
 </div>
       
     </li>
@@ -2853,12 +3057,12 @@ sending)</p>
       <pre class="lines">
 
 
-733
-734
-735</pre>
+763
+764
+765</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 733</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 763</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_enable_voice_roaming'>enable_voice_roaming</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_send_mdm_command'>send_mdm_command</span> <span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='symbol'>:enable_voice_roaming</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
@@ -2917,6 +3121,8 @@ sending)</p>
         <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>&#39;&#39;</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -2933,6 +3139,8 @@ sending)</p>
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -2948,6 +3156,8 @@ sending)</p>
       
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
       
       
         &mdash;
@@ -2973,18 +3183,12 @@ sending)</p>
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid
-can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last
-device to have the command sent to it. (even in the Database, not just in
-the API). So instead, the Hash value is the status of the command for that
-device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always
-&#39;Command sent&#39; (an error will be raised if there are problems
-sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
 </div>
       
     </li>
@@ -2997,20 +3201,20 @@ sending)</p>
       <pre class="lines">
 
 
-596
-597
-598
-599
-600
-601
 602
 603
 604
 605
-606</pre>
+606
+607
+608
+609
+610
+611
+612</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 596</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 602</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_erase_device'>erase_device</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='label'>passcode:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>preserve_data_plan:</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='kw'>self</span><span class='op'>::</span><span class='const'>MDM_COMMAND_TARGET</span>
@@ -3060,10 +3264,7 @@ sending)</p>
       
         &mdash;
         <div class='inline'>
-<p>the name or id of the device or group to flush commands, or an array of
-such names or ids, or a comma-separated string of them. NOTE: when calling
-this on a Group class, the targets are the groups themselves, not the
-individual members.</p>
+<p>the name or id of the device or group to flush commands, or an array of such names or ids, or a comma-separated string of them. NOTE: when calling this on a Group class, the targets are the groups themselves, not the individual members.</p>
 </div>
       
     </li>
@@ -3075,6 +3276,8 @@ individual members.</p>
       
         <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
       
       
         &mdash;
@@ -3092,11 +3295,12 @@ individual members.</p>
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>an API connection to use. Defaults to the corrently active API. See
-<span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
+<p>an API connection to use. Defaults to the corrently active API. See <span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
 </div>
       
     </li>
@@ -3123,24 +3327,24 @@ individual members.</p>
       <pre class="lines">
 
 
-974
-975
-976
-977
-978
-979
-980
-981
-982
-983
-984
-985
-986
-987
-988</pre>
+1004
+1005
+1006
+1007
+1008
+1009
+1010
+1011
+1012
+1013
+1014
+1015
+1016
+1017
+1018</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 974</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 1004</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_flush_mdm_commands'>flush_mdm_commands</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='label'>status:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Status must be one of :</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="../MDM.html#FLUSHABLE_STATUSES-constant" title="JSS::MDM::FLUSHABLE_STATUSES (constant)">FLUSHABLE_STATUSES</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, :</span><span class='tstring_end'>&#39;</span></span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="../MDM.html#FLUSHABLE_STATUSES-constant" title="JSS::MDM::FLUSHABLE_STATUSES (constant)">FLUSHABLE_STATUSES</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_status'>status</span>
@@ -3271,12 +3475,6 @@ individual members.</p>
       <pre class="lines">
 
 
-479
-480
-481
-482
-483
-484
 485
 486
 487
@@ -3303,10 +3501,16 @@ individual members.</p>
 508
 509
 510
-511</pre>
+511
+512
+513
+514
+515
+516
+517</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 479</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 485</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_mdm_command_xml'>mdm_command_xml</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='comma'>,</span> <span class='id identifier rubyid_targets'>targets</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../MissingDataError.html" title="JSS::MissingDataError (class)">MissingDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Targets cannot be empty</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_targets'>targets</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -3407,6 +3611,8 @@ individual members.</p>
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -3431,18 +3637,12 @@ individual members.</p>
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid
-can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last
-device to have the command sent to it. (even in the Database, not just in
-the API). So instead, the Hash value is the status of the command for that
-device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always
-&#39;Command sent&#39; (an error will be raised if there are problems
-sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
 </div>
       
     </li>
@@ -3455,12 +3655,12 @@ sending)</p>
       <pre class="lines">
 
 
-813
-814
-815</pre>
+843
+844
+845</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 813</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 843</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_passcode_lock_grace_period'>passcode_lock_grace_period</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='id identifier rubyid_secs'>secs</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_send_mdm_command'>send_mdm_command</span> <span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='symbol'>:passcode_lock_grace_period</span><span class='comma'>,</span> <span class='label'>opts:</span> <span class='lbrace'>{</span> <span class='label'>passcode_lock_grace_period:</span> <span class='id identifier rubyid_secs'>secs</span> <span class='rbrace'>}</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
@@ -3515,6 +3715,8 @@ sending)</p>
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -3539,18 +3741,12 @@ sending)</p>
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid
-can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last
-device to have the command sent to it. (even in the Database, not just in
-the API). So instead, the Hash value is the status of the command for that
-device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always
-&#39;Command sent&#39; (an error will be raised if there are problems
-sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
 </div>
       
     </li>
@@ -3563,12 +3759,12 @@ sending)</p>
       <pre class="lines">
 
 
-940
-941
-942</pre>
+970
+971
+972</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 940</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 970</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_play_lost_mode_sound'>play_lost_mode_sound</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_send_mdm_command'>send_mdm_command</span> <span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='symbol'>:play_lost_mode_sound</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
@@ -3590,8 +3786,7 @@ sending)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Convert the result of senting a computer MDM command into the appropriate
-hash</p>
+<p>Convert the result of senting a computer MDM command into the appropriate hash</p>
 
 
   </div>
@@ -3632,18 +3827,12 @@ hash</p>
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid
-can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last
-device to have the command sent to it. (even in the Database, not just in
-the API). So instead, the Hash value is the status of the command for that
-device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always
-&#39;Command sent&#39; (an error will be raised if there are problems
-sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
 </div>
       
     </li>
@@ -3656,18 +3845,18 @@ sending)</p>
       <pre class="lines">
 
 
-383
-384
-385
-386
-387
-388
 389
 390
-391</pre>
+391
+392
+393
+394
+395
+396
+397</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 383</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 389</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_process_computer_xml_result'>process_computer_xml_result</span><span class='lparen'>(</span><span class='id identifier rubyid_result'>result</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_hash'>hash</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -3695,8 +3884,7 @@ sending)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Convert the result of senting a device MDM command into the appropriate
-hash</p>
+<p>Convert the result of senting a device MDM command into the appropriate hash</p>
 
 
   </div>
@@ -3737,18 +3925,12 @@ hash</p>
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid
-can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last
-device to have the command sent to it. (even in the Database, not just in
-the API). So instead, the Hash value is the status of the command for that
-device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always
-&#39;Command sent&#39; (an error will be raised if there are problems
-sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
 </div>
       
     </li>
@@ -3761,19 +3943,19 @@ sending)</p>
       <pre class="lines">
 
 
-400
-401
-402
-403
-404
-405
 406
 407
 408
-409</pre>
+409
+410
+411
+412
+413
+414
+415</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 400</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 406</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_process_mobiledevice_xml_result'>process_mobiledevice_xml_result</span><span class='lparen'>(</span><span class='id identifier rubyid_result'>result</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_hash'>hash</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -3802,8 +3984,7 @@ sending)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Convert the targets provided for sending a command into the final list of
-computers or mobile devices.</p>
+<p>Convert the targets provided for sending a command into the final list of computers or mobile devices.</p>
 
 
   </div>
@@ -3836,6 +4017,8 @@ computers or mobile devices.</p>
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -3851,6 +4034,8 @@ computers or mobile devices.</p>
       
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
       
       
         &mdash;
@@ -3887,12 +4072,6 @@ computers or mobile devices.</p>
       <pre class="lines">
 
 
-437
-438
-439
-440
-441
-442
 443
 444
 445
@@ -3916,10 +4095,16 @@ computers or mobile devices.</p>
 463
 464
 465
-466</pre>
+466
+467
+468
+469
+470
+471
+472</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 437</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 443</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_raw_targets_to_ids'>raw_targets_to_ids</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='comma'>,</span> <span class='label'>expand_groups:</span> <span class='kw'>true</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_targets'>targets</span> <span class='op'>=</span> <span class='id identifier rubyid_targets'>targets</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span></span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_targets'>targets</span> <span class='op'>:</span> <span class='lbracket'>[</span><span class='id identifier rubyid_targets'>targets</span><span class='rbracket'>]</span>
@@ -4005,6 +4190,8 @@ computers or mobile devices.</p>
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -4029,18 +4216,12 @@ computers or mobile devices.</p>
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid
-can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last
-device to have the command sent to it. (even in the Database, not just in
-the API). So instead, the Hash value is the status of the command for that
-device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always
-&#39;Command sent&#39; (an error will be raised if there are problems
-sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
 </div>
       
     </li>
@@ -4053,12 +4234,12 @@ sending)</p>
       <pre class="lines">
 
 
-840
-841
-842</pre>
+870
+871
+872</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 840</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 870</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_restart_device'>restart_device</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_send_mdm_command'>send_mdm_command</span> <span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='symbol'>:restart_device</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
@@ -4112,19 +4293,19 @@ sending)</p>
       <pre class="lines">
 
 
-415
-416
-417
-418
-419
-420
 421
 422
 423
-424</pre>
+424
+425
+426
+427
+428
+429
+430</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 415</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 421</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_send_command_rsrc'>send_command_rsrc</span>
   <span class='kw'>case</span> <span class='kw'>self</span><span class='op'>::</span><span class='const'>MDM_COMMAND_TARGET</span>
@@ -4155,12 +4336,9 @@ sending)</p>
     
 <p>Send an MDM command to one or more targets without instantiating them.</p>
 
-<p>This general class method, and all the specific ones that all it, have
-matching instance methods. Use the class method when you don&#39;t have, or
-don&#39;t want to retrieve, instances of all the targets.</p>
+<p>This general class method, and all the specific ones that all it, have matching instance methods. Use the class method when you don&#39;t have, or don&#39;t want to retrieve, instances of all the targets.</p>
 
-<p>If you do have an instance or a target, call the matching instance method
-to send commands to that specific target.</p>
+<p>If you do have an instance or a target, call the matching instance method to send commands to that specific target.</p>
 
 
   </div>
@@ -4211,10 +4389,7 @@ to send commands to that specific target.</p>
       
         &mdash;
         <div class='inline'>
-<p>the name or id of the device(s), or devicegroup(s) to receive the command,
-or an array of such names or ids. NOTE: when calling this on a Group class,
-the targets are the groups themselves, not the individual members - the
-membership will be expanded.</p>
+<p>the name or id of the device(s), or devicegroup(s) to receive the command, or an array of such names or ids. NOTE: when calling this on a Group class, the targets are the groups themselves, not the individual members - the membership will be expanded.</p>
 </div>
       
     </li>
@@ -4243,6 +4418,8 @@ membership will be expanded.</p>
         <span class='type'>(<tt><span class='object_link'><a href="../../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -4259,11 +4436,12 @@ membership will be expanded.</p>
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>the API connection to use. Defaults to the currently active API, see
-<span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
+<p>the API connection to use. Defaults to the currently active API, see <span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
 </div>
       
     </li>
@@ -4284,18 +4462,12 @@ membership will be expanded.</p>
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid
-can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last
-device to have the command sent to it. (even in the Database, not just in
-the API). So instead, the Hash value is the status of the command for that
-device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always
-&#39;Command sent&#39; (an error will be raised if there are problems
-sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
 </div>
       
     </li>
@@ -4308,12 +4480,6 @@ sending)</p>
       <pre class="lines">
 
 
-347
-348
-349
-350
-351
-352
 353
 354
 355
@@ -4335,10 +4501,16 @@ sending)</p>
 371
 372
 373
-374</pre>
+374
+375
+376
+377
+378
+379
+380</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 347</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 353</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_send_mdm_command'>send_mdm_command</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='label'>opts:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='id identifier rubyid_validate_command'>validate_command</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='rparen'>)</span>
@@ -4422,6 +4594,8 @@ sending)</p>
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -4446,18 +4620,12 @@ sending)</p>
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid
-can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last
-device to have the command sent to it. (even in the Database, not just in
-the API). So instead, the Hash value is the status of the command for that
-device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always
-&#39;Command sent&#39; (an error will be raised if there are problems
-sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
 </div>
       
     </li>
@@ -4470,12 +4638,12 @@ sending)</p>
       <pre class="lines">
 
 
-825
-826
-827</pre>
+855
+856
+857</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 825</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 855</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_shut_down_device'>shut_down_device</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_send_mdm_command'>send_mdm_command</span> <span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='symbol'>:shut_down_device</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
@@ -4546,6 +4714,8 @@ sending)</p>
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -4570,18 +4740,12 @@ sending)</p>
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid
-can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last
-device to have the command sent to it. (even in the Database, not just in
-the API). So instead, the Hash value is the status of the command for that
-device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always
-&#39;Command sent&#39; (an error will be raised if there are problems
-sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
 </div>
       
     </li>
@@ -4594,12 +4758,12 @@ sending)</p>
       <pre class="lines">
 
 
-643
-644
-645</pre>
+649
+650
+651</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 643</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 649</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unlock_user_account'>unlock_user_account</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='id identifier rubyid_user'>user</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_send_mdm_command'>send_mdm_command</span> <span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='symbol'>:unlock_user_account</span><span class='comma'>,</span> <span class='label'>opts:</span> <span class='lbrace'>{</span> <span class='label'>user_name:</span> <span class='id identifier rubyid_user'>user</span> <span class='rbrace'>}</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
@@ -4627,10 +4791,7 @@ sending)</p>
     
 <p>Send an Unmanage Device command to one or more targets</p>
 
-<p>NOTE: when used with computers, the mdm profile will probably be
-re-installed immediately unless the computer is also no longer managed by
-Jamf Pro itself. To fully unmanage a computer, use the
-<span class='object_link'><a href="../Computer.html#make_unmanaged-instance_method" title="JSS::Computer#make_unmanaged (method)">Computer#make_unmanaged</a></span> instance method.</p>
+<p>NOTE: when used with computers, the mdm profile will probably be re-installed immediately unless the computer is also no longer managed by Jamf Pro itself. To fully unmanage a computer, use the <span class='object_link'><a href="../Computer.html#make_unmanaged-instance_method" title="JSS::Computer#make_unmanaged (method)">Computer#make_unmanaged</a></span> instance method.</p>
 
 
   </div>
@@ -4663,6 +4824,8 @@ Jamf Pro itself. To fully unmanage a computer, use the
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -4687,18 +4850,12 @@ Jamf Pro itself. To fully unmanage a computer, use the
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid
-can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last
-device to have the command sent to it. (even in the Database, not just in
-the API). So instead, the Hash value is the status of the command for that
-device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always
-&#39;Command sent&#39; (an error will be raised if there are problems
-sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
 </div>
       
     </li>
@@ -4711,12 +4868,12 @@ sending)</p>
       <pre class="lines">
 
 
-625
-626
-627</pre>
+631
+632
+633</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 625</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 631</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unmanage_device'>unmanage_device</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_send_mdm_command'>send_mdm_command</span> <span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='symbol'>:unmanage_device</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
@@ -4775,6 +4932,8 @@ sending)</p>
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -4799,18 +4958,12 @@ sending)</p>
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid
-can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last
-device to have the command sent to it. (even in the Database, not just in
-the API). So instead, the Hash value is the status of the command for that
-device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always
-&#39;Command sent&#39; (an error will be raised if there are problems
-sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
 </div>
       
     </li>
@@ -4823,12 +4976,12 @@ sending)</p>
       <pre class="lines">
 
 
-672
-673
-674</pre>
+702
+703
+704</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 672</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 702</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_update_inventory'>update_inventory</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_send_mdm_command'>send_mdm_command</span> <span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='symbol'>:update_inventory</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span>
@@ -4850,8 +5003,7 @@ sending)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Validate that this command is known and can be sent to this kind of object,
-raising an error if not.</p>
+<p>Validate that this command is known and can be sent to this kind of object, raising an error if not.</p>
 
 
   </div>
@@ -4916,12 +5068,6 @@ raising an error if not.</p>
       <pre class="lines">
 
 
-520
-521
-522
-523
-524
-525
 526
 527
 528
@@ -4931,10 +5077,16 @@ raising an error if not.</p>
 532
 533
 534
-535</pre>
+535
+536
+537
+538
+539
+540
+541</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 520</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 526</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_validate_command'>validate_command</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Unknown command &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_command'>command</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="../MDM.html#COMMANDS-constant" title="JSS::MDM::COMMANDS (constant)">COMMANDS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_command'>command</span>
@@ -5006,6 +5158,8 @@ raising an error if not.</p>
         <span class='type'>(<tt>Symbol</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -5022,11 +5176,12 @@ raising an error if not.</p>
         <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>The local path to a .png or .jpg to use as the walpaper image, required if
-no wallpaper_id</p>
+<p>The local path to a .png or .jpg to use as the walpaper image, required if no wallpaper_id</p>
 </div>
       
     </li>
@@ -5039,11 +5194,12 @@ no wallpaper_id</p>
         <span class='type'>(<tt>Symbol</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>The id of an Icon in Jamf Pro to use as the wallpaper image, required if no
-wallpaper_content</p>
+<p>The id of an Icon in Jamf Pro to use as the wallpaper image, required if no wallpaper_content</p>
 </div>
       
     </li>
@@ -5055,6 +5211,8 @@ wallpaper_content</p>
       
         <span class='type'>(<tt><span class='object_link'><a href="../APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
       
       
         &mdash;
@@ -5080,18 +5238,12 @@ wallpaper_content</p>
         <div class='inline'>
 <p>Keys are the target device ids. Values depend on the kind of target:</p>
 <ul><li>
-<p>Computers will have the udid of the command sent to that computer. The udid
-can be used to later retrieve info about the command.</p>
+<p>Computers will have the udid of the command sent to that computer. The udid can be used to later retrieve info about the command.</p>
 </li><li>
-<p>Mobile Devices seem to only have one command udid returned - for the last
-device to have the command sent to it. (even in the Database, not just in
-the API). So instead, the Hash value is the status of the command for that
-device, most often &#39;Command sent&#39;</p>
+<p>Mobile Devices seem to only have one command udid returned - for the last device to have the command sent to it. (even in the Database, not just in the API). So instead, the Hash value is the status of the command for that device, most often &#39;Command sent&#39;</p>
 </li></ul>
 
-<p>Blank pushes do not generate return values, so Hash values are always
-&#39;Command sent&#39; (an error will be raised if there are problems
-sending)</p>
+<p>Blank pushes do not generate return values, so Hash values are always &#39;Command sent&#39; (an error will be raised if there are problems sending)</p>
 </div>
       
     </li>
@@ -5117,26 +5269,26 @@ sending)</p>
       <pre class="lines">
 
 
-784
-785
-786
-787
-788
-789
-790
-791
-792
-793
-794
-795
-796
-797
-798
-799
-800</pre>
+814
+815
+816
+817
+818
+819
+820
+821
+822
+823
+824
+825
+826
+827
+828
+829
+830</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 784</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mdm.rb', line 814</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_wallpaper'>wallpaper</span><span class='lparen'>(</span><span class='id identifier rubyid_targets'>targets</span><span class='comma'>,</span> <span class='label'>wallpaper_setting:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>wallpaper_content:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>wallpaper_id:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>wallpaper_setting must be one of: :</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="../MDM.html#WALLPAPER_LOCATIONS-constant" title="JSS::MDM::WALLPAPER_LOCATIONS (constant)">WALLPAPER_LOCATIONS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, :</span><span class='tstring_end'>&#39;</span></span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="../MDM.html#WALLPAPER_LOCATIONS-constant" title="JSS::MDM::WALLPAPER_LOCATIONS (constant)">WALLPAPER_LOCATIONS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_wallpaper_setting'>wallpaper_setting</span>
@@ -5165,9 +5317,9 @@ sending)</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:26 2020 by
+  Generated on Wed Feb  2 11:05:48 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

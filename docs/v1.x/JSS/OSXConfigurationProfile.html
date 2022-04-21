@@ -6,15 +6,15 @@
 <title>
   Class: JSS::OSXConfigurationProfile
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::OSXConfigurationProfile";
   relpath = '../';
 </script>
@@ -110,8 +110,7 @@
     
 <p>An OS X Configuration Profile in the JSS.</p>
 
-<p>Note that the profile payloads and the profile UUID cannot be edited or
-updated with this via this class. Use the web UI.</p>
+<p>Note that the profile payloads and the profile UUID cannot be edited or updated with this via this class. Use the web UI.</p>
 
 
   </div>
@@ -171,8 +170,7 @@ updated with this via this class. Use the web UI.</p>
           <div class="docstring">
   <div class="discussion">
     
-<p>The hash key used for the JSON object output. It&#39;s also used in various
-error messages</p>
+<p>The hash key used for the JSON object output. It&#39;s also used in various error messages</p>
 
 
   </div>
@@ -230,14 +228,13 @@ error messages</p>
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='qwords_beg'>%w[</span><span class='tstring_content'>user</span><span class='words_sep'> </span><span class='tstring_content'>computer</span><span class='words_sep'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+        <dd><pre class="code"><span class='qwords_beg'>%w[</span><span class='tstring_content'>user</span><span class='words_sep'> </span><span class='tstring_content'>computer</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="OBJECT_HISTORY_OBJECT_TYPE-constant" class="">OBJECT_HISTORY_OBJECT_TYPE =
           <div class="docstring">
   <div class="discussion">
     
-<p>the object type for this object in the object history table. See
-<span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
+<p>the object type for this object in the object history table. See <span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
 
 
   </div>
@@ -449,8 +446,7 @@ error messages</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Each Hash has these keys about the category - :id =&gt; [Integer] the JSS
-id of the category - :name =&gt; [String] the name of the category.</p>
+<p>Each Hash has these keys about the category - :id =&gt; [Integer] the JSS id of the category - :name =&gt; [String] the name of the category.</p>
 </div></span>
   
 </li>
@@ -580,8 +576,7 @@ id of the category - :name =&gt; [String] the name of the category.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Should an extra window appear before the user can install the item? (OSX
-SSvc only).</p>
+<p>Should an extra window appear before the user can install the item? (OSX SSvc only).</p>
 </div></span>
   
 </li>
@@ -841,8 +836,7 @@ SSvc only).</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Should self service give reminders by displaying the notification
-repeatedly?.</p>
+<p>Should self service give reminders by displaying the notification repeatedly?.</p>
 </div></span>
   
 </li>
@@ -1046,7 +1040,7 @@ repeatedly?.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The icon used in self-service</p>
+<p>Returns The icon used in self-service.</p>
 
 
   </div>
@@ -1098,7 +1092,7 @@ repeatedly?.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Is this thing available in Self Service?</p>
+<p>Returns Is this thing available in Self Service?.</p>
 
 
   </div>
@@ -1141,7 +1135,7 @@ repeatedly?.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the level (user/computer) of this profile</p>
+<p>Returns the level (user/computer) of this profile.</p>
 
 
   </div>
@@ -1207,7 +1201,7 @@ repeatedly?.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns do we have unsaved changes?</p>
+<p>Returns do we have unsaved changes?.</p>
 
 
   </div>
@@ -1294,11 +1288,9 @@ repeatedly?.</p>
 
 <p>Most objects also include one or both of these keys:</p>
 <ul><li>
-<p>:display_in =&gt; [Boolean] should the item be displayed in this category
-in SSvc? (not MobDevConfProfiles)</p>
+<p>:display_in =&gt; [Boolean] should the item be displayed in this category in SSvc? (not MobDevConfProfiles)</p>
 </li><li>
-<p>:feature_in =&gt; [Boolean] should the item be featured in this category in
-SSVC? (macOS targets only)</p>
+<p>:feature_in =&gt; [Boolean] should the item be featured in this category in SSVC? (macOS targets only)</p>
 </li></ul>
 
 
@@ -1347,7 +1339,7 @@ SSVC? (macOS targets only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The verbage that appears in SelfSvc for this item</p>
+<p>Returns The verbage that appears in SelfSvc for this item.</p>
 
 
   </div>
@@ -1495,8 +1487,7 @@ SSVC? (macOS targets only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Should an extra window appear before the user can install the item?
-(OSX SSvc only)</p>
+<p>Returns Should an extra window appear before the user can install the item? (OSX SSvc only).</p>
 
 
   </div>
@@ -1515,8 +1506,7 @@ SSVC? (macOS targets only)</p>
       
         &mdash;
         <div class='inline'>
-<p>Should an extra window appear before the user can install the item? (OSX
-SSvc only)</p>
+<p>Should an extra window appear before the user can install the item? (OSX SSvc only)</p>
 </div>
       
     </li>
@@ -1593,7 +1583,7 @@ SSvc only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The message text of the notification</p>
+<p>Returns The message text of the notification.</p>
 
 
   </div>
@@ -1689,8 +1679,7 @@ SSvc only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns How should notifications be sent either :ssvc_only or
-:ssvc_and_nctr</p>
+<p>Returns How should notifications be sent either :ssvc_only or :ssvc_and_nctr.</p>
 
 
   </div>
@@ -1742,7 +1731,7 @@ SSvc only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Should jamf send notifications to self service?</p>
+<p>Returns Should jamf send notifications to self service?.</p>
 
 
   </div>
@@ -1838,7 +1827,7 @@ SSvc only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns How often (in days) should reminders be given</p>
+<p>Returns How often (in days) should reminders be given.</p>
 
 
   </div>
@@ -1890,8 +1879,7 @@ SSvc only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Should self service give reminders by displaying the notification
-repeatedly?</p>
+<p>Returns Should self service give reminders by displaying the notification repeatedly?.</p>
 
 
   </div>
@@ -1910,8 +1898,7 @@ repeatedly?</p>
       
         &mdash;
         <div class='inline'>
-<p>Should self service give reminders by displaying the notification
-repeatedly?</p>
+<p>Should self service give reminders by displaying the notification repeatedly?</p>
 </div>
       
     </li>
@@ -1988,7 +1975,7 @@ repeatedly?</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns one of the keys in PROFILE_REMOVAL_BY_USER</p>
+<p>Returns one of the keys in PROFILE_REMOVAL_BY_USER.</p>
 
 
   </div>
@@ -2023,9 +2010,9 @@ repeatedly?</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:35 2020 by
+  Generated on Wed Feb  2 11:05:55 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

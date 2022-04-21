@@ -6,15 +6,15 @@
 <title>
   Class: JSS::Package
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::Package";
   relpath = '../';
 </script>
@@ -113,8 +113,7 @@
     
 <p>A Package in the JSS</p>
 
-<p>Also the API provides no access to the package&#39;s file list (index), so
-indexing must be done separately (usually via Casper Admin)</p>
+<p>Also the API provides no access to the package&#39;s file list (index), so indexing must be done separately (usually via Casper Admin)</p>
 
 
   </div>
@@ -167,8 +166,7 @@ indexing must be done separately (usually via Casper Admin)</p>
           <div class="docstring">
   <div class="discussion">
     
-<p>The hash key used for the JSON object output. It&#39;s also used in various
-error messages</p>
+<p>The hash key used for the JSON object output. It&#39;s also used in various error messages</p>
 
 
   </div>
@@ -210,7 +208,7 @@ error messages</p>
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='qwords_beg'>%w[</span><span class='tstring_content'>None</span><span class='words_sep'> </span><span class='tstring_content'>x86</span><span class='words_sep'> </span><span class='tstring_content'>ppc</span><span class='words_sep'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+        <dd><pre class="code"><span class='qwords_beg'>%w[</span><span class='tstring_content'>None</span><span class='words_sep'> </span><span class='tstring_content'>x86</span><span class='words_sep'> </span><span class='tstring_content'>ppc</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="PRIORITIES-constant" class="">PRIORITIES =
           <div class="docstring">
@@ -328,8 +326,7 @@ error messages</p>
           <div class="docstring">
   <div class="discussion">
     
-<p>Mapping of the hash types to the maching Digest modules See
-<span class='object_link'><a href="#calculate_checksum-instance_method" title="JSS::Package#calculate_checksum (method)">#calculate_checksum</a></span></p>
+<p>Mapping of the hash types to the maching Digest modules See <span class='object_link'><a href="#calculate_checksum-instance_method" title="JSS::Package#calculate_checksum (method)">#calculate_checksum</a></span></p>
 
 
   </div>
@@ -353,8 +350,7 @@ error messages</p>
           <div class="docstring">
   <div class="discussion">
     
-<p>the object type for this object in the object history table. See
-<span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
+<p>the object type for this object in the object history table. See <span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
 
 
   </div>
@@ -513,9 +509,7 @@ error messages</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>@ @return [Symbol] The checksum hash type used to generate the checksum
-value,  either :md5 or :sha512, defaults to :sha512 if there is no checksum
-yet.</p>
+<p>@ @return [Symbol] The checksum hash type used to generate the checksum value,  either :md5 or :sha512, defaults to :sha512 if there is no checksum yet.</p>
 </div></span>
   
 </li>
@@ -627,8 +621,7 @@ yet.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The info field for this pkg - stores d3&#39;s basename &amp; swupdate
-values.</p>
+<p>The info field for this pkg - stores d3&#39;s basename &amp; swupdate values.</p>
 </div></span>
   
 </li>
@@ -657,8 +650,7 @@ values.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Only install this pkg if it&#39;s available in the commandline
-softwareupdate.</p>
+<p>Only install this pkg if it&#39;s available in the commandline softwareupdate.</p>
 </div></span>
   
 </li>
@@ -862,8 +854,7 @@ softwareupdate.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Limit installation to these architectures: &#39;x86&#39;,  &#39;ppc&#39;,
-&#39;None&#39;.</p>
+<p>Limit installation to these architectures: &#39;x86&#39;,  &#39;ppc&#39;, &#39;None&#39;.</p>
 </div></span>
   
 </li>
@@ -919,8 +910,7 @@ softwareupdate.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The name of a pkg to install (or “Do Not Install”) when this pkg can&#39;t
-be installed.</p>
+<p>The name of a pkg to install (or “Do Not Install”) when this pkg can&#39;t be installed.</p>
 </div></span>
   
 </li>
@@ -981,8 +971,7 @@ be installed.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>A Hash of all dist-point filenames used by all JSS packages, keyed by
-package name or id.</p>
+<p>A Hash of all dist-point filenames used by all JSS packages, keyed by package name or id.</p>
 </div></span>
   
 </li>
@@ -1006,8 +995,7 @@ package name or id.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Given a file path, and hash type, generate the checksum for an arbitrary
-file.</p>
+<p>Given a file path, and hash type, generate the checksum for an arbitrary file.</p>
 </div></span>
   
 </li>
@@ -1053,8 +1041,7 @@ file.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>An array of String filenames for all filenames in any JSS::Package that
-don&#39;t exist on DIST_POINT_PKGS_FOLDER.</p>
+<p>An array of String filenames for all filenames in any JSS::Package that don&#39;t exist on DIST_POINT_PKGS_FOLDER.</p>
 </div></span>
   
 </li>
@@ -1078,8 +1065,7 @@ don&#39;t exist on DIST_POINT_PKGS_FOLDER.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>An array of String filenames for all files DIST_POINT_PKGS_FOLDER that
-aren&#39;t used by a JSS::Package.</p>
+<p>An array of String filenames for all files DIST_POINT_PKGS_FOLDER that aren&#39;t used by a JSS::Package.</p>
 </div></span>
   
 </li>
@@ -1112,8 +1098,7 @@ aren&#39;t used by a JSS::Package.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Caclulate and return the checksum hash for a given local file, or the file
-on the master dist point if no local file is given.</p>
+<p>Caclulate and return the checksum hash for a given local file, or the file on the master dist point if no local file is given.</p>
 </div></span>
   
 </li>
@@ -1368,8 +1353,7 @@ on the master dist point if no local file is given.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Delete this package from the JSS, optionally deleting the master dist point
-file also.</p>
+<p>Delete this package from the JSS, optionally deleting the master dist point file also.</p>
 </div></span>
   
 </li>
@@ -1422,8 +1406,7 @@ file also.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Given a category name or id, return the name and id TODO: use
-APIObject.exist? and/or APIObject.valid_id.</p>
+<p>Given a category name or id, return the name and id TODO: use APIObject.exist? and/or APIObject.valid_id.</p>
 </div></span>
   
 </li>
@@ -1473,8 +1456,7 @@ APIObject.exist? and/or APIObject.valid_id.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Install this package via the jamf binary &#39;install&#39; command from the
-distribution point for this machine.</p>
+<p>Install this package via the jamf binary &#39;install&#39; command from the distribution point for this machine.</p>
 </div></span>
   
 </li>
@@ -1498,9 +1480,7 @@ distribution point for this machine.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Is this packaged installed on the current machine (via casper)? We just
-look for the receipt, which is the @filename less any possible .zip
-extension.</p>
+<p>Is this packaged installed on the current machine (via casper)? We just look for the receipt, which is the @filename less any possible .zip extension.</p>
 </div></span>
   
 </li>
@@ -1529,8 +1509,7 @@ extension.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Change the name of this item Remember to #update to push changes to the
-server.</p>
+<p>Change the name of this item Remember to #update to push changes to the server.</p>
 </div></span>
   
 </li>
@@ -1788,7 +1767,7 @@ server.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns a new instance of Package</p>
+<p>Returns a new instance of Package.</p>
 
 
   </div>
@@ -1899,7 +1878,7 @@ server.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns can this item be uninstalled? Some, e.g. OS Updates, can&#39;t</p>
+<p>Returns can this item be uninstalled? Some, e.g. OS Updates, can&#39;t.</p>
 
 
   </div>
@@ -1964,7 +1943,7 @@ server.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns should this pkg be installed on the boot volume during imaging</p>
+<p>Returns should this pkg be installed on the boot volume during imaging.</p>
 
 
   </div>
@@ -2025,8 +2004,7 @@ server.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the checksum value for the package file on the dist. point, if
-it&#39;s been calculated.</p>
+<p>Returns the checksum value for the package file on the dist. point, if it&#39;s been calculated.</p>
 
 
   </div>
@@ -2045,8 +2023,7 @@ it&#39;s been calculated.</p>
       
         &mdash;
         <div class='inline'>
-<p>the checksum value for the package file on the dist. point, if it&#39;s
-been calculated.</p>
+<p>the checksum value for the package file on the dist. point, if it&#39;s been calculated.</p>
 </div>
       
     </li>
@@ -2088,10 +2065,10 @@ been calculated.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>@ @return [Symbol] The checksum hash type used to generate the checksum
-value,</p>
+<p>@ @return [Symbol] The checksum hash type used to generate the checksum value,</p>
 
-<pre class="code ruby"><code class="ruby">either :md5 or :sha512, defaults to :sha512 if there is no checksum yet.</code></pre>
+<pre class="code ruby"><code class="ruby">either :md5 or :sha512, defaults to :sha512 if there is no checksum yet.
+</code></pre>
 
 
   </div>
@@ -2134,7 +2111,7 @@ value,</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the filename of the .pkg, .mpkg, or .dmg on the Casper server</p>
+<p>Returns the filename of the .pkg, .mpkg, or .dmg on the Casper server.</p>
 
 
   </div>
@@ -2199,7 +2176,7 @@ value,</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns does this item &#39;Fill Existing Users&#39; when jamf installs it?</p>
+<p>Returns does this item &#39;Fill Existing Users&#39; when jamf installs it?.</p>
 
 
   </div>
@@ -2264,7 +2241,7 @@ value,</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns does this pkg also get install in the OS user homedir template</p>
+<p>Returns does this pkg also get install in the OS user homedir template.</p>
 
 
   </div>
@@ -2325,8 +2302,7 @@ value,</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the info field for this pkg - stores d3&#39;s basename &amp;
-swupdate values</p>
+<p>Returns the info field for this pkg - stores d3&#39;s basename &amp; swupdate values.</p>
 
 
   </div>
@@ -2345,8 +2321,7 @@ swupdate values</p>
       
         &mdash;
         <div class='inline'>
-<p>the info field for this pkg - stores d3&#39;s basename &amp; swupdate
-values</p>
+<p>the info field for this pkg - stores d3&#39;s basename &amp; swupdate values</p>
 </div>
       
     </li>
@@ -2392,8 +2367,7 @@ values</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns only install this pkg if it&#39;s available in the commandline
-softwareupdate.</p>
+<p>Returns only install this pkg if it&#39;s available in the commandline softwareupdate.</p>
 
 
   </div>
@@ -2412,8 +2386,7 @@ softwareupdate.</p>
       
         &mdash;
         <div class='inline'>
-<p>only install this pkg if it&#39;s available in the commandline
-softwareupdate.</p>
+<p>only install this pkg if it&#39;s available in the commandline softwareupdate.</p>
 </div>
       
     </li>
@@ -2460,7 +2433,7 @@ softwareupdate.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns do we have unsaved changes?</p>
+<p>Returns do we have unsaved changes?.</p>
 
 
   </div>
@@ -2503,7 +2476,7 @@ softwareupdate.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the notes field for this pkg</p>
+<p>Returns the notes field for this pkg.</p>
 
 
   </div>
@@ -2568,8 +2541,7 @@ softwareupdate.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the OS versions this can be installed onto. For all minor versions,
-the format is 10.5.x</p>
+<p>Returns the OS versions this can be installed onto. For all minor versions, the format is 10.5.x.</p>
 
 
   </div>
@@ -2588,8 +2560,7 @@ the format is 10.5.x</p>
       
         &mdash;
         <div class='inline'>
-<p>the OS versions this can be installed onto. For all minor versions, the
-format is 10.5.x</p>
+<p>the OS versions this can be installed onto. For all minor versions, the format is 10.5.x</p>
 </div>
       
     </li>
@@ -2631,7 +2602,7 @@ format is 10.5.x</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Priority to use for deploying or uninstalling the package</p>
+<p>Returns Priority to use for deploying or uninstalling the package.</p>
 
 
   </div>
@@ -2696,7 +2667,7 @@ format is 10.5.x</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns does this item require a reboot after installation?</p>
+<p>Returns does this item require a reboot after installation?.</p>
 
 
   </div>
@@ -2757,7 +2728,7 @@ format is 10.5.x</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the local receipt when this pkg is installed</p>
+<p>Returns the local receipt when this pkg is installed.</p>
 
 
   </div>
@@ -2822,8 +2793,7 @@ format is 10.5.x</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns limit installation to these architectures: &#39;x86&#39;, 
-&#39;ppc&#39;, &#39;None&#39;</p>
+<p>Returns limit installation to these architectures: &#39;x86&#39;,  &#39;ppc&#39;, &#39;None&#39;.</p>
 
 
   </div>
@@ -2842,8 +2812,7 @@ format is 10.5.x</p>
       
         &mdash;
         <div class='inline'>
-<p>limit installation to these architectures: &#39;x86&#39;,  &#39;ppc&#39;,
-&#39;None&#39;</p>
+<p>limit installation to these architectures: &#39;x86&#39;,  &#39;ppc&#39;, &#39;None&#39;</p>
 </div>
       
     </li>
@@ -2889,7 +2858,7 @@ format is 10.5.x</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns does this pkg cause a notification to be sent on self-heal?</p>
+<p>Returns does this pkg cause a notification to be sent on self-heal?.</p>
 
 
   </div>
@@ -2950,8 +2919,7 @@ format is 10.5.x</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the name of a pkg to install (or “Do Not Install”) when this pkg
-can&#39;t be installed</p>
+<p>Returns the name of a pkg to install (or “Do Not Install”) when this pkg can&#39;t be installed.</p>
 
 
   </div>
@@ -2970,8 +2938,7 @@ can&#39;t be installed</p>
       
         &mdash;
         <div class='inline'>
-<p>the name of a pkg to install (or “Do Not Install”) when this pkg can&#39;t
-be installed</p>
+<p>the name of a pkg to install (or “Do Not Install”) when this pkg can&#39;t be installed</p>
 </div>
       
     </li>
@@ -3037,11 +3004,12 @@ be installed</p>
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>an API connection to use Defaults to the corrently active API. See
-<span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
+<p>an API connection to use Defaults to the corrently active API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
 </div>
       
     </li>
@@ -3100,8 +3068,7 @@ be installed</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>A Hash of all dist-point filenames used by all JSS packages, keyed by
-package name or id</p>
+<p>A Hash of all dist-point filenames used by all JSS packages, keyed by package name or id</p>
 
 <p>Slow cuz we have to instantiate every pkg</p>
 
@@ -3136,11 +3103,12 @@ package name or id</p>
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>an API connection to use Defaults to the corrently active API. See
-<span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
+<p>an API connection to use Defaults to the corrently active API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
 </div>
       
     </li>
@@ -3201,7 +3169,7 @@ package name or id</p>
       <pre class="code"><span class="info file"># File 'lib/jss/api_object/package.rb', line 139</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_all_filenames_by'>all_filenames_by</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_api'><span class='object_link'><a href="../JSS.html#api-class_method" title="JSS.api (method)">api</a></span></span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>key must be :id or :name</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>id</span><span class='words_sep'> </span><span class='tstring_content'>name</span><span class='words_sep'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_key'>key</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>key must be :id or :name</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>id</span><span class='words_sep'> </span><span class='tstring_content'>name</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_key'>key</span>
 
   <span class='id identifier rubyid_files_in_use'>files_in_use</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='id identifier rubyid_all_ids'>all_ids</span><span class='lparen'>(</span><span class='symbol'>:refresh</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_pkg_id'>pkg_id</span><span class='op'>|</span>
@@ -3228,8 +3196,7 @@ package name or id</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Given a file path, and hash type, generate the checksum for an arbitrary
-file.</p>
+<p>Given a file path, and hash type, generate the checksum for an arbitrary file.</p>
 
 
   </div>
@@ -3267,8 +3234,7 @@ file.</p>
       
         &mdash;
         <div class='inline'>
-<p>One of the keys of CHECKSUM_HASH_TYPES, either CHECKSUM_HASH_TYPE_MD5 or
-CHECKSUM_HASH_TYPE_SHA512</p>
+<p>One of the keys of CHECKSUM_HASH_TYPES, either CHECKSUM_HASH_TYPE_MD5 or CHECKSUM_HASH_TYPE_SHA512</p>
 </div>
       
     </li>
@@ -3360,8 +3326,7 @@ CHECKSUM_HASH_TYPE_SHA512</p>
       
         &mdash;
         <div class='inline'>
-<p>the name or id of the distribution point to use. Defaults to the Master
-Dist. Point</p>
+<p>the name or id of the distribution point to use. Defaults to the Master Dist. Point</p>
 </div>
       
     </li>
@@ -3423,8 +3388,7 @@ Dist. Point</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>An array of String filenames for all filenames in any JSS::Package that
-don&#39;t exist on DIST_POINT_PKGS_FOLDER</p>
+<p>An array of String filenames for all filenames in any JSS::Package that don&#39;t exist on DIST_POINT_PKGS_FOLDER</p>
 
 <p>Slow cuz we have to instantiate every pkg</p>
 
@@ -3477,11 +3441,12 @@ don&#39;t exist on DIST_POINT_PKGS_FOLDER</p>
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>an API connection to use Defaults to the corrently active API. See
-<span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
+<p>an API connection to use Defaults to the corrently active API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
 </div>
       
     </li>
@@ -3494,11 +3459,12 @@ don&#39;t exist on DIST_POINT_PKGS_FOLDER</p>
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>the name or id of the distribution point to use. Defaults to the Master
-Dist. Point</p>
+<p>the name or id of the distribution point to use. Defaults to the Master Dist. Point</p>
 </div>
       
     </li>
@@ -3565,8 +3531,7 @@ Dist. Point</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>An array of String filenames for all files DIST_POINT_PKGS_FOLDER that
-aren&#39;t used by a JSS::Package</p>
+<p>An array of String filenames for all files DIST_POINT_PKGS_FOLDER that aren&#39;t used by a JSS::Package</p>
 
 <p>Slow cuz we have to instantiate every pkg</p>
 
@@ -3619,11 +3584,12 @@ aren&#39;t used by a JSS::Package</p>
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>an API connection to use Defaults to the corrently active API. See
-<span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
+<p>an API connection to use Defaults to the corrently active API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
 </div>
       
     </li>
@@ -3636,11 +3602,12 @@ aren&#39;t used by a JSS::Package</p>
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>the name or id of the distribution point to use. Defaults to the Master
-Dist. Point</p>
+<p>the name or id of the distribution point to use. Defaults to the Master Dist. Point</p>
 </div>
       
     </li>
@@ -3713,8 +3680,7 @@ Dist. Point</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Caclulate and return the checksum hash for a given local file, or the file
-on the master dist point if no local file is given.</p>
+<p>Caclulate and return the checksum hash for a given local file, or the file on the master dist point if no local file is given.</p>
 
 
   </div>
@@ -3730,6 +3696,8 @@ on the master dist point if no local file is given.</p>
       
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
       
       
         &mdash;
@@ -3747,12 +3715,12 @@ on the master dist point if no local file is given.</p>
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>A local copy of the pkg file. BE SURE it&#39;s identical to the one on the
-server. If omitted, the master dist. point will be mounted and the file
-read from there.</p>
+<p>A local copy of the pkg file. BE SURE it&#39;s identical to the one on the server. If omitted, the master dist. point will be mounted and the file read from there.</p>
 </div>
       
     </li>
@@ -3765,11 +3733,12 @@ read from there.</p>
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>The read-write password for mounting the master dist point. Either this or
-the ro_pw must be provided if no local_file</p>
+<p>The read-write password for mounting the master dist point. Either this or the ro_pw must be provided if no local_file</p>
 </div>
       
     </li>
@@ -3782,11 +3751,12 @@ the ro_pw must be provided if no local_file</p>
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>The read-onlypassword for mounting the master dist point. Either this or
-the rw_pw must be provided if no local_file</p>
+<p>The read-onlypassword for mounting the master dist point. Either this or the rw_pw must be provided if no local_file</p>
 </div>
       
     </li>
@@ -3799,11 +3769,12 @@ the rw_pw must be provided if no local_file</p>
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>Unmount the master dist point after using it. Only used if the dist point
-is mounted. default: true</p>
+<p>Unmount the master dist point after using it. Only used if the dist point is mounted. default: true</p>
 </div>
       
     </li>
@@ -3816,11 +3787,12 @@ is mounted. default: true</p>
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>the name or id of the distribution point to use. Defaults to the Master
-Dist. Point</p>
+<p>the name or id of the distribution point to use. Defaults to the Master Dist. Point</p>
 </div>
       
     </li>
@@ -3922,8 +3894,7 @@ Dist. Point</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the category of this object. Any of the NON_CATEGORIES values will
-unset the category</p>
+<p>Change the category of this object. Any of the NON_CATEGORIES values will unset the category</p>
 
 
   </div>
@@ -4084,8 +4055,7 @@ unset the category</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The name of the category for this object. For backward compatibility, this
-is aliased to just &#39;category&#39;</p>
+<p>The name of the category for this object. For backward compatibility, this is aliased to just &#39;category&#39;</p>
 
 
   </div>
@@ -4189,12 +4159,12 @@ is aliased to just &#39;category&#39;</p>
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>A local copy of the pkg file. BE SURE it&#39;s identical to the one on the
-server. If omitted, the master dist. point will be mounted and the file
-read from there.</p>
+<p>A local copy of the pkg file. BE SURE it&#39;s identical to the one on the server. If omitted, the master dist. point will be mounted and the file read from there.</p>
 </div>
       
     </li>
@@ -4207,11 +4177,12 @@ read from there.</p>
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>The read-write password for mounting the master dist point. Either this or
-the ro_pw must be provided if no local_file</p>
+<p>The read-write password for mounting the master dist point. Either this or the ro_pw must be provided if no local_file</p>
 </div>
       
     </li>
@@ -4224,11 +4195,12 @@ the ro_pw must be provided if no local_file</p>
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>The read-onlypassword for mounting the master dist point. Either this or
-the rw_pw must be provided if no local_file</p>
+<p>The read-onlypassword for mounting the master dist point. Either this or the rw_pw must be provided if no local_file</p>
 </div>
       
     </li>
@@ -4241,11 +4213,12 @@ the rw_pw must be provided if no local_file</p>
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>Unmount the master dist point after using it. Only used if the dist point
-is mounted. default: true</p>
+<p>Unmount the master dist point after using it. Only used if the dist point is mounted. default: true</p>
 </div>
       
     </li>
@@ -4258,11 +4231,12 @@ is mounted. default: true</p>
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>the name or id of the distribution point to use. Defaults to the Master
-Dist. Point</p>
+<p>the name or id of the distribution point to use. Defaults to the Master Dist. Point</p>
 </div>
       
     </li>
@@ -4281,8 +4255,7 @@ Dist. Point</p>
       
         &mdash;
         <div class='inline'>
-<p>false if there is no checksum for this pkg, otherwise, does the calculated
-checksum match the one stored for the pkg?</p>
+<p>false if there is no checksum for this pkg, otherwise, does the calculated checksum match the one stored for the pkg?</p>
 </div>
       
     </li>
@@ -4345,8 +4318,7 @@ checksum match the one stored for the pkg?</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>make a clone of this API object, with a new name. The class must be
-creatable</p>
+<p>make a clone of this API object, with a new name. The class must be creatable</p>
 
 
   </div>
@@ -4379,11 +4351,12 @@ creatable</p>
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to
-instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
 </div>
       
     </li>
@@ -4462,8 +4435,7 @@ instantiate this object</p>
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to
-instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
 </div>
       
     </li>
@@ -4517,8 +4489,7 @@ instantiate this object</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Delete this package from the JSS, optionally deleting the master dist point
-file also.</p>
+<p>Delete this package from the JSS, optionally deleting the master dist point file also.</p>
 
 
   </div>
@@ -4534,6 +4505,8 @@ file also.</p>
       
         <span class='type'>(<tt>Boolean</tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
       
       
         &mdash;
@@ -4551,12 +4524,12 @@ file also.</p>
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>the password for the read/write account on the master Distribution Point or
-:prompt, or :stdin# where # is the line of stdin containing the password.
-See <span class='object_link'><a href="DistributionPoint.html#mount-instance_method" title="JSS::DistributionPoint#mount (method)">DistributionPoint#mount</a></span></p>
+<p>the password for the read/write account on the master Distribution Point or :prompt, or :stdin# where # is the line of stdin containing the password. See <span class='object_link'><a href="DistributionPoint.html#mount-instance_method" title="JSS::DistributionPoint#mount (method)">DistributionPoint#mount</a></span></p>
 </div>
       
     </li>
@@ -4568,6 +4541,8 @@ See <span class='object_link'><a href="DistributionPoint.html#mount-instance_met
       
         <span class='type'>(<tt>Boolean</tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
       
       
         &mdash;
@@ -4585,11 +4560,12 @@ See <span class='object_link'><a href="DistributionPoint.html#mount-instance_met
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>the name or id of the distribution point to use. Defaults to the Master
-Dist. Point</p>
+<p>the name or id of the distribution point to use. Defaults to the Master Dist. Point</p>
 </div>
       
     </li>
@@ -4634,8 +4610,7 @@ Dist. Point</p>
     
 <p>Delete the filename from the master distribution point, if it exists.</p>
 
-<p>If you&#39;ll be uploading several files you can specify unmount as false,
-and do it manually when all are finished.</p>
+<p>If you&#39;ll be uploading several files you can specify unmount as false, and do it manually when all are finished.</p>
 
 
   </div>
@@ -4655,9 +4630,7 @@ and do it manually when all are finished.</p>
       
         &mdash;
         <div class='inline'>
-<p>the password for the read/write account on the master Distribution Point or
-:prompt, or :stdin# where # is the line of stdin containing the password.
-See <span class='object_link'><a href="DistributionPoint.html#mount-instance_method" title="JSS::DistributionPoint#mount (method)">DistributionPoint#mount</a></span></p>
+<p>the password for the read/write account on the master Distribution Point or :prompt, or :stdin# where # is the line of stdin containing the password. See <span class='object_link'><a href="DistributionPoint.html#mount-instance_method" title="JSS::DistributionPoint#mount (method)">DistributionPoint#mount</a></span></p>
 </div>
       
     </li>
@@ -4688,11 +4661,12 @@ See <span class='object_link'><a href="DistributionPoint.html#mount-instance_met
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>the name or id of the distribution point to use. Defaults to the Master
-Dist. Point</p>
+<p>the name or id of the distribution point to use. Defaults to the Master Dist. Point</p>
 </div>
       
     </li>
@@ -4774,8 +4748,7 @@ Dist. Point</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Given a category name or id, return the name and id TODO: use
-APIObject.exist? and/or APIObject.valid_id</p>
+<p>Given a category name or id, return the name and id TODO: use APIObject.exist? and/or APIObject.valid_id</p>
 
 
   </div>
@@ -4852,12 +4825,9 @@ APIObject.exist? and/or APIObject.valid_id</p>
   </div>
 
 
-<p>Install this package via the jamf binary &#39;install&#39; command from the
-distribution point for this machine. See
-<span class='object_link'><a href="DistributionPoint.html#my_distribution_point-class_method" title="JSS::DistributionPoint.my_distribution_point (method)">DistributionPoint.my_distribution_point</a></span></p>
+<p>Install this package via the jamf binary &#39;install&#39; command from the distribution point for this machine. See <span class='object_link'><a href="DistributionPoint.html#my_distribution_point-class_method" title="JSS::DistributionPoint.my_distribution_point (method)">DistributionPoint.my_distribution_point</a></span></p>
 
-<p>The read-only or http passwd for the dist. point must be provided, except
-for non-authenticated http downloads)</p>
+<p>The read-only or http passwd for the dist. point must be provided, except for non-authenticated http downloads)</p>
 
 
   </div>
@@ -4900,8 +4870,7 @@ for non-authenticated http downloads)</p>
           </span>
           
             &mdash; <div class='inline'>
-<p>the read-only or http password for the distribution point for the local
-machine (http will be used if available, and may not need a pw)</p>
+<p>the read-only or http password for the distribution point for the local machine (http will be used if available, and may not need a pw)</p>
 </div>
           
         </li>
@@ -4966,8 +4935,7 @@ machine (http will be used if available, and may not need a pw)</p>
           </span>
           
             &mdash; <div class='inline'>
-<p>unmount the distribution point when finished?(if we mounted it), defaults
-to false</p>
+<p>unmount the distribution point when finished?(if we mounted it), defaults to false</p>
 </div>
           
         </li>
@@ -4993,10 +4961,7 @@ to false</p>
           </span>
           
             &mdash; <div class='inline'>
-<p>Use this url for an http download, regardless of distribution point
-settings. This can be used to access Cloud Distribution Points if the
-fileshare isn&#39;t available. The URL should already be ur The package
-filename will be removed or appended as needed.</p>
+<p>Use this url for an http download, regardless of distribution point settings. This can be used to access Cloud Distribution Points if the fileshare isn&#39;t available. The URL should already be ur The package filename will be removed or appended as needed.</p>
 </div>
           
         </li>
@@ -5213,9 +5178,7 @@ filename will be removed or appended as needed.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Is this packaged installed on the current machine (via casper)? We just
-look for the receipt, which is the @filename less any possible .zip
-extension.</p>
+<p>Is this packaged installed on the current machine (via casper)? We just look for the receipt, which is the @filename less any possible .zip extension.</p>
 
 
   </div>
@@ -5274,8 +5237,7 @@ extension.</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the name of this item Remember to #update to push changes to the
-server.</p>
+<p>Change the name of this item Remember to #update to push changes to the server.</p>
 
 
   </div>
@@ -5493,14 +5455,11 @@ server.</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Using either a local file, or the file on the master dist. point, re-set
-the checksum for this package. Call #update to save the new one to the JSS.</p>
+<p>Using either a local file, or the file on the master dist. point, re-set the checksum for this package. Call #update to save the new one to the JSS.</p>
 
-<p>BE VERY CAREFUL if using a local copy of the file - make sure its identical
-to the one on the dist point.</p>
+<p>BE VERY CAREFUL if using a local copy of the file - make sure its identical to the one on the dist point.</p>
 
-<p>This can be used to change the checksum type, and by default will use
-DEFAULT_CHECKSUM_HASH_TYPE (&#39;SHA_512&#39;)</p>
+<p>This can be used to change the checksum type, and by default will use DEFAULT_CHECKSUM_HASH_TYPE (&#39;SHA_512&#39;)</p>
 
 
   </div>
@@ -6000,9 +5959,7 @@ DEFAULT_CHECKSUM_HASH_TYPE (&#39;SHA_512&#39;)</p>
       
         &mdash;
         <div class='inline'>
-<p>the password for the read/write account on the master Distribution Point,
-or :prompt, or :stdin# where # is the line of stdin containing the password
-See <span class='object_link'><a href="DistributionPoint.html#mount-instance_method" title="JSS::DistributionPoint#mount (method)">DistributionPoint#mount</a></span></p>
+<p>the password for the read/write account on the master Distribution Point, or :prompt, or :stdin# where # is the line of stdin containing the password See <span class='object_link'><a href="DistributionPoint.html#mount-instance_method" title="JSS::DistributionPoint#mount (method)">DistributionPoint#mount</a></span></p>
 </div>
       
     </li>
@@ -6015,11 +5972,12 @@ See <span class='object_link'><a href="DistributionPoint.html#mount-instance_met
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>the name or id of the distribution point to use. Defaults to the Master
-Dist. Point</p>
+<p>the name or id of the distribution point to use. Defaults to the Master Dist. Point</p>
 </div>
       
     </li>
@@ -6114,17 +6072,11 @@ Dist. Point</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Upload a locally-readable file to the master distribution point. If the
-file is a directory (like a bundle .pk/.mpkg) it will be zipped before
-uploading and the @filename will be adjusted accordingly by adding a .zip
-extension</p>
+<p>Upload a locally-readable file to the master distribution point. If the file is a directory (like a bundle .pk/.mpkg) it will be zipped before uploading and the @filename will be adjusted accordingly by adding a .zip extension</p>
 
-<p>The name of the local file doesn&#39;t matter, the file on the dist. point
-will use the @filename (possibly with .zip)</p>
+<p>The name of the local file doesn&#39;t matter, the file on the dist. point will use the @filename (possibly with .zip)</p>
 
-<p>If you&#39;ll be uploading several files you can specify unmount as false,
-and do it manually when all are finished with
-JSS::DistributionPoint.master_distribution_point.unmount</p>
+<p>If you&#39;ll be uploading several files you can specify unmount as false, and do it manually when all are finished with JSS::DistributionPoint.master_distribution_point.unmount</p>
 
 
   </div>
@@ -6160,9 +6112,7 @@ JSS::DistributionPoint.master_distribution_point.unmount</p>
       
         &mdash;
         <div class='inline'>
-<p>the password for the read/write account on the master Distribution Point,
-or :prompt, or :stdin# where # is the line of stdin containing the password
-See <span class='object_link'><a href="DistributionPoint.html#mount-instance_method" title="JSS::DistributionPoint#mount (method)">DistributionPoint#mount</a></span></p>
+<p>the password for the read/write account on the master Distribution Point, or :prompt, or :stdin# where # is the line of stdin containing the password See <span class='object_link'><a href="DistributionPoint.html#mount-instance_method" title="JSS::DistributionPoint#mount (method)">DistributionPoint#mount</a></span></p>
 </div>
       
     </li>
@@ -6193,11 +6143,12 @@ See <span class='object_link'><a href="DistributionPoint.html#mount-instance_met
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>DEFAULT_CHECKSUM_HASH_TYPE</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>the constants CHECKSUM_HASH_TYPE_SHA512 or CHECKSUM_HASH_TYPE_MD5. Anything
-else means don&#39;t calc.</p>
+<p>the constants CHECKSUM_HASH_TYPE_SHA512 or CHECKSUM_HASH_TYPE_MD5. Anything else means don&#39;t calc.</p>
 </div>
       
     </li>
@@ -6210,11 +6161,12 @@ else means don&#39;t calc.</p>
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>the name or id of the distribution point to use. Defaults to the Master
-Dist. Point</p>
+<p>the name or id of the distribution point to use. Defaults to the Master Dist. Point</p>
 </div>
       
     </li>
@@ -6359,9 +6311,9 @@ Dist. Point</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:42 2020 by
+  Generated on Wed Feb  2 11:06:03 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

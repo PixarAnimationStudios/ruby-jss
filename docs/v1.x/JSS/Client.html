@@ -6,15 +6,15 @@
 <title>
   Class: JSS::Client
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::Client";
   relpath = '../';
 </script>
@@ -269,8 +269,7 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>The end of the path to the Self Service Executable. Used to figure out
-who&#39;s running Self Service.app</p>
+<p>The end of the path to the Self Service Executable. Used to figure out who&#39;s running Self Service.app</p>
 
 
   </div>
@@ -318,8 +317,7 @@ who&#39;s running Self Service.app</p>
           <div class="docstring">
   <div class="discussion">
     
-<p>The Pathname to the jamf binary executable Before SIP (macOS 10.10 and
-below)</p>
+<p>The Pathname to the jamf binary executable Before SIP (macOS 10.10 and below)</p>
 
 
   </div>
@@ -377,14 +375,14 @@ below)</p>
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='qsymbols_beg'>%i[
-</span><span class='tstring_content'>  about</span><span class='words_sep'>
-</span><span class='tstring_content'>  checkJSSConnection</span><span class='words_sep'>
-</span><span class='tstring_content'>  getARDFields</span><span class='words_sep'>
-</span><span class='tstring_content'>  getComputerName</span><span class='words_sep'>
-</span><span class='tstring_content'>  help</span><span class='words_sep'>
-</span><span class='tstring_content'>  listUsers</span><span class='words_sep'>
-</span><span class='tstring_content'>  version</span><span class='words_sep'>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='words_sep'>
+  </span><span class='tstring_content'>about</span><span class='words_sep'>
+  </span><span class='tstring_content'>checkJSSConnection</span><span class='words_sep'>
+  </span><span class='tstring_content'>getARDFields</span><span class='words_sep'>
+  </span><span class='tstring_content'>getComputerName</span><span class='words_sep'>
+  </span><span class='tstring_content'>help</span><span class='words_sep'>
+  </span><span class='tstring_content'>listUsers</span><span class='words_sep'>
+  </span><span class='tstring_content'>version</span><span class='words_sep'>
 </span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="JAMF_VERBOSE_OPT-constant" class="">JAMF_VERBOSE_OPT =
@@ -487,7 +485,7 @@ below)</p>
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>right</span><span class='words_sep'> </span><span class='tstring_content'>left</span><span class='words_sep'> </span><span class='tstring_content'>center</span><span class='words_sep'> </span><span class='tstring_content'>justified</span><span class='words_sep'> </span><span class='tstring_content'>natural</span><span class='words_sep'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>right</span><span class='words_sep'> </span><span class='tstring_content'>left</span><span class='words_sep'> </span><span class='tstring_content'>center</span><span class='words_sep'> </span><span class='tstring_content'>justified</span><span class='words_sep'> </span><span class='tstring_content'>natural</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="MGMT_ACTION-constant" class="">MGMT_ACTION =
           <div class="docstring">
@@ -586,8 +584,7 @@ below)</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Who&#39;s currently got an active GUI session? - might be more than one if
-Fast User Switching is in use.</p>
+<p>Who&#39;s currently got an active GUI session? - might be more than one if Fast User Switching is in use.</p>
 </div></span>
   
 </li>
@@ -611,8 +608,7 @@ Fast User Switching is in use.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Is &#39;Do Not Disturb&#39; enabled for the user? nil if
-unknown/not-applicable.</p>
+<p>Is &#39;Do Not Disturb&#39; enabled for the user? nil if unknown/not-applicable.</p>
 </div></span>
   
 </li>
@@ -658,11 +654,7 @@ unknown/not-applicable.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Skipping all the force-alerts stuff until we figure out cleaner ways to do
-it in 10.13+ The plan is to be able to make the NotificationCenter
-notification be an &#39;alert&#39; (which stays visible til the user
-clicks) or a &#39;banner&#39; (which vanishes in a few seconds), regardless
-of the user&#39;s setting in the NC prefs.</p>
+<p>Skipping all the force-alerts stuff until we figure out cleaner ways to do it in 10.13+ The plan is to be able to make the NotificationCenter notification be an &#39;alert&#39; (which stays visible til the user clicks) or a &#39;banner&#39; (which vanishes in a few seconds), regardless of the user&#39;s setting in the NC prefs.</p>
 </div></span>
   
 </li>
@@ -758,8 +750,7 @@ of the user&#39;s setting in the NC prefs.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>A wrapper for the jamfHelper command, which can display a window on the
-client machine.</p>
+<p>A wrapper for the jamfHelper command, which can display a window on the client machine.</p>
 </div></span>
   
 </li>
@@ -1047,8 +1038,7 @@ client machine.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Which console user is using the primary GUI console? Returns nil if the
-primary GUI console is at the login window.</p>
+<p>Which console user is using the primary GUI console? Returns nil if the primary GUI console is at the login window.</p>
 </div></span>
   
 </li>
@@ -1142,8 +1132,7 @@ primary GUI console is at the login window.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Who&#39;s currently running Self Service.app? - might be more than one if
-Fast User Switching is in use.</p>
+<p>Who&#39;s currently running Self Service.app? - might be more than one if Fast User Switching is in use.</p>
 </div></span>
   
 </li>
@@ -1331,8 +1320,7 @@ Fast User Switching is in use.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Who&#39;s currently got an active GUI session? - might be more than one if
-Fast User Switching is in use.</p>
+<p>Who&#39;s currently got an active GUI session? - might be more than one if Fast User Switching is in use.</p>
 
 
   </div>
@@ -1397,8 +1385,7 @@ Fast User Switching is in use.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Is &#39;Do Not Disturb&#39; enabled for the user? nil if
-unknown/not-applicable</p>
+<p>Returns Is &#39;Do Not Disturb&#39; enabled for the user? nil if unknown/not-applicable.</p>
 
 
   </div>
@@ -1439,8 +1426,7 @@ unknown/not-applicable</p>
       
         &mdash;
         <div class='inline'>
-<p>Is &#39;Do Not Disturb&#39; enabled for the user? nil if
-unknown/not-applicable</p>
+<p>Is &#39;Do Not Disturb&#39; enabled for the user? nil if unknown/not-applicable</p>
 </div>
       
     </li>
@@ -1540,11 +1526,7 @@ unknown/not-applicable</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Skipping all the force-alerts stuff until we figure out cleaner ways to do
-it in 10.13+ The plan is to be able to make the NotificationCenter
-notification be an &#39;alert&#39; (which stays visible til the user
-clicks) or a &#39;banner&#39; (which vanishes in a few seconds), regardless
-of the user&#39;s setting in the NC prefs.</p>
+<p>Skipping all the force-alerts stuff until we figure out cleaner ways to do it in 10.13+ The plan is to be able to make the NotificationCenter notification be an &#39;alert&#39; (which stays visible til the user clicks) or a &#39;banner&#39; (which vanishes in a few seconds), regardless of the user&#39;s setting in the NC prefs.</p>
 
 
   </div>
@@ -1801,35 +1783,25 @@ of the user&#39;s setting in the NC prefs.</p>
   <div class="note notetag">
     <strong>Note:</strong>
     <div class='inline'>
-<p>the -startlaunchd and -kill options are not available in this
-implementation, since they don&#39;t work at the moment (casper 9.4).
--startlaunchd seems to be required to NOT use launchd, and when it&#39;s
-ommited, an error is generated about the launchd plist permissions being
-incorrect.</p>
+<p>the -startlaunchd and -kill options are not available in this implementation, since they don&#39;t work at the moment (casper 9.4). -startlaunchd seems to be required to NOT use launchd, and when it&#39;s ommited, an error is generated about the launchd plist permissions being incorrect.</p>
 </div>
   </div>
 
 
-<p>A wrapper for the jamfHelper command, which can display a window on the
-client machine.</p>
+<p>A wrapper for the jamfHelper command, which can display a window on the client machine.</p>
 
-<p>The first parameter must be a symbol defining what kind of window to
-display. The options are</p>
+<p>The first parameter must be a symbol defining what kind of window to display. The options are</p>
 <ul><li>
 <p>:hud - creates an Apple “Heads Up Display” style window</p>
 </li><li>
 <p>:utility or :util -  creates an Apple “Utility” style window</p>
 </li><li>
-<p>:fs or :full_screen or :fullscreen - creates a full screen window that
-restricts all user input WARNING: Remote access must be used to unlock
-machines in this mode</p>
+<p>:fs or :full_screen or :fullscreen - creates a full screen window that restricts all user input WARNING: Remote access must be used to unlock machines in this mode</p>
 </li></ul>
 
-<p>The remaining options Hash can contain any of the options listed. See below
-for descriptions.</p>
+<p>The remaining options Hash can contain any of the options listed. See below for descriptions.</p>
 
-<p>The value returned is the Integer exitstatus/stdout (both are the same) of
-the jamfHelper command. The meanings of those integers are:</p>
+<p>The value returned is the Integer exitstatus/stdout (both are the same) of the jamfHelper command. The meanings of those integers are:</p>
 <ul><li>
 <p>0 - Button 1 was clicked</p>
 </li><li>
@@ -1839,16 +1811,13 @@ the jamfHelper command. The meanings of those integers are:</p>
 </li><li>
 <p>3 - Process was started as a launchd task</p>
 </li><li>
-<p>XX1 - Button 1 was clicked with a value of XX seconds selected in the
-drop-down</p>
+<p>XX1 - Button 1 was clicked with a value of XX seconds selected in the drop-down</p>
 </li><li>
-<p>XX2 - Button 2 was clicked with a value of XX seconds selected in the
-drop-down</p>
+<p>XX2 - Button 2 was clicked with a value of XX seconds selected in the drop-down</p>
 </li><li>
 <p>239 - The exit button was clicked</p>
 </li><li>
-<p>240 - The “ProductVersion” in sw_vers did not return 10.5.X, 10.6.X or
-10.7.X</p>
+<p>240 - The “ProductVersion” in sw_vers did not return 10.5.X, 10.6.X or 10.7.X</p>
 </li><li>
 <p>243 - The window timed-out with no buttons on the screen</p>
 </li><li>
@@ -1859,11 +1828,9 @@ drop-down</p>
 <p>255 - No “-windowType”</p>
 </li></ul>
 
-<p>If the :abandon_process option is given, the integer returned is the
-Process ID of the abondoned process running jamfHelper.</p>
+<p>If the :abandon_process option is given, the integer returned is the Process ID of the abondoned process running jamfHelper.</p>
 
-<p>See also /Library/Application\
-Support/JAMF/bin/jamfHelper.app/Contents/MacOS/jamfHelper -help</p>
+<p>See also /Library/Application\ Support/JAMF/bin/jamfHelper.app/Contents/MacOS/jamfHelper -help</p>
 
 
   </div>
@@ -1926,9 +1893,7 @@ Support/JAMF/bin/jamfHelper.app/Contents/MacOS/jamfHelper -help</p>
           </span>
           
             &mdash; <div class='inline'>
-<p>one of [ nil, :ul, :ll. :ur, :lr ] Positions window in the upper right,
-upper left, lower right or lower left of the user&#39;s screen If no input
-is given, the window defaults to the center of the screen</p>
+<p>one of [ nil, :ul, :ll. :ur, :lr ] Positions window in the upper right, upper left, lower right or lower left of the user&#39;s screen If no input is given, the window defaults to the center of the screen</p>
 </div>
           
         </li>
@@ -1967,8 +1932,7 @@ is given, the window defaults to the center of the screen</p>
           </span>
           
             &mdash; <div class='inline'>
-<p>one of  [:right, :left, :center, :justified, :natural] Aligns the heading
-to the specified alignment</p>
+<p>one of  [:right, :left, :center, :justified, :natural] Aligns the heading to the specified alignment</p>
 </div>
           
         </li>
@@ -1994,8 +1958,7 @@ to the specified alignment</p>
           </span>
           
             &mdash; <div class='inline'>
-<p>one of  [:right, :left, :center, :justified, :natural] Aligns the
-description to the specified alignment</p>
+<p>one of  [:right, :left, :center, :justified, :natural] Aligns the description to the specified alignment</p>
 </div>
           
         </li>
@@ -2034,8 +1997,7 @@ description to the specified alignment</p>
           </span>
           
             &mdash; <div class='inline'>
-<p>Scales the “icon” to the full size of the window. Note: Only available in
-full screen mode</p>
+<p>Scales the “icon” to the full size of the window. Note: Only available in full screen mode</p>
 </div>
           
         </li>
@@ -2074,8 +2036,7 @@ full screen mode</p>
           </span>
           
             &mdash; <div class='inline'>
-<p>either 1 or 2 Sets the default button of the window to the specified
-button. The Default Button will respond to “return”</p>
+<p>either 1 or 2 Sets the default button of the window to the specified button. The Default Button will respond to “return”</p>
 </div>
           
         </li>
@@ -2088,8 +2049,7 @@ button. The Default Button will respond to “return”</p>
           </span>
           
             &mdash; <div class='inline'>
-<p>either 1 or 2 Sets the cancel button of the window to the specified button.
-The Cancel Button will respond to “escape”</p>
+<p>either 1 or 2 Sets the cancel button of the window to the specified button. The Cancel Button will respond to “escape”</p>
 </div>
           
         </li>
@@ -2102,9 +2062,7 @@ The Cancel Button will respond to “escape”</p>
           </span>
           
             &mdash; <div class='inline'>
-<p>Causes the window to timeout after the specified amount of seconds Note:
-The timeout will cause the default button, button 1 or button 2 to be
-selected (in that order)</p>
+<p>Causes the window to timeout after the specified amount of seconds Note: The timeout will cause the default button, button 1 or button 2 to be selected (in that order)</p>
 </div>
           
         </li>
@@ -2117,9 +2075,7 @@ selected (in that order)</p>
           </span>
           
             &mdash; <div class='inline'>
-<p>A String of comma-separated Integers, or an Array of Integers. Enables the
-“Delay Options Mode”. The window will display a dropdown with the values
-passed through the string</p>
+<p>A String of comma-separated Integers, or an Array of Integers. Enables the “Delay Options Mode”. The window will display a dropdown with the values passed through the string</p>
 </div>
           
         </li>
@@ -2145,8 +2101,7 @@ passed through the string</p>
           </span>
           
             &mdash; <div class='inline'>
-<p>one of  [:right, :left, :center, :justified, :natural] Aligns the countdown
-to the specified alignment</p>
+<p>one of  [:right, :left, :center, :justified, :natural] Aligns the countdown to the specified alignment</p>
 </div>
           
         </li>
@@ -2172,10 +2127,7 @@ to the specified alignment</p>
           </span>
           
             &mdash; <div class='inline'>
-<p>Abandon the jamfHelper process so that your code can exit. This is mostly
-used so that a policy can finish while a dialog is waiting (possibly
-forever) for user response. When true, the returned value is the process id
-of the abandoned jamfHelper process.</p>
+<p>Abandon the jamfHelper process so that your code can exit. This is mostly used so that a policy can finish while a dialog is waiting (possibly forever) for user response. When true, the returned value is the process id of the abandoned jamfHelper process.</p>
 </div>
           
         </li>
@@ -2188,9 +2140,7 @@ of the abandoned jamfHelper process.</p>
           </span>
           
             &mdash; <div class='inline'>
-<p>Save the output of jamfHelper (the exit code) into this file. This is
-useful when using abandon_process. The output file can be examined later to
-see what happened. If this option is not provided, no output is saved.</p>
+<p>Save the output of jamfHelper (the exit code) into this file. This is useful when using abandon_process. The output file can be examined later to see what happened. If this option is not provided, no output is saved.</p>
 </div>
           
         </li>
@@ -2203,19 +2153,17 @@ see what happened. If this option is not provided, no output is saved.</p>
           </span>
           
             &mdash; <div class='inline'>
-<p>The jamfHelper commandline args as a single String, the way you&#39;d
-specify them in a shell. This is appended to any Ruby options provided when
-calling the method. So calling:</p>
+<p>The jamfHelper commandline args as a single String, the way you&#39;d specify them in a shell. This is appended to any Ruby options provided when calling the method. So calling:</p>
 
 <pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="JSS::Client (class)">Client</a></span></span><span class='period'>.</span><span class='id identifier rubyid_jamf_helper'>jamf_helper</span> <span class='symbol'>:hud</span><span class='comma'>,</span> <span class='label'>title:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>This is a title</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>arg_string:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-heading &quot;this is a heading&quot;</span><span class='tstring_end'>&#39;</span></span>
 </code></pre>
 
 <p>will run</p>
 
-<pre class="code ruby"><code class="ruby">jamfHelper -windowType hud -title &#39;this is a title&#39; -heading &quot;this is a heading&quot;</code></pre>
+<pre class="code ruby"><code class="ruby">jamfHelper -windowType hud -title &#39;this is a title&#39; -heading &quot;this is a heading&quot;
+</code></pre>
 
-<p>When using this, be careful not to specify the windowType, since it&#39;s
-generated by the first, required, parameter of this method.</p>
+<p>When using this, be careful not to specify the windowType, since it&#39;s generated by the first, required, parameter of this method.</p>
 </div>
           
         </li>
@@ -2598,8 +2546,7 @@ generated by the first, required, parameter of this method.</p>
       
         &mdash;
         <div class='inline'>
-<p>the version of the jamf binary installed on this client, nil if not
-installed</p>
+<p>the version of the jamf binary installed on this client, nil if not installed</p>
 </div>
       
     </li>
@@ -3087,11 +3034,9 @@ installed</p>
     
 <p>Get the current IP address as a String.</p>
 
-<p>This handy code doesn&#39;t acutally make a UDP connection, it just starts
-to set up the connection, then uses that to get the local IP.</p>
+<p>This handy code doesn&#39;t acutally make a UDP connection, it just starts to set up the connection, then uses that to get the local IP.</p>
 
-<p>Lifted gratefully from <a
-href="http://coderrr.wordpress.com/2008/05/28/get-your-local-ip-address">coderrr.wordpress.com/2008/05/28/get-your-local-ip-address</a>/</p>
+<p>Lifted gratefully from <a href="http://coderrr.wordpress.com/2008/05/28/get-your-local-ip-address">coderrr.wordpress.com/2008/05/28/get-your-local-ip-address</a>/</p>
 
 
   </div>
@@ -3211,8 +3156,7 @@ href="http://coderrr.wordpress.com/2008/05/28/get-your-local-ip-address">coderrr
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Which console user is using the primary GUI console? Returns nil if the
-primary GUI console is at the login window.</p>
+<p>Which console user is using the primary GUI console? Returns nil if the primary GUI console is at the login window.</p>
 
 
   </div>
@@ -3231,8 +3175,7 @@ primary GUI console is at the login window.</p>
       
         &mdash;
         <div class='inline'>
-<p>The login name of the user is using the primary GUI console, or nil if at
-the login window.</p>
+<p>The login name of the user is using the primary GUI console, or nil if at the login window.</p>
 </div>
       
     </li>
@@ -3396,9 +3339,7 @@ the login window.</p>
 
 <p>Run an arbitrary jamf binary command.</p>
 
-<p>The details of the Process::Status for the jamf binary process can be
-captured from $CHILD_STATUS immediately after calling. (See
-Process::Status)</p>
+<p>The details of the Process::Status for the jamf binary process can be captured from $CHILD_STATUS immediately after calling. (See Process::Status)</p>
 
 
   </div>
@@ -3430,8 +3371,7 @@ Process::Status)</p>
       
         &mdash;
         <div class='inline'>
-<p>the jamf binary command to run The command is the single jamf command that
-comes after the/usr/bin/jamf.</p>
+<p>the jamf binary command to run The command is the single jamf command that comes after the/usr/bin/jamf.</p>
 </div>
       
     </li>
@@ -3449,8 +3389,7 @@ comes after the/usr/bin/jamf.</p>
       
         &mdash;
         <div class='inline'>
-<p>the arguments passed to the jamf command. This is to be passed to Kernel.`
-(backtick), after being combined with the jamf binary and the jamf command</p>
+<p>the arguments passed to the jamf command. This is to be passed to Kernel.` (backtick), after being combined with the jamf binary and the jamf command</p>
 </div>
       
     </li>
@@ -3468,8 +3407,7 @@ comes after the/usr/bin/jamf.</p>
       
         &mdash;
         <div class='inline'>
-<p>Should the stdout &amp; stderr of the jamf binary be sent to the current
-stdout in realtime, as well as returned as a string?</p>
+<p>Should the stdout &amp; stderr of the jamf binary be sent to the current stdout in realtime, as well as returned as a string?</p>
 </div>
       
     </li>
@@ -3553,8 +3491,7 @@ stdout in realtime, as well as returned as a string?</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Who&#39;s currently running Self Service.app? - might be more than one if
-Fast User Switching is in use.</p>
+<p>Who&#39;s currently running Self Service.app? - might be more than one if Fast User Switching is in use.</p>
 
 
   </div>
@@ -3722,8 +3659,7 @@ Fast User Switching is in use.</p>
 106
 107
 108
-109
-110</pre>
+109</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/jss/client/management_action.rb', line 95</span>
@@ -3739,8 +3675,7 @@ Fast User Switching is in use.</p>
     <span class='id identifier rubyid_orig_flags'>orig_flags</span> <span class='op'>=</span> <span class='id identifier rubyid_flags'>flags</span>
     <span class='id identifier rubyid_prefs'>prefs</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>apps</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>bundle-id</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='const'>MGMT_ACTION_BUNDLE_ID</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>flags</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_flags'>flags</span> <span class='rbrace'>}</span>
   <span class='kw'>end</span>
-  <span class='comment'># system &quot;/usr/bin/defaults write #{NCPREFS_DOMAIN} &#39;#{prefs.to_plist}&#39;&quot;
-</span>  <span class='id identifier rubyid_plist'>plist</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>w</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span> <span class='id identifier rubyid_prefs'>prefs</span><span class='period'>.</span><span class='id identifier rubyid_to_plist'>to_plist</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_plist'>plist</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>w</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_f'>f</span><span class='op'>|</span> <span class='id identifier rubyid_f'>f</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_xml_plist_from'><span class='object_link'><a href="../JSS.html#xml_plist_from-class_method" title="JSS.xml_plist_from (method)">xml_plist_from</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_prefs'>prefs</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
   <span class='id identifier rubyid_system'>system</span> <span class='const'>HUP_NOTIF_CTR_CMD</span> <span class='kw'>if</span> <span class='id identifier rubyid_hup'>hup</span>
   <span class='id identifier rubyid_orig_flags'>orig_flags</span>
 <span class='kw'>end</span></pre>
@@ -3813,9 +3748,9 @@ Fast User Switching is in use.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:30 2020 by
+  Generated on Wed Feb  2 11:05:51 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

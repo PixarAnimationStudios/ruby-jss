@@ -6,15 +6,15 @@
 <title>
   Module: Jamf::Searchable
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "Jamf::Searchable";
   relpath = '../';
 </script>
@@ -86,49 +86,41 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>Code for CollectionResources that have a …/searchObjects resource. These
-resources provide for basic searching as will as sorting and paging of the
-found set.</p>
+<p>Code for CollectionResources that have a …/searchObjects resource. These resources provide for basic searching as will as sorting and paging of the found set.</p>
 
-<p>NOTE: This module provides class methods, not instance methods, and
-therefore must be mixed in with `extend` and not `include`</p>
+<p>NOTE: This module provides class methods, not instance methods, and therefore must be mixed in with `extend` and not `include`</p>
 
 <p>Classes extended with this module <strong>must</strong> define:</p>
 
-<pre class="code ruby"><code class="ruby">SEARCH_RSRC [String] the resource to which the search is POSTed.</code></pre>
+<pre class="code ruby"><code class="ruby">SEARCH_RSRC [String] the resource to which the search is POSTed.
+</code></pre>
 
 <p>Classes including this module <strong>may</strong> define:</p>
 
-<pre class="code ruby"><code class="ruby">SEARCH_FIELDS [Hash{Symbol: Symbol}]</code></pre>
+<pre class="code ruby"><code class="ruby">SEARCH_FIELDS [Hash{Symbol: Symbol}]
+</code></pre>
 
-<p>The hash keys are the names of searchable fields, e.g. &#39;name&#39;, or
-&#39;udid&#39; and the values are the class expected for the field, one of:
-:string, :integer, or :boolean</p>
+<p>The hash keys are the names of searchable fields, e.g. &#39;name&#39;, or &#39;udid&#39; and the values are the class expected for the field, one of: :string, :integer, or :boolean</p>
 
-<p>Without defining search fields, every search returns all objects, but the
-sorting and paging options are honored.</p>
+<p>Without defining search fields, every search returns all objects, but the sorting and paging options are honored.</p>
 
-<p>If search fields are provided, then they can be specified when performing a
-search. If more than one is specified, they are AND&#39;ed together.</p>
+<p>If search fields are provided, then they can be specified when performing a search. If more than one is specified, they are AND&#39;ed together.</p>
 
 <p>To Search:</p>
 
 <p>1) Set result sort order</p>
 
-<p>If you want sorted results, first set the sort order with a combination of
-`MyClass.search_result_order = field, dir` where field is the name of the
-sort fiend and dir is :asc or :desc</p>
+<p>If you want sorted results, first set the sort order with a combination of `MyClass.search_result_order = field, dir` where field is the name of the sort fiend and dir is :asc or :desc</p>
 
-<p>If you want a multi-level sort, set the first sort field as above, then use
-`MyClass.search_result_order_append field, dir` to add subsequent sort
-fields</p>
+<p>If you want a multi-level sort, set the first sort field as above, then use `MyClass.search_result_order_append field, dir` to add subsequent sort fields</p>
 
 <p>To clear them out and start over, call `MyClass.clear_search_result_order`</p>
 
 <p>2) Set page size</p>
 
 <pre class="code ruby"><code class="ruby">If you want paged results then call `MyClass.search_result_page_size = X`
-before starting your seacch</code></pre>
+before starting your seacch
+</code></pre>
 
 <p>3) Do the search:</p>
 
@@ -636,9 +628,9 @@ before starting your seacch</code></pre>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:26 2020 by
+  Generated on Wed Feb  2 11:05:48 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

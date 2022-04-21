@@ -6,15 +6,15 @@
 <title>
   Class: JSS::Computer
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::Computer";
   relpath = '../';
 </script>
@@ -120,13 +120,11 @@
 
 <h3 id="label-Adding+Computers+to+the+JSS">Adding Computers to the JSS</h3>
 
-<p>At the moment, this class cannot be used to add new Computers to the JSS.
-Please use other methods (like the Recon App or QuickAdd package)</p>
+<p>At the moment, this class cannot be used to add new Computers to the JSS. Please use other methods (like the Recon App or QuickAdd package)</p>
 
 <h3 id="label-Editing+values">Editing values</h3>
 
-<p>Any data that arrives in the JSS via an “inventory update” (a.k.a.
-&#39;recon&#39;) cannot be modified through this class, or the API.</p>
+<p>Any data that arrives in the JSS via an “inventory update” (a.k.a. &#39;recon&#39;) cannot be modified through this class, or the API.</p>
 
 <p>Data that can be modified are:</p>
 <ul><li>
@@ -142,92 +140,52 @@ Please use other methods (like the Recon App or QuickAdd package)</p>
 </li><li>
 <p>mac_address &amp; alt_mac_address</p>
 </li><li>
-<p>serial_number Note: Even tho the webUI doesn&#39;t allow editing the
-serial_number, the API does, and it can be useful for dealing with
-duplicates that arise when a logic-board swap causes a new computer record.
-to be created.</p>
+<p>serial_number Note: Even tho the webUI doesn&#39;t allow editing the serial_number, the API does, and it can be useful for dealing with duplicates that arise when a logic-board swap causes a new computer record. to be created.</p>
 </li><li>
 <p>location data via the Locatable module</p>
 </li><li>
 <p>purchasing data via the Purchasable module</p>
 </li><li>
-<p>Extension Attribute values via the Extendable module Note: as with other
-&#39;recon&#39; generated values, Ext. Attrs. populated by scripts cannot
-be modified via the API. (the change would be overwritten the next time the
-machine did a recon)</p>
+<p>Extension Attribute values via the Extendable module Note: as with other &#39;recon&#39; generated values, Ext. Attrs. populated by scripts cannot be modified via the API. (the change would be overwritten the next time the machine did a recon)</p>
 </li></ul>
 
-<p>After making any changes, you must call #update to send those changes to
-the server.</p>
+<p>After making any changes, you must call #update to send those changes to the server.</p>
 
 <h3 id="label-MDM+Commands">MDM Commands</h3>
 
-<p>See the <span class='object_link'><a href="MDM.html" title="JSS::MDM (module)">MDM</a></span> mixin module for Class and Instance methods for sending
-MDM commands to computers.</p>
+<p>See the <span class='object_link'><a href="MDM.html" title="JSS::MDM (module)">MDM</a></span> mixin module for Class and Instance methods for sending MDM commands to computers.</p>
 
-<p>To send MDM commands without fetching Computer instances, use the class
-methods, which can take multiple computer identifiers at once.</p>
+<p>To send MDM commands without fetching Computer instances, use the class methods, which can take multiple computer identifiers at once.</p>
 
-<p>NOTE: the poorly named &#39;UnmanageDevice&#39; mdm command is implemented
-as <span class='object_link'><a href="MDM.html#remove_mdm_profile-instance_method" title="JSS::MDM#remove_mdm_profile (method)">MDM#remove_mdm_profile</a></span> (which is its name in the webUI) as well as
-<span class='object_link'><a href="MDM.html#unmanage_device-instance_method" title="JSS::MDM#unmanage_device (method)">MDM#unmanage_device</a></span>. Calling that method will NOT fully unmanage a computer
-from the JSS&#39;s point of view, it will just remove the mdm management
-profile from the machine and all configuration profiles that were installed
-via the JSS. Those profiles may be re-installed automatically later if the
-computer is still in scope for them</p>
+<p>NOTE: the poorly named &#39;UnmanageDevice&#39; mdm command is implemented as <span class='object_link'><a href="MDM.html#remove_mdm_profile-instance_method" title="JSS::MDM#remove_mdm_profile (method)">MDM#remove_mdm_profile</a></span> (which is its name in the webUI) as well as <span class='object_link'><a href="MDM.html#unmanage_device-instance_method" title="JSS::MDM#unmanage_device (method)">MDM#unmanage_device</a></span>. Calling that method will NOT fully unmanage a computer from the JSS&#39;s point of view, it will just remove the mdm management profile from the machine and all configuration profiles that were installed via the JSS. Those profiles may be re-installed automatically later if the computer is still in scope for them</p>
 
-<p>To properly unmanage a computer, use the <span class='object_link'><a href="#make_unmanaged-instance_method" title="JSS::Computer#make_unmanaged (method)">#make_unmanaged</a></span> Instance method
-which removes the mdm profile, but also makes the machine unmanged by the
-JSS, setting the management acct to nil, and requring re-enrollment.</p>
+<p>To properly unmanage a computer, use the <span class='object_link'><a href="#make_unmanaged-instance_method" title="JSS::Computer#make_unmanaged (method)">#make_unmanaged</a></span> Instance method which removes the mdm profile, but also makes the machine unmanged by the JSS, setting the management acct to nil, and requring re-enrollment.</p>
 
 <h3 id="label-Management+History+-26+Logs">Management History &amp; Logs</h3>
 
-<p>Computer Management History and logs can now be retrieved both from a
-Computer instance, and directly via class methods without fetching an
-instance. This is handled by the mixed-in <span class='object_link'><a href="ManagementHistory.html" title="JSS::ManagementHistory (module)">ManagementHistory</a></span> module,
-Q.V. for details.</p>
+<p>Computer Management History and logs can now be retrieved both from a Computer instance, and directly via class methods without fetching an instance. This is handled by the mixed-in <span class='object_link'><a href="ManagementHistory.html" title="JSS::ManagementHistory (module)">ManagementHistory</a></span> module, Q.V. for details.</p>
 
 <h3 id="label-Appication+Usage+History">Appication Usage History</h3>
 
-<p>Computer Instances now have access to their Application Usage history via
-the <span class='object_link'><a href="#application_usage-instance_method" title="JSS::Computer#application_usage (method)">#application_usage</a></span> method. Call the method with a start-date value
-(either a String or a Time object) and an optional end-date value. If you
-omite the end-date, the start-date is used and you&#39;ll see usage for
-just that day.</p>
+<p>Computer Instances now have access to their Application Usage history via the <span class='object_link'><a href="#application_usage-instance_method" title="JSS::Computer#application_usage (method)">#application_usage</a></span> method. Call the method with a start-date value (either a String or a Time object) and an optional end-date value. If you omite the end-date, the start-date is used and you&#39;ll see usage for just that day.</p>
 
 <p>See <span class='object_link'><a href="#application_usage-instance_method" title="JSS::Computer#application_usage (method)">#application_usage</a></span> for details about the data returned.</p>
 
-<p>NOTE: your JSS must be gathering Appication Usage data in order for any
-data to be returned, and the usage history will only go back as far as your
-setting for flushing of Application Usage Logs.</p>
+<p>NOTE: your JSS must be gathering Appication Usage data in order for any data to be returned, and the usage history will only go back as far as your setting for flushing of Application Usage Logs.</p>
 
 <h3 id="label-Management+Data">Management Data</h3>
 
-<p>The computers &#39;manamgement data&#39;, as presented on the
-&#39;Management&#39; tab of the computer&#39;s detail page in the JSS web
-UI, is available from the <span class='object_link'><a href="#management_data-instance_method" title="JSS::Computer#management_data (method)">#management_data</a></span> method. That method may return
-a large dataset, unless a subset is requested.</p>
+<p>The computers &#39;manamgement data&#39;, as presented on the &#39;Management&#39; tab of the computer&#39;s detail page in the JSS web UI, is available from the <span class='object_link'><a href="#management_data-instance_method" title="JSS::Computer#management_data (method)">#management_data</a></span> method. That method may return a large dataset, unless a subset is requested.</p>
 
-<p>Subsets of management data have their own methods, which are faster and
-only retrieve the subset requested. See <span class='object_link'><a href="#smart_groups-instance_method" title="JSS::Computer#smart_groups (method)">#smart_groups</a></span>, <span class='object_link'><a href="#static_groups-instance_method" title="JSS::Computer#static_groups (method)">#static_groups</a></span>,
-<span class='object_link'><a href="#policies-instance_method" title="JSS::Computer#policies (method)">#policies</a></span>, <span class='object_link'><a href="#configuration_profiles-instance_method" title="JSS::Computer#configuration_profiles (method)">#configuration_profiles</a></span>, <span class='object_link'><a href="#ebooks-instance_method" title="JSS::Computer#ebooks (method)">#ebooks</a></span>, <span class='object_link'><a href="#app_store_apps-instance_method" title="JSS::Computer#app_store_apps (method)">#app_store_apps</a></span>,
-<span class='object_link'><a href="#restricted_software-instance_method" title="JSS::Computer#restricted_software (method)">#restricted_software</a></span>, and <span class='object_link'><a href="#patch_titles-instance_method" title="JSS::Computer#patch_titles (method)">#patch_titles</a></span></p>
+<p>Subsets of management data have their own methods, which are faster and only retrieve the subset requested. See <span class='object_link'><a href="#smart_groups-instance_method" title="JSS::Computer#smart_groups (method)">#smart_groups</a></span>, <span class='object_link'><a href="#static_groups-instance_method" title="JSS::Computer#static_groups (method)">#static_groups</a></span>, <span class='object_link'><a href="#policies-instance_method" title="JSS::Computer#policies (method)">#policies</a></span>, <span class='object_link'><a href="#configuration_profiles-instance_method" title="JSS::Computer#configuration_profiles (method)">#configuration_profiles</a></span>, <span class='object_link'><a href="#ebooks-instance_method" title="JSS::Computer#ebooks (method)">#ebooks</a></span>, <span class='object_link'><a href="#app_store_apps-instance_method" title="JSS::Computer#app_store_apps (method)">#app_store_apps</a></span>, <span class='object_link'><a href="#restricted_software-instance_method" title="JSS::Computer#restricted_software (method)">#restricted_software</a></span>, and <span class='object_link'><a href="#patch_titles-instance_method" title="JSS::Computer#patch_titles (method)">#patch_titles</a></span></p>
 
-<p>The subset methods can take an &#39;only:&#39; parameter, which is a symbol
-specifying the value you care to see. For example <span class='object_link'><a href="#smart_groups-instance_method" title="JSS::Computer#smart_groups (method)">#smart_groups</a></span> returns
-an array of hashes, one for each smart_group the computer is in. Those
-hashes have two keys, :name, and :id. However if you only want an array of
-names, you can call `smart_groups only: :name`</p>
+<p>The subset methods can take an &#39;only:&#39; parameter, which is a symbol specifying the value you care to see. For example <span class='object_link'><a href="#smart_groups-instance_method" title="JSS::Computer#smart_groups (method)">#smart_groups</a></span> returns an array of hashes, one for each smart_group the computer is in. Those hashes have two keys, :name, and :id. However if you only want an array of names, you can call `smart_groups only: :name`</p>
 
-<p>When any of the manamgement data methods are used the first time, the data
-is read from the API and cached internally, the cache is then used for all
-future calls. To re-read the data from the API and re-cache it, provide
-`refresh: true` to any of the manamgement data methods.</p>
+<p>When any of the manamgement data methods are used the first time, the data is read from the API and cached internally, the cache is then used for all future calls. To re-read the data from the API and re-cache it, provide `refresh: true` to any of the manamgement data methods.</p>
 
 <h3 id="label-Other+Methods">Other Methods</h3>
 <ul><li>
-<p><span class='object_link'><a href="#set_management_to-instance_method" title="JSS::Computer#set_management_to (method)">#set_management_to</a></span> change the management acct and passwd for this
-computer, aliased to #make_managed</p>
+<p><span class='object_link'><a href="#set_management_to-instance_method" title="JSS::Computer#set_management_to (method)">#set_management_to</a></span> change the management acct and passwd for this computer, aliased to #make_managed</p>
 <ul><li>
 <p>requires calling #update to push changes to the server</p>
 </li></ul>
@@ -241,8 +199,7 @@ computer, aliased to #make_managed</p>
 </li><li>
 <p><span class='object_link'><a href="#licensed_sw-instance_method" title="JSS::Computer#licensed_sw (method)">#licensed_sw</a></span> a shortcut to <span class='object_link'><a href="#software-instance_method" title="JSS::Computer#software (method)">#software</a></span> [:licensed_software]</p>
 </li><li>
-<p><span class='object_link'><a href="#computer_groups-instance_method" title="JSS::Computer#computer_groups (method)">#computer_groups</a></span> a shortcut to <span class='object_link'><a href="#groups_accounts-instance_method" title="JSS::Computer#groups_accounts (method)">#groups_accounts</a></span>
-[:computer_group_memberships]</p>
+<p><span class='object_link'><a href="#computer_groups-instance_method" title="JSS::Computer#computer_groups (method)">#computer_groups</a></span> a shortcut to <span class='object_link'><a href="#groups_accounts-instance_method" title="JSS::Computer#groups_accounts (method)">#groups_accounts</a></span> [:computer_group_memberships]</p>
 </li><li>
 <p><span class='object_link'><a href="#local_accounts-instance_method" title="JSS::Computer#local_accounts (method)">#local_accounts</a></span> a shortcut to <span class='object_link'><a href="#groups_accounts-instance_method" title="JSS::Computer#groups_accounts (method)">#groups_accounts</a></span> [:local_accounts]</p>
 </li><li>
@@ -333,8 +290,7 @@ computer, aliased to #make_managed</p>
           <div class="docstring">
   <div class="discussion">
     
-<p>The hash key used for the JSON object output. It&#39;s also used in various
-error messages</p>
+<p>The hash key used for the JSON object output. It&#39;s also used in various error messages</p>
 
 
   </div>
@@ -366,11 +322,9 @@ error messages</p>
           <div class="docstring">
   <div class="discussion">
     
-<p>these keys,  as well as :id and :name, can be used to look up objects of
-this class in the JSS</p>
+<p>these keys,  as well as :id and :name, can be used to look up objects of this class in the JSS</p>
 
-<p>the wierd alises mac_addresse and macaddresse are for proper pluralization
-of &#39;mac_address&#39; and such</p>
+<p>the wierd alises mac_addresse and macaddresse are for proper pluralization of &#39;mac_address&#39; and such</p>
 
 
   </div>
@@ -459,8 +413,7 @@ of &#39;mac_address&#39; and such</p>
           <div class="docstring">
   <div class="discussion">
     
-<p>file uploads can send attachments to the JSS using :computers as the
-sub-resource.</p>
+<p>file uploads can send attachments to the JSS using :computers as the sub-resource.</p>
 
 
   </div>
@@ -588,8 +541,7 @@ sub-resource.</p>
           <div class="docstring">
   <div class="discussion">
     
-<p>Thes are both the subset names in the resrouce URLS (when converted to
-strings) and the second-level hash key of the returned subset data.</p>
+<p>Thes are both the subset names in the resrouce URLS (when converted to strings) and the second-level hash key of the returned subset data.</p>
 
 
   </div>
@@ -599,15 +551,15 @@ strings) and the second-level hash key of the returned subset data.</p>
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='qsymbols_beg'>%i[
-</span><span class='tstring_content'>  smart_groups</span><span class='words_sep'>
-</span><span class='tstring_content'>  static_groups</span><span class='words_sep'>
-</span><span class='tstring_content'>  mac_app_store_apps</span><span class='words_sep'>
-</span><span class='tstring_content'>  policies</span><span class='words_sep'>
-</span><span class='tstring_content'>  ebooks</span><span class='words_sep'>
-</span><span class='tstring_content'>  os_x_configuration_profiles</span><span class='words_sep'>
-</span><span class='tstring_content'>  restricted_software</span><span class='words_sep'>
-</span><span class='tstring_content'>  patch_reporting_software_titles</span><span class='words_sep'>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='words_sep'>
+  </span><span class='tstring_content'>smart_groups</span><span class='words_sep'>
+  </span><span class='tstring_content'>static_groups</span><span class='words_sep'>
+  </span><span class='tstring_content'>mac_app_store_apps</span><span class='words_sep'>
+  </span><span class='tstring_content'>policies</span><span class='words_sep'>
+  </span><span class='tstring_content'>ebooks</span><span class='words_sep'>
+  </span><span class='tstring_content'>os_x_configuration_profiles</span><span class='words_sep'>
+  </span><span class='tstring_content'>restricted_software</span><span class='words_sep'>
+  </span><span class='tstring_content'>patch_reporting_software_titles</span><span class='words_sep'>
 </span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="CHECKIN_RSRC-constant" class="">CHECKIN_RSRC =
@@ -678,8 +630,7 @@ strings) and the second-level hash key of the returned subset data.</p>
           <div class="docstring">
   <div class="discussion">
     
-<p>the object type for this object in the object history table. See
-<span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
+<p>the object type for this object in the object history table. See <span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
 
 
   </div>
@@ -931,8 +882,7 @@ strings) and the second-level hash key of the returned subset data.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>A shortcut for &#39;management_data subset:
-:os_x_configuration_profiles&#39;.</p>
+<p>A shortcut for &#39;management_data subset: :os_x_configuration_profiles&#39;.</p>
 </div></span>
   
 </li>
@@ -1084,8 +1034,7 @@ strings) and the second-level hash key of the returned subset data.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Info about the local accts and ComputerGroups to which this machine
-beloings.</p>
+<p>Info about the local accts and ComputerGroups to which this machine beloings.</p>
 </div></span>
   
 </li>
@@ -1584,9 +1533,7 @@ beloings.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>User accts that support MDM? NOTE: This suffers from the
-JSON-Hash-treated-like_XML-Array-loses-data bug and only shows the last
-listed user, cuz it comes from the API as a hash, not an array.</p>
+<p>User accts that support MDM? NOTE: This suffers from the JSON-Hash-treated-like_XML-Array-loses-data bug and only shows the last listed user, cuz it comes from the API as a hash, not an array.</p>
 </div></span>
   
 </li>
@@ -2039,6 +1986,35 @@ listed user, cuz it comes from the API as a hash, not an array.</p>
 
   
     <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#security-instance_method" title="#security (instance method)">#<strong>security</strong>  &#x21d2; Hash </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The security settings for this Computer Keys are: activation_lock:  Boolean recovery_lock_enabled: Boolean secure_boot_level: String external_boot_level: String firewall_enabled: Boolean.</p>
+</div></span>
   
 </li>
 
@@ -2621,8 +2597,7 @@ listed user, cuz it comes from the API as a hash, not an array.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Retrieve Application Usage data for a computer by id, without
-instantiation.</p>
+<p>Retrieve Application Usage data for a computer by id, without instantiation.</p>
 </div></span>
   
 </li>
@@ -2694,8 +2669,7 @@ instantiation.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The &#39;computer management&#39; data for a given computer by id, looked
-up on the fly.</p>
+<p>The &#39;computer management&#39; data for a given computer by id, looked up on the fly.</p>
 </div></span>
   
 </li>
@@ -3480,6 +3454,35 @@ up on the fly.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#disable_remote_desktop-instance_method" title="#disable_remote_desktop (instance method)">#<strong>disable_remote_desktop</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="MDM.html#disable_remote_desktop-instance_method" title="JSS::MDM#disable_remote_desktop (method)">MDM</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send a disable_remote_desktop command to this computer or group.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#disable_voice_roaming-instance_method" title="#disable_voice_roaming (instance method)">#<strong>disable_voice_roaming</strong>  &#x21d2; Object </a>
     
 
@@ -3582,8 +3585,7 @@ up on the fly.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>EA names =&gt; data type (one of &#39;String&#39;, &#39;Number&#39;, or
-&#39;Date&#39;).</p>
+<p>EA names =&gt; data type (one of &#39;String&#39;, &#39;Number&#39;, or &#39;Date&#39;).</p>
 </div></span>
   
 </li>
@@ -3763,6 +3765,35 @@ up on the fly.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#enable_remote_desktop-instance_method" title="#enable_remote_desktop (instance method)">#<strong>enable_remote_desktop</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="MDM.html#enable_remote_desktop-instance_method" title="JSS::MDM#enable_remote_desktop (method)">MDM</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send an enable_remote_desktop command to this computer or group.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#enable_voice_roaming-instance_method" title="#enable_voice_roaming (instance method)">#<strong>enable_voice_roaming</strong>  &#x21d2; Object </a>
     
 
@@ -3843,8 +3874,7 @@ up on the fly.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>TODO: make this (and all XML amending) method take the in-progress XML doc
-and add (or not) the EA xml to it.</p>
+<p>TODO: make this (and all XML amending) method take the in-progress XML doc and add (or not) the EA xml to it.</p>
 </div></span>
   
 </li>
@@ -4081,6 +4111,30 @@ and add (or not) the EA xml to it.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#flush_policy_logs-instance_method" title="#flush_policy_logs (instance method)">#<strong>flush_policy_logs</strong>(policy, older_than: 0, period: :days)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>flush the logs for this computer in a given policy.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#has_location%3F-instance_method" title="#has_location? (instance method)">#<strong>has_location?</strong>  &#x21d2; Boolean </a>
     
 
@@ -4156,9 +4210,7 @@ and add (or not) the EA xml to it.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p># When creating new records with .make, these can be provided in the arg,
-or after instantiation via setter methods:   serial_number:, udid:,
-asset_tag:, mac_address:   alt_mac_address:, barcode_1:, barcode_2:.</p>
+<p># When creating new records with .make, these can be provided in the arg, or after instantiation via setter methods:   serial_number:, udid:, asset_tag:, mac_address:   alt_mac_address:, barcode_1:, barcode_2:.</p>
 </div></span>
   
 </li>
@@ -4299,8 +4351,7 @@ asset_tag:, mac_address:   alt_mac_address:, barcode_1:, barcode_2:.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Each item has keys :name, :realname, :uid, :home, :home_size,
-:administrator, :filevault_enabled.</p>
+<p>Each item has keys :name, :realname, :uid, :home, :home_size, :administrator, :filevault_enabled.</p>
 </div></span>
   
 </li>
@@ -4358,8 +4409,7 @@ asset_tag:, mac_address:   alt_mac_address:, barcode_1:, barcode_2:.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Return a REXML &lt;location&gt; element to be included in the rest_xml of
-objects that have a Location subset.</p>
+<p>Return a REXML &lt;location&gt; element to be included in the rest_xml of objects that have a Location subset.</p>
 </div></span>
   
 </li>
@@ -4522,8 +4572,7 @@ objects that have a Location subset.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Make all the keys of the @hardware hash available as top-level methods on
-the Computer instance.</p>
+<p>Make all the keys of the @hardware hash available as top-level methods on the Computer instance.</p>
 </div></span>
   
 </li>
@@ -4581,8 +4630,7 @@ the Computer instance.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Change the name of this item Remember to #update to push changes to the
-server.</p>
+<p>Change the name of this item Remember to #update to push changes to the server.</p>
 </div></span>
   
 </li>
@@ -4611,9 +4659,7 @@ server.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Populate @extension_attributes (the Array of Hashes that comes from the
-API) and @ext_attr_names, which is a Hash mapping the EA names to their
-values.</p>
+<p>Populate @extension_attributes (the Array of Hashes that comes from the API) and @ext_attr_names, which is a Hash mapping the EA names to their values.</p>
 </div></span>
   
 </li>
@@ -4642,9 +4688,7 @@ values.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Call this during initialization of objects that have a Location subset and
-the location attributes will be populated (as primary attributes) from
-@init_data.</p>
+<p>Call this during initialization of objects that have a Location subset and the location attributes will be populated (as primary attributes) from @init_data.</p>
 </div></span>
   
 </li>
@@ -4673,8 +4717,7 @@ the location attributes will be populated (as primary attributes) from
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Call this during initialization of objects that have a Purchasing subset
-and the purchasing attribute will be populated from @init_data.</p>
+<p>Call this during initialization of objects that have a Purchasing subset and the purchasing attribute will be populated from @init_data.</p>
 </div></span>
   
 </li>
@@ -4727,8 +4770,7 @@ and the purchasing attribute will be populated from @init_data.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>A shortcut for &#39;management_data subset:
-:patch_reporting_software_titles&#39;.</p>
+<p>A shortcut for &#39;management_data subset: :patch_reporting_software_titles&#39;.</p>
 </div></span>
   
 </li>
@@ -4985,8 +5027,7 @@ and the purchasing attribute will be populated from @init_data.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>A &lt;purchasing&gt; element to be included in the rest_xml of objects that
-mix-in this module.</p>
+<p>A &lt;purchasing&gt; element to be included in the rest_xml of objects that mix-in this module.</p>
 </div></span>
   
 </li>
@@ -5010,8 +5051,7 @@ mix-in this module.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Companion to method_missing, allows for easier debugging in backtraces that
-involve missing methods.</p>
+<p>Companion to method_missing, allows for easier debugging in backtraces that involve missing methods.</p>
 </div></span>
   
 </li>
@@ -5558,7 +5598,7 @@ involve missing methods.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#upload-instance_method" title="#upload (instance method)">#<strong>upload</strong>(type, local_file)  &#x21d2; String </a>
+      <a href="#upload-instance_method" title="#upload (instance method)">#<strong>upload</strong>(type, local_file, force_ipa_upload: false)  &#x21d2; Boolean </a>
     
 
     
@@ -5578,8 +5618,7 @@ involve missing methods.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Upload a file to the JSS via the REST Resource of the object to which this
-module is mixed in.</p>
+<p>instance method wrapper for class method.</p>
 </div></span>
   
 </li>
@@ -5637,8 +5676,7 @@ module is mixed in.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>is the value being passed to set_ext_attr valid? Converts values as needed
-(e.g. strings to integers or Times).</p>
+<p>is the value being passed to set_ext_attr valid? Converts values as needed (e.g. strings to integers or Times).</p>
 </div></span>
   
 </li>
@@ -5696,8 +5734,7 @@ module is mixed in.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Raise an error if the named EA has a popup menu, but the provided value
-isn&#39;t one of the menu items.</p>
+<p>Raise an error if the named EA has a popup menu, but the provided value isn&#39;t one of the menu items.</p>
 </div></span>
   
 </li>
@@ -5774,11 +5811,11 @@ isn&#39;t one of the menu items.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p># When creating new records with .make, these can be provided in the arg,
-or after instantiation via setter methods:</p>
+<p># When creating new records with .make, these can be provided in the arg, or after instantiation via setter methods:</p>
 
 <pre class="code ruby"><code class="ruby">serial_number:, udid:, asset_tag:, mac_address:
-alt_mac_address:, barcode_1:, barcode_2:</code></pre>
+alt_mac_address:, barcode_1:, barcode_2:
+</code></pre>
 
 
   </div>
@@ -5814,15 +5851,6 @@ alt_mac_address:, barcode_1:, barcode_2:</code></pre>
       <pre class="lines">
 
 
-770
-771
-772
-773
-774
-775
-776
-777
-778
 779
 780
 781
@@ -5884,10 +5912,21 @@ alt_mac_address:, barcode_1:, barcode_2:</code></pre>
 837
 838
 839
-840</pre>
+840
+841
+842
+843
+844
+845
+846
+847
+848
+849
+850
+851</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 770</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 779</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>super</span> <span class='id identifier rubyid_args'>args</span>
@@ -5919,6 +5958,8 @@ alt_mac_address:, barcode_1:, barcode_2:</code></pre>
     <span class='ivar'>@platform</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:platform</span><span class='rbracket'>]</span>
     <span class='ivar'>@report_date</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_epoch_to_time'><span class='object_link'><a href="../JSS.html#epoch_to_time-class_method" title="JSS.epoch_to_time (method)">epoch_to_time</a></span></span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:report_date_epoch</span><span class='rbracket'>]</span>
     <span class='ivar'>@sus</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:sus</span><span class='rbracket'>]</span>
+
+    <span class='ivar'>@security</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:security</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
 
     <span class='ivar'>@configuration_profiles</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:configuration_profiles</span><span class='rbracket'>]</span>
 
@@ -5985,12 +6026,9 @@ alt_mac_address:, barcode_1:, barcode_2:</code></pre>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Make all the keys of the @hardware hash available as top-level methods on
-the Computer instance.</p>
+<p>Make all the keys of the @hardware hash available as top-level methods on the Computer instance.</p>
 
-<p>This is done by catching method_missing and seeing if the method exists as
-key of @hardware, and if so, retuning that value, if not, passing on the
-method_missing call. So:</p>
+<p>This is done by catching method_missing and seeing if the method exists as key of @hardware, and if so, retuning that value, if not, passing on the method_missing call. So:</p>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_comp'>comp</span><span class='period'>.</span><span class='id identifier rubyid_processor_type'>processor_type</span>
 </code></pre>
@@ -6000,13 +6038,9 @@ method_missing call. So:</p>
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_comp'>comp</span><span class='period'>.</span><span class='id identifier rubyid_hardware'>hardware</span><span class='lbracket'>[</span><span class='symbol'>:processor_type</span><span class='rbracket'>]</span>
 </code></pre>
 
-<p>The reason for using `method_missing` rather than looping through the
-speed. When instantiating lots of computers, defining the methods for each
-one, when those methods may not be needed, just slows things down. This
-way, they&#39;re only used when needed.</p>
+<p>The reason for using `method_missing` rather than looping through the speed. When instantiating lots of computers, defining the methods for each one, when those methods may not be needed, just slows things down. This way, they&#39;re only used when needed.</p>
 
-<p>This method may be expanded in the future to handle other ad-hoc, top-level
-methods.</p>
+<p>This method may be expanded in the future to handle other ad-hoc, top-level methods.</p>
 
 
   </div>
@@ -6020,16 +6054,16 @@ methods.</p>
       <pre class="lines">
 
 
-862
-863
-864
-865
-866
-867
-868</pre>
+873
+874
+875
+876
+877
+878
+879</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 862</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 873</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_method_missing'>method_missing</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='ivar'>@hardware</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span> <span class='id identifier rubyid_method'>method</span>
@@ -6066,7 +6100,7 @@ methods.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the secondary mac address</p>
+<p>Returns the secondary mac address.</p>
 
 
   </div>
@@ -6168,7 +6202,7 @@ methods.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the asset tag</p>
+<p>Returns the asset tag.</p>
 
 
   </div>
@@ -6233,7 +6267,7 @@ methods.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the barcodes</p>
+<p>Returns the barcodes.</p>
 
 
   </div>
@@ -6298,7 +6332,7 @@ methods.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the barcodes</p>
+<p>Returns the barcodes.</p>
 
 
   </div>
@@ -6438,12 +6472,12 @@ methods.</p>
       <pre class="lines">
 
 
-617
-618
-619</pre>
+626
+627
+628</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 617</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 626</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_certificates'>certificates</span>
   <span class='ivar'>@certificates</span>
@@ -6467,8 +6501,7 @@ methods.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>A shortcut for &#39;management_data subset:
-:os_x_configuration_profiles&#39;</p>
+<p>A shortcut for &#39;management_data subset: :os_x_configuration_profiles&#39;</p>
 
 
   </div>
@@ -6482,12 +6515,12 @@ methods.</p>
       <pre class="lines">
 
 
-605
-606
-607</pre>
+614
+615
+616</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 605</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 614</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_configuration_profiles'>configuration_profiles</span>
   <span class='ivar'>@configuration_profiles</span>
@@ -6552,7 +6585,7 @@ methods.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The name of the distribution point for this computer</p>
+<p>Returns The name of the distribution point for this computer.</p>
 
 
   </div>
@@ -6659,7 +6692,7 @@ methods.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The extension attribute values for the object</p>
+<p>Returns The extension attribute values for the object.</p>
 
 
   </div>
@@ -6702,16 +6735,13 @@ methods.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Info about the local accts and ComputerGroups to which this machine
-beloings</p>
+<p>Info about the local accts and ComputerGroups to which this machine beloings</p>
 
 <p>The Hash keys are:</p>
 <ul><li>
-<p>:computer_group_memberships =&gt; An Array of names of ComputerGroups to
-which this computer belongs</p>
+<p>:computer_group_memberships =&gt; An Array of names of ComputerGroups to which this computer belongs</p>
 </li><li>
-<p>:local_accounts =&gt; An Array of Hashes for each local user acct on this
-computer. Each hash has these keys:</p>
+<p>:local_accounts =&gt; An Array of Hashes for each local user acct on this computer. Each hash has these keys:</p>
 <ul><li>
 <p>:name =&gt; String, the login name of the acct</p>
 </li><li>
@@ -6721,11 +6751,9 @@ computer. Each hash has these keys:</p>
 </li><li>
 <p>:home =&gt; String, the path to the home folder</p>
 </li><li>
-<p>:home_size =&gt; String,  the size of the homedir as a string like
-“53245MB”</p>
+<p>:home_size =&gt; String,  the size of the homedir as a string like “53245MB”</p>
 </li><li>
-<p>:home_size_mb =&gt; Integer,  the size of the homedir as an integer like
-53245</p>
+<p>:home_size_mb =&gt; Integer,  the size of the homedir as an integer like 53245</p>
 </li><li>
 <p>:administrator =&gt; Boolean</p>
 </li><li>
@@ -6758,12 +6786,12 @@ computer. Each hash has these keys:</p>
       <pre class="lines">
 
 
-635
-636
-637</pre>
+644
+645
+646</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 635</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 644</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_groups_accounts'>groups_accounts</span>
   <span class='ivar'>@groups_accounts</span>
@@ -6924,12 +6952,12 @@ computer. Each hash has these keys:</p>
       <pre class="lines">
 
 
-695
-696
-697</pre>
+704
+705
+706</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 695</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 704</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hardware'>hardware</span>
   <span class='ivar'>@hardware</span>
@@ -6953,7 +6981,7 @@ computer. Each hash has these keys:</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns when was it added to the JSS</p>
+<p>Returns when was it added to the JSS.</p>
 
 
   </div>
@@ -7014,7 +7042,7 @@ computer. Each hash has these keys:</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the last known IP address from the server&#39;s perspective</p>
+<p>Returns the last known IP address from the server&#39;s perspective.</p>
 
 
   </div>
@@ -7219,7 +7247,7 @@ computer. Each hash has these keys:</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the version of the jamf binary</p>
+<p>Returns the version of the jamf binary.</p>
 
 
   </div>
@@ -7280,7 +7308,7 @@ computer. Each hash has these keys:</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the last contact time</p>
+<p>Returns the last contact time.</p>
 
 
   </div>
@@ -7341,7 +7369,7 @@ computer. Each hash has these keys:</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the last time this machine was enrolled</p>
+<p>Returns the last time this machine was enrolled.</p>
 
 
   </div>
@@ -7484,7 +7512,7 @@ computer. Each hash has these keys:</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the primary macaddress</p>
+<p>Returns the primary macaddress.</p>
 
 
   </div>
@@ -7549,7 +7577,7 @@ computer. Each hash has these keys:</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns is this machine “managed” by Casper?</p>
+<p>Returns is this machine “managed” by Casper?.</p>
 
 
   </div>
@@ -7610,7 +7638,7 @@ computer. Each hash has these keys:</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns some MDM status details in general</p>
+<p>Returns some MDM status details in general.</p>
 
 
   </div>
@@ -7671,7 +7699,7 @@ computer. Each hash has these keys:</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the name of the management account</p>
+<p>Returns the name of the management account.</p>
 
 
   </div>
@@ -7736,7 +7764,7 @@ computer. Each hash has these keys:</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns doesit support MDM?</p>
+<p>Returns doesit support MDM?.</p>
 
 
   </div>
@@ -7797,9 +7825,7 @@ computer. Each hash has these keys:</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns user accts that support MDM? NOTE: This suffers from the
-JSON-Hash-treated-like_XML-Array-loses-data bug and only shows the last
-listed user, cuz it comes from the API as a hash, not an array.</p>
+<p>Returns user accts that support MDM? NOTE: This suffers from the JSON-Hash-treated-like_XML-Array-loses-data bug and only shows the last listed user, cuz it comes from the API as a hash, not an array.</p>
 
 
   </div>
@@ -7818,9 +7844,7 @@ listed user, cuz it comes from the API as a hash, not an array.</p>
       
         &mdash;
         <div class='inline'>
-<p>user accts that support MDM? NOTE: This suffers from the
-JSON-Hash-treated-like_XML-Array-loses-data bug and only shows the last
-listed user, cuz it comes from the API as a hash, not an array.</p>
+<p>user accts that support MDM? NOTE: This suffers from the JSON-Hash-treated-like_XML-Array-loses-data bug and only shows the last listed user, cuz it comes from the API as a hash, not an array.</p>
 </div>
       
     </li>
@@ -7867,7 +7891,7 @@ listed user, cuz it comes from the API as a hash, not an array.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns do we have unsaved changes?</p>
+<p>Returns do we have unsaved changes?.</p>
 
 
   </div>
@@ -7910,7 +7934,7 @@ listed user, cuz it comes from the API as a hash, not an array.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the name of the netboot server for this machine</p>
+<p>Returns the name of the netboot server for this machine.</p>
 
 
   </div>
@@ -8064,12 +8088,12 @@ listed user, cuz it comes from the API as a hash, not an array.</p>
       <pre class="lines">
 
 
-734
-735
-736</pre>
+743
+744
+745</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 734</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 743</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_peripherals'>peripherals</span>
   <span class='ivar'>@peripherals</span>
@@ -8134,7 +8158,7 @@ listed user, cuz it comes from the API as a hash, not an array.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns what kind of computer?</p>
+<p>Returns what kind of computer?.</p>
 
 
   </div>
@@ -8486,7 +8510,7 @@ listed user, cuz it comes from the API as a hash, not an array.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the last recon time</p>
+<p>Returns the last recon time.</p>
 
 
   </div>
@@ -8547,7 +8571,7 @@ listed user, cuz it comes from the API as a hash, not an array.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the last known IP address from the client&#39;s perspecive</p>
+<p>Returns the last known IP address from the client&#39;s perspecive.</p>
 
 
   </div>
@@ -8636,6 +8660,67 @@ listed user, cuz it comes from the API as a hash, not an array.</p>
 </div>
     
       
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="security-instance_method">
+  
+    #<strong>security</strong>  &#x21d2; <tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The security settings for this Computer Keys are: activation_lock:  Boolean recovery_lock_enabled: Boolean secure_boot_level: String external_boot_level: String firewall_enabled: Boolean.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The security settings for this Computer Keys are: activation_lock:  Boolean recovery_lock_enabled: Boolean secure_boot_level: String external_boot_level: String firewall_enabled: Boolean</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+594
+595
+596</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 594</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_security'>security</span>
+  <span class='ivar'>@security</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
       <span id="serial_number=-instance_method"></span>
       <div class="method_details ">
   <h3 class="signature " id="serial_number-instance_method">
@@ -8653,7 +8738,7 @@ listed user, cuz it comes from the API as a hash, not an array.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the serial number</p>
+<p>Returns the serial number.</p>
 
 
   </div>
@@ -8714,7 +8799,7 @@ listed user, cuz it comes from the API as a hash, not an array.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the :name and :id of the site for this machine</p>
+<p>Returns the :name and :id of the site for this machine.</p>
 
 
   </div>
@@ -8779,20 +8864,15 @@ listed user, cuz it comes from the API as a hash, not an array.</p>
 
 <p>The Hash has these keys:</p>
 <ul><li>
-<p>:running_services =&gt; An Array of services running on the computer (if
-gathered) TODO - is each item a hash?</p>
+<p>:running_services =&gt; An Array of services running on the computer (if gathered) TODO - is each item a hash?</p>
 </li><li>
-<p>:installed_by_casper =&gt; An Array of Package names unstalled on this
-computer by Casper</p>
+<p>:installed_by_casper =&gt; An Array of Package names unstalled on this computer by Casper</p>
 </li><li>
-<p>:fonts =&gt; An Array of fonts on this computer (if gathered) TODO - is
-each item a hash?</p>
+<p>:fonts =&gt; An Array of fonts on this computer (if gathered) TODO - is each item a hash?</p>
 </li><li>
-<p>:installed_by_installer_swu =&gt; An Array of pkg IDs for pkgs installed by
-SoftwareUpdate or the Apple Installer</p>
+<p>:installed_by_installer_swu =&gt; An Array of pkg IDs for pkgs installed by SoftwareUpdate or the Apple Installer</p>
 </li><li>
-<p>:applications =&gt; An Array of Hashes, one per Application on the
-computer, with these keys:</p>
+<p>:applications =&gt; An Array of Hashes, one per Application on the computer, with these keys:</p>
 <ul><li>
 <p>:path =&gt; String, the path to the app</p>
 </li><li>
@@ -8801,19 +8881,15 @@ computer, with these keys:</p>
 <p>:version =&gt; String, the version of the app at that path.</p>
 </li></ul>
 </li><li>
-<p>:cached_by_casper =&gt; An Array of Casper Package names cached on the
-machine, awaiting installation</p>
+<p>:cached_by_casper =&gt; An Array of Casper Package names cached on the machine, awaiting installation</p>
 </li><li>
-<p>:available_software_updates =&gt; An Array of available SoftwareUpdate (if
-gathered) TODO - is each item a hash?</p>
+<p>:available_software_updates =&gt; An Array of available SoftwareUpdate (if gathered) TODO - is each item a hash?</p>
 </li><li>
-<p>:plugins =&gt; An Array of plugins installed on the machine (if gathered)
-TODO - is each item a hash?</p>
+<p>:plugins =&gt; An Array of plugins installed on the machine (if gathered) TODO - is each item a hash?</p>
 </li><li>
 <p>:available_updates =&gt; A Hash - Deprecated?</p>
 </li><li>
-<p>:licensed_software =&gt; An Array, the names of Licenced Software (as
-defined in Casper) on this machine</p>
+<p>:licensed_software =&gt; An Array, the names of Licenced Software (as defined in Casper) on this machine</p>
 </li><li>
 <p>:unix_executables =&gt; DEPRECATED</p>
 </li></ul>
@@ -8843,12 +8919,12 @@ defined in Casper) on this machine</p>
       <pre class="lines">
 
 
-756
-757
-758</pre>
+765
+766
+767</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 756</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 765</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_software'>software</span>
   <span class='ivar'>@software</span>
@@ -8904,12 +8980,12 @@ defined in Casper) on this machine</p>
       <pre class="lines">
 
 
-588
-589
-590</pre>
+597
+598
+599</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 588</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 597</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sus'>sus</span>
   <span class='ivar'>@sus</span>
@@ -8933,7 +9009,7 @@ defined in Casper) on this machine</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the UDID of the computer</p>
+<p>Returns the UDID of the computer.</p>
 
 
   </div>
@@ -8965,12 +9041,12 @@ defined in Casper) on this machine</p>
       <pre class="lines">
 
 
-591
-592
-593</pre>
+600
+601
+602</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 591</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 600</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_udid'>udid</span>
   <span class='ivar'>@udid</span>
@@ -9128,15 +9204,9 @@ defined in Casper) on this machine</p>
     
 <p>A larger set of info about the computers in the JSS.</p>
 
-<p>Casper 9.4 introduced the API Resource /computers/subset/basic that returns
-an array of hashes with more data than just /computers/ (which was just
-:name and :id). Similar to /mobildevices/, this new list includes :udid,
-:serial_number, and :mac_address, as well as :model, :managed, :building,
-:department, :username, and :report_date</p>
+<p>Casper 9.4 introduced the API Resource /computers/subset/basic that returns an array of hashes with more data than just /computers/ (which was just :name and :id). Similar to /mobildevices/, this new list includes :udid, :serial_number, and :mac_address, as well as :model, :managed, :building, :department, :username, and :report_date</p>
 
-<p>Because this requires a different, unusual, resource path, we&#39;re
-completely re-defining <span class='object_link'><a href="APIObject.html#all-class_method" title="JSS::APIObject.all (method)">APIObject.all</a></span> for JSS::Computer.  Hopefully some
-day the original /computers/ resource will be updated to return this data.</p>
+<p>Because this requires a different, unusual, resource path, we&#39;re completely re-defining <span class='object_link'><a href="APIObject.html#all-class_method" title="JSS::APIObject.all (method)">APIObject.all</a></span> for JSS::Computer.  Hopefully some day the original /computers/ resource will be updated to return this data.</p>
 
 
   </div>
@@ -9171,11 +9241,12 @@ day the original /computers/ resource will be updated to return this data.</p>
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>an API connection to use for the query. Defaults to the corrently active
-API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
+<p>an API connection to use for the query. Defaults to the corrently active API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
 </div>
       
     </li>
@@ -9239,7 +9310,7 @@ API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIC
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns all desktop macs in the jss</p>
+<p>Returns all desktop macs in the jss.</p>
 
 
   </div>
@@ -9298,7 +9369,7 @@ API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIC
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns all imacs in the jss</p>
+<p>Returns all imacs in the jss.</p>
 
 
   </div>
@@ -9357,7 +9428,7 @@ API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIC
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns all laptop computers in the jss</p>
+<p>Returns all laptop computers in the jss.</p>
 
 
   </div>
@@ -9416,7 +9487,7 @@ API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIC
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns all macbookairs in the jss</p>
+<p>Returns all macbookairs in the jss.</p>
 
 
   </div>
@@ -9475,7 +9546,7 @@ API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIC
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns all macbookpros in the jss</p>
+<p>Returns all macbookpros in the jss.</p>
 
 
   </div>
@@ -9534,7 +9605,7 @@ API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIC
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns all macbooks in the jss</p>
+<p>Returns all macbooks in the jss.</p>
 
 
   </div>
@@ -9593,7 +9664,7 @@ API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIC
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns all macpros in the jss</p>
+<p>Returns all macpros in the jss.</p>
 
 
   </div>
@@ -9652,7 +9723,7 @@ API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIC
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns all managed computers in the jss</p>
+<p>Returns all managed computers in the jss.</p>
 
 
   </div>
@@ -9711,7 +9782,7 @@ API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIC
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns all mac minis in the jss</p>
+<p>Returns all mac minis in the jss.</p>
 
 
   </div>
@@ -9770,7 +9841,7 @@ API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIC
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns all unmanaged computers in the jss</p>
+<p>Returns all unmanaged computers in the jss.</p>
 
 
   </div>
@@ -9829,7 +9900,7 @@ API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIC
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns all xserves in the jss</p>
+<p>Returns all xserves in the jss.</p>
 
 
   </div>
@@ -9888,36 +9959,19 @@ API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIC
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Query the JSS for computers with some app installed. An app name is
-required as the first parameter.</p>
+<p>Query the JSS for computers with some app installed. An app name is required as the first parameter.</p>
 
-<p>If no other parameters are given, returns a Hash, one key per version of
-the app. For each version there is an array of Hashes, one Hash for each
-computer with that version. The sub hashes contain keys for the
-computer&#39;s identifiers, i.e. :name, :id, :udid, :serial_number,
-:mac_address.</p>
+<p>If no other parameters are given, returns a Hash, one key per version of the app. For each version there is an array of Hashes, one Hash for each computer with that version. The sub hashes contain keys for the computer&#39;s identifiers, i.e. :name, :id, :udid, :serial_number, :mac_address.</p>
 
-<p>If one or more inventory fields are provided in the &#39;fields&#39;
-parameter, each computer&#39;s hash also has keys and values for those
-fields if they exist in the JSS. These fields are those available in the
-display options for Advanced Computer Searches (including extention
-attribute names) and their names are case-sensitive, so &#39;Username&#39;,
-not &#39;username&#39;</p>
+<p>If one or more inventory fields are provided in the &#39;fields&#39; parameter, each computer&#39;s hash also has keys and values for those fields if they exist in the JSS. These fields are those available in the display options for Advanced Computer Searches (including extention attribute names) and their names are case-sensitive, so &#39;Username&#39;, not &#39;username&#39;</p>
 
-<p>If a specific version is provided in the &#39;version&#39; parameter, only
-computers containing that version of the app are returned as an Array of
-Hashes.</p>
+<p>If a specific version is provided in the &#39;version&#39; parameter, only computers containing that version of the app are returned as an Array of Hashes.</p>
 
-<p>If the ids_only parameter is truthy, an Array of JSS id numbers for
-computers with this app is returned. In this case the &#39;fields&#39;
-parameter is ignored, however the &#39;version&#39; parameters is still
-valid and will restrict the list to those computer ids with that version
-installed.</p>
+<p>If the ids_only parameter is truthy, an Array of JSS id numbers for computers with this app is returned. In this case the &#39;fields&#39; parameter is ignored, however the &#39;version&#39; parameters is still valid and will restrict the list to those computer ids with that version installed.</p>
 
 <p>This method implements the &#39;computerapplications&#39; API endpoint.</p>
 
-<p>NOTE: To see all the apps installed on a specific computer, fetch the
-JSS::Computer instance and call its <span class='object_link'><a href="#apps-instance_method" title="JSS::Computer#apps (method)">#apps</a></span> method.</p>
+<p>NOTE: To see all the apps installed on a specific computer, fetch the JSS::Computer instance and call its <span class='object_link'><a href="#apps-instance_method" title="JSS::Computer#apps (method)">#apps</a></span> method.</p>
 
 
   </div>
@@ -9950,11 +10004,12 @@ JSS::Computer instance and call its <span class='object_link'><a href="#apps-ins
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>[]</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>Additional &#39;inventory fields&#39; to return with each computer&#39;s
-data</p>
+<p>Additional &#39;inventory fields&#39; to return with each computer&#39;s data</p>
 </div>
       
     </li>
@@ -9966,6 +10021,8 @@ data</p>
       
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
       
       
         &mdash;
@@ -9983,11 +10040,12 @@ data</p>
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>Just return an array of the id&#39;s of computers found with this query.
-Defaults to false</p>
+<p>Just return an array of the id&#39;s of computers found with this query. Defaults to false</p>
 </div>
       
     </li>
@@ -9999,6 +10057,8 @@ Defaults to false</p>
       
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
       
       
         &mdash;
@@ -10022,8 +10082,7 @@ Defaults to false</p>
       
         &mdash;
         <div class='inline'>
-<p>When ids_only == true, the ids of computers with the app installed
-(possibly limited to version)</p>
+<p>When ids_only == true, the ids of computers with the app installed (possibly limited to version)</p>
 </div>
       
     </li>
@@ -10037,8 +10096,7 @@ Defaults to false</p>
       
         &mdash;
         <div class='inline'>
-<p>When version is provided, An Array of Hashes, one for each computer, with
-keys for identifiers plus any requested fields.</p>
+<p>When version is provided, An Array of Hashes, one for each computer, with keys for identifiers plus any requested fields.</p>
 </div>
       
     </li>
@@ -10052,9 +10110,7 @@ keys for identifiers plus any requested fields.</p>
       
         &mdash;
         <div class='inline'>
-<p>When no version is provided, a Hash with keys for each version, pointing to
-an array of Hashes, one for each computer with that version. Each
-computer&#39;s Hash has keys for identifiers plus any requested fields.</p>
+<p>When no version is provided, a Hash with keys for each version, pointing to an array of Hashes, one for each computer with that version. Each computer&#39;s Hash has keys for identifiers plus any requested fields.</p>
 </div>
       
     </li>
@@ -10126,8 +10182,7 @@ computer&#39;s Hash has keys for identifiers plus any requested fields.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Retrieve Application Usage data for a computer by id, without
-instantiation.</p>
+<p>Retrieve Application Usage data for a computer by id, without instantiation.</p>
 
 
   </div>
@@ -10147,8 +10202,7 @@ instantiation.</p>
       
         &mdash;
         <div class='inline'>
-<p>An identifier (id, name, serialnumber, macadress or udid) of the computer
-for which to retrieve Application Usage</p>
+<p>An identifier (id, name, serialnumber, macadress or udid) of the computer for which to retrieve Application Usage</p>
 </div>
       
     </li>
@@ -10195,11 +10249,12 @@ for which to retrieve Application Usage</p>
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>an API connection to use for the query. Defaults to the corrently active
-API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
+<p>an API connection to use for the query. Defaults to the corrently active API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
 </div>
       
     </li>
@@ -10222,13 +10277,13 @@ API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIC
 
 <p>Each hash value contains an Array of apps used on that day.</p>
 
-<p>Each item in the array is a hash of data about the app. Those hash keys
-are:</p>
+<p>Each item in the array is a hash of data about the app. Those hash keys are:</p>
 
 <pre class="code ruby"><code class="ruby">:name =&gt; String, the name of the app
 :version =&gt; String ,the version of the app
 :foreground =&gt; Integer, the minutes it was in the foreground
-:open =&gt; Integer, the minutes it was running.</code></pre>
+:open =&gt; Integer, the minutes it was running.
+</code></pre>
 </div>
       
     </li>
@@ -10309,8 +10364,7 @@ are:</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Display the current Computer CheckIn settings in the JSS. Currently this is
-read-only in ruby-jss, even tho the API allows updating.</p>
+<p>Display the current Computer CheckIn settings in the JSS. Currently this is read-only in ruby-jss, even tho the API allows updating.</p>
 
 
   </div>
@@ -10327,11 +10381,12 @@ read-only in ruby-jss, even tho the API allows updating.</p>
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>an API connection to use for the query. Defaults to the corrently active
-API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
+<p>an API connection to use for the query. Defaults to the corrently active API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
 </div>
       
     </li>
@@ -10390,8 +10445,7 @@ API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIC
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Display the current Computer Inventory Collection settings in the JSS.
-Currently this is read-only in ruby-jss, even tho the API allows updating.</p>
+<p>Display the current Computer Inventory Collection settings in the JSS. Currently this is read-only in ruby-jss, even tho the API allows updating.</p>
 
 
   </div>
@@ -10408,11 +10462,12 @@ Currently this is read-only in ruby-jss, even tho the API allows updating.</p>
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>an API connection to use for the query. Defaults to the corrently active
-API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
+<p>an API connection to use for the query. Defaults to the corrently active API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
 </div>
       
     </li>
@@ -10431,8 +10486,7 @@ API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIC
       
         &mdash;
         <div class='inline'>
-<p>the Computer Inventpry Collection Settings from the currently connected
-JSS.</p>
+<p>the Computer Inventpry Collection Settings from the currently connected JSS.</p>
 </div>
       
     </li>
@@ -10472,18 +10526,13 @@ JSS.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The &#39;computer management&#39; data for a given computer by id, looked
-up on the fly.</p>
+<p>The &#39;computer management&#39; data for a given computer by id, looked up on the fly.</p>
 
-<p>Without specifying a subset:, the entire dataset is returned as a hash of
-arrays, one per  subset</p>
+<p>Without specifying a subset:, the entire dataset is returned as a hash of arrays, one per  subset</p>
 
-<p>If a subset is given then only that array is returned, and it contains
-hashes with data about each item (usually :name and :id)</p>
+<p>If a subset is given then only that array is returned, and it contains hashes with data about each item (usually :name and :id)</p>
 
-<p>If the only: param is provided with a subset, it is used as a hash-key to
-map the array to just those values, so subset: :smart_groups, only: :name
-will return an array of names of smartgroups that contain the computer.</p>
+<p>If the only: param is provided with a subset, it is used as a hash-key to map the array to just those values, so subset: :smart_groups, only: :name will return an array of names of smartgroups that contain the computer.</p>
 
 
   </div>
@@ -10503,8 +10552,7 @@ will return an array of names of smartgroups that contain the computer.</p>
       
         &mdash;
         <div class='inline'>
-<p>An identifier (id, name, serialnumber, macadress or udid) of the computer
-for which to retrieve Application Usage</p>
+<p>An identifier (id, name, serialnumber, macadress or udid) of the computer for which to retrieve Application Usage</p>
 </div>
       
     </li>
@@ -10517,11 +10565,12 @@ for which to retrieve Application Usage</p>
         <span class='type'>(<tt>Symbol</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>Fetch only a subset of data, as an array. must be one of the symbols in
-MGMT_DATA_SUBSETS</p>
+<p>Fetch only a subset of data, as an array. must be one of the symbols in MGMT_DATA_SUBSETS</p>
 </div>
       
     </li>
@@ -10534,11 +10583,12 @@ MGMT_DATA_SUBSETS</p>
         <span class='type'>(<tt>Symbol</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>When fetching a subset, only return one value per item in the array.
-meaningless without a subset.</p>
+<p>When fetching a subset, only return one value per item in the array. meaningless without a subset.</p>
 </div>
       
     </li>
@@ -10551,11 +10601,12 @@ meaningless without a subset.</p>
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>an API connection to use for the query. Defaults to the corrently active
-API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
+<p>an API connection to use for the query. Defaults to the corrently active API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">APIConnection</a></span></p>
 </div>
       
     </li>
@@ -10588,8 +10639,7 @@ API. See <span class='object_link'><a href="APIConnection.html" title="JSS::APIC
       
         &mdash;
         <div class='inline'>
-<p>With a subset:, an array of items in that subset, possibly limited to just
-certain values with only:</p>
+<p>With a subset:, an array of items in that subset, possibly limited to just certain values with only:</p>
 </div>
       
     </li>
@@ -10648,8 +10698,7 @@ certain values with only:</p>
     
 <p>Perform a match, returning an Array of Hashes, one for each item matched</p>
 
-<p>At the moment, it appears the search is an “exact match” search regardless
-of the prefs of the user connected to the API.</p>
+<p>At the moment, it appears the search is an “exact match” search regardless of the prefs of the user connected to the API.</p>
 
 
   </div>
@@ -10782,12 +10831,12 @@ of the prefs of the user connected to the API.</p>
       <pre class="lines">
 
 
-987
-988
-989</pre>
+998
+999
+1000</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 987</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 998</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_app_store_apps'>app_store_apps</span><span class='lparen'>(</span><span class='label'>only:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_management_data'>management_data</span> <span class='label'>subset:</span> <span class='symbol'>:mac_app_store_apps</span><span class='comma'>,</span> <span class='label'>only:</span> <span class='id identifier rubyid_only'>only</span>
@@ -10809,8 +10858,7 @@ of the prefs of the user connected to the API.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Get application usage data for this computer for a given date range. See
-<span class='object_link'><a href="#application_usage-class_method" title="JSS::Computer.application_usage (method)">application_usage</a></span> for details</p>
+<p>Get application usage data for this computer for a given date range. See <span class='object_link'><a href="#application_usage-class_method" title="JSS::Computer.application_usage (method)">application_usage</a></span> for details</p>
 
 
   </div>
@@ -10824,12 +10872,12 @@ of the prefs of the user connected to the API.</p>
       <pre class="lines">
 
 
-940
-941
-942</pre>
+951
+952
+953</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 940</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 951</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_application_usage'>application_usage</span><span class='lparen'>(</span><span class='id identifier rubyid_start_date'>start_date</span><span class='comma'>,</span> <span class='id identifier rubyid_end_date'>end_date</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="JSS::Computer (class)">Computer</a></span></span><span class='period'>.</span><span class='id identifier rubyid_application_usage'><span class='object_link'><a href="#application_usage-class_method" title="JSS::Computer.application_usage (method)">application_usage</a></span></span> <span class='ivar'>@id</span><span class='comma'>,</span> <span class='id identifier rubyid_start_date'>start_date</span><span class='comma'>,</span> <span class='id identifier rubyid_end_date'>end_date</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span>
@@ -10851,8 +10899,7 @@ of the prefs of the user connected to the API.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns all apps installed on this machine. Hash keys are :name, :path, and
-:version</p>
+<p>Returns all apps installed on this machine. Hash keys are :name, :path, and :version.</p>
 
 
   </div>
@@ -10871,8 +10918,7 @@ of the prefs of the user connected to the API.</p>
       
         &mdash;
         <div class='inline'>
-<p>all apps installed on this machine. Hash keys are :name, :path, and
-:version</p>
+<p>all apps installed on this machine. Hash keys are :name, :path, and :version</p>
 </div>
       
     </li>
@@ -10885,12 +10931,12 @@ of the prefs of the user connected to the API.</p>
       <pre class="lines">
 
 
-925
-926
-927</pre>
+936
+937
+938</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 925</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 936</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_apps'>apps</span>
   <span class='ivar'>@software</span><span class='lbracket'>[</span><span class='symbol'>:applications</span><span class='rbracket'>]</span>
@@ -10983,7 +11029,7 @@ of the prefs of the user connected to the API.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The <a href=":storage">hardware</a> hash of the boot drive</p>
+<p>Returns The <a href=":storage">hardware</a> hash of the boot drive.</p>
 
 
   </div>
@@ -11015,12 +11061,12 @@ of the prefs of the user connected to the API.</p>
       <pre class="lines">
 
 
-911
-912
-913</pre>
+922
+923
+924</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 911</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 922</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_boot_drive'>boot_drive</span>
   <span class='id identifier rubyid_drives'>drives</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_d'>d</span><span class='op'>|</span> <span class='id identifier rubyid_d'>d</span><span class='lbracket'>[</span><span class='symbol'>:partition</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_d'>d</span><span class='lbracket'>[</span><span class='symbol'>:partition</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:type</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>boot</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span>
@@ -11201,8 +11247,7 @@ of the prefs of the user connected to the API.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>make a clone of this API object, with a new name. The class must be
-creatable</p>
+<p>make a clone of this API object, with a new name. The class must be creatable</p>
 
 
   </div>
@@ -11235,11 +11280,12 @@ creatable</p>
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to
-instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
 </div>
       
     </li>
@@ -11367,7 +11413,7 @@ instantiate this object</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the JSS groups to which thismachine belongs (smart and static)</p>
+<p>Returns the JSS groups to which thismachine belongs (smart and static).</p>
 
 
   </div>
@@ -11399,12 +11445,12 @@ instantiate this object</p>
       <pre class="lines">
 
 
-878
-879
-880</pre>
+889
+890
+891</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 878</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 889</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_computer_groups'>computer_groups</span>
   <span class='ivar'>@groups_accounts</span><span class='lbracket'>[</span><span class='symbol'>:computer_group_memberships</span><span class='rbracket'>]</span>
@@ -11490,8 +11536,7 @@ instantiate this object</p>
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to
-instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
 </div>
       
     </li>
@@ -11559,30 +11604,6 @@ instantiate this object</p>
       <pre class="lines">
 
 
-1109
-1110
-1111
-1112
-1113
-1114
-1115
-1116
-1117
-1118
-1119
-1120
-1121
-1122
-1123
-1124
-1125
-1126
-1127
-1128
-1129
-1130
-1131
-1132
 1133
 1134
 1135
@@ -11598,10 +11619,34 @@ instantiate this object</p>
 1145
 1146
 1147
-1148</pre>
+1148
+1149
+1150
+1151
+1152
+1153
+1154
+1155
+1156
+1157
+1158
+1159
+1160
+1161
+1162
+1163
+1164
+1165
+1166
+1167
+1168
+1169
+1170
+1171
+1172</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 1109</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 1133</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_delete'>delete</span>
   <span class='kw'>super</span>
@@ -11739,8 +11784,7 @@ instantiate this object</p>
       
         &mdash;
         <div class='inline'>
-<p>a six-char passcode, required for computers &amp; computergroups Or an
-optional message to display on mobiledevices &amp; mobiledevicegroups</p>
+<p>a six-char passcode, required for computers &amp; computergroups Or an optional message to display on mobiledevices &amp; mobiledevicegroups</p>
 </div>
       
     </li>
@@ -11916,6 +11960,34 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="disable_remote_desktop-instance_method">
+  
+    #<strong>disable_remote_desktop</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="MDM.html#disable_remote_desktop-instance_method" title="JSS::MDM#disable_remote_desktop (method)">MDM</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send a disable_remote_desktop command to this computer or group</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="disable_voice_roaming-instance_method">
   
     #<strong>disable_voice_roaming</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
@@ -11955,7 +12027,7 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns each storage device</p>
+<p>Returns each storage device.</p>
 
 
   </div>
@@ -11987,12 +12059,12 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
       <pre class="lines">
 
 
-905
-906
-907</pre>
+916
+917
+918</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 905</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 916</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_drives'>drives</span>
   <span class='ivar'>@hardware</span><span class='lbracket'>[</span><span class='symbol'>:storage</span><span class='rbracket'>]</span>
@@ -12019,7 +12091,7 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the names of all known EAs</p>
+<p>Returns the names of all known EAs.</p>
 
 
   </div>
@@ -12065,8 +12137,7 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns EA names =&gt; data type (one of &#39;String&#39;,
-&#39;Number&#39;, or &#39;Date&#39;)</p>
+<p>Returns EA names =&gt; data type (one of &#39;String&#39;, &#39;Number&#39;, or &#39;Date&#39;).</p>
 
 
   </div>
@@ -12085,8 +12156,7 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
       
         &mdash;
         <div class='inline'>
-<p>EA names =&gt; data type (one of &#39;String&#39;, &#39;Number&#39;, or
-&#39;Date&#39;)</p>
+<p>EA names =&gt; data type (one of &#39;String&#39;, &#39;Number&#39;, or &#39;Date&#39;)</p>
 </div>
       
     </li>
@@ -12161,12 +12231,12 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
       <pre class="lines">
 
 
-981
-982
-983</pre>
+992
+993
+994</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 981</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 992</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ebooks'>ebooks</span><span class='lparen'>(</span><span class='label'>only:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_management_data'>management_data</span> <span class='label'>subset:</span> <span class='symbol'>:ebooks</span><span class='comma'>,</span> <span class='label'>only:</span> <span class='id identifier rubyid_only'>only</span><span class='comma'>,</span> <span class='label'>refresh:</span> <span class='id identifier rubyid_refresh'>refresh</span>
@@ -12296,6 +12366,8 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -12311,6 +12383,8 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
       
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
       
       
         &mdash;
@@ -12328,6 +12402,8 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -12343,6 +12419,8 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
       
         <span class='type'>(<tt>Boolean</tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
       
       
         &mdash;
@@ -12360,6 +12438,8 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -12370,6 +12450,34 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
   
 </ul>
 
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="enable_remote_desktop-instance_method">
+  
+    #<strong>enable_remote_desktop</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="MDM.html#enable_remote_desktop-instance_method" title="JSS::MDM#enable_remote_desktop (method)">MDM</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send an enable_remote_desktop command to this computer or group</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
 
 </div>
 </div>
@@ -12477,9 +12585,7 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
   You should avoid using this method if possible, as it may be removed or be changed in the future.
 </p>
 
-<p>TODO: make this (and all XML amending) method take the in-progress XML doc
-and add (or not) the EA xml to it. See how Sitable#add_site_to_xml works,
-as called from Computer.rest_xml</p>
+<p>TODO: make this (and all XML amending) method take the in-progress XML doc and add (or not) the EA xml to it. See how Sitable#add_site_to_xml works, as called from Computer.rest_xml</p>
 
 
   </div>
@@ -12498,8 +12604,7 @@ as called from Computer.rest_xml</p>
       
         &mdash;
         <div class='inline'>
-<p>An &lt;extension_attribute&gt; element to be included in the rest_xml of
-objects that mix-in this module.</p>
+<p>An &lt;extension_attribute&gt; element to be included in the rest_xml of objects that mix-in this module.</p>
 </div>
       
     </li>
@@ -12526,8 +12631,7 @@ objects that mix-in this module.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>An easier-to-use hash of EA name to EA value. This isn&#39;t created until
-its needed, to speed up instantiation.</p>
+<p>An easier-to-use hash of EA name to EA value. This isn&#39;t created until its needed, to speed up instantiation.</p>
 
 
   </div>
@@ -12702,7 +12806,7 @@ its needed, to speed up instantiation.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The local_accounts Array that have Legacy FV enabled</p>
+<p>Returns The local_accounts Array that have Legacy FV enabled.</p>
 
 
   </div>
@@ -12734,13 +12838,13 @@ its needed, to speed up instantiation.</p>
       <pre class="lines">
 
 
-898
-899
-900
-901</pre>
+909
+910
+911
+912</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 898</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 909</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_filevault1_accounts'>filevault1_accounts</span>
   <span class='kw'>return</span> <span class='lbracket'>[</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_filevault2_enabled?'>filevault2_enabled?</span>
@@ -12763,7 +12867,7 @@ its needed, to speed up instantiation.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns is FileVault2 enabled?</p>
+<p>Returns is FileVault2 enabled?.</p>
 
 
   </div>
@@ -12795,12 +12899,12 @@ its needed, to speed up instantiation.</p>
       <pre class="lines">
 
 
-892
-893
-894</pre>
+903
+904
+905</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 892</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 903</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_filevault2_enabled?'>filevault2_enabled?</span>
   <span class='id identifier rubyid_boot_drive'>boot_drive</span><span class='lbracket'>[</span><span class='symbol'>:partition</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:filevault2_status</span><span class='rbracket'>]</span> <span class='op'>!=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Not Encrypted</span><span class='tstring_end'>&#39;</span></span>
@@ -12859,6 +12963,66 @@ its needed, to speed up instantiation.</p>
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="flush_policy_logs-instance_method">
+  
+    #<strong>flush_policy_logs</strong>(policy, older_than: 0, period: :days)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>flush the logs for this computer in a given policy</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="Policy.html#flush_logs-class_method" title="JSS::Policy.flush_logs (method)">Policy.flush_logs</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1063
+1064
+1065
+1066
+1067
+1068
+1069
+1070
+1071</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 1063</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_flush_policy_logs'>flush_policy_logs</span><span class='lparen'>(</span><span class='id identifier rubyid_policy'>policy</span><span class='comma'>,</span> <span class='label'>older_than:</span> <span class='int'>0</span><span class='comma'>,</span> <span class='label'>period:</span> <span class='symbol'>:days</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Policy.html" title="JSS::Policy (class)">Policy</a></span></span><span class='period'>.</span><span class='id identifier rubyid_flush_logs'><span class='object_link'><a href="Policy.html#flush_logs-class_method" title="JSS::Policy.flush_logs (method)">flush_logs</a></span></span><span class='lparen'>(</span>
+    <span class='id identifier rubyid_policy'>policy</span><span class='comma'>,</span>
+    <span class='label'>older_than:</span> <span class='id identifier rubyid_older_than'>older_than</span><span class='comma'>,</span>
+    <span class='label'>period:</span> <span class='id identifier rubyid_period'>period</span><span class='comma'>,</span>
+    <span class='label'>computers:</span> <span class='lbracket'>[</span><span class='ivar'>@id</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>api:</span> <span class='ivar'>@api</span>
+  <span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="has_location?-instance_method">
   
     #<strong>has_location?</strong>  &#x21d2; <tt>Boolean</tt> 
@@ -12875,7 +13039,7 @@ its needed, to speed up instantiation.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Does this item have location data?</p>
+<p>Returns Does this item have location data?.</p>
 
 
   </div>
@@ -12921,7 +13085,7 @@ its needed, to speed up instantiation.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns does this item have any purchasing info?</p>
+<p>Returns does this item have any purchasing info?.</p>
 
 
   </div>
@@ -13075,8 +13239,7 @@ its needed, to speed up instantiation.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the JSS-defined “licensed software” titles installed on this
-machine.</p>
+<p>Returns the JSS-defined “licensed software” titles installed on this machine.</p>
 
 
   </div>
@@ -13108,12 +13271,12 @@ machine.</p>
       <pre class="lines">
 
 
-932
-933
-934</pre>
+943
+944
+945</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 932</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 943</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_licensed_sw'>licensed_sw</span>
   <span class='ivar'>@software</span><span class='lbracket'>[</span><span class='symbol'>:licensed_software</span><span class='rbracket'>]</span>
@@ -13139,8 +13302,7 @@ machine.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Each item has keys :name, :realname, :uid, :home, :home_size,
-:administrator, :filevault_enabled</p>
+<p>Each item has keys :name, :realname, :uid, :home, :home_size, :administrator, :filevault_enabled</p>
 
 
   </div>
@@ -13172,12 +13334,12 @@ machine.</p>
       <pre class="lines">
 
 
-886
-887
-888</pre>
+897
+898
+899</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 886</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 897</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_local_accounts'>local_accounts</span>
   <span class='ivar'>@groups_accounts</span><span class='lbracket'>[</span><span class='symbol'>:local_accounts</span><span class='rbracket'>]</span>
@@ -13206,8 +13368,7 @@ machine.</p>
     
 <p>All the location data in a Hash, as it comes from the API.</p>
 
-<p>The reason it isn&#39;t stored this way is to prevent editing of the hash
-directly.</p>
+<p>The reason it isn&#39;t stored this way is to prevent editing of the hash directly.</p>
 
 
   </div>
@@ -13257,8 +13418,7 @@ directly.</p>
   You should avoid using this method if possible, as it may be removed or be changed in the future.
 </p>
 
-<p>Return a REXML &lt;location&gt; element to be included in the rest_xml of
-objects that have a Location subset</p>
+<p>Return a REXML &lt;location&gt; element to be included in the rest_xml of objects that have a Location subset</p>
 
 
   </div>
@@ -13355,14 +13515,14 @@ objects that have a Location subset</p>
       <pre class="lines">
 
 
-1035
-1036
-1037
-1038
-1039</pre>
+1046
+1047
+1048
+1049
+1050</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 1035</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 1046</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_make_unmanaged'>make_unmanaged</span>
   <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='id identifier rubyid_managed?'>managed?</span>
@@ -13422,13 +13582,13 @@ objects that have a Location subset</p>
       <pre class="lines">
 
 
-950
-951
-952
-953</pre>
+961
+962
+963
+964</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 950</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 961</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_management_data'>management_data</span><span class='lparen'>(</span><span class='label'>subset:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>only:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Computer not yet saved in the JSS</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='ivar'>@in_jss</span>
@@ -13569,8 +13729,7 @@ objects that have a Location subset</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the name of this item Remember to #update to push changes to the
-server.</p>
+<p>Change the name of this item Remember to #update to push changes to the server.</p>
 
 
   </div>
@@ -13631,10 +13790,7 @@ server.</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Populate @extension_attributes (the Array of Hashes that comes from the
-API) and @ext_attr_names, which is a Hash mapping the EA names to their
-values. This is called during initialization for all objects that mix in
-this module</p>
+<p>Populate @extension_attributes (the Array of Hashes that comes from the API) and @ext_attr_names, which is a Hash mapping the EA names to their values. This is called during initialization for all objects that mix in this module</p>
 
 
   </div>
@@ -13662,9 +13818,7 @@ this module</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Call this during initialization of objects that have a Location subset and
-the location attributes will be populated (as primary attributes) from
-@init_data</p>
+<p>Call this during initialization of objects that have a Location subset and the location attributes will be populated (as primary attributes) from @init_data</p>
 
 
   </div>
@@ -13696,8 +13850,7 @@ the location attributes will be populated (as primary attributes) from
   You should avoid using this method if possible, as it may be removed or be changed in the future.
 </p>
 
-<p>Call this during initialization of objects that have a Purchasing subset
-and the purchasing attribute will be populated from @init_data</p>
+<p>Call this during initialization of objects that have a Purchasing subset and the purchasing attribute will be populated from @init_data</p>
 
 
   </div>
@@ -13768,8 +13921,7 @@ and the purchasing attribute will be populated from @init_data</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>A shortcut for &#39;management_data subset:
-:patch_reporting_software_titles&#39;</p>
+<p>A shortcut for &#39;management_data subset: :patch_reporting_software_titles&#39;</p>
 
 
   </div>
@@ -13783,12 +13935,12 @@ and the purchasing attribute will be populated from @init_data</p>
       <pre class="lines">
 
 
-999
-1000
-1001</pre>
+1010
+1011
+1012</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 999</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 1010</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_patch_titles'>patch_titles</span><span class='lparen'>(</span><span class='label'>only:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_management_data'>management_data</span> <span class='label'>subset:</span> <span class='symbol'>:patch_reporting_software_titles</span><span class='comma'>,</span> <span class='label'>only:</span> <span class='id identifier rubyid_only'>only</span>
@@ -13969,12 +14121,12 @@ and the purchasing attribute will be populated from @init_data</p>
       <pre class="lines">
 
 
-969
-970
-971</pre>
+980
+981
+982</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 969</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 980</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_policies'>policies</span><span class='lparen'>(</span><span class='label'>only:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_management_data'>management_data</span> <span class='label'>subset:</span> <span class='symbol'>:policies</span><span class='comma'>,</span> <span class='label'>only:</span> <span class='id identifier rubyid_only'>only</span>
@@ -14031,8 +14183,7 @@ and the purchasing attribute will be populated from @init_data</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns each printer on this computer Keys are :name, :uri, :type,
-:location</p>
+<p>Returns each printer on this computer Keys are :name, :uri, :type, :location.</p>
 
 
   </div>
@@ -14064,12 +14215,12 @@ and the purchasing attribute will be populated from @init_data</p>
       <pre class="lines">
 
 
-918
-919
-920</pre>
+929
+930
+931</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 918</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 929</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_printers'>printers</span>
   <span class='ivar'>@hardware</span><span class='lbracket'>[</span><span class='symbol'>:mapped_printers</span><span class='rbracket'>]</span>
@@ -14098,8 +14249,7 @@ and the purchasing attribute will be populated from @init_data</p>
     
 <p>All the purchasing data in a Hash, as it comes from the API.</p>
 
-<p>The reason it isn&#39;t stored this way is to prevent editing of the hash
-directly.</p>
+<p>The reason it isn&#39;t stored this way is to prevent editing of the hash directly.</p>
 
 
   </div>
@@ -14149,8 +14299,7 @@ directly.</p>
   You should avoid using this method if possible, as it may be removed or be changed in the future.
 </p>
 
-<p>Returns A &lt;purchasing&gt; element to be included in the rest_xml of
-objects that mix-in this module.</p>
+<p>Returns A &lt;purchasing&gt; element to be included in the rest_xml of objects that mix-in this module.</p>
 
 
   </div>
@@ -14169,8 +14318,7 @@ objects that mix-in this module.</p>
       
         &mdash;
         <div class='inline'>
-<p>A &lt;purchasing&gt; element to be included in the rest_xml of objects that
-mix-in this module.</p>
+<p>A &lt;purchasing&gt; element to be included in the rest_xml of objects that mix-in this module.</p>
 </div>
       
     </li>
@@ -14192,8 +14340,7 @@ mix-in this module.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Companion to method_missing, allows for easier debugging in backtraces that
-involve missing methods.</p>
+<p>Companion to method_missing, allows for easier debugging in backtraces that involve missing methods.</p>
 
 
   </div>
@@ -14220,12 +14367,12 @@ involve missing methods.</p>
       <pre class="lines">
 
 
-872
-873
-874</pre>
+883
+884
+885</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 872</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 883</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_respond_to_missing?'>respond_to_missing?</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='op'>*</span><span class='rparen'>)</span>
   <span class='ivar'>@hardware</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='kw'>super</span>
@@ -14293,12 +14440,12 @@ involve missing methods.</p>
       <pre class="lines">
 
 
-993
-994
-995</pre>
+1004
+1005
+1006</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 993</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 1004</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_restricted_software'>restricted_software</span><span class='lparen'>(</span><span class='label'>only:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_management_data'>management_data</span> <span class='label'>subset:</span> <span class='symbol'>:restricted_software</span><span class='comma'>,</span> <span class='label'>only:</span> <span class='id identifier rubyid_only'>only</span>
@@ -14364,33 +14511,20 @@ involve missing methods.</p>
 
 <p>The new value is validated based on the data type of the Ext. Attrib:</p>
 <ul><li>
-<p>If the ext. attrib. is defined with a data type of Integer/Number, the
-value must be an Integer.</p>
+<p>If the ext. attrib. is defined with a data type of Integer/Number, the value must be an Integer.</p>
 </li><li>
-<p>If defined with a data type of Date, the value will be parsed as a
-timestamp, and parsing may raise an exception. Dates can&#39;t be blank.</p>
+<p>If defined with a data type of Date, the value will be parsed as a timestamp, and parsing may raise an exception. Dates can&#39;t be blank.</p>
 </li><li>
 <p>If defined wth data type of String, `to_s` will be called on the value.</p>
 </li></ul>
 
-<p>By default, the full EA definition object is fetched to see if the EA&#39;s
-input type is &#39;popup menu&#39;, and if so, the new value must be one of
-the defined popup choices, or blank.</p>
+<p>By default, the full EA definition object is fetched to see if the EA&#39;s input type is &#39;popup menu&#39;, and if so, the new value must be one of the defined popup choices, or blank.</p>
 
-<p>The EA definitions used for popup validation are cached, so we don&#39;t
-have to reach out to the server every time. If you expect the definition to
-have changed since it was cached, provide a truthy value to the refresh:
-parameter</p>
+<p>The EA definitions used for popup validation are cached, so we don&#39;t have to reach out to the server every time. If you expect the definition to have changed since it was cached, provide a truthy value to the refresh: parameter</p>
 
-<p>To bypass popup validation complepletely, provide a falsey value to the
-validate_popup_choice: parameter. WARNING: beware that your value is the
-correct type and format, or you might get errors when saving back to the
-API.</p>
+<p>To bypass popup validation complepletely, provide a falsey value to the validate_popup_choice: parameter. WARNING: beware that your value is the correct type and format, or you might get errors when saving back to the API.</p>
 
-<p>Note that while the Jamf Pro Web interface does not allow editing the
-values of Extension Attributes populated by Scripts or LDAP,  the API does
-allow it. Bear in mind however that those values will be reset again at the
-next recon.</p>
+<p>Note that while the Jamf Pro Web interface does not allow editing the values of Extension Attributes populated by Scripts or LDAP,  the API does allow it. Bear in mind however that those values will be reset again at the next recon.</p>
 
 
   </div>
@@ -14439,6 +14573,8 @@ next recon.</p>
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -14454,6 +14590,8 @@ next recon.</p>
       
         <span class='type'>(<tt>Boolean</tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
       
       
         &mdash;
@@ -14500,11 +14638,9 @@ next recon.</p>
     <p class="note returns_void">This method returns an undefined value.</p>
 <p>Set or unset management acct and password for this computer</p>
 
-<p>The changes will need to be pushed to the server with <span class='object_link'><a href="#update-instance_method" title="JSS::Computer#update (method)">#update</a></span> before they
-take effect.</p>
+<p>The changes will need to be pushed to the server with <span class='object_link'><a href="#update-instance_method" title="JSS::Computer#update (method)">#update</a></span> before they take effect.</p>
 
-<p>CAUTION: this does nothing to confirm the name and password will work on
-the machine!</p>
+<p>CAUTION: this does nothing to confirm the name and password will work on the machine!</p>
 
 
   </div>
@@ -14554,16 +14690,16 @@ the machine!</p>
       <pre class="lines">
 
 
-1017
-1018
-1019
-1020
-1021
-1022
-1023</pre>
+1028
+1029
+1030
+1031
+1032
+1033
+1034</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 1017</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 1028</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_management_to'>set_management_to</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_password'>password</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_password'>password</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='id identifier rubyid_name'>name</span>
@@ -14626,8 +14762,7 @@ the machine!</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the site of this object. Any of the NON_SITES values will unset the
-site</p>
+<p>Change the site of this object. Any of the NON_SITES values will unset the site</p>
 
 
   </div>
@@ -14784,8 +14919,7 @@ site</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The name of the site for this object. For backward compatibility, this is
-aliased to just &#39;site&#39;</p>
+<p>The name of the site for this object. For backward compatibility, this is aliased to just &#39;site&#39;</p>
 
 
   </div>
@@ -14886,12 +15020,12 @@ aliased to just &#39;site&#39;</p>
       <pre class="lines">
 
 
-957
-958
-959</pre>
+968
+969
+970</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 957</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 968</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_smart_groups'>smart_groups</span><span class='lparen'>(</span><span class='label'>only:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_management_data'>management_data</span> <span class='label'>subset:</span> <span class='symbol'>:smart_groups</span><span class='comma'>,</span> <span class='label'>only:</span> <span class='id identifier rubyid_only'>only</span>
@@ -14927,12 +15061,12 @@ aliased to just &#39;site&#39;</p>
       <pre class="lines">
 
 
-963
-964
-965</pre>
+974
+975
+976</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 963</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 974</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_static_groups'>static_groups</span><span class='lparen'>(</span><span class='label'>only:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_management_data'>management_data</span> <span class='label'>subset:</span> <span class='symbol'>:static_groups</span><span class='comma'>,</span> <span class='label'>only:</span> <span class='id identifier rubyid_only'>only</span>
@@ -15013,10 +15147,7 @@ aliased to just &#39;site&#39;</p>
     
 <p>Send an unmanage device command to this object</p>
 
-<p>NOTE: when used with computers, the mdm profile will probably be
-re-installed immediately unless the computer is also no longer managed by
-Jamf Pro itself. To fully unmanage a computer, use the
-<span class='object_link'><a href="#make_unmanaged-instance_method" title="JSS::Computer#make_unmanaged (method)">Computer#make_unmanaged</a></span> instance method.</p>
+<p>NOTE: when used with computers, the mdm profile will probably be re-installed immediately unless the computer is also no longer managed by Jamf Pro itself. To fully unmanage a computer, use the <span class='object_link'><a href="#make_unmanaged-instance_method" title="JSS::Computer#make_unmanaged (method)">Computer#make_unmanaged</a></span> instance method.</p>
 
 
   </div>
@@ -15122,14 +15253,14 @@ Jamf Pro itself. To fully unmanage a computer, use the
       <pre class="lines">
 
 
-1099
-1100
-1101
-1102
-1103</pre>
+1123
+1124
+1125
+1126
+1127</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 1099</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/computer.rb', line 1123</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_update'>update</span>
   <span class='id identifier rubyid_remove_mdm_profile'>remove_mdm_profile</span> <span class='kw'>if</span> <span class='id identifier rubyid_mdm_capable'>mdm_capable</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@unmange_at_update</span>
@@ -15176,7 +15307,7 @@ Jamf Pro itself. To fully unmanage a computer, use the
       <div class="method_details ">
   <h3 class="signature " id="upload-instance_method">
   
-    #<strong>upload</strong>(type, local_file)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+    #<strong>upload</strong>(type, local_file, force_ipa_upload: false)  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -15190,8 +15321,9 @@ Jamf Pro itself. To fully unmanage a computer, use the
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Upload a file to the JSS via the REST Resource of the object to which this
-module is mixed in.</p>
+<p>instance method wrapper for class method</p>
+
+<p>Upload a file to the JSS to be stored with this instance of the class mixing in the Uploadable module</p>
 
 
   </div>
@@ -15211,8 +15343,7 @@ module is mixed in.</p>
       
         &mdash;
         <div class='inline'>
-<p>the type of upload happening. Must be one of the keys defined in the
-class&#39;s UPLOAD_TYPES Hash.</p>
+<p>the type of upload happening. Must be one of the keys defined in the class&#39;s UPLOAD_TYPES Hash.</p>
 </div>
       
     </li>
@@ -15233,6 +15364,24 @@ class&#39;s UPLOAD_TYPES Hash.</p>
       
     </li>
   
+    <li>
+      
+        <span class='name'>force_ipa_upload</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Should the server upload the .ipa file to JCDS or AWS if such are confgured for use?</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 <p class="tag_title">Returns:</p>
@@ -15241,13 +15390,13 @@ class&#39;s UPLOAD_TYPES Hash.</p>
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>The xml response from the server.</p>
+<p>was the  upload successful?</p>
 </div>
       
     </li>
@@ -15322,11 +15471,9 @@ class&#39;s UPLOAD_TYPES Hash.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>is the value being passed to set_ext_attr valid? Converts values as needed
-(e.g. strings to integers or Times)</p>
+<p>is the value being passed to set_ext_attr valid? Converts values as needed (e.g. strings to integers or Times)</p>
 
-<p>If the EA is defined to hold a string, any value is accepted and converted
-with #to_s</p>
+<p>If the EA is defined to hold a string, any value is accepted and converted with #to_s</p>
 
 <p>Note: All EAs can be blank</p>
 
@@ -15470,8 +15617,7 @@ with #to_s</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Raise an error if the named EA has a popup menu, but the provided value
-isn&#39;t one of the menu items</p>
+<p>Raise an error if the named EA has a popup menu, but the provided value isn&#39;t one of the menu items</p>
 
 
   </div>
@@ -15533,6 +15679,8 @@ isn&#39;t one of the menu items</p>
         <span class='type'>(<tt>Symbol</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -15549,11 +15697,12 @@ isn&#39;t one of the menu items</p>
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>The local path to a .png or .jpg to use as the walpaper image, required if
-no wallpaper_id</p>
+<p>The local path to a .png or .jpg to use as the walpaper image, required if no wallpaper_id</p>
 </div>
       
     </li>
@@ -15566,11 +15715,12 @@ no wallpaper_id</p>
         <span class='type'>(<tt>Symbol</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>The id of an Icon in Jamf Pro to use as the wallpaper image, required if no
-wallpaper_content</p>
+<p>The id of an Icon in Jamf Pro to use as the wallpaper image, required if no wallpaper_content</p>
 </div>
       
     </li>
@@ -15586,9 +15736,9 @@ wallpaper_content</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:37 2020 by
+  Generated on Wed Feb  2 11:05:57 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

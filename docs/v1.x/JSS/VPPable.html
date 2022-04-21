@@ -6,15 +6,15 @@
 <title>
   Module: JSS::VPPable
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::VPPable";
   relpath = '../';
 </script>
@@ -76,7 +76,7 @@
   
   <dl>
     <dt>Included in:</dt>
-    <dd><span class='object_link'><a href="MobileDeviceApplication.html" title="JSS::MobileDeviceApplication (class)">MobileDeviceApplication</a></span></dd>
+    <dd><span class='object_link'><a href="MacApplication.html" title="JSS::MacApplication (class)">MacApplication</a></span>, <span class='object_link'><a href="MobileDeviceApplication.html" title="JSS::MobileDeviceApplication (class)">MobileDeviceApplication</a></span></dd>
   </dl>
   
 
@@ -93,14 +93,15 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>A mix-in module to handle VPP-related data in API objects that can be
-assigned via VPP.</p>
+<p>A mix-in module to handleVPP-related data in API objects that can be assigned via VPP.</p>
 
-<p>To use this module, merely `include VPPable` when defining your subclass of
-JSS::APIObject</p>
+<p>NOTE: For now we are only working with device-based VPP assignments, which are done via the scope of the VPPable object (macapp, mobdevapp, ebook)</p>
 
-<p>classes doing so MUST call #add_vpp_xml(xmldoc) in their #rest_xml
-method</p>
+<p>User-based APP assignments will require the creation of a VPPAssignment class, and a VPPAssignmentScope class, since those scopes are very limited compared to ordinary scope.</p>
+
+<p>To use this module, merely `include VPPable` when defining your subclass of JSS::APIObject</p>
+
+<p>classes doing so MUST call #add_vpp_xml(xmldoc) in their #rest_xml method</p>
 
 
   </div>
@@ -108,7 +109,17 @@ method</p>
 <div class="tags">
   
 
-</div>
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="VPPable/ClassMethods.html" title="JSS::VPPable::ClassMethods (module)">ClassMethods</a></span>
+    
+  
+    
+  
+</p>
+
   
     <h2>
       Constant Summary
@@ -205,7 +216,7 @@ method</p>
     
 
     
-      (also: #vpp_total_licenses, #vpp_license_count)
+      (also: #vpp_licenses_total)
     
   </span>
   
@@ -263,6 +274,8 @@ method</p>
     
 
     
+      (also: #vpp_account_id)
+    
   </span>
   
   
@@ -315,6 +328,76 @@ method</p>
 
 
 
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#included-class_method" title="included (class method)">.<strong>included</strong>(klass)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Mixed-in Class Methods.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#vpp_admin_account_name-instance_method" title="#vpp_admin_account_name (instance method)">#<strong>vpp_admin_account_name</strong>  &#x21d2; String </a>
+    
+
+    
+      (also: #vpp_account_name)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The name of the vpp admin acct for this object.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
 
   <div id="instance_attr_details" class="attr_details">
     <h2>Instance Attribute Details</h2>
@@ -362,12 +445,12 @@ method</p>
       <pre class="lines">
 
 
-53
-54
-55</pre>
+105
+106
+107</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/vppable.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/vppable.rb', line 105</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_assign_vpp_device_based_licenses'>assign_vpp_device_based_licenses</span>
   <span class='ivar'>@assign_vpp_device_based_licenses</span>
@@ -420,12 +503,12 @@ method</p>
       <pre class="lines">
 
 
-62
-63
-64</pre>
+113
+114
+115</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/vppable.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/vppable.rb', line 113</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_remaining_vpp_licenses'>remaining_vpp_licenses</span>
   <span class='ivar'>@remaining_vpp_licenses</span>
@@ -445,7 +528,7 @@ method</p>
 
   
     <span class="aliases">Also known as:
-    <span class="names"><span id='vpp_total_licenses-instance_method'>vpp_total_licenses</span>, <span id='vpp_license_count-instance_method'>vpp_license_count</span></span>
+    <span class="names"><span id='vpp_licenses_total-instance_method'>vpp_licenses_total</span></span>
     </span>
   
 
@@ -478,12 +561,12 @@ method</p>
       <pre class="lines">
 
 
-57
-58
-59</pre>
+109
+110
+111</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/vppable.rb', line 57</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/vppable.rb', line 109</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_total_vpp_licenses'>total_vpp_licenses</span>
   <span class='ivar'>@total_vpp_licenses</span>
@@ -536,12 +619,12 @@ method</p>
       <pre class="lines">
 
 
-66
-67
-68</pre>
+117
+118
+119</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/vppable.rb', line 66</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/vppable.rb', line 117</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_used_vpp_licenses'>used_vpp_licenses</span>
   <span class='ivar'>@used_vpp_licenses</span>
@@ -559,6 +642,10 @@ method</p>
     #<strong>vpp_admin_account_id</strong>  &#x21d2; <tt>Integer</tt>  <span class="extras">(readonly)</span>
   
 
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='vpp_account_id-instance_method'>vpp_account_id</span></span>
+    </span>
   
 
   
@@ -590,12 +677,12 @@ method</p>
       <pre class="lines">
 
 
-50
-51
-52</pre>
+101
+102
+103</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/vppable.rb', line 50</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/vppable.rb', line 101</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_vpp_admin_account_id'>vpp_admin_account_id</span>
   <span class='ivar'>@vpp_admin_account_id</span>
@@ -644,12 +731,12 @@ method</p>
       <pre class="lines">
 
 
-47
-48
-49</pre>
+98
+99
+100</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/vppable.rb', line 47</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/vppable.rb', line 98</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_vpp_codes'>vpp_codes</span>
   <span class='ivar'>@vpp_codes</span>
@@ -662,12 +749,134 @@ method</p>
   </div>
 
 
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="included-class_method">
+  
+    .<strong>included</strong>(klass)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Mixed-in Class Methods</p>
+
+<p>This is a common technique to get class methods mixed in when you &#39;include&#39; a module full of instance methods</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+56
+57
+58</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/vppable.rb', line 56</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_included'>included</span><span class='lparen'>(</span><span class='id identifier rubyid_klass'>klass</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_klass'>klass</span><span class='period'>.</span><span class='id identifier rubyid_extend'>extend</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="VPPable/ClassMethods.html" title="JSS::VPPable::ClassMethods (module)">ClassMethods</a></span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="vpp_admin_account_name-instance_method">
+  
+    #<strong>vpp_admin_account_name</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='vpp_account_name-instance_method'>vpp_account_name</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The name of the vpp admin acct for this object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The name of the vpp admin acct for this object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+233
+234
+235
+236
+237</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/vppable.rb', line 233</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_vpp_admin_account_name'>vpp_admin_account_name</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='ivar'>@vpp_admin_account_id</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Integer</span>
+
+  <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="VPPAccount.html" title="JSS::VPPAccount (class)">VPPAccount</a></span></span><span class='period'>.</span><span class='id identifier rubyid_map_all_ids_to'><span class='object_link'><a href="APIObject.html#map_all_ids_to-class_method" title="JSS::APIObject.map_all_ids_to (method)">map_all_ids_to</a></span></span><span class='lparen'>(</span><span class='symbol'>:name</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='ivar'>@vpp_admin_account_id</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:24 2020 by
+  Generated on Wed Feb  2 11:05:46 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

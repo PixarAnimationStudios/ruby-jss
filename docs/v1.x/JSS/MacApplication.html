@@ -6,15 +6,15 @@
 <title>
   Class: JSS::MacApplication
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::MacApplication";
   relpath = '../';
 </script>
@@ -91,7 +91,7 @@
   
   <dl>
       <dt>Includes:</dt>
-      <dd><span class='object_link'><a href="Sitable.html" title="JSS::Sitable (module)">Sitable</a></span></dd>
+      <dd><span class='object_link'><a href="Categorizable.html" title="JSS::Categorizable (module)">Categorizable</a></span>, <span class='object_link'><a href="Scopable.html" title="JSS::Scopable (module)">Scopable</a></span>, <span class='object_link'><a href="SelfServable.html" title="JSS::SelfServable (module)">SelfServable</a></span>, <span class='object_link'><a href="Sitable.html" title="JSS::Sitable (module)">Sitable</a></span>, <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span>, <span class='object_link'><a href="VPPable.html" title="JSS::VPPable (module)">VPPable</a></span></dd>
   </dl>
   
   
@@ -101,14 +101,25 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/jss.rb<span class="defines">,<br />
-  lib/jss/api_object/mac_application.rb</span>
+    <dd>lib/jss/api_object/mac_application.rb<span class="defines">,<br />
+  lib/jss.rb</span>
 </dd>
   </dl>
   
 </div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>This is just a stub for now.</p>
 
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
   
     <h2>
       Constant Summary
@@ -153,8 +164,7 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>The hash key used for the JSON object output. It&#39;s also used in various
-error messages</p>
+<p>The hash key used for the JSON object output. It&#39;s also used in various error messages</p>
 
 
   </div>
@@ -170,8 +180,7 @@ error messages</p>
           <div class="docstring">
   <div class="discussion">
     
-<p>the object type for this object in the object history table. See
-<span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
+<p>the object type for this object in the object history table. See <span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
 
 
   </div>
@@ -182,6 +191,54 @@ error messages</p>
 </div>
         </dt>
         <dd><pre class="code"><span class='int'>350</span></pre></dd>
+      
+        <dt id="SCOPE_TARGET_KEY-constant" class="">SCOPE_TARGET_KEY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>See JSS::Scopable</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:computers</span></pre></dd>
+      
+        <dt id="CATEGORY_SUBSET-constant" class="">CATEGORY_SUBSET =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Where is the Category in the API JSON?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='symbol'>:general</span></pre></dd>
+      
+        <dt id="CATEGORY_DATA_TYPE-constant" class="">CATEGORY_DATA_TYPE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>How is the category stored in the API data?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></span></pre></dd>
       
         <dt id="SITE_SUBSET-constant" class="">SITE_SUBSET =
           <div class="docstring">
@@ -205,6 +262,947 @@ error messages</p>
 
 
 
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#assign_vpp_device_based_licenses-instance_method" title="#assign_vpp_device_based_licenses (instance method)">#<strong>assign_vpp_device_based_licenses</strong>  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #vpp_device_based?)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="VPPable.html#assign_vpp_device_based_licenses-instance_method" title="JSS::VPPable#assign_vpp_device_based_licenses (method)">VPPable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#bundle_id-instance_method" title="#bundle_id (instance method)">#<strong>bundle_id</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#icon-instance_method" title="#icon (instance method)">#<strong>icon</strong>  &#x21d2; JSS::Icon<sup>?</sup> </a>
+    
+
+    
+      (also: #self_service_icon)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#icon-instance_method" title="JSS::SelfServable#icon (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The icon used in self-service.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#in_self_service-instance_method" title="#in_self_service (instance method)">#<strong>in_self_service</strong>  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #in_self_service?)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#in_self_service-instance_method" title="JSS::SelfServable#in_self_service (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Is this thing available in Self Service?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#is_free-instance_method" title="#is_free (instance method)">#<strong>is_free</strong>  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #free?)
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#need_to_update-instance_method" title="#need_to_update (instance method)">#<strong>need_to_update</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Updatable.html#need_to_update-instance_method" title="JSS::Updatable#need_to_update (method)">Updatable</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Do we have unsaved changes?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#remaining_vpp_licenses-instance_method" title="#remaining_vpp_licenses (instance method)">#<strong>remaining_vpp_licenses</strong>  &#x21d2; Integer </a>
+    
+
+    
+      (also: #vpp_licenses_remaining)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="VPPable.html#remaining_vpp_licenses-instance_method" title="JSS::VPPable#remaining_vpp_licenses (method)">VPPable</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#scope-instance_method" title="#scope (instance method)">#<strong>scope</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Scopable.html#scope-instance_method" title="JSS::Scopable#scope (method)">Scopable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Attribtues.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_categories-instance_method" title="#self_service_categories (instance method)">#<strong>self_service_categories</strong>  &#x21d2; Array&lt;Hash&gt; </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_categories-instance_method" title="JSS::SelfServable#self_service_categories (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Each Hash has these keys about the category - :id =&gt; [Integer] the JSS id of the category - :name =&gt; [String] the name of the category.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_description-instance_method" title="#self_service_description (instance method)">#<strong>self_service_description</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_description-instance_method" title="JSS::SelfServable#self_service_description (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The verbage that appears in SelfSvc for this item.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_display_name-instance_method" title="#self_service_display_name (instance method)">#<strong>self_service_display_name</strong>  &#x21d2; String </a>
+    
+
+    
+      (also: #self_service_dislay_name)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_display_name-instance_method" title="JSS::SelfServable#self_service_display_name (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The name to display in macOS Self Service.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_feature_on_main_page-instance_method" title="#self_service_feature_on_main_page (instance method)">#<strong>self_service_feature_on_main_page</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_feature_on_main_page-instance_method" title="JSS::SelfServable#self_service_feature_on_main_page (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Only applicable to macOS targets.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_force_users_to_view_description-instance_method" title="#self_service_force_users_to_view_description (instance method)">#<strong>self_service_force_users_to_view_description</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_force_users_to_view_description-instance_method" title="JSS::SelfServable#self_service_force_users_to_view_description (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Should an extra window appear before the user can install the item? (OSX SSvc only).</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_install_button_text-instance_method" title="#self_service_install_button_text (instance method)">#<strong>self_service_install_button_text</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_install_button_text-instance_method" title="JSS::SelfServable#self_service_install_button_text (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>defaults to &#39;Install&#39;.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_notification_message-instance_method" title="#self_service_notification_message (instance method)">#<strong>self_service_notification_message</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_notification_message-instance_method" title="JSS::SelfServable#self_service_notification_message (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The message text of the notification.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_notification_subject-instance_method" title="#self_service_notification_subject (instance method)">#<strong>self_service_notification_subject</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_notification_subject-instance_method" title="JSS::SelfServable#self_service_notification_subject (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>object name.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_notification_type-instance_method" title="#self_service_notification_type (instance method)">#<strong>self_service_notification_type</strong>  &#x21d2; Symbol </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_notification_type-instance_method" title="JSS::SelfServable#self_service_notification_type (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>How should notifications be sent either :ssvc_only or :ssvc_and_nctr.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_notifications_enabled-instance_method" title="#self_service_notifications_enabled (instance method)">#<strong>self_service_notifications_enabled</strong>  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #self_service_notifications_enabled?)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_notifications_enabled-instance_method" title="JSS::SelfServable#self_service_notifications_enabled (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Should jamf send notifications to self service?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_reinstall_button_text-instance_method" title="#self_service_reinstall_button_text (instance method)">#<strong>self_service_reinstall_button_text</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_reinstall_button_text-instance_method" title="JSS::SelfServable#self_service_reinstall_button_text (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>defaults to &#39;Reinstall&#39;.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_reminder_frequency-instance_method" title="#self_service_reminder_frequency (instance method)">#<strong>self_service_reminder_frequency</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_reminder_frequency-instance_method" title="JSS::SelfServable#self_service_reminder_frequency (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>How often (in days) should reminders be given.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_reminders_enabled-instance_method" title="#self_service_reminders_enabled (instance method)">#<strong>self_service_reminders_enabled</strong>  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #self_service_reminders_enabled?)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_reminders_enabled-instance_method" title="JSS::SelfServable#self_service_reminders_enabled (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Should self service give reminders by displaying the notification repeatedly?.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_removal_password-instance_method" title="#self_service_removal_password (instance method)">#<strong>self_service_removal_password</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_removal_password-instance_method" title="JSS::SelfServable#self_service_removal_password (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The password needed for removal, in plain text.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_user_removable-instance_method" title="#self_service_user_removable (instance method)">#<strong>self_service_user_removable</strong>  &#x21d2; Symbol </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_user_removable-instance_method" title="JSS::SelfServable#self_service_user_removable (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>One of the keys in PROFILE_REMOVAL_BY_USER.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#total_vpp_licenses-instance_method" title="#total_vpp_licenses (instance method)">#<strong>total_vpp_licenses</strong>  &#x21d2; Integer </a>
+    
+
+    
+      (also: #vpp_licenses_total)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="VPPable.html#total_vpp_licenses-instance_method" title="JSS::VPPable#total_vpp_licenses (method)">VPPable</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#url-instance_method" title="#url (instance method)">#<strong>url</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#used_vpp_licenses-instance_method" title="#used_vpp_licenses (instance method)">#<strong>used_vpp_licenses</strong>  &#x21d2; Integer </a>
+    
+
+    
+      (also: #vpp_licenses_used)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="VPPable.html#used_vpp_licenses-instance_method" title="JSS::VPPable#used_vpp_licenses (method)">VPPable</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#version-instance_method" title="#version (instance method)">#<strong>version</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#vpp_admin_account_id-instance_method" title="#vpp_admin_account_id (instance method)">#<strong>vpp_admin_account_id</strong>  &#x21d2; Integer </a>
+    
+
+    
+      (also: #vpp_account_id)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="VPPable.html#vpp_admin_account_id-instance_method" title="JSS::VPPable#vpp_admin_account_id (method)">VPPable</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#vpp_codes-instance_method" title="#vpp_codes (instance method)">#<strong>vpp_codes</strong>  &#x21d2; Hash </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="VPPable.html#vpp_codes-instance_method" title="JSS::VPPable#vpp_codes (method)">VPPable</a></span>
+    </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+  </ul>
+
 
 
 
@@ -215,6 +1213,656 @@ error messages</p>
     </h2>
 
     <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_self_service_category-instance_method" title="#add_self_service_category (instance method)">#<strong>add_self_service_category</strong>(new_cat, display_in: true, feature_in: false)  &#x21d2; void </a>
+    
+
+    
+      (also: #set_self_service_category, #change_self_service_category)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#add_self_service_category-instance_method" title="JSS::SelfServable#add_self_service_category (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Add or change one of the categories for this item in self service.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_to_self_service-instance_method" title="#add_to_self_service (instance method)">#<strong>add_to_self_service</strong>  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#add_to_self_service-instance_method" title="JSS::SelfServable#add_to_self_service (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Add this object to self service if not already there.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#category=-instance_method" title="#category= (instance method)">#<strong>category=</strong>(new_cat)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Categorizable.html#category=-instance_method" title="JSS::Categorizable#category= (method)">Categorizable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Change the category of this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#category_assigned%3F-instance_method" title="#category_assigned? (instance method)">#<strong>category_assigned?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+      (also: #categorized?)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Categorizable.html#category_assigned%3F-instance_method" title="JSS::Categorizable#category_assigned? (method)">Categorizable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Does this object have a category assigned?.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#category_id-instance_method" title="#category_id (instance method)">#<strong>category_id</strong>  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Categorizable.html#category_id-instance_method" title="JSS::Categorizable#category_id (method)">Categorizable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The id of the category for this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#category_name-instance_method" title="#category_name (instance method)">#<strong>category_name</strong>  &#x21d2; String </a>
+    
+
+    
+      (also: #category)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Categorizable.html#category_name-instance_method" title="JSS::Categorizable#category_name (method)">Categorizable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The name of the category for this object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#category_object-instance_method" title="#category_object (instance method)">#<strong>category_object</strong>  &#x21d2; JSS::Category </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Categorizable.html#category_object-instance_method" title="JSS::Categorizable#category_object (method)">Categorizable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The JSS::Category instance for this object&#39;s category.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create-instance_method" title="#create (instance method)">#<strong>create</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#create-instance_method" title="JSS::SelfServable#create (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>HACK: ity hack hack…</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#evaluate_new_category-instance_method" title="#evaluate_new_category (instance method)">#<strong>evaluate_new_category</strong>(new_cat)  &#x21d2; Array&lt;String, Integer&gt; </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Categorizable.html#evaluate_new_category-instance_method" title="JSS::Categorizable#evaluate_new_category (method)">Categorizable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Given a category name or id, return the name and id TODO: use APIObject.exist? and/or APIObject.valid_id.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(args = {})  &#x21d2; MacApplication </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Constructor.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#name=-instance_method" title="#name= (instance method)">#<strong>name=</strong>(newname)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Updatable.html#name=-instance_method" title="JSS::Updatable#name= (method)">Updatable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Change the name of this item Remember to #update to push changes to the server.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse_scope-instance_method" title="#parse_scope (instance method)">#<strong>parse_scope</strong>  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Scopable.html#parse_scope-instance_method" title="JSS::Scopable#parse_scope (method)">Scopable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  <span class="private note title">private</span>
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Call this during initialization of objects that have a scope and the scope instance will be created from @init_data.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reinstall_button_text-instance_method" title="#reinstall_button_text (instance method)">#<strong>reinstall_button_text</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Override reinstall_button_text getter.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reinstall_button_text=-instance_method" title="#reinstall_button_text= (instance method)">#<strong>reinstall_button_text=</strong>(_new)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Override reinstall_button_text setter.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#remove_from_self_service-instance_method" title="#remove_from_self_service (instance method)">#<strong>remove_from_self_service</strong>  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#remove_from_self_service-instance_method" title="JSS::SelfServable#remove_from_self_service (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Remove this object from self service if it&#39;s there.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#remove_self_service_category-instance_method" title="#remove_self_service_category (instance method)">#<strong>remove_self_service_category</strong>(cat)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#remove_self_service_category-instance_method" title="JSS::SelfServable#remove_self_service_category (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Remove a category from those for this item in SSvc.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_display_name-instance_method" title="#self_service_display_name (instance method)">#<strong>self_service_display_name</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Override self_service_display_name getter.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_display_name=-instance_method" title="#self_service_display_name= (instance method)">#<strong>self_service_display_name=</strong>(_newname)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Override self_service_display_name setter.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_execute_url-instance_method" title="#self_service_execute_url (instance method)">#<strong>self_service_execute_url</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_execute_url-instance_method" title="JSS::SelfServable#self_service_execute_url (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The url to view this thing in Self Service.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_payload-instance_method" title="#self_service_payload (instance method)">#<strong>self_service_payload</strong>  &#x21d2; Symbol </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_payload-instance_method" title="JSS::SelfServable#self_service_payload (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>What does this object deploy to the device via self service?.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_targets-instance_method" title="#self_service_targets (instance method)">#<strong>self_service_targets</strong>  &#x21d2; Array&lt;Symbol&gt; </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_targets-instance_method" title="JSS::SelfServable#self_service_targets (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>What devices types can get this thing in Self Service.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#self_service_view_url-instance_method" title="#self_service_view_url (instance method)">#<strong>self_service_view_url</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#self_service_view_url-instance_method" title="JSS::SelfServable#self_service_view_url (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The url to view this thing in Self Service.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#should_update-instance_method" title="#should_update (instance method)">#<strong>should_update</strong>  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Scopable.html#should_update-instance_method" title="JSS::Scopable#should_update (method)">Scopable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>When the scope changes, it calls this to tell us that an update is needed.</p>
+</div></span>
+  
+</li>
+
       
         <li class="public ">
   <span class="summary_signature">
@@ -366,6 +2014,35 @@ error messages</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#unset_category-instance_method" title="#unset_category (instance method)">#<strong>unset_category</strong>  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="Categorizable.html#unset_category-instance_method" title="JSS::Categorizable#unset_category (method)">Categorizable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Set the category to nothing.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#unset_site-instance_method" title="#unset_site (instance method)">#<strong>unset_site</strong>  &#x21d2; void </a>
     
 
@@ -392,6 +2069,119 @@ error messages</p>
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update-instance_method" title="#update (instance method)">#<strong>update</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#update-instance_method" title="JSS::SelfServable#update (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>HACK: ity hack hack…</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#upload-instance_method" title="#upload (instance method)">#<strong>upload</strong>(_type, _local_file)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Alas, SSvc icons are not uploadable via the API for mac apps.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#user_removable%3F-instance_method" title="#user_removable? (instance method)">#<strong>user_removable?</strong>  &#x21d2; Boolean<sup>?</sup> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="SelfServable.html#user_removable%3F-instance_method" title="JSS::SelfServable#user_removable? (method)">SelfServable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Can this thing be removed by the user?.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#vpp_admin_account_name-instance_method" title="#vpp_admin_account_name (instance method)">#<strong>vpp_admin_account_name</strong>  &#x21d2; String </a>
+    
+
+    
+      (also: #vpp_account_name)
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="VPPable.html#vpp_admin_account_name-instance_method" title="JSS::VPPable#vpp_admin_account_name (method)">VPPable</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The name of the vpp admin acct for this object.</p>
+</div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -399,12 +2189,1490 @@ error messages</p>
   
   
   
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
-    <p class="notice">This class inherits a constructor from <span class='object_link'><a href="APIObject.html#initialize-instance_method" title="JSS::APIObject#initialize (method)">JSS::APIObject</a></span></p>
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(args = {})  &#x21d2; <tt><span class='object_link'><a href="" title="JSS::MacApplication (class)">MacApplication</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Constructor</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+85
+86
+87
+88
+89
+90
+91
+92</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mac_application.rb', line 85</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='kw'>super</span>
+  <span class='id identifier rubyid_general'>general</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='rbracket'>]</span>
+  <span class='ivar'>@version</span> <span class='op'>=</span> <span class='id identifier rubyid_general'>general</span><span class='lbracket'>[</span><span class='symbol'>:version</span><span class='rbracket'>]</span>
+  <span class='ivar'>@is_free</span> <span class='op'>=</span> <span class='id identifier rubyid_general'>general</span><span class='lbracket'>[</span><span class='symbol'>:is_free</span><span class='rbracket'>]</span>
+  <span class='ivar'>@bundle_id</span> <span class='op'>=</span> <span class='id identifier rubyid_general'>general</span><span class='lbracket'>[</span><span class='symbol'>:bundle_id</span><span class='rbracket'>]</span>
+  <span class='ivar'>@url</span> <span class='op'>=</span> <span class='id identifier rubyid_general'>general</span><span class='lbracket'>[</span><span class='symbol'>:url</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
   
 </div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="assign_vpp_device_based_licenses=-instance_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="assign_vpp_device_based_licenses-instance_method">
+  
+    #<strong>assign_vpp_device_based_licenses</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='vpp_device_based?-instance_method'>vpp_device_based?</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="VPPable.html#assign_vpp_device_based_licenses-instance_method" title="JSS::VPPable#assign_vpp_device_based_licenses (method)">VPPable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="bundle_id-instance_method">
+  
+    #<strong>bundle_id</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+77
+78
+79</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mac_application.rb', line 77</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_bundle_id'>bundle_id</span>
+  <span class='ivar'>@bundle_id</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="icon=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="icon-instance_method">
+  
+    #<strong>icon</strong>  &#x21d2; <tt><span class='object_link'><a href="Icon.html" title="JSS::Icon (class)">JSS::Icon</a></span></tt><sup>?</sup> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='self_service_icon-instance_method'>self_service_icon</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#icon-instance_method" title="JSS::SelfServable#icon (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The icon used in self-service.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Icon.html" title="JSS::Icon (class)">JSS::Icon</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The icon used in self-service</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="in_self_service-instance_method">
+  
+    #<strong>in_self_service</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='in_self_service?-instance_method'>in_self_service?</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#in_self_service-instance_method" title="JSS::SelfServable#in_self_service (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns Is this thing available in Self Service?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Is this thing available in Self Service?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="is_free-instance_method">
+  
+    #<strong>is_free</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='free?-instance_method'>free?</span></span>
+    </span>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+73
+74
+75</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mac_application.rb', line 73</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_is_free'>is_free</span>
+  <span class='ivar'>@is_free</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="need_to_update-instance_method">
+  
+    #<strong>need_to_update</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Updatable.html#need_to_update-instance_method" title="JSS::Updatable#need_to_update (method)">Updatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns do we have unsaved changes?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>do we have unsaved changes?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="remaining_vpp_licenses-instance_method">
+  
+    #<strong>remaining_vpp_licenses</strong>  &#x21d2; <tt>Integer</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='vpp_licenses_remaining-instance_method'>vpp_licenses_remaining</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="VPPable.html#remaining_vpp_licenses-instance_method" title="JSS::VPPable#remaining_vpp_licenses (method)">VPPable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="scope=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="scope-instance_method">
+  
+    #<strong>scope</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Scopable.html#scope-instance_method" title="JSS::Scopable#scope (method)">Scopable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Attribtues</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_categories-instance_method">
+  
+    #<strong>self_service_categories</strong>  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&gt;</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_categories-instance_method" title="JSS::SelfServable#self_service_categories (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Each Hash has these keys about the category</p>
+<ul><li>
+<p>:id =&gt; [Integer] the JSS id of the category</p>
+</li><li>
+<p>:name =&gt; [String] the name of the category</p>
+</li></ul>
+
+<p>Most objects also include one or both of these keys:</p>
+<ul><li>
+<p>:display_in =&gt; [Boolean] should the item be displayed in this category in SSvc? (not MobDevConfProfiles)</p>
+</li><li>
+<p>:feature_in =&gt; [Boolean] should the item be featured in this category in SSVC? (macOS targets only)</p>
+</li></ul>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The categories in which this item should appear in SSvc</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="self_service_description=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_description-instance_method">
+  
+    #<strong>self_service_description</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_description-instance_method" title="JSS::SelfServable#self_service_description (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The verbage that appears in SelfSvc for this item.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The verbage that appears in SelfSvc for this item</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="self_service_display_name=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_display_name-instance_method">
+  
+    #<strong>self_service_display_name</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='self_service_dislay_name-instance_method'>self_service_dislay_name</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_display_name-instance_method" title="JSS::SelfServable#self_service_display_name (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The name to display in macOS Self Service.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The name to display in macOS Self Service.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="self_service_feature_on_main_page=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_feature_on_main_page-instance_method">
+  
+    #<strong>self_service_feature_on_main_page</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_feature_on_main_page-instance_method" title="JSS::SelfServable#self_service_feature_on_main_page (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Only applicable to macOS targets</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Should this item feature on the main page of SSvc?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="self_service_force_users_to_view_description=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_force_users_to_view_description-instance_method">
+  
+    #<strong>self_service_force_users_to_view_description</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_force_users_to_view_description-instance_method" title="JSS::SelfServable#self_service_force_users_to_view_description (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns Should an extra window appear before the user can install the item? (OSX SSvc only).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Should an extra window appear before the user can install the item? (OSX SSvc only)</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="self_service_install_button_text=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_install_button_text-instance_method">
+  
+    #<strong>self_service_install_button_text</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_install_button_text-instance_method" title="JSS::SelfServable#self_service_install_button_text (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>defaults to &#39;Install&#39;</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The text label on the install button in SSvc (OSX SSvc only)</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="self_service_notification_message=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_notification_message-instance_method">
+  
+    #<strong>self_service_notification_message</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_notification_message-instance_method" title="JSS::SelfServable#self_service_notification_message (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The message text of the notification.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The message text of the notification</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="self_service_notification_subject=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_notification_subject-instance_method">
+  
+    #<strong>self_service_notification_subject</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_notification_subject-instance_method" title="JSS::SelfServable#self_service_notification_subject (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>object name.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The subject text of the notification. Defaults to the</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="self_service_notification_type=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_notification_type-instance_method">
+  
+    #<strong>self_service_notification_type</strong>  &#x21d2; <tt>Symbol</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_notification_type-instance_method" title="JSS::SelfServable#self_service_notification_type (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns How should notifications be sent either :ssvc_only or :ssvc_and_nctr.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>How should notifications be sent either :ssvc_only or :ssvc_and_nctr</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="self_service_notifications_enabled=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_notifications_enabled-instance_method">
+  
+    #<strong>self_service_notifications_enabled</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='self_service_notifications_enabled?-instance_method'>self_service_notifications_enabled?</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_notifications_enabled-instance_method" title="JSS::SelfServable#self_service_notifications_enabled (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns Should jamf send notifications to self service?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Should jamf send notifications to self service?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="self_service_reinstall_button_text=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_reinstall_button_text-instance_method">
+  
+    #<strong>self_service_reinstall_button_text</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_reinstall_button_text-instance_method" title="JSS::SelfServable#self_service_reinstall_button_text (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>defaults to &#39;Reinstall&#39;</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The text label on the reinstall button in SSvc (OSX SSvc only)</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="self_service_reminder_frequency=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_reminder_frequency-instance_method">
+  
+    #<strong>self_service_reminder_frequency</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_reminder_frequency-instance_method" title="JSS::SelfServable#self_service_reminder_frequency (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns How often (in days) should reminders be given.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>How often (in days) should reminders be given</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="self_service_reminders_enabled=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_reminders_enabled-instance_method">
+  
+    #<strong>self_service_reminders_enabled</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='self_service_reminders_enabled?-instance_method'>self_service_reminders_enabled?</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_reminders_enabled-instance_method" title="JSS::SelfServable#self_service_reminders_enabled (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns Should self service give reminders by displaying the notification repeatedly?.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Should self service give reminders by displaying the notification repeatedly?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_removal_password-instance_method">
+  
+    #<strong>self_service_removal_password</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_removal_password-instance_method" title="JSS::SelfServable#self_service_removal_password (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The password needed for removal, in plain text.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The password needed for removal, in plain text.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id="self_service_user_removable=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_user_removable-instance_method">
+  
+    #<strong>self_service_user_removable</strong>  &#x21d2; <tt>Symbol</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_user_removable-instance_method" title="JSS::SelfServable#self_service_user_removable (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns one of the keys in PROFILE_REMOVAL_BY_USER.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>one of the keys in PROFILE_REMOVAL_BY_USER</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="total_vpp_licenses-instance_method">
+  
+    #<strong>total_vpp_licenses</strong>  &#x21d2; <tt>Integer</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='vpp_licenses_total-instance_method'>vpp_licenses_total</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="VPPable.html#total_vpp_licenses-instance_method" title="JSS::VPPable#total_vpp_licenses (method)">VPPable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="url-instance_method">
+  
+    #<strong>url</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+80
+81
+82</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mac_application.rb', line 80</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_url'>url</span>
+  <span class='ivar'>@url</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="used_vpp_licenses-instance_method">
+  
+    #<strong>used_vpp_licenses</strong>  &#x21d2; <tt>Integer</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='vpp_licenses_used-instance_method'>vpp_licenses_used</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="VPPable.html#used_vpp_licenses-instance_method" title="JSS::VPPable#used_vpp_licenses (method)">VPPable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="version-instance_method">
+  
+    #<strong>version</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+70
+71
+72</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mac_application.rb', line 70</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_version'>version</span>
+  <span class='ivar'>@version</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="vpp_admin_account_id-instance_method">
+  
+    #<strong>vpp_admin_account_id</strong>  &#x21d2; <tt>Integer</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='vpp_account_id-instance_method'>vpp_account_id</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="VPPable.html#vpp_admin_account_id-instance_method" title="JSS::VPPable#vpp_admin_account_id (method)">VPPable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="vpp_codes-instance_method">
+  
+    #<strong>vpp_codes</strong>  &#x21d2; <tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="VPPable.html#vpp_codes-instance_method" title="JSS::VPPable#vpp_codes (method)">VPPable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+  </div>
 
 
   <div id="instance_method_details" class="method_details_list">
@@ -412,7 +3680,1080 @@ error messages</p>
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="site=-instance_method">
+  <h3 class="signature first" id="add_self_service_category-instance_method">
+  
+    #<strong>add_self_service_category</strong>(new_cat, display_in: true, feature_in: false)  &#x21d2; <tt>void</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='set_self_service_category-instance_method'>set_self_service_category</span>, <span id='change_self_service_category-instance_method'>change_self_service_category</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#add_self_service_category-instance_method" title="JSS::SelfServable#add_self_service_category (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Add or change one of the categories for this item in self service</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>new_cat</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name or id of a category where this object should appear in SelfSvc</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>display_in</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>should this item appear in the SelfSvc page for the category? Only meaningful in applicable classes</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>feature_in</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>should this item be featured in the SelfSvc page for the category? Only meaningful in applicable classes. NOTE: this will always be false if display_in is false.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">JSS::NoSuchItemError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="add_to_self_service-instance_method">
+  
+    #<strong>add_to_self_service</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#add_to_self_service-instance_method" title="JSS::SelfServable#add_to_self_service (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Add this object to self service if not already there.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="category=-instance_method">
+  
+    #<strong>category=</strong>(new_cat)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Categorizable.html#category=-instance_method" title="JSS::Categorizable#category= (method)">Categorizable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Change the category of this object. Any of the NON_CATEGORIES values will unset the category</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>new_cat</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The new category</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">JSS::NoSuchItemError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="category_assigned?-instance_method">
+  
+    #<strong>category_assigned?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='categorized?-instance_method'>categorized?</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Categorizable.html#category_assigned%3F-instance_method" title="JSS::Categorizable#category_assigned? (method)">Categorizable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Does this object have a category assigned?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Does this object have a category assigned?</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="category_id-instance_method">
+  
+    #<strong>category_id</strong>  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Categorizable.html#category_id-instance_method" title="JSS::Categorizable#category_id (method)">Categorizable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The id of the category for this object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The id of the category for this object.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="category_name-instance_method">
+  
+    #<strong>category_name</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='category-instance_method'>category</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Categorizable.html#category_name-instance_method" title="JSS::Categorizable#category_name (method)">Categorizable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The name of the category for this object. For backward compatibility, this is aliased to just &#39;category&#39;</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The name of the category for this object.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="category_object-instance_method">
+  
+    #<strong>category_object</strong>  &#x21d2; <tt><span class='object_link'><a href="Category.html" title="JSS::Category (class)">JSS::Category</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Categorizable.html#category_object-instance_method" title="JSS::Categorizable#category_object (method)">Categorizable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The JSS::Category instance for this object&#39;s category</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Category.html" title="JSS::Category (class)">JSS::Category</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The JSS::Category instance for this object&#39;s category</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="create-instance_method">
+  
+    #<strong>create</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#create-instance_method" title="JSS::SelfServable#create (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>HACK: ity hack hack… remove when jamf fixes these bugs</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="evaluate_new_category-instance_method">
+  
+    #<strong>evaluate_new_category</strong>(new_cat)  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>, Integer&gt;</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Categorizable.html#evaluate_new_category-instance_method" title="JSS::Categorizable#evaluate_new_category (method)">Categorizable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Given a category name or id, return the name and id TODO: use APIObject.exist? and/or APIObject.valid_id</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>new_cat</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The name or id of a possible category</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>, Integer&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The matching name and id, which may be nil.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="name=-instance_method">
+  
+    #<strong>name=</strong>(newname)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Updatable.html#name=-instance_method" title="JSS::Updatable#name= (method)">Updatable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Change the name of this item Remember to #update to push changes to the server.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>newname</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the new name</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_scope-instance_method">
+  
+    #<strong>parse_scope</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Scopable.html#parse_scope-instance_method" title="JSS::Scopable#parse_scope (method)">Scopable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note private">
+  <strong>This method is part of a private API.</strong>
+  You should avoid using this method if possible, as it may be removed or be changed in the future.
+</p>
+<p class="note returns_void">This method returns an undefined value.</p>
+<p>Call this during initialization of objects that have a scope and the scope instance will be created from @init_data</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="reinstall_button_text-instance_method">
+  
+    #<strong>reinstall_button_text</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Override reinstall_button_text getter</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+109
+110
+111</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mac_application.rb', line 109</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_reinstall_button_text'>reinstall_button_text</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>MacApplications do not have separate text for reinstall buttons. Please use install_button_text.</span><span class='tstring_end'>&#39;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="reinstall_button_text=-instance_method">
+  
+    #<strong>reinstall_button_text=</strong>(_new)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Override reinstall_button_text setter</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+114
+115
+116</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mac_application.rb', line 114</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_reinstall_button_text='>reinstall_button_text=</span><span class='lparen'>(</span><span class='id identifier rubyid__new'>_new</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>MacApplications do not have separate text for reinstall buttons. Please use install_button_text.</span><span class='tstring_end'>&#39;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="remove_from_self_service-instance_method">
+  
+    #<strong>remove_from_self_service</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#remove_from_self_service-instance_method" title="JSS::SelfServable#remove_from_self_service (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Remove this object from self service if it&#39;s there.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="remove_self_service_category-instance_method">
+  
+    #<strong>remove_self_service_category</strong>(cat)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#remove_self_service_category-instance_method" title="JSS::SelfServable#remove_self_service_category (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Remove a category from those for this item in SSvc</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>cat</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the name or id of the category to remove</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_display_name-instance_method">
+  
+    #<strong>self_service_display_name</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Override self_service_display_name getter</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+99
+100
+101</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mac_application.rb', line 99</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_self_service_display_name'>self_service_display_name</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>MacApplications do not have separate display names. Please use the object name.</span><span class='tstring_end'>&#39;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_display_name=-instance_method">
+  
+    #<strong>self_service_display_name=</strong>(_newname)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Override self_service_display_name setter</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+104
+105
+106</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mac_application.rb', line 104</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_self_service_display_name='>self_service_display_name=</span><span class='lparen'>(</span><span class='id identifier rubyid__newname'>_newname</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>MacApplications do not have separate display names. Please use the object name.</span><span class='tstring_end'>&#39;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_execute_url-instance_method">
+  
+    #<strong>self_service_execute_url</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_execute_url-instance_method" title="JSS::SelfServable#self_service_execute_url (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The url to view this thing in Self Service.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The url to view this thing in Self Service</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_payload-instance_method">
+  
+    #<strong>self_service_payload</strong>  &#x21d2; <tt>Symbol</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_payload-instance_method" title="JSS::SelfServable#self_service_payload (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>What does this object deploy to the device via self service?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>:profile, :app, or :policy</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_targets-instance_method">
+  
+    #<strong>self_service_targets</strong>  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;Symbol&gt;</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_targets-instance_method" title="JSS::SelfServable#self_service_targets (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>What devices types can get this thing in Self Service</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;Symbol&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An array of :macos, :ios, or both.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="self_service_view_url-instance_method">
+  
+    #<strong>self_service_view_url</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#self_service_view_url-instance_method" title="JSS::SelfServable#self_service_view_url (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The url to view this thing in Self Service.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The url to view this thing in Self Service</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="should_update-instance_method">
+  
+    #<strong>should_update</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Scopable.html#should_update-instance_method" title="JSS::Scopable#should_update (method)">Scopable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>When the scope changes, it calls this to tell us that an update is needed.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="site=-instance_method">
   
     #<strong>site=</strong>(new_site)  &#x21d2; <tt>void</tt> 
   
@@ -428,8 +4769,7 @@ error messages</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the site of this object. Any of the NON_SITES values will unset the
-site</p>
+<p>Change the site of this object. Any of the NON_SITES values will unset the site</p>
 
 
   </div>
@@ -586,8 +4926,7 @@ site</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The name of the site for this object. For backward compatibility, this is
-aliased to just &#39;site&#39;</p>
+<p>The name of the site for this object. For backward compatibility, this is aliased to just &#39;site&#39;</p>
 
 
   </div>
@@ -663,6 +5002,34 @@ aliased to just &#39;site&#39;</p>
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="unset_category-instance_method">
+  
+    #<strong>unset_category</strong>  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="Categorizable.html#unset_category-instance_method" title="JSS::Categorizable#unset_category (method)">Categorizable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+<p>Set the category to nothing</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="unset_site-instance_method">
   
     #<strong>unset_site</strong>  &#x21d2; <tt>void</tt> 
@@ -690,14 +5057,192 @@ aliased to just &#39;site&#39;</p>
 </div>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="update-instance_method">
+  
+    #<strong>update</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#update-instance_method" title="JSS::SelfServable#update (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>HACK: ity hack hack… remove when jamf fixes these bugs</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="upload-instance_method">
+  
+    #<strong>upload</strong>(_type, _local_file)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Alas, SSvc icons are not uploadable via the API for mac apps</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">JSS::UnsupportedError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+120
+121
+122</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/mac_application.rb', line 120</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_upload'>upload</span><span class='lparen'>(</span><span class='id identifier rubyid__type'>_type</span><span class='comma'>,</span> <span class='id identifier rubyid__local_file'>_local_file</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>The Classic API does not support uploading icons for MacApplications. Please use the Web UI</span><span class='tstring_end'>&#39;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="user_removable?-instance_method">
+  
+    #<strong>user_removable?</strong>  &#x21d2; <tt>Boolean</tt><sup>?</sup> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="SelfServable.html#user_removable%3F-instance_method" title="JSS::SelfServable#user_removable? (method)">SelfServable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Can this thing be removed by the user?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>nil means &#39;not applicable&#39;</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="vpp_admin_account_name-instance_method">
+  
+    #<strong>vpp_admin_account_name</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='vpp_account_name-instance_method'>vpp_account_name</span></span>
+    </span>
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="VPPable.html#vpp_admin_account_name-instance_method" title="JSS::VPPable#vpp_admin_account_name (method)">VPPable</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns The name of the vpp admin acct for this object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The name of the vpp admin acct for this object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
   </div>
 
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:38 2020 by
+  Generated on Wed Feb  2 11:05:59 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

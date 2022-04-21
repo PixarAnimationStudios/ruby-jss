@@ -6,15 +6,15 @@
 <title>
   Module: JSS::SelfServable
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::SelfServable";
   relpath = '../';
 </script>
@@ -81,7 +81,7 @@
   
   <dl>
     <dt>Included in:</dt>
-    <dd><span class='object_link'><a href="ConfigurationProfile.html" title="JSS::ConfigurationProfile (class)">ConfigurationProfile</a></span>, <span class='object_link'><a href="MobileDeviceApplication.html" title="JSS::MobileDeviceApplication (class)">MobileDeviceApplication</a></span>, <span class='object_link'><a href="PatchPolicy.html" title="JSS::PatchPolicy (class)">PatchPolicy</a></span>, <span class='object_link'><a href="Policy.html" title="JSS::Policy (class)">Policy</a></span></dd>
+    <dd><span class='object_link'><a href="ConfigurationProfile.html" title="JSS::ConfigurationProfile (class)">ConfigurationProfile</a></span>, <span class='object_link'><a href="MacApplication.html" title="JSS::MacApplication (class)">MacApplication</a></span>, <span class='object_link'><a href="MobileDeviceApplication.html" title="JSS::MobileDeviceApplication (class)">MobileDeviceApplication</a></span>, <span class='object_link'><a href="PatchPolicy.html" title="JSS::PatchPolicy (class)">PatchPolicy</a></span>, <span class='object_link'><a href="Policy.html" title="JSS::Policy (class)">Policy</a></span></dd>
   </dl>
   
 
@@ -100,9 +100,7 @@
     
 <p>A mix-in module for handling Self Service data for objects in the JSS.</p>
 
-<p>The JSS objects that have Self Service data return it in a :self_service
-subset, which have somewhat similar data, i.e. a hash with at least these
-keys:</p>
+<p>The JSS objects that have Self Service data return it in a :self_service subset, which have somewhat similar data, i.e. a hash with at least these keys:</p>
 <ul><li>
 <p>:self_service_description</p>
 </li><li>
@@ -120,17 +118,17 @@ keys:</p>
 
 <p>Additionally, items that apper in macOS Slf Svc have these keys:</p>
 <ul><li>
-<p>:self_service_display_name</p>
+<p>:self_service_display_name (but not JSS::MacApplication)</p>
 </li><li>
 <p>:install_button_text</p>
 </li><li>
-<p>:reinstall_button_text</p>
+<p>:reinstall_button_text (but not JSS::MacApplication)</p>
 </li><li>
 <p>:force_users_to_view_description</p>
 </li><li>
 <p>:notification</p>
 </li><li>
-<p>:notification_location # PENDING API FIX</p>
+<p>:notification_location # PENDING API FIX, and also, not JSS::MacApplication</p>
 </li><li>
 <p>:notification_subject</p>
 </li><li>
@@ -139,17 +137,14 @@ keys:</p>
 
 <p>See the attribute definitions for details of these values and structures.</p>
 
-<p>Including this module in an <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span> subclass will give it matching
-attributes with &#39;self_service_&#39; appended if needed, e.g.
-<span class='object_link'><a href="#self_service_feature_on_main_page-instance_method" title="JSS::SelfServable#self_service_feature_on_main_page (method)">#self_service_feature_on_main_page</a></span></p>
+<p>Including this module in an <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span> subclass will give it matching attributes with &#39;self_service_&#39; appended if needed, e.g. <span class='object_link'><a href="#self_service_feature_on_main_page-instance_method" title="JSS::SelfServable#self_service_feature_on_main_page (method)">#self_service_feature_on_main_page</a></span></p>
 
 <p>Classes including this module <strong>MUST</strong>:</p>
 <ul><li>
 <p>call #add_self_service_xml(xmldoc) in their #rest_xml method</p>
 </li></ul>
 
-<p>IMPORTANT: Since SelfServable also includes #<span class='object_link'><a href="Uploadable.html" title="JSS::Uploadable (module)">Uploadable</a></span>, for
-uploading icons, see that module for its requirements.</p>
+<p>IMPORTANT: Since SelfServable also includes #<span class='object_link'><a href="Uploadable.html" title="JSS::Uploadable (module)">Uploadable</a></span>, for uploading icons, see that module for its requirements.</p>
 
 
   </div>
@@ -285,9 +280,7 @@ uploading icons, see that module for its requirements.</p>
           <div class="docstring">
   <div class="discussion">
     
-<p>This hash contains the details about the inconsistencies of how Self
-Service data is dealt with in the API data of the different self-servable
-classes.</p>
+<p>This hash contains the details about the inconsistencies of how Self Service data is dealt with in the API data of the different self-servable classes.</p>
 
 <pre class="code ruby"><code class="ruby">- in_self_service_data_path: Array, In the API data hash (the @init_data)
     where to find the value indicicating that a thing is in self service.
@@ -324,10 +317,10 @@ classes.</p>
 - notification_reminders: if true, supports notification reminders.
   Only true for items that have a &lt;notifications&gt; subset
 
-- url_entity: the &#39;entity&#39; value used in user-urls for this SSVc item.</code></pre>
+- url_entity: the &#39;entity&#39; value used in user-urls for this SSVc item.
+</code></pre>
 
-<p>It&#39;s unfortunate that this is needed in order to keep all the self
-service ruby code in this one module.</p>
+<p>It&#39;s unfortunate that this is needed in order to keep all the self service ruby code in this one module.</p>
 
 
   </div>
@@ -339,7 +332,7 @@ service ruby code in this one module.</p>
         </dt>
         <dd><pre class="code"><span class='lbrace'>{</span>
   <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Policy.html" title="JSS::Policy (class)">Policy</a></span></span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span>
-    <span class='label'>in_self_service_data_path:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>self_service</span><span class='words_sep'> </span><span class='tstring_content'>use_for_self_service</span><span class='words_sep'>]</span><span class='comma'>,</span>
+    <span class='label'>in_self_service_data_path:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>self_service</span><span class='words_sep'> </span><span class='tstring_content'>use_for_self_service</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
     <span class='label'>in_self_service:</span> <span class='kw'>true</span><span class='comma'>,</span>
     <span class='label'>not_in_self_service:</span> <span class='kw'>false</span><span class='comma'>,</span>
     <span class='label'>targets:</span> <span class='lbracket'>[</span><span class='symbol'>:macos</span><span class='rbracket'>]</span><span class='comma'>,</span>
@@ -350,7 +343,7 @@ service ruby code in this one module.</p>
     <span class='label'>url_entity:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>policy</span><span class='tstring_end'>&#39;</span></span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
   <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="PatchPolicy.html" title="JSS::PatchPolicy (class)">PatchPolicy</a></span></span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span>
-    <span class='label'>in_self_service_data_path:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>general</span><span class='words_sep'> </span><span class='tstring_content'>distribution_method</span><span class='words_sep'>]</span><span class='comma'>,</span>
+    <span class='label'>in_self_service_data_path:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>general</span><span class='words_sep'> </span><span class='tstring_content'>distribution_method</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
     <span class='label'>in_self_service:</span> <span class='const'><span class='object_link'><a href="#PATCHPOL_SELF_SERVICE-constant" title="JSS::SelfServable::PATCHPOL_SELF_SERVICE (constant)">PATCHPOL_SELF_SERVICE</a></span></span><span class='comma'>,</span>
     <span class='label'>not_in_self_service:</span> <span class='const'><span class='object_link'><a href="#PATCHPOL_AUTO-constant" title="JSS::SelfServable::PATCHPOL_AUTO (constant)">PATCHPOL_AUTO</a></span></span><span class='comma'>,</span>
     <span class='label'>self_service_subset:</span> <span class='symbol'>:user_interaction</span><span class='comma'>,</span>
@@ -362,20 +355,19 @@ service ruby code in this one module.</p>
     <span class='label'>notification_reminders:</span> <span class='kw'>true</span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
   <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="MacApplication.html" title="JSS::MacApplication (class)">MacApplication</a></span></span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span>
-    <span class='comment'># in_self_service_data_path was finally implemnted in JamfPro 10.9
-</span>    <span class='comment'># Jamf Product Issue [PI-003773]
-</span>    <span class='label'>in_self_service_data_path:</span> <span class='lbracket'>[</span><span class='symbol'>:general</span><span class='comma'>,</span> <span class='symbol'>:deployment_type</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>in_self_service_data_path:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>general</span><span class='words_sep'> </span><span class='tstring_content'>deployment_type</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
     <span class='label'>in_self_service:</span> <span class='const'><span class='object_link'><a href="#MAKE_AVAILABLE-constant" title="JSS::SelfServable::MAKE_AVAILABLE (constant)">MAKE_AVAILABLE</a></span></span><span class='comma'>,</span>
     <span class='label'>not_in_self_service:</span> <span class='const'><span class='object_link'><a href="#AUTO_INSTALL_OR_PROMPT-constant" title="JSS::SelfServable::AUTO_INSTALL_OR_PROMPT (constant)">AUTO_INSTALL_OR_PROMPT</a></span></span><span class='comma'>,</span>
     <span class='label'>targets:</span> <span class='lbracket'>[</span><span class='symbol'>:macos</span><span class='rbracket'>]</span><span class='comma'>,</span>
     <span class='label'>payload:</span> <span class='symbol'>:app</span><span class='comma'>,</span>
     <span class='label'>can_display_in_categories:</span> <span class='kw'>true</span><span class='comma'>,</span>
     <span class='label'>can_feature_in_categories:</span> <span class='kw'>true</span><span class='comma'>,</span>
+    <span class='label'>notifications_supported:</span> <span class='symbol'>:ssvc_and_nctr</span><span class='comma'>,</span>
     <span class='label'>url_entity:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>app</span><span class='tstring_end'>&#39;</span></span>
     <span class='comment'># OTHER BUG: no notification options seem to be changable via the API
 </span>  <span class='rbrace'>}</span><span class='comma'>,</span>
   <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="OSXConfigurationProfile.html" title="JSS::OSXConfigurationProfile (class)">OSXConfigurationProfile</a></span></span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span>
-    <span class='label'>in_self_service_data_path:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>general</span><span class='words_sep'> </span><span class='tstring_content'>distribution_method</span><span class='words_sep'>]</span><span class='comma'>,</span>
+    <span class='label'>in_self_service_data_path:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>general</span><span class='words_sep'> </span><span class='tstring_content'>distribution_method</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
     <span class='label'>in_self_service:</span> <span class='const'><span class='object_link'><a href="#MAKE_AVAILABLE-constant" title="JSS::SelfServable::MAKE_AVAILABLE (constant)">MAKE_AVAILABLE</a></span></span><span class='comma'>,</span>
     <span class='label'>not_in_self_service:</span> <span class='const'><span class='object_link'><a href="#AUTO_INSTALL-constant" title="JSS::SelfServable::AUTO_INSTALL (constant)">AUTO_INSTALL</a></span></span><span class='comma'>,</span>
     <span class='label'>targets:</span> <span class='lbracket'>[</span><span class='symbol'>:macos</span><span class='rbracket'>]</span><span class='comma'>,</span>
@@ -386,10 +378,10 @@ service ruby code in this one module.</p>
     <span class='label'>url_entity:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>configprofile</span><span class='tstring_end'>&#39;</span></span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
   <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="EBook.html" title="JSS::EBook (class)">EBook</a></span></span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span>
-    <span class='label'>in_self_service_data_path:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>general</span><span class='words_sep'> </span><span class='tstring_content'>deployment_type</span><span class='words_sep'>]</span><span class='comma'>,</span>
+    <span class='label'>in_self_service_data_path:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>general</span><span class='words_sep'> </span><span class='tstring_content'>deployment_type</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
     <span class='label'>in_self_service:</span> <span class='const'><span class='object_link'><a href="#MAKE_AVAILABLE-constant" title="JSS::SelfServable::MAKE_AVAILABLE (constant)">MAKE_AVAILABLE</a></span></span><span class='comma'>,</span>
     <span class='label'>not_in_self_service:</span> <span class='const'><span class='object_link'><a href="#AUTO_INSTALL_OR_PROMPT-constant" title="JSS::SelfServable::AUTO_INSTALL_OR_PROMPT (constant)">AUTO_INSTALL_OR_PROMPT</a></span></span><span class='comma'>,</span>
-    <span class='label'>targets:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>macos</span><span class='words_sep'> </span><span class='tstring_content'>ios</span><span class='words_sep'>]</span><span class='comma'>,</span>
+    <span class='label'>targets:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>macos</span><span class='words_sep'> </span><span class='tstring_content'>ios</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
     <span class='label'>payload:</span> <span class='symbol'>:app</span><span class='comma'>,</span> <span class='comment'># ebooks are handled the same way as apps, it seems,
 </span>    <span class='label'>can_display_in_categories:</span> <span class='kw'>true</span><span class='comma'>,</span>
     <span class='label'>can_feature_in_categories:</span> <span class='kw'>true</span><span class='comma'>,</span>
@@ -397,7 +389,7 @@ service ruby code in this one module.</p>
     <span class='label'>url_entity:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ebook</span><span class='tstring_end'>&#39;</span></span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
   <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="MobileDeviceApplication.html" title="JSS::MobileDeviceApplication (class)">MobileDeviceApplication</a></span></span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span>
-    <span class='label'>in_self_service_data_path:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>general</span><span class='words_sep'> </span><span class='tstring_content'>deployment_type</span><span class='words_sep'>]</span><span class='comma'>,</span>
+    <span class='label'>in_self_service_data_path:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>general</span><span class='words_sep'> </span><span class='tstring_content'>deployment_type</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
     <span class='label'>in_self_service:</span> <span class='const'><span class='object_link'><a href="#MAKE_AVAILABLE-constant" title="JSS::SelfServable::MAKE_AVAILABLE (constant)">MAKE_AVAILABLE</a></span></span><span class='comma'>,</span>
     <span class='label'>not_in_self_service:</span> <span class='const'><span class='object_link'><a href="#AUTO_INSTALL_OR_PROMPT-constant" title="JSS::SelfServable::AUTO_INSTALL_OR_PROMPT (constant)">AUTO_INSTALL_OR_PROMPT</a></span></span><span class='comma'>,</span>
     <span class='label'>targets:</span> <span class='lbracket'>[</span><span class='symbol'>:ios</span><span class='rbracket'>]</span><span class='comma'>,</span>
@@ -406,7 +398,7 @@ service ruby code in this one module.</p>
     <span class='label'>can_feature_in_categories:</span> <span class='kw'>false</span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
   <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="MobileDeviceConfigurationProfile.html" title="JSS::MobileDeviceConfigurationProfile (class)">MobileDeviceConfigurationProfile</a></span></span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span>
-    <span class='label'>in_self_service_data_path:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>general</span><span class='words_sep'> </span><span class='tstring_content'>deployment_method</span><span class='words_sep'>]</span><span class='comma'>,</span>
+    <span class='label'>in_self_service_data_path:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>general</span><span class='words_sep'> </span><span class='tstring_content'>deployment_method</span><span class='tstring_end'>]</span></span><span class='comma'>,</span>
     <span class='label'>in_self_service:</span> <span class='const'><span class='object_link'><a href="#MAKE_AVAILABLE-constant" title="JSS::SelfServable::MAKE_AVAILABLE (constant)">MAKE_AVAILABLE</a></span></span><span class='comma'>,</span>
     <span class='label'>not_in_self_service:</span> <span class='const'><span class='object_link'><a href="#AUTO_INSTALL-constant" title="JSS::SelfServable::AUTO_INSTALL (constant)">AUTO_INSTALL</a></span></span><span class='comma'>,</span>
     <span class='label'>targets:</span> <span class='lbracket'>[</span><span class='symbol'>:ios</span><span class='rbracket'>]</span><span class='comma'>,</span>
@@ -508,8 +500,7 @@ service ruby code in this one module.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Each Hash has these keys about the category - :id =&gt; [Integer] the JSS
-id of the category - :name =&gt; [String] the name of the category.</p>
+<p>Each Hash has these keys about the category - :id =&gt; [Integer] the JSS id of the category - :name =&gt; [String] the name of the category.</p>
 </div></span>
   
 </li>
@@ -619,8 +610,7 @@ id of the category - :name =&gt; [String] the name of the category.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Should an extra window appear before the user can install the item? (OSX
-SSvc only).</p>
+<p>Should an extra window appear before the user can install the item? (OSX SSvc only).</p>
 </div></span>
   
 </li>
@@ -840,8 +830,7 @@ SSvc only).</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Should self service give reminders by displaying the notification
-repeatedly?.</p>
+<p>Should self service give reminders by displaying the notification repeatedly?.</p>
 </div></span>
   
 </li>
@@ -1161,7 +1150,7 @@ repeatedly?.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#upload-instance_method" title="#upload (instance method)">#<strong>upload</strong>(type, local_file)  &#x21d2; String </a>
+      <a href="#upload-instance_method" title="#upload (instance method)">#<strong>upload</strong>(type, local_file, force_ipa_upload: false)  &#x21d2; Boolean </a>
     
 
     
@@ -1181,8 +1170,7 @@ repeatedly?.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Upload a file to the JSS via the REST Resource of the object to which this
-module is mixed in.</p>
+<p>instance method wrapper for class method.</p>
 </div></span>
   
 </li>
@@ -1239,7 +1227,7 @@ module is mixed in.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The icon used in self-service</p>
+<p>Returns The icon used in self-service.</p>
 
 
   </div>
@@ -1271,12 +1259,12 @@ module is mixed in.</p>
       <pre class="lines">
 
 
+245
 246
-247
-248</pre>
+247</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 246</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 245</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_icon'>icon</span>
   <span class='ivar'>@icon</span>
@@ -1304,7 +1292,7 @@ module is mixed in.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Is this thing available in Self Service?</p>
+<p>Returns Is this thing available in Self Service?.</p>
 
 
   </div>
@@ -1336,12 +1324,12 @@ module is mixed in.</p>
       <pre class="lines">
 
 
+241
 242
-243
-244</pre>
+243</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 242</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 241</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_in_self_service'>in_self_service</span>
   <span class='ivar'>@in_self_service</span>
@@ -1374,11 +1362,9 @@ module is mixed in.</p>
 
 <p>Most objects also include one or both of these keys:</p>
 <ul><li>
-<p>:display_in =&gt; [Boolean] should the item be displayed in this category
-in SSvc? (not MobDevConfProfiles)</p>
+<p>:display_in =&gt; [Boolean] should the item be displayed in this category in SSvc? (not MobDevConfProfiles)</p>
 </li><li>
-<p>:feature_in =&gt; [Boolean] should the item be featured in this category in
-SSVC? (macOS targets only)</p>
+<p>:feature_in =&gt; [Boolean] should the item be featured in this category in SSVC? (macOS targets only)</p>
 </li></ul>
 
 
@@ -1411,12 +1397,12 @@ SSVC? (macOS targets only)</p>
       <pre class="lines">
 
 
+268
 269
-270
-271</pre>
+270</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 269</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 268</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_self_service_categories'>self_service_categories</span>
   <span class='ivar'>@self_service_categories</span>
@@ -1440,7 +1426,7 @@ SSVC? (macOS targets only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The verbage that appears in SelfSvc for this item</p>
+<p>Returns The verbage that appears in SelfSvc for this item.</p>
 
 
   </div>
@@ -1472,12 +1458,12 @@ SSVC? (macOS targets only)</p>
       <pre class="lines">
 
 
+252
 253
-254
-255</pre>
+254</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 253</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 252</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_self_service_description'>self_service_description</span>
   <span class='ivar'>@self_service_description</span>
@@ -1537,12 +1523,12 @@ SSVC? (macOS targets only)</p>
       <pre class="lines">
 
 
+249
 250
-251
-252</pre>
+251</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 250</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 249</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_self_service_display_name'>self_service_display_name</span>
   <span class='ivar'>@self_service_display_name</span>
@@ -1598,12 +1584,12 @@ SSVC? (macOS targets only)</p>
       <pre class="lines">
 
 
+256
 257
-258
-259</pre>
+258</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 257</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 256</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_self_service_feature_on_main_page'>self_service_feature_on_main_page</span>
   <span class='ivar'>@self_service_feature_on_main_page</span>
@@ -1627,8 +1613,7 @@ SSVC? (macOS targets only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Should an extra window appear before the user can install the item?
-(OSX SSvc only)</p>
+<p>Returns Should an extra window appear before the user can install the item? (OSX SSvc only).</p>
 
 
   </div>
@@ -1647,8 +1632,7 @@ SSVC? (macOS targets only)</p>
       
         &mdash;
         <div class='inline'>
-<p>Should an extra window appear before the user can install the item? (OSX
-SSvc only)</p>
+<p>Should an extra window appear before the user can install the item? (OSX SSvc only)</p>
 </div>
       
     </li>
@@ -1661,12 +1645,12 @@ SSvc only)</p>
       <pre class="lines">
 
 
+299
 300
-301
-302</pre>
+301</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 300</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 299</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_self_service_force_users_to_view_description'>self_service_force_users_to_view_description</span>
   <span class='ivar'>@self_service_force_users_to_view_description</span>
@@ -1722,12 +1706,12 @@ SSvc only)</p>
       <pre class="lines">
 
 
+292
 293
-294
-295</pre>
+294</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 293</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 292</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_self_service_install_button_text'>self_service_install_button_text</span>
   <span class='ivar'>@self_service_install_button_text</span>
@@ -1751,7 +1735,7 @@ SSvc only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The message text of the notification</p>
+<p>Returns The message text of the notification.</p>
 
 
   </div>
@@ -1783,12 +1767,12 @@ SSvc only)</p>
       <pre class="lines">
 
 
+314
 315
-316
-317</pre>
+316</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 315</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 314</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_self_service_notification_message'>self_service_notification_message</span>
   <span class='ivar'>@self_service_notification_message</span>
@@ -1844,12 +1828,12 @@ SSvc only)</p>
       <pre class="lines">
 
 
+311
 312
-313
-314</pre>
+313</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 312</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 311</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_self_service_notification_subject'>self_service_notification_subject</span>
   <span class='ivar'>@self_service_notification_subject</span>
@@ -1873,8 +1857,7 @@ SSvc only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns How should notifications be sent either :ssvc_only or
-:ssvc_and_nctr</p>
+<p>Returns How should notifications be sent either :ssvc_only or :ssvc_and_nctr.</p>
 
 
   </div>
@@ -1906,12 +1889,12 @@ SSvc only)</p>
       <pre class="lines">
 
 
+307
 308
-309
-310</pre>
+309</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 308</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 307</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_self_service_notification_type'>self_service_notification_type</span>
   <span class='ivar'>@self_service_notification_type</span>
@@ -1939,7 +1922,7 @@ SSvc only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Should jamf send notifications to self service?</p>
+<p>Returns Should jamf send notifications to self service?.</p>
 
 
   </div>
@@ -1971,12 +1954,12 @@ SSvc only)</p>
       <pre class="lines">
 
 
+302
 303
-304
-305</pre>
+304</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 303</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 302</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_self_service_notifications_enabled'>self_service_notifications_enabled</span>
   <span class='ivar'>@self_service_notifications_enabled</span>
@@ -2032,12 +2015,12 @@ SSvc only)</p>
       <pre class="lines">
 
 
+296
 297
-298
-299</pre>
+298</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 297</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 296</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_self_service_reinstall_button_text'>self_service_reinstall_button_text</span>
   <span class='ivar'>@self_service_reinstall_button_text</span>
@@ -2061,7 +2044,7 @@ SSvc only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns How often (in days) should reminders be given</p>
+<p>Returns How often (in days) should reminders be given.</p>
 
 
   </div>
@@ -2093,12 +2076,12 @@ SSvc only)</p>
       <pre class="lines">
 
 
+322
 323
-324
-325</pre>
+324</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 323</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 322</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_self_service_reminder_frequency'>self_service_reminder_frequency</span>
   <span class='ivar'>@self_service_reminder_frequency</span>
@@ -2126,8 +2109,7 @@ SSvc only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Should self service give reminders by displaying the notification
-repeatedly?</p>
+<p>Returns Should self service give reminders by displaying the notification repeatedly?.</p>
 
 
   </div>
@@ -2146,8 +2128,7 @@ repeatedly?</p>
       
         &mdash;
         <div class='inline'>
-<p>Should self service give reminders by displaying the notification
-repeatedly?</p>
+<p>Should self service give reminders by displaying the notification repeatedly?</p>
 </div>
       
     </li>
@@ -2160,12 +2141,12 @@ repeatedly?</p>
       <pre class="lines">
 
 
+318
 319
-320
-321</pre>
+320</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 319</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 318</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_self_service_reminders_enabled'>self_service_reminders_enabled</span>
   <span class='ivar'>@self_service_reminders_enabled</span>
@@ -2221,12 +2202,12 @@ repeatedly?</p>
       <pre class="lines">
 
 
+288
 289
-290
-291</pre>
+290</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 289</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 288</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_self_service_removal_password'>self_service_removal_password</span>
   <span class='ivar'>@self_service_removal_password</span>
@@ -2250,7 +2231,7 @@ repeatedly?</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns one of the keys in PROFILE_REMOVAL_BY_USER</p>
+<p>Returns one of the keys in PROFILE_REMOVAL_BY_USER.</p>
 
 
   </div>
@@ -2282,12 +2263,12 @@ repeatedly?</p>
       <pre class="lines">
 
 
+285
 286
-287
-288</pre>
+287</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 286</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 285</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_self_service_user_removable'>self_service_user_removable</span>
   <span class='ivar'>@self_service_user_removable</span>
@@ -2353,11 +2334,12 @@ repeatedly?</p>
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>should this item appear in the SelfSvc page for the category? Only
-meaningful in applicable classes</p>
+<p>should this item appear in the SelfSvc page for the category? Only meaningful in applicable classes</p>
 </div>
       
     </li>
@@ -2370,12 +2352,12 @@ meaningful in applicable classes</p>
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>should this item be featured in the SelfSvc page for the category? Only
-meaningful in applicable classes. NOTE: this will always be false if
-display_in is false.</p>
+<p>should this item be featured in the SelfSvc page for the category? Only meaningful in applicable classes. NOTE: this will always be false if display_in is false.</p>
 </div>
       
     </li>
@@ -2402,8 +2384,6 @@ display_in is false.</p>
       <pre class="lines">
 
 
-433
-434
 435
 436
 437
@@ -2425,10 +2405,12 @@ display_in is false.</p>
 453
 454
 455
-456</pre>
+456
+457
+458</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 433</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 435</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_self_service_category'>add_self_service_category</span><span class='lparen'>(</span><span class='id identifier rubyid_new_cat'>new_cat</span><span class='comma'>,</span> <span class='label'>display_in:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>feature_in:</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_new_cat'>new_cat</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Category.html" title="JSS::Category (class)">Category</a></span></span><span class='period'>.</span><span class='id identifier rubyid_map_all_ids_to'><span class='object_link'><a href="APIObject.html#map_all_ids_to-class_method" title="JSS::APIObject.map_all_ids_to (method)">map_all_ids_to</a></span></span><span class='lparen'>(</span><span class='symbol'>:name</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='ivar'>@api</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='id identifier rubyid_new_cat'>new_cat</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_new_cat'>new_cat</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Integer</span>
@@ -2485,15 +2467,15 @@ display_in is false.</p>
       <pre class="lines">
 
 
-619
-620
 621
 622
 623
-624</pre>
+624
+625
+626</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 619</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 621</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_to_self_service'>add_to_self_service</span>
   <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='ivar'>@self_service_data_config</span><span class='lbracket'>[</span><span class='symbol'>:in_self_service_data_path</span><span class='rbracket'>]</span>
@@ -2532,14 +2514,14 @@ display_in is false.</p>
       <pre class="lines">
 
 
-673
-674
 675
 676
-677</pre>
+677
+678
+679</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 673</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 675</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_create'>create</span>
   <span class='id identifier rubyid_resp'>resp</span> <span class='op'>=</span> <span class='kw'>super</span>
@@ -2577,15 +2559,15 @@ display_in is false.</p>
       <pre class="lines">
 
 
-630
-631
 632
 633
 634
-635</pre>
+635
+636
+637</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 630</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 632</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_remove_from_self_service'>remove_from_self_service</span>
   <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='ivar'>@self_service_data_config</span><span class='lbracket'>[</span><span class='symbol'>:in_self_service_data_path</span><span class='rbracket'>]</span>
@@ -2644,13 +2626,13 @@ display_in is false.</p>
       <pre class="lines">
 
 
-466
-467
 468
-469</pre>
+469
+470
+471</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 466</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 468</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_remove_self_service_category'>remove_self_service_category</span><span class='lparen'>(</span><span class='id identifier rubyid_cat'>cat</span><span class='rparen'>)</span>
   <span class='ivar'>@self_service_categories</span><span class='period'>.</span><span class='id identifier rubyid_reject!'>reject!</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span> <span class='id identifier rubyid_c'>c</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='id identifier rubyid_cat'>cat</span> <span class='op'>||</span> <span class='id identifier rubyid_c'>c</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='id identifier rubyid_cat'>cat</span> <span class='rbrace'>}</span>
@@ -2673,7 +2655,7 @@ display_in is false.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The url to view this thing in Self Service</p>
+<p>Returns The url to view this thing in Self Service.</p>
 
 
   </div>
@@ -2708,13 +2690,15 @@ display_in is false.</p>
 337
 338
 339
-340</pre>
+340
+341</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 337</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_self_service_execute_url'>self_service_execute_url</span>
   <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='ivar'>@self_service_data_config</span><span class='lbracket'>[</span><span class='symbol'>:url_entity</span><span class='rbracket'>]</span>
+
   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#USER_URL_BASE-constant" title="JSS::SelfServable::USER_URL_BASE (constant)">USER_URL_BASE</a></span></span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='ivar'>@self_service_data_config</span><span class='lbracket'>[</span><span class='symbol'>:url_entity</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>&amp;id=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_id'>id</span><span class='embexpr_end'>}</span><span class='tstring_content'>&amp;action=</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#USER_URL_EXEC_ACTION-constant" title="JSS::SelfServable::USER_URL_EXEC_ACTION (constant)">USER_URL_EXEC_ACTION</a></span></span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
@@ -2766,12 +2750,12 @@ display_in is false.</p>
       <pre class="lines">
 
 
-659
-660
-661</pre>
+661
+662
+663</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 659</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 661</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_self_service_payload'>self_service_payload</span>
   <span class='ivar'>@self_service_data_config</span><span class='lbracket'>[</span><span class='symbol'>:payload</span><span class='rbracket'>]</span>
@@ -2825,12 +2809,12 @@ display_in is false.</p>
       <pre class="lines">
 
 
-650
-651
-652</pre>
+652
+653
+654</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 650</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 652</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_self_service_targets'>self_service_targets</span>
   <span class='ivar'>@self_service_data_config</span><span class='lbracket'>[</span><span class='symbol'>:targets</span><span class='rbracket'>]</span>
@@ -2852,7 +2836,7 @@ display_in is false.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The url to view this thing in Self Service</p>
+<p>Returns The url to view this thing in Self Service.</p>
 
 
   </div>
@@ -2884,16 +2868,18 @@ display_in is false.</p>
       <pre class="lines">
 
 
+329
 330
 331
 332
 333</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 330</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 329</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_self_service_view_url'>self_service_view_url</span>
   <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='ivar'>@self_service_data_config</span><span class='lbracket'>[</span><span class='symbol'>:url_entity</span><span class='rbracket'>]</span>
+
   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#USER_URL_BASE-constant" title="JSS::SelfServable::USER_URL_BASE (constant)">USER_URL_BASE</a></span></span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='ivar'>@self_service_data_config</span><span class='lbracket'>[</span><span class='symbol'>:url_entity</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>&amp;id=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_id'>id</span><span class='embexpr_end'>}</span><span class='tstring_content'>&amp;action=</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#USER_URL_VIEW_ACTION-constant" title="JSS::SelfServable::USER_URL_VIEW_ACTION (constant)">USER_URL_VIEW_ACTION</a></span></span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
@@ -2927,14 +2913,14 @@ display_in is false.</p>
       <pre class="lines">
 
 
-665
-666
 667
 668
-669</pre>
+669
+670
+671</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 665</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 667</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_update'>update</span>
   <span class='id identifier rubyid_resp'>resp</span> <span class='op'>=</span> <span class='kw'>super</span>
@@ -2949,7 +2935,7 @@ display_in is false.</p>
       <div class="method_details ">
   <h3 class="signature " id="upload-instance_method">
   
-    #<strong>upload</strong>(type, local_file)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+    #<strong>upload</strong>(type, local_file, force_ipa_upload: false)  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -2963,8 +2949,9 @@ display_in is false.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Upload a file to the JSS via the REST Resource of the object to which this
-module is mixed in.</p>
+<p>instance method wrapper for class method</p>
+
+<p>Upload a file to the JSS to be stored with this instance of the class mixing in the Uploadable module</p>
 
 
   </div>
@@ -2984,8 +2971,7 @@ module is mixed in.</p>
       
         &mdash;
         <div class='inline'>
-<p>the type of upload happening. Must be one of the keys defined in the
-class&#39;s UPLOAD_TYPES Hash.</p>
+<p>the type of upload happening. Must be one of the keys defined in the class&#39;s UPLOAD_TYPES Hash.</p>
 </div>
       
     </li>
@@ -3006,6 +2992,24 @@ class&#39;s UPLOAD_TYPES Hash.</p>
       
     </li>
   
+    <li>
+      
+        <span class='name'>force_ipa_upload</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Should the server upload the .ipa file to JCDS or AWS if such are confgured for use?</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 <p class="tag_title">Returns:</p>
@@ -3014,13 +3018,13 @@ class&#39;s UPLOAD_TYPES Hash.</p>
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>The xml response from the server.</p>
+<p>was the  upload successful?</p>
 </div>
       
     </li>
@@ -3087,13 +3091,13 @@ class&#39;s UPLOAD_TYPES Hash.</p>
       <pre class="lines">
 
 
-641
-642
 643
-644</pre>
+644
+645
+646</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 641</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/self_servable.rb', line 643</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_user_removable?'>user_removable?</span>
   <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='id identifier rubyid_self_service_payload'>self_service_payload</span> <span class='op'>==</span> <span class='symbol'>:profile</span>
@@ -3109,9 +3113,9 @@ class&#39;s UPLOAD_TYPES Hash.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:24 2020 by
+  Generated on Wed Feb  2 11:05:46 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

@@ -6,15 +6,15 @@
 <title>
   Class: JSS::MobileDeviceGroup
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::MobileDeviceGroup";
   relpath = '../';
 </script>
@@ -177,8 +177,7 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>The hash key used for the JSON object output. It&#39;s also used in various
-error messages</p>
+<p>The hash key used for the JSON object output. It&#39;s also used in various error messages</p>
 
 
   </div>
@@ -242,8 +241,7 @@ error messages</p>
           <div class="docstring">
   <div class="discussion">
     
-<p>the object type for this object in the object history table. See
-<span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
+<p>the object type for this object in the object history table. See <span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
 
 
   </div>
@@ -658,6 +656,35 @@ error messages</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#disable_remote_desktop-instance_method" title="#disable_remote_desktop (instance method)">#<strong>disable_remote_desktop</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="MDM.html#disable_remote_desktop-instance_method" title="JSS::MDM#disable_remote_desktop (method)">MDM</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send a disable_remote_desktop command to this computer or group.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#disable_voice_roaming-instance_method" title="#disable_voice_roaming (instance method)">#<strong>disable_voice_roaming</strong>  &#x21d2; Object </a>
     
 
@@ -795,6 +822,35 @@ error messages</p>
   
     <span class="summary_desc"><div class='inline'>
 <p>Send a enable_lost_mode command to one or more targets.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#enable_remote_desktop-instance_method" title="#enable_remote_desktop (instance method)">#<strong>enable_remote_desktop</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="MDM.html#enable_remote_desktop-instance_method" title="JSS::MDM#enable_remote_desktop (method)">MDM</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send an enable_remote_desktop command to this computer or group.</p>
 </div></span>
   
 </li>
@@ -1321,7 +1377,7 @@ error messages</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns do we have unsaved changes?</p>
+<p>Returns do we have unsaved changes?.</p>
 
 
   </div>
@@ -1536,8 +1592,7 @@ error messages</p>
       
         &mdash;
         <div class='inline'>
-<p>a six-char passcode, required for computers &amp; computergroups Or an
-optional message to display on mobiledevices &amp; mobiledevicegroups</p>
+<p>a six-char passcode, required for computers &amp; computergroups Or an optional message to display on mobiledevices &amp; mobiledevicegroups</p>
 </div>
       
     </li>
@@ -1713,6 +1768,34 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="disable_remote_desktop-instance_method">
+  
+    #<strong>disable_remote_desktop</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="MDM.html#disable_remote_desktop-instance_method" title="JSS::MDM#disable_remote_desktop (method)">MDM</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send a disable_remote_desktop command to this computer or group</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="disable_voice_roaming-instance_method">
   
     #<strong>disable_voice_roaming</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
@@ -1860,6 +1943,8 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -1875,6 +1960,8 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
       
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
       
       
         &mdash;
@@ -1892,6 +1979,8 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -1907,6 +1996,8 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
       
         <span class='type'>(<tt>Boolean</tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
       
       
         &mdash;
@@ -1924,6 +2015,8 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -1934,6 +2027,34 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
   
 </ul>
 
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="enable_remote_desktop-instance_method">
+  
+    #<strong>enable_remote_desktop</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="MDM.html#enable_remote_desktop-instance_method" title="JSS::MDM#enable_remote_desktop (method)">MDM</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send an enable_remote_desktop command to this computer or group</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
 
 </div>
 </div>
@@ -2515,10 +2636,7 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
     
 <p>Send an unmanage device command to this object</p>
 
-<p>NOTE: when used with computers, the mdm profile will probably be
-re-installed immediately unless the computer is also no longer managed by
-Jamf Pro itself. To fully unmanage a computer, use the
-<span class='object_link'><a href="Computer.html#make_unmanaged-instance_method" title="JSS::Computer#make_unmanaged (method)">Computer#make_unmanaged</a></span> instance method.</p>
+<p>NOTE: when used with computers, the mdm profile will probably be re-installed immediately unless the computer is also no longer managed by Jamf Pro itself. To fully unmanage a computer, use the <span class='object_link'><a href="Computer.html#make_unmanaged-instance_method" title="JSS::Computer#make_unmanaged (method)">Computer#make_unmanaged</a></span> instance method.</p>
 
 
   </div>
@@ -2599,6 +2717,8 @@ Jamf Pro itself. To fully unmanage a computer, use the
         <span class='type'>(<tt>Symbol</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -2615,11 +2735,12 @@ Jamf Pro itself. To fully unmanage a computer, use the
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>The local path to a .png or .jpg to use as the walpaper image, required if
-no wallpaper_id</p>
+<p>The local path to a .png or .jpg to use as the walpaper image, required if no wallpaper_id</p>
 </div>
       
     </li>
@@ -2632,11 +2753,12 @@ no wallpaper_id</p>
         <span class='type'>(<tt>Symbol</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>The id of an Icon in Jamf Pro to use as the wallpaper image, required if no
-wallpaper_content</p>
+<p>The id of an Icon in Jamf Pro to use as the wallpaper image, required if no wallpaper_content</p>
 </div>
       
     </li>
@@ -2652,9 +2774,9 @@ wallpaper_content</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:34 2020 by
+  Generated on Wed Feb  2 11:05:54 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

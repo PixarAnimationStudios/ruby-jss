@@ -6,15 +6,15 @@
 <title>
   Class: JSS::User
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::User";
   relpath = '../';
 </script>
@@ -171,8 +171,7 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>The hash key used for the JSON object output. It&#39;s also used in various
-error messages</p>
+<p>The hash key used for the JSON object output. It&#39;s also used in various error messages</p>
 
 
   </div>
@@ -220,8 +219,7 @@ error messages</p>
           <div class="docstring">
   <div class="discussion">
     
-<p>the object type for this object in the object history table. See
-<span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
+<p>the object type for this object in the object history table. See <span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
 
 
   </div>
@@ -584,8 +582,7 @@ error messages</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Unlike every other Sitable object, Users can be in multiple sites, so we
-don&#39;t use the Sitable mixin module.</p>
+<p>Unlike every other Sitable object, Users can be in multiple sites, so we don&#39;t use the Sitable mixin module.</p>
 </div></span>
   
 </li>
@@ -643,7 +640,7 @@ don&#39;t use the Sitable mixin module.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The vpp assignments associated with this user.</p>
+<p>The user-based vpp assignments associated with this user.</p>
 </div></span>
   
 </li>
@@ -796,8 +793,7 @@ don&#39;t use the Sitable mixin module.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>EA names =&gt; data type (one of &#39;String&#39;, &#39;Number&#39;, or
-&#39;Date&#39;).</p>
+<p>EA names =&gt; data type (one of &#39;String&#39;, &#39;Number&#39;, or &#39;Date&#39;).</p>
 </div></span>
   
 </li>
@@ -826,8 +822,7 @@ don&#39;t use the Sitable mixin module.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>TODO: make this (and all XML amending) method take the in-progress XML doc
-and add (or not) the EA xml to it.</p>
+<p>TODO: make this (and all XML amending) method take the in-progress XML doc and add (or not) the EA xml to it.</p>
 </div></span>
   
 </li>
@@ -911,8 +906,7 @@ and add (or not) the EA xml to it.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Change the name of this item Remember to #update to push changes to the
-server.</p>
+<p>Change the name of this item Remember to #update to push changes to the server.</p>
 </div></span>
   
 </li>
@@ -941,9 +935,7 @@ server.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Populate @extension_attributes (the Array of Hashes that comes from the
-API) and @ext_attr_names, which is a Hash mapping the EA names to their
-values.</p>
+<p>Populate @extension_attributes (the Array of Hashes that comes from the API) and @ext_attr_names, which is a Hash mapping the EA names to their values.</p>
 </div></span>
   
 </li>
@@ -1063,6 +1055,30 @@ values.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#user_groups-instance_method" title="#user_groups (instance method)">#<strong>user_groups</strong>(refresh = false)  &#x21d2; Array&lt;Hash&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Workaround for the recurring Jamf Classic API Bug where JSON is missing data that should come in an array of hashes, but only comes as a hash with a single hash inside, with data for only the last item in the XML array.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#validate_ea_value-instance_method" title="#validate_ea_value (instance method)">#<strong>validate_ea_value</strong>(ea_name, value, validate_popup_choice, refresh)  &#x21d2; Object </a>
     
 
@@ -1083,8 +1099,7 @@ values.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>is the value being passed to set_ext_attr valid? Converts values as needed
-(e.g. strings to integers or Times).</p>
+<p>is the value being passed to set_ext_attr valid? Converts values as needed (e.g. strings to integers or Times).</p>
 </div></span>
   
 </li>
@@ -1142,8 +1157,7 @@ values.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Raise an error if the named EA has a popup menu, but the provided value
-isn&#39;t one of the menu items.</p>
+<p>Raise an error if the named EA has a popup menu, but the provided value isn&#39;t one of the menu items.</p>
 </div></span>
   
 </li>
@@ -1221,7 +1235,7 @@ isn&#39;t one of the menu items.</p>
   <span class='ivar'>@phone_number</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:phone_number</span><span class='rbracket'>]</span>
   <span class='ivar'>@position</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:position</span><span class='rbracket'>]</span>
   <span class='ivar'>@ldap_server</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span></span><span class='period'>.</span><span class='id identifier rubyid_get_name'><span class='object_link'><a href="APIObject.html#get_name-class_method" title="JSS::APIObject.get_name (method)">get_name</a></span></span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:ldap_server</span><span class='rbracket'>]</span>
-  <span class='ivar'>@ldap_server_id</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:ldap_server</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span>
+  <span class='ivar'>@ldap_server_id</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:ldap_server</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:ldap_server</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
   <span class='ivar'>@sites</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:sites</span><span class='rbracket'>]</span> <span class='op'>?</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:sites</span><span class='rbracket'>]</span>  <span class='op'>:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
 
   <span class='kw'>if</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:links</span><span class='rbracket'>]</span>
@@ -1315,7 +1329,7 @@ isn&#39;t one of the menu items.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The user&#39;s email address</p>
+<p>Returns The user&#39;s email address.</p>
 
 
   </div>
@@ -1381,7 +1395,7 @@ isn&#39;t one of the menu items.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The extension attribute values for the object</p>
+<p>Returns The extension attribute values for the object.</p>
 
 
   </div>
@@ -1424,7 +1438,7 @@ isn&#39;t one of the menu items.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The user&#39;s full name</p>
+<p>Returns The user&#39;s full name.</p>
 
 
   </div>
@@ -1485,7 +1499,7 @@ isn&#39;t one of the menu items.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The name of the user&#39;s LDAP server</p>
+<p>Returns The name of the user&#39;s LDAP server.</p>
 
 
   </div>
@@ -1546,7 +1560,7 @@ isn&#39;t one of the menu items.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute ldap_sever_id</p>
+<p>Returns the value of attribute ldap_sever_id.</p>
 
 
   </div>
@@ -1662,7 +1676,7 @@ isn&#39;t one of the menu items.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns do we have unsaved changes?</p>
+<p>Returns do we have unsaved changes?.</p>
 
 
   </div>
@@ -1763,7 +1777,7 @@ isn&#39;t one of the menu items.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The user&#39;s phone number</p>
+<p>Returns The user&#39;s phone number.</p>
 
 
   </div>
@@ -1824,7 +1838,7 @@ isn&#39;t one of the menu items.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The user&#39;s position / job title</p>
+<p>Returns The user&#39;s position / job title.</p>
 
 
   </div>
@@ -1885,9 +1899,7 @@ isn&#39;t one of the menu items.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Unlike every other Sitable object, Users can be in multiple sites, so we
-don&#39;t use the Sitable mixin module. Instead we&#39;ll we&#39;ll store
-them in this Array, as they come from the API.</p>
+<p>Unlike every other Sitable object, Users can be in multiple sites, so we don&#39;t use the Sitable mixin module. Instead we&#39;ll we&#39;ll store them in this Array, as they come from the API.</p>
 
 <p>Each Hash has the :id and :name for one site</p>
 
@@ -1945,7 +1957,7 @@ them in this Array, as they come from the API.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the total number of vpp codes assigned to this user</p>
+<p>Returns the total number of vpp codes assigned to this user.</p>
 
 
   </div>
@@ -2006,7 +2018,7 @@ them in this Array, as they come from the API.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The vpp assignments associated with this user</p>
+<p>The user-based vpp assignments associated with this user</p>
 
 <p>Each Hash has then :id and :name for one assignment</p>
 
@@ -2154,8 +2166,7 @@ them in this Array, as they come from the API.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>make a clone of this API object, with a new name. The class must be
-creatable</p>
+<p>make a clone of this API object, with a new name. The class must be creatable</p>
 
 
   </div>
@@ -2188,11 +2199,12 @@ creatable</p>
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to
-instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
 </div>
       
     </li>
@@ -2271,8 +2283,7 @@ instantiate this object</p>
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to
-instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
 </div>
       
     </li>
@@ -2331,7 +2342,7 @@ instantiate this object</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the names of all known EAs</p>
+<p>Returns the names of all known EAs.</p>
 
 
   </div>
@@ -2377,8 +2388,7 @@ instantiate this object</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns EA names =&gt; data type (one of &#39;String&#39;,
-&#39;Number&#39;, or &#39;Date&#39;)</p>
+<p>Returns EA names =&gt; data type (one of &#39;String&#39;, &#39;Number&#39;, or &#39;Date&#39;).</p>
 
 
   </div>
@@ -2397,8 +2407,7 @@ instantiate this object</p>
       
         &mdash;
         <div class='inline'>
-<p>EA names =&gt; data type (one of &#39;String&#39;, &#39;Number&#39;, or
-&#39;Date&#39;)</p>
+<p>EA names =&gt; data type (one of &#39;String&#39;, &#39;Number&#39;, or &#39;Date&#39;)</p>
 </div>
       
     </li>
@@ -2429,9 +2438,7 @@ instantiate this object</p>
   You should avoid using this method if possible, as it may be removed or be changed in the future.
 </p>
 
-<p>TODO: make this (and all XML amending) method take the in-progress XML doc
-and add (or not) the EA xml to it. See how Sitable#add_site_to_xml works,
-as called from Computer.rest_xml</p>
+<p>TODO: make this (and all XML amending) method take the in-progress XML doc and add (or not) the EA xml to it. See how Sitable#add_site_to_xml works, as called from Computer.rest_xml</p>
 
 
   </div>
@@ -2450,8 +2457,7 @@ as called from Computer.rest_xml</p>
       
         &mdash;
         <div class='inline'>
-<p>An &lt;extension_attribute&gt; element to be included in the rest_xml of
-objects that mix-in this module.</p>
+<p>An &lt;extension_attribute&gt; element to be included in the rest_xml of objects that mix-in this module.</p>
 </div>
       
     </li>
@@ -2478,8 +2484,7 @@ objects that mix-in this module.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>An easier-to-use hash of EA name to EA value. This isn&#39;t created until
-its needed, to speed up instantiation.</p>
+<p>An easier-to-use hash of EA name to EA value. This isn&#39;t created until its needed, to speed up instantiation.</p>
 
 
   </div>
@@ -2507,8 +2512,7 @@ its needed, to speed up instantiation.</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the name of this item Remember to #update to push changes to the
-server.</p>
+<p>Change the name of this item Remember to #update to push changes to the server.</p>
 
 
   </div>
@@ -2569,10 +2573,7 @@ server.</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Populate @extension_attributes (the Array of Hashes that comes from the
-API) and @ext_attr_names, which is a Hash mapping the EA names to their
-values. This is called during initialization for all objects that mix in
-this module</p>
+<p>Populate @extension_attributes (the Array of Hashes that comes from the API) and @ext_attr_names, which is a Hash mapping the EA names to their values. This is called during initialization for all objects that mix in this module</p>
 
 
   </div>
@@ -2669,33 +2670,20 @@ this module</p>
 
 <p>The new value is validated based on the data type of the Ext. Attrib:</p>
 <ul><li>
-<p>If the ext. attrib. is defined with a data type of Integer/Number, the
-value must be an Integer.</p>
+<p>If the ext. attrib. is defined with a data type of Integer/Number, the value must be an Integer.</p>
 </li><li>
-<p>If defined with a data type of Date, the value will be parsed as a
-timestamp, and parsing may raise an exception. Dates can&#39;t be blank.</p>
+<p>If defined with a data type of Date, the value will be parsed as a timestamp, and parsing may raise an exception. Dates can&#39;t be blank.</p>
 </li><li>
 <p>If defined wth data type of String, `to_s` will be called on the value.</p>
 </li></ul>
 
-<p>By default, the full EA definition object is fetched to see if the EA&#39;s
-input type is &#39;popup menu&#39;, and if so, the new value must be one of
-the defined popup choices, or blank.</p>
+<p>By default, the full EA definition object is fetched to see if the EA&#39;s input type is &#39;popup menu&#39;, and if so, the new value must be one of the defined popup choices, or blank.</p>
 
-<p>The EA definitions used for popup validation are cached, so we don&#39;t
-have to reach out to the server every time. If you expect the definition to
-have changed since it was cached, provide a truthy value to the refresh:
-parameter</p>
+<p>The EA definitions used for popup validation are cached, so we don&#39;t have to reach out to the server every time. If you expect the definition to have changed since it was cached, provide a truthy value to the refresh: parameter</p>
 
-<p>To bypass popup validation complepletely, provide a falsey value to the
-validate_popup_choice: parameter. WARNING: beware that your value is the
-correct type and format, or you might get errors when saving back to the
-API.</p>
+<p>To bypass popup validation complepletely, provide a falsey value to the validate_popup_choice: parameter. WARNING: beware that your value is the correct type and format, or you might get errors when saving back to the API.</p>
 
-<p>Note that while the Jamf Pro Web interface does not allow editing the
-values of Extension Attributes populated by Scripts or LDAP,  the API does
-allow it. Bear in mind however that those values will be reset again at the
-next recon.</p>
+<p>Note that while the Jamf Pro Web interface does not allow editing the values of Extension Attributes populated by Scripts or LDAP,  the API does allow it. Bear in mind however that those values will be reset again at the next recon.</p>
 
 
   </div>
@@ -2744,6 +2732,8 @@ next recon.</p>
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -2759,6 +2749,8 @@ next recon.</p>
       
         <span class='type'>(<tt>Boolean</tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
       
       
         &mdash;
@@ -2888,6 +2880,130 @@ next recon.</p>
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="user_groups-instance_method">
+  
+    #<strong>user_groups</strong>(refresh = false)  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Workaround for the recurring Jamf Classic API Bug where JSON is missing data that should come in an array of hashes, but only comes as a hash with a single hash inside, with data for only the last item in the XML array.</p>
+
+<p>When needed, we fetch and parse the XML, which has the desired data. Use any truthy parameter to re-fetch the XML data, otherwise the data last fetched is used.</p>
+
+<p>In this case, the user group data is fetched as XML and returned as an Array of Hashes, one per group the user is a member of. Each hash containing three Symbol keys:</p>
+
+<pre class="code ruby"><code class="ruby">id: Integer, the group id
+name: String, the group name
+is_smart: Boolean, is it a smart group or a static group?
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>refresh</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Re-fetch the group data from the API</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The groups the user is a member of.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/user.rb', line 273</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_user_groups'>user_groups</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='ivar'>@grp_array</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_refresh'>refresh</span>
+  <span class='kw'>return</span> <span class='ivar'>@grp_array</span> <span class='kw'>if</span> <span class='ivar'>@grp_array</span>
+
+  <span class='ivar'>@grp_array</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_raw_xml'>raw_xml</span> <span class='op'>=</span> <span class='ivar'>@api</span><span class='period'>.</span><span class='id identifier rubyid_get_rsrc'>get_rsrc</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/users/id/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:xml</span>
+  <span class='id identifier rubyid_xmlroot'>xmlroot</span> <span class='op'>=</span> <span class='const'>REXML</span><span class='op'>::</span><span class='const'>Document</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_raw_xml'>raw_xml</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_root'><span class='object_link'><a href="../top-level-namespace.html" title="Top Level Namespace (root)">root</a></span></span>
+  <span class='id identifier rubyid_xml_grps'>xml_grps</span> <span class='op'>=</span> <span class='id identifier rubyid_xmlroot'>xmlroot</span><span class='period'>.</span><span class='id identifier rubyid_elements'>elements</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>user_groups</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+
+  <span class='id identifier rubyid_xml_grps'>xml_grps</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_xml_grp'>xml_grp</span><span class='op'>|</span>
+    <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_xml_grp'>xml_grp</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>size</span><span class='tstring_end'>&#39;</span></span>
+
+    <span class='id identifier rubyid_gid'>gid</span> <span class='op'>=</span> <span class='id identifier rubyid_xml_grp'>xml_grp</span><span class='period'>.</span><span class='id identifier rubyid_elements'>elements</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>id</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+    <span class='id identifier rubyid_gname'>gname</span> <span class='op'>=</span> <span class='id identifier rubyid_xml_grp'>xml_grp</span><span class='period'>.</span><span class='id identifier rubyid_elements'>elements</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>name</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span>
+    <span class='id identifier rubyid_smart'>smart</span> <span class='op'>=</span> <span class='id identifier rubyid_xml_grp'>xml_grp</span><span class='period'>.</span><span class='id identifier rubyid_elements'>elements</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>is_smart</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>true</span><span class='tstring_end'>&#39;</span></span>
+    <span class='ivar'>@grp_array</span> <span class='op'>&lt;&lt;</span> <span class='lbrace'>{</span> <span class='label'>id:</span> <span class='id identifier rubyid_gid'>gid</span><span class='comma'>,</span> <span class='label'>name:</span> <span class='id identifier rubyid_gname'>gname</span><span class='comma'>,</span> <span class='label'>is_smart:</span> <span class='id identifier rubyid_smart'>smart</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span> <span class='comment'># groups.each
+</span>
+  <span class='ivar'>@grp_array</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="validate_ea_value-instance_method">
   
     #<strong>validate_ea_value</strong>(ea_name, value, validate_popup_choice, refresh)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
@@ -2904,11 +3020,9 @@ next recon.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>is the value being passed to set_ext_attr valid? Converts values as needed
-(e.g. strings to integers or Times)</p>
+<p>is the value being passed to set_ext_attr valid? Converts values as needed (e.g. strings to integers or Times)</p>
 
-<p>If the EA is defined to hold a string, any value is accepted and converted
-with #to_s</p>
+<p>If the EA is defined to hold a string, any value is accepted and converted with #to_s</p>
 
 <p>Note: All EAs can be blank</p>
 
@@ -3052,8 +3166,7 @@ with #to_s</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Raise an error if the named EA has a popup menu, but the provided value
-isn&#39;t one of the menu items</p>
+<p>Raise an error if the named EA has a popup menu, but the provided value isn&#39;t one of the menu items</p>
 
 
   </div>
@@ -3082,9 +3195,9 @@ isn&#39;t one of the menu items</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:46 2020 by
+  Generated on Wed Feb  2 11:06:07 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

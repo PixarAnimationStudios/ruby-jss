@@ -6,15 +6,15 @@
 <title>
   Module: JSS::Scopable
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::Scopable";
   relpath = '../';
 </script>
@@ -76,7 +76,7 @@
   
   <dl>
     <dt>Included in:</dt>
-    <dd><span class='object_link'><a href="ConfigurationProfile.html" title="JSS::ConfigurationProfile (class)">ConfigurationProfile</a></span>, <span class='object_link'><a href="MobileDeviceApplication.html" title="JSS::MobileDeviceApplication (class)">MobileDeviceApplication</a></span>, <span class='object_link'><a href="PatchPolicy.html" title="JSS::PatchPolicy (class)">PatchPolicy</a></span>, <span class='object_link'><a href="Policy.html" title="JSS::Policy (class)">Policy</a></span>, <span class='object_link'><a href="RestrictedSoftware.html" title="JSS::RestrictedSoftware (class)">RestrictedSoftware</a></span></dd>
+    <dd><span class='object_link'><a href="ConfigurationProfile.html" title="JSS::ConfigurationProfile (class)">ConfigurationProfile</a></span>, <span class='object_link'><a href="MacApplication.html" title="JSS::MacApplication (class)">MacApplication</a></span>, <span class='object_link'><a href="MobileDeviceApplication.html" title="JSS::MobileDeviceApplication (class)">MobileDeviceApplication</a></span>, <span class='object_link'><a href="PatchPolicy.html" title="JSS::PatchPolicy (class)">PatchPolicy</a></span>, <span class='object_link'><a href="Policy.html" title="JSS::Policy (class)">Policy</a></span>, <span class='object_link'><a href="RestrictedSoftware.html" title="JSS::RestrictedSoftware (class)">RestrictedSoftware</a></span></dd>
   </dl>
   
 
@@ -95,21 +95,15 @@
     
 <p>A mix-in module for handling scoping data for objects in the JSS.</p>
 
-<p>The JSS objects that can be scoped use similar data to represent that
-scoping. This module provides a consistant way to deal with scoping data
-via some instance methods and the <span class='object_link'><a href="Scopable/Scope.html" title="JSS::Scopable::Scope (class)">Scope</a></span> class.</p>
+<p>The JSS objects that can be scoped use similar data to represent that scoping. This module provides a consistant way to deal with scoping data via some instance methods and the <span class='object_link'><a href="Scopable/Scope.html" title="JSS::Scopable::Scope (class)">Scope</a></span> class.</p>
 
-<p>When this module is mixed in to a <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span> subclass, instances of
-the subclass will have a @scope attribute containing a
-<span class='object_link'><a href="Scopable/Scope.html" title="JSS::Scopable::Scope (class)">Scope</a></span> instance</p>
+<p>When this module is mixed in to a <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span> subclass, instances of the subclass will have a @scope attribute containing a <span class='object_link'><a href="Scopable/Scope.html" title="JSS::Scopable::Scope (class)">Scope</a></span> instance</p>
 
 <p>Classes that mix in this module must:</p>
 <ul><li>
-<p>Set a Constant SCOPE_TARGET_KEY that is either :computers or
-:mobile_devices</p>
+<p>Set a Constant SCOPE_TARGET_KEY that is either :computers or :mobile_devices</p>
 </li><li>
-<p>Include the result of self.scope.scope_xml in their own rest_xml output if
-they are <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span> or <span class='object_link'><a href="Creatable.html" title="JSS::Creatable (module)">Creatable</a></span></p>
+<p>Include the result of self.scope.scope_xml in their own rest_xml output if they are <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span> or <span class='object_link'><a href="Creatable.html" title="JSS::Creatable (module)">Creatable</a></span></p>
 </li></ul>
 
 
@@ -220,8 +214,7 @@ they are <span class='object_link'><a href="Updatable.html" title="JSS::Updatabl
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Call this during initialization of objects that have a scope and the scope
-instance will be created from @init_data.</p>
+<p>Call this during initialization of objects that have a scope and the scope instance will be created from @init_data.</p>
 </div></span>
   
 </li>
@@ -269,9 +262,7 @@ instance will be created from @init_data.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>A wrapper around the update method, to try catching RestClient::Conflict
-409 errors when we couldn&#39;t verify all ldap users/groups due to lack of
-ldap connections.</p>
+<p>A wrapper around the update method, to try catching 409 conflict errors when we couldn&#39;t verify all ldap users/groups due to lack of ldap connections.</p>
 </div></span>
   
 </li>
@@ -350,8 +341,7 @@ ldap connections.</p>
   You should avoid using this method if possible, as it may be removed or be changed in the future.
 </p>
 <p class="note returns_void">This method returns an undefined value.</p>
-<p>Call this during initialization of objects that have a scope and the scope
-instance will be created from @init_data</p>
+<p>Call this during initialization of objects that have a scope and the scope instance will be created from @init_data</p>
 
 
   </div>
@@ -435,9 +425,7 @@ instance will be created from @init_data</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>A wrapper around the update method, to try catching RestClient::Conflict
-409 errors when we couldn&#39;t verify all ldap users/groups due to lack of
-ldap connections</p>
+<p>A wrapper around the update method, to try catching 409 conflict errors when we couldn&#39;t verify all ldap users/groups due to lack of ldap connections</p>
 
 
   </div>
@@ -451,6 +439,7 @@ ldap connections</p>
       <pre class="lines">
 
 
+106
 107
 108
 109
@@ -458,29 +447,20 @@ ldap connections</p>
 111
 112
 113
-114
-115
-116
-117
-118
-119</pre>
+114</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable.rb', line 107</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/scopable.rb', line 106</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_update'>update</span>
-  <span class='kw'>begin</span>
-    <span class='kw'>super</span>
-
-  <span class='kw'>rescue</span> <span class='const'>RestClient</span><span class='op'>::</span><span class='const'>Conflict</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_conflict'>conflict</span>
-    <span class='kw'>if</span>  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_scope'>scope</span><span class='period'>.</span><span class='id identifier rubyid_unable_to_verify_ldap_entries'>unable_to_verify_ldap_entries</span> <span class='op'>==</span> <span class='kw'>true</span>
-      <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Potentially non-existant LDAP user or group in new scope values.</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>else</span>
-      <span class='id identifier rubyid_raise'>raise</span> <span class='id identifier rubyid_conflict'>conflict</span>
-    <span class='kw'>end</span>
-
-  <span class='kw'>end</span> <span class='comment'># begin
-</span><span class='kw'>end</span></pre>
+  <span class='kw'>super</span>
+<span class='kw'>rescue</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="ConflictError.html" title="JSS::ConflictError (class)">ConflictError</a></span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_conflict'>conflict</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_scope'>scope</span><span class='period'>.</span><span class='id identifier rubyid_unable_to_verify_ldap_entries'>unable_to_verify_ldap_entries</span> <span class='op'>==</span> <span class='kw'>true</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Potentially non-existant LDAP user or group in new scope values.</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='id identifier rubyid_conflict'>conflict</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -491,9 +471,9 @@ ldap connections</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:24 2020 by
+  Generated on Wed Feb  2 11:05:47 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

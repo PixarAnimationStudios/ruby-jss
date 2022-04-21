@@ -6,15 +6,15 @@
 <title>
   Class: JSS::Script
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::Script";
   relpath = '../';
 </script>
@@ -113,18 +113,11 @@
     
 <p>A Script in the JSS.</p>
 
-<p>As of Casper 9.4, the script contents as stored in the database are
-accessible via the API</p>
+<p>As of Casper 9.4, the script contents as stored in the database are accessible via the API</p>
 
-<p>This class will save the script contents back to the database with the
-<span class='object_link'><a href="Creatable.html#create-instance_method" title="JSS::Creatable#create (method)">Creatable#create</a></span> or <span class='object_link'><a href="Updatable.html#update-instance_method" title="JSS::Updatable#update (method)">Updatable#update</a></span> methods</p>
+<p>According to Jamf as of early 2021, it has been some years now since its been possible to store script contents on a dist. point - they are all always in the database.</p>
 
-<p>If your scripts are stored on the master distribution point instead of the
-database, you can use <span class='object_link'><a href="#upload_master_file-instance_method" title="JSS::Script#upload_master_file (method)">#upload_master_file</a></span> to save it to the server, and
-<span class='object_link'><a href="#delete_master_file-instance_method" title="JSS::Script#delete_master_file (method)">#delete_master_file</a></span> to delete it from the server.</p>
-
-<p>Use the <span class='object_link'><a href="#run-instance_method" title="JSS::Script#run (method)">#run</a></span> method to run the script on the local machine via the
-&#39;jamf runScript&#39; command</p>
+<p>Use the <span class='object_link'><a href="#run-instance_method" title="JSS::Script#run (method)">#run</a></span> method to run the script on the local machine.</p>
 
 
   </div>
@@ -184,8 +177,7 @@ database, you can use <span class='object_link'><a href="#upload_master_file-ins
           <div class="docstring">
   <div class="discussion">
     
-<p>The hash key used for the JSON object output. It&#39;s also used in various
-error messages</p>
+<p>The hash key used for the JSON object output. It&#39;s also used in various error messages</p>
 
 
   </div>
@@ -217,8 +209,7 @@ error messages</p>
           <div class="docstring">
   <div class="discussion">
     
-<p>Priority to use for running the script in relation to other actions during
-imaging</p>
+<p>Priority to use for running the script in relation to other actions during imaging</p>
 
 
   </div>
@@ -266,8 +257,7 @@ imaging</p>
           <div class="docstring">
   <div class="discussion">
     
-<p>the object type for this object in the object history table. See
-<span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
+<p>the object type for this object in the object history table. See <span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
 
 
   </div>
@@ -471,6 +461,8 @@ imaging</p>
     
 
     
+      (also: #parameter_labels, #parameter_descriptions)
+    
   </span>
   
   
@@ -485,7 +477,7 @@ imaging</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Script parameters 4-11.</p>
+<p>Descriptions of parameters 4-11.</p>
 </div></span>
   
 </li>
@@ -542,6 +534,35 @@ imaging</p>
   
     <span class="summary_desc"><div class='inline'>
 <p>The actual code for this script, if it&#39;s stored in the database.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#script_contents_encoded-instance_method" title="#script_contents_encoded (instance method)">#<strong>script_contents_encoded</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The code for this script, Base64-encoded.</p>
 </div></span>
   
 </li>
@@ -770,30 +791,6 @@ imaging</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#delete_master_file-instance_method" title="#delete_master_file (instance method)">#<strong>delete_master_file</strong>(rw_pw, unmount = true)  &#x21d2; Boolean </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Delete the filename from the master distribution point, if it exists.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#evaluate_new_category-instance_method" title="#evaluate_new_category (instance method)">#<strong>evaluate_new_category</strong>(new_cat)  &#x21d2; Array&lt;String, Integer&gt; </a>
     
 
@@ -814,8 +811,7 @@ imaging</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Given a category name or id, return the name and id TODO: use
-APIObject.exist? and/or APIObject.valid_id.</p>
+<p>Given a category name or id, return the name and id TODO: use APIObject.exist? and/or APIObject.valid_id.</p>
 </div></span>
   
 </li>
@@ -889,7 +885,7 @@ APIObject.exist? and/or APIObject.valid_id.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Run this script on the current machine using the “jamf runScript” command.</p>
+<p>Run this script on the current machine.</p>
 </div></span>
   
 </li>
@@ -901,6 +897,8 @@ APIObject.exist? and/or APIObject.valid_id.</p>
       <a href="#set_parameter-instance_method" title="#set_parameter (instance method)">#<strong>set_parameter</strong>(param_num, new_val)  &#x21d2; void </a>
     
 
+    
+      (also: #set_parameter_label, #set_parameter_description)
     
   </span>
   
@@ -977,31 +975,6 @@ APIObject.exist? and/or APIObject.valid_id.</p>
 </li>
 
       
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#upload_master_file-instance_method" title="#upload_master_file (instance method)">#<strong>upload_master_file</strong>(rw_pw, unmount = true)  &#x21d2; void </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Save the @script_contents for this script to a file on the Master
-Distribution point.</p>
-</div></span>
-  
-</li>
-
-      
     </ul>
   
 
@@ -1028,7 +1001,7 @@ Distribution point.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns a new instance of Script</p>
+<p>Returns a new instance of Script.</p>
 
 
   </div>
@@ -1042,8 +1015,6 @@ Distribution point.</p>
       <pre class="lines">
 
 
-134
-135
 136
 137
 138
@@ -1052,10 +1023,16 @@ Distribution point.</p>
 141
 142
 143
-144</pre>
+144
+145
+146
+147
+148
+149
+150</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 134</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 136</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>super</span>
@@ -1067,6 +1044,10 @@ Distribution point.</p>
   <span class='ivar'>@parameters</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:parameters</span><span class='rbracket'>]</span> <span class='op'>?</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:parameters</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='ivar'>@priority</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:priority</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='const'><span class='object_link'><a href="#DEFAULT_PRIORITY-constant" title="JSS::Script::DEFAULT_PRIORITY (constant)">DEFAULT_PRIORITY</a></span></span>
   <span class='ivar'>@script_contents</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:script_contents</span><span class='rbracket'>]</span>
+  <span class='ivar'>@script_contents_encoded</span> <span class='op'>=</span> <span class='ivar'>@init_data</span><span class='lbracket'>[</span><span class='symbol'>:script_contents_encoded</span><span class='rbracket'>]</span>
+  <span class='kw'>if</span> <span class='ivar'>@script_contents</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@script_contents_encoded</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+    <span class='ivar'>@script_contents_encoded</span> <span class='op'>=</span> <span class='const'>Base64</span><span class='period'>.</span><span class='id identifier rubyid_encode64'>encode64</span> <span class='ivar'>@script_contents</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1092,7 +1073,7 @@ Distribution point.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the file name of the script, if stored in a dist. point</p>
+<p>Returns the file name of the script, if stored in a dist. point.</p>
 
 
   </div>
@@ -1124,12 +1105,12 @@ Distribution point.</p>
       <pre class="lines">
 
 
-110
-111
-112</pre>
+107
+108
+109</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 110</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 107</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_filename'>filename</span>
   <span class='ivar'>@filename</span>
@@ -1153,7 +1134,7 @@ Distribution point.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the info field for this script</p>
+<p>Returns the info field for this script.</p>
 
 
   </div>
@@ -1185,12 +1166,12 @@ Distribution point.</p>
       <pre class="lines">
 
 
-119
-120
-121</pre>
+116
+117
+118</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 119</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 116</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_info'>info</span>
   <span class='ivar'>@info</span>
@@ -1219,7 +1200,7 @@ Distribution point.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns do we have unsaved changes?</p>
+<p>Returns do we have unsaved changes?.</p>
 
 
   </div>
@@ -1262,7 +1243,7 @@ Distribution point.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the notes field for this script</p>
+<p>Returns the notes field for this script.</p>
 
 
   </div>
@@ -1294,12 +1275,12 @@ Distribution point.</p>
       <pre class="lines">
 
 
-122
-123
-124</pre>
+119
+120
+121</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 122</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 119</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_notes'>notes</span>
   <span class='ivar'>@notes</span>
@@ -1327,8 +1308,7 @@ Distribution point.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the OS versions this can be installed onto. For all minor versions,
-the format is 10.5.x</p>
+<p>Returns the OS versions this can be installed onto. For all minor versions, the format is 10.5.x.</p>
 
 
   </div>
@@ -1347,8 +1327,7 @@ the format is 10.5.x</p>
       
         &mdash;
         <div class='inline'>
-<p>the OS versions this can be installed onto. For all minor versions, the
-format is 10.5.x</p>
+<p>the OS versions this can be installed onto. For all minor versions, the format is 10.5.x</p>
 </div>
       
     </li>
@@ -1361,12 +1340,12 @@ format is 10.5.x</p>
       <pre class="lines">
 
 
-113
-114
-115</pre>
+110
+111
+112</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 113</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 110</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_os_requirements'>os_requirements</span>
   <span class='ivar'>@os_requirements</span>
@@ -1385,13 +1364,16 @@ format is 10.5.x</p>
   
 
   
+    <span class="aliases">Also known as:
+    <span class="names"><span id='parameter_labels-instance_method'>parameter_labels</span>, <span id='parameter_descriptions-instance_method'>parameter_descriptions</span></span>
+    </span>
+  
 
   
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns script parameters 4-11. Parameters 1-3 are predefined as target
-drive, computer name, and username</p>
+<p>Returns descriptions of parameters 4-11. Parameters 1-3 are predefined as target drive, computer name, and username.</p>
 
 
   </div>
@@ -1410,8 +1392,7 @@ drive, computer name, and username</p>
       
         &mdash;
         <div class='inline'>
-<p>script parameters 4-11. Parameters 1-3 are predefined as target drive,
-computer name, and username</p>
+<p>descriptions of parameters 4-11. Parameters 1-3 are predefined as target drive, computer name, and username</p>
 </div>
       
     </li>
@@ -1424,12 +1405,12 @@ computer name, and username</p>
       <pre class="lines">
 
 
-125
-126
-127</pre>
+122
+123
+124</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 125</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 122</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_parameters'>parameters</span>
   <span class='ivar'>@parameters</span>
@@ -1485,12 +1466,12 @@ computer name, and username</p>
       <pre class="lines">
 
 
-116
-117
-118</pre>
+113
+114
+115</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 116</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 113</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_priority'>priority</span>
   <span class='ivar'>@priority</span>
@@ -1518,8 +1499,7 @@ computer name, and username</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the actual code for this script, if it&#39;s stored in the
-database.</p>
+<p>Returns the actual code for this script, if it&#39;s stored in the database.</p>
 
 
   </div>
@@ -1551,15 +1531,76 @@ database.</p>
       <pre class="lines">
 
 
+127
 128
-129
-130</pre>
+129</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 128</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 127</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_script_contents'>script_contents</span>
   <span class='ivar'>@script_contents</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="script_contents_encoded-instance_method">
+  
+    #<strong>script_contents_encoded</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the code for this script, Base64-encoded.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the code for this script, Base64-encoded</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+130
+131
+132</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 130</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_script_contents_encoded'>script_contents_encoded</span>
+  <span class='ivar'>@script_contents_encoded</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1590,8 +1631,7 @@ database.</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the category of this object. Any of the NON_CATEGORIES values will
-unset the category</p>
+<p>Change the category of this object. Any of the NON_CATEGORIES values will unset the category</p>
 
 
   </div>
@@ -1752,8 +1792,7 @@ unset the category</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The name of the category for this object. For backward compatibility, this
-is aliased to just &#39;category&#39;</p>
+<p>The name of the category for this object. For backward compatibility, this is aliased to just &#39;category&#39;</p>
 
 
   </div>
@@ -1845,8 +1884,7 @@ is aliased to just &#39;category&#39;</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>make a clone of this API object, with a new name. The class must be
-creatable</p>
+<p>make a clone of this API object, with a new name. The class must be creatable</p>
 
 
   </div>
@@ -1879,11 +1917,12 @@ creatable</p>
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to
-instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
 </div>
       
     </li>
@@ -1962,8 +2001,7 @@ instantiate this object</p>
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to
-instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
 </div>
       
     </li>
@@ -2006,122 +2044,6 @@ instantiate this object</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="delete_master_file-instance_method">
-  
-    #<strong>delete_master_file</strong>(rw_pw, unmount = true)  &#x21d2; <tt>Boolean</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Delete the filename from the master distribution point, if it exists.</p>
-
-<p>If you&#39;ll be uploading several files you can specify unmount as false,
-and do it manually when all are finished.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  <p class="tag_title">Parameters:</p>
-<ul class="param">
-  
-    <li>
-      
-        <span class='name'>rw_pw</span>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>the password for the read/write account on the master Distribution Point</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>unmount</span>
-      
-      
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>true</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>whether or not ot unount the distribution point when finished.</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>was the file deleted?</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-382
-383
-384
-385
-386
-387
-388
-389
-390
-391
-392</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 382</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_delete_master_file'>delete_master_file</span><span class='lparen'>(</span><span class='id identifier rubyid_rw_pw'>rw_pw</span><span class='comma'>,</span> <span class='id identifier rubyid_unmount'>unmount</span> <span class='op'>=</span> <span class='kw'>true</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_file'>file</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span></span><span class='period'>.</span><span class='id identifier rubyid_master_distribution_point'><span class='object_link'><a href="DistributionPoint.html#master_distribution_point-class_method" title="JSS::DistributionPoint.master_distribution_point (method)">master_distribution_point</a></span></span><span class='period'>.</span><span class='id identifier rubyid_mount'><span class='object_link'><a href="DistributionPoint.html#mount-instance_method" title="JSS::DistributionPoint#mount (method)">mount</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_rw_pw'>rw_pw</span><span class='comma'>,</span> <span class='symbol'>:rw</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#DIST_POINT_SCRIPTS_FOLDER-constant" title="JSS::Script::DIST_POINT_SCRIPTS_FOLDER (constant)">DIST_POINT_SCRIPTS_FOLDER</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@filename</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-  <span class='kw'>if</span> <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span>
-    <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span>
-    <span class='id identifier rubyid_did_it'>did_it</span> <span class='op'>=</span> <span class='kw'>true</span>
-  <span class='kw'>else</span>
-    <span class='id identifier rubyid_did_it'>did_it</span> <span class='op'>=</span> <span class='kw'>false</span>
-  <span class='kw'>end</span> <span class='comment'># if exists
-</span>  <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span></span><span class='period'>.</span><span class='id identifier rubyid_master_distribution_point'><span class='object_link'><a href="DistributionPoint.html#master_distribution_point-class_method" title="JSS::DistributionPoint.master_distribution_point (method)">master_distribution_point</a></span></span><span class='period'>.</span><span class='id identifier rubyid_unmount'><span class='object_link'><a href="DistributionPoint.html#unmount-instance_method" title="JSS::DistributionPoint#unmount (method)">unmount</a></span></span> <span class='kw'>if</span> <span class='id identifier rubyid_unmount'>unmount</span>
-  <span class='id identifier rubyid_did_it'>did_it</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
   <h3 class="signature " id="evaluate_new_category-instance_method">
   
     #<strong>evaluate_new_category</strong>(new_cat)  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>, Integer&gt;</tt> 
@@ -2138,8 +2060,7 @@ and do it manually when all are finished.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Given a category name or id, return the name and id TODO: use
-APIObject.exist? and/or APIObject.valid_id</p>
+<p>Given a category name or id, return the name and id TODO: use APIObject.exist? and/or APIObject.valid_id</p>
 
 
   </div>
@@ -2249,12 +2170,6 @@ APIObject.exist? and/or APIObject.valid_id</p>
       <pre class="lines">
 
 
-175
-176
-177
-178
-179
-180
 181
 182
 183
@@ -2263,10 +2178,16 @@ APIObject.exist? and/or APIObject.valid_id</p>
 186
 187
 188
-189</pre>
+189
+190
+191
+192
+193
+194
+195</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 175</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 181</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_name='>name=</span><span class='lparen'>(</span><span class='id identifier rubyid_new_val'>new_val</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_new_val'>new_val</span> <span class='op'>=</span> <span class='id identifier rubyid_new_val'>new_val</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
@@ -2275,11 +2196,11 @@ APIObject.exist? and/or APIObject.valid_id</p>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="MissingDataError.html" title="JSS::MissingDataError (class)">MissingDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Name can&#39;t be empty</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_new_val'>new_val</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="AlreadyExistsError.html" title="JSS::AlreadyExistsError (class)">AlreadyExistsError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>A script already exists with the name &#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_new_val'>new_val</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="JSS::Script (class)">Script</a></span></span><span class='period'>.</span><span class='id identifier rubyid_all_names'>all_names</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_new_val'>new_val</span>
 
-  <span class='comment'>### if the filename matches the name, change that too.
+  <span class='comment'># if the filename matches the name, change that too.
 </span>  <span class='ivar'>@filename</span> <span class='op'>=</span> <span class='id identifier rubyid_new_val'>new_val</span> <span class='kw'>if</span> <span class='ivar'>@filename</span> <span class='op'>==</span> <span class='ivar'>@name</span>
   <span class='ivar'>@name</span> <span class='op'>=</span> <span class='id identifier rubyid_new_val'>new_val</span>
 
-  <span class='comment'>### if our REST resource is based on the name, update that too
+  <span class='comment'># if our REST resource is based on the name, update that too
 </span>  <span class='ivar'>@rest_rsrc</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#RSRC_BASE-constant" title="JSS::Script::RSRC_BASE (constant)">RSRC_BASE</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/name/</span><span class='embexpr_beg'>#{</span><span class='const'>CGI</span><span class='period'>.</span><span class='id identifier rubyid_escape'>escape</span> <span class='ivar'>@name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='ivar'>@rest_rsrc</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/name/</span><span class='tstring_end'>&#39;</span></span>
   <span class='ivar'>@need_to_update</span> <span class='op'>=</span> <span class='kw'>true</span>
 <span class='kw'>end</span></pre>
@@ -2300,42 +2221,18 @@ APIObject.exist? and/or APIObject.valid_id</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Run this script on the current machine using the “jamf runScript” command.</p>
+<p>Run this script on the current machine.</p>
 
-<p>If the script code is available in the <span class='object_link'><a href="#script_contents-instance_method" title="JSS::Script#script_contents (method)">#script_contents</a></span> attribute, then
-that code is saved to a tmp file, and executed. Otherwise, the script is
-assumed to be stored on the distribution point.</p>
-
-<p>If the dist. point has http downloads enabled, then the URL is used as the
-path with the &#39;jamf runScript&#39; command.</p>
-
-<p>If http is not an option, the dist.point is mounted, and the script copied
-locally before running. In this case the options must include :ro_pw =&gt;
-&#39;somepass&#39; to provide the read-only password for mounting the
-distribution point. If :unmount =&gt; true is provided, the dist. point
-will be unmounted immediately after copying the script locally.  Otherwise
-it will remain mounted, in case there&#39;s further need of it.</p>
-
-<p>Any local on-disk copies of the script are removed after running.</p>
+<p>If the script code is available in the <span class='object_link'><a href="#script_contents-instance_method" title="JSS::Script#script_contents (method)">#script_contents</a></span> attribute, then that code is saved to a tmp file, and executed. The tmp file is deleted immediately after running</p>
 
 <p>After the script runs, this method returns a two-item Array.</p>
 <ul><li>
-<p>the first item is an Integer, the exit status of the script itself (0 means
-success)</p>
+<p>the first item is an Integer, the exit status of the script itself (0 means success)</p>
 </li><li>
-<p>the second item is a String, the output (stdout + stderr) of the jamf
-binary, which will include the script output.</p>
+<p>the second item is a String, the output (stdout + stderr) of the script.</p>
 </li></ul>
 
-<p>The exit status of the jamf binary process will be available as a
-Process::Status object in $? immediately after running.</p>
-
-<p><strong>NOTE</strong> In the WEB UI and API, the definable parameters are
-numbered 4-11, since 1, 2, &amp; 3 are the target drive, computer name, and
-user name respectively.  However, the jamf binary refers to them as p1-p8,
-and that&#39;s how they are expected as options to #run. So if :p1=&gt;
-“new param” is given as an aption to #run, it will override any value that
-the API provided in @<a href=":parameter4">parameters</a></p>
+<p>The exit status of the jamf binary process will be available as a Process::Status object in $? immediately after running.</p>
 
 
   </div>
@@ -2378,8 +2275,7 @@ the API provided in @<a href=":parameter4">parameters</a></p>
           </span>
           
             &mdash; <div class='inline'>
-<p>the &#39;target drive&#39;, passed to the script as the first commandline
-option. Defaults to &#39;/&#39;</p>
+<p>the &#39;target drive&#39;, passed to the script as the first commandline option. Defaults to &#39;/&#39;</p>
 </div>
           
         </li>
@@ -2392,8 +2288,7 @@ option. Defaults to &#39;/&#39;</p>
           </span>
           
             &mdash; <div class='inline'>
-<p>the name of the computer, passed to the script as the second commandline
-option. Defaults to the name of the current machine</p>
+<p>the name of the computer, passed to the script as the second commandline option. Defaults to the name of the current machine</p>
 </div>
           
         </li>
@@ -2406,60 +2301,20 @@ option. Defaults to the name of the current machine</p>
           </span>
           
             &mdash; <div class='inline'>
-<p>the username to be passed to the script as the third commandline option.</p>
+<p>the username to be passed to the script as the third commandline option. Defaults to the current console user.</p>
 </div>
           
         </li>
       
         <li>
-          <span class="name">:p1..:p8</span>
+          <span class="name">:p4..:p11</span>
           <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
           <span class="default">
             
           </span>
           
             &mdash; <div class='inline'>
-<p>the values to be passed as the 4th - 11th commandline options, overriding
-those defined with the script in the JSS</p>
-</div>
-          
-        </li>
-      
-        <li>
-          <span class="name">:ro_pw</span>
-          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
-          <span class="default">
-            
-          </span>
-          
-            &mdash; <div class='inline'>
-<p>the read-only password for mounting the distribution point, if needed</p>
-</div>
-          
-        </li>
-      
-        <li>
-          <span class="name">:unmount</span>
-          <span class="type">(<tt>Boolean</tt>)</span>
-          <span class="default">
-            
-          </span>
-          
-            &mdash; <div class='inline'>
-<p>should the dist. point be unmounted when finished, if we mounted it?</p>
-</div>
-          
-        </li>
-      
-        <li>
-          <span class="name">:verbose</span>
-          <span class="type">(<tt>Boolean</tt>)</span>
-          <span class="default">
-            
-          </span>
-          
-            &mdash; <div class='inline'>
-<p>should the &#39;jamf runScript&#39; command be verbose?</p>
+<p>the values to be passed as the 4th - 11th commandline params Script params 1, 2, &amp; 3 are the target:, computer_name: and username: params</p>
 </div>
           
         </li>
@@ -2472,8 +2327,7 @@ those defined with the script in the JSS</p>
           </span>
           
             &mdash; <div class='inline'>
-<p>should the output (stdout + stderr) of &#39;jamf runScript&#39; be copied
-to stdout in realtime, as well as returned?</p>
+<p>should the output (stdout + stderr) be copied to stdout in realtime, as well as returned?</p>
 </div>
           
         </li>
@@ -2493,10 +2347,21 @@ to stdout in realtime, as well as returned?</p>
       
         &mdash;
         <div class='inline'>
-<p>the exit status of the <strong>script</strong> and stdout+stderr of
-&#39;jamf runScript&#39;. The exit status of the jamf binary will be
-available in $? immediately after running.</p>
+<p>the exit status and stdout+stderr of the script</p>
 </div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="MissingDataError.html" title="JSS::MissingDataError (class)">JSS::MissingDataError</a></span></tt>)</span>
+      
+      
       
     </li>
   
@@ -2508,205 +2373,105 @@ available in $? immediately after running.</p>
       <pre class="lines">
 
 
-448
-449
-450
-451
-452
-453
-454
-455
-456
-457
-458
-459
-460
-461
-462
-463
-464
-465
-466
-467
-468
-469
-470
-471
-472
-473
-474
-475
-476
-477
-478
-479
-480
-481
-482
-483
-484
-485
-486
-487
-488
-489
-490
-491
-492
-493
-494
-495
-496
-497
-498
-499
-500
-501
-502
-503
-504
-505
-506
-507
-508
-509
-510
-511
-512
-513
-514
-515
-516
-517
-518
-519
-520
-521
-522
-523
-524
-525
-526
-527
-528
-529
-530
-531
-532
-533
-534
-535
-536
-537
-538
-539
-540
-541
-542
-543
-544
-545</pre>
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 448</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 388</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_run'>run</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="MissingDataError.html" title="JSS::MissingDataError (class)">MissingDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>script_contents does not start with #!</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='ivar'>@script_contents</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_start_with?'>start_with?</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>#!</span><span class='tstring_end'>&#39;</span></span>
+
   <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:target</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/</span><span class='tstring_end'>&#39;</span></span>
-  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p1</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:parameter4</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p2</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:parameter5</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p3</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:parameter6</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p4</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:parameter7</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p5</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:parameter8</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p6</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:parameter9</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p7</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:parameter10</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p8</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='ivar'>@parameters</span><span class='lbracket'>[</span><span class='symbol'>:parameter11</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:computer_name</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Client.html" title="JSS::Client (class)">Client</a></span></span><span class='period'>.</span><span class='id identifier rubyid_run_jamf'><span class='object_link'><a href="Client.html#run_jamf-class_method" title="JSS::Client.run_jamf (method)">run_jamf</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>getComputerName</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>&gt;(.)&lt;</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:username</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Client.html" title="JSS::Client (class)">Client</a></span></span><span class='period'>.</span><span class='id identifier rubyid_console_user'><span class='object_link'><a href="Client.html#console_user-class_method" title="JSS::Client.console_user (method)">console_user</a></span></span>
 
-  <span class='id identifier rubyid_dp_mount_pt'>dp_mount_pt</span> <span class='op'>=</span> <span class='kw'>nil</span>
-  <span class='id identifier rubyid_delete_exec'>delete_exec</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:target</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:computer_name</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:username</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_params'>params</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p4</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_params'>params</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p5</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_params'>params</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p6</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_params'>params</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p7</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_params'>params</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p8</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_params'>params</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p9</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_params'>params</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p10</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_params'>params</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p11</span><span class='rbracket'>]</span>
 
-  <span class='kw'>begin</span>
+  <span class='comment'># everything must be a string
+</span>  <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='op'>&amp;</span><span class='symbol'>:to_s</span>
 
-    <span class='comment'># do we have the code already? if so, save it out and make it executable
-</span>    <span class='kw'>if</span> <span class='ivar'>@script_contents</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ivar'>@script_contents</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+  <span class='comment'># remove nils
+</span>  <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_compact!'>compact!</span>
 
-      <span class='id identifier rubyid_script_path'>script_path</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Client.html" title="JSS::Client (class)">Client</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Client.html#DOWNLOADS_FOLDER-constant" title="JSS::Client::DOWNLOADS_FOLDER (constant)">DOWNLOADS_FOLDER</a></span></span>
+  <span class='comment'># remove empty strings
+</span>  <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_delete_if'>delete_if</span> <span class='op'>&amp;</span><span class='symbol'>:empty?</span>
 
-      <span class='id identifier rubyid_executable'>executable</span> <span class='op'>=</span> <span class='id identifier rubyid_script_path'>script_path</span> <span class='op'>+</span> <span class='ivar'>@filename</span>
+  <span class='id identifier rubyid_return_value'>return_value</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
 
-      <span class='id identifier rubyid_executable'>executable</span><span class='period'>.</span><span class='id identifier rubyid_jss_touch'>jss_touch</span>
-      <span class='id identifier rubyid_executable'>executable</span><span class='period'>.</span><span class='id identifier rubyid_chmod'>chmod</span> <span class='int'>0o700</span>
-      <span class='id identifier rubyid_executable'>executable</span><span class='period'>.</span><span class='id identifier rubyid_jss_save'>jss_save</span> <span class='ivar'>@script_contents</span>
-      <span class='id identifier rubyid_delete_exec'>delete_exec</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='comment'># Save and run the script from a private temp dir
+</span>  <span class='comment'># which will be deleted when finished
+</span>  <span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>tmpdir</span><span class='tstring_end'>&#39;</span></span>
+  <span class='const'>Dir</span><span class='period'>.</span><span class='id identifier rubyid_mktmpdir'>mktmpdir</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_dir'>dir</span><span class='op'>|</span>
+    <span class='id identifier rubyid_executable'>executable</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_dir'>dir</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_executable'>executable</span><span class='period'>.</span><span class='id identifier rubyid_jss_touch'>jss_touch</span>
+    <span class='id identifier rubyid_executable'>executable</span><span class='period'>.</span><span class='id identifier rubyid_chmod'>chmod</span> <span class='int'>0o700</span>
+    <span class='id identifier rubyid_executable'>executable</span><span class='period'>.</span><span class='id identifier rubyid_jss_save'>jss_save</span> <span class='ivar'>@script_contents</span>
 
-    <span class='comment'># otherwise, get it from the dist. point
-</span>    <span class='kw'>else</span>
-      <span class='id identifier rubyid_dist_point'>dist_point</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span></span><span class='period'>.</span><span class='id identifier rubyid_my_distribution_point'><span class='object_link'><a href="DistributionPoint.html#my_distribution_point-class_method" title="JSS::DistributionPoint.my_distribution_point (method)">my_distribution_point</a></span></span> <span class='label'>api:</span> <span class='ivar'>@api</span>
+    <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_executable'>executable</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_cmd'>cmd</span> <span class='op'>+=</span> <span class='id identifier rubyid_params'>params</span>
 
-      <span class='comment'>### how do we access our dist. point?
-</span>      <span class='kw'>if</span> <span class='id identifier rubyid_dist_point'>dist_point</span><span class='period'>.</span><span class='id identifier rubyid_http_downloads_enabled'>http_downloads_enabled</span>
-        <span class='id identifier rubyid_script_path'>script_path</span> <span class='op'>=</span> <span class='id identifier rubyid_dist_point'>dist_point</span><span class='period'>.</span><span class='id identifier rubyid_http_url'>http_url</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#DIST_POINT_SCRIPTS_FOLDER-constant" title="JSS::Script::DIST_POINT_SCRIPTS_FOLDER (constant)">DIST_POINT_SCRIPTS_FOLDER</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_stdout_and_stderr_str'>stdout_and_stderr_str</span><span class='comma'>,</span> <span class='id identifier rubyid_status'>status</span> <span class='op'>=</span> <span class='const'>Open3</span><span class='period'>.</span><span class='id identifier rubyid_capture2e'>capture2e</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_cmd'>cmd</span><span class='rparen'>)</span>
 
-      <span class='kw'>else</span>
-        <span class='id identifier rubyid_dp_mount_pt'>dp_mount_pt</span> <span class='op'>=</span> <span class='id identifier rubyid_dist_point'>dist_point</span><span class='period'>.</span><span class='id identifier rubyid_mount'>mount</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:ro_pw</span><span class='rbracket'>]</span>
-
-        <span class='id identifier rubyid_script_path'>script_path</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_dp_mount_pt'>dp_mount_pt</span> <span class='op'>+</span> <span class='const'><span class='object_link'><a href="#DIST_POINT_SCRIPTS_FOLDER-constant" title="JSS::Script::DIST_POINT_SCRIPTS_FOLDER (constant)">DIST_POINT_SCRIPTS_FOLDER</a></span></span><span class='rparen'>)</span>
-
-      <span class='kw'>end</span> <span class='comment'># if http enabled
+    <span class='id identifier rubyid_return_value'>return_value</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_status'>status</span><span class='period'>.</span><span class='id identifier rubyid_exitstatus'>exitstatus</span>
+    <span class='id identifier rubyid_return_value'>return_value</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_stdout_and_stderr_str'>stdout_and_stderr_str</span>
+  <span class='kw'>end</span> <span class='comment'># Dir.mktmpdirs
 </span>
-    <span class='kw'>end</span> <span class='comment'># if @script_contents and (not @script_contents.empty?)
-</span>
-    <span class='comment'># build the command as an array.
-</span>    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-script</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='ivar'>@filename</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-path</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_script_path'>script_path</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rbracket'>]</span>
-
-    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-target</span><span class='tstring_end'>&#39;</span></span>
-    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:target</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
-
-    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-computerName</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:computer_name</span><span class='rbracket'>]</span>
-    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:computer_name</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:computer_name</span><span class='rbracket'>]</span>
-
-    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-username</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:username</span><span class='rbracket'>]</span>
-    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:username</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:username</span><span class='rbracket'>]</span>
-
-    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-p1</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p1</span><span class='rbracket'>]</span>
-    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p1</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p1</span><span class='rbracket'>]</span>
-
-    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-p2</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p2</span><span class='rbracket'>]</span>
-    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p2</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p2</span><span class='rbracket'>]</span>
-
-    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-p3</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p3</span><span class='rbracket'>]</span>
-    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p3</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p3</span><span class='rbracket'>]</span>
-
-    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-p4</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p4</span><span class='rbracket'>]</span>
-    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p4</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p4</span><span class='rbracket'>]</span>
-
-    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-p5</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p5</span><span class='rbracket'>]</span>
-    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p5</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p5</span><span class='rbracket'>]</span>
-
-    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-p6</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p6</span><span class='rbracket'>]</span>
-    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p6</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p6</span><span class='rbracket'>]</span>
-
-    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-p7</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p7</span><span class='rbracket'>]</span>
-    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p7</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p7</span><span class='rbracket'>]</span>
-
-    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-p8</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p8</span><span class='rbracket'>]</span>
-    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p8</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:p8</span><span class='rbracket'>]</span>
-
-    <span class='id identifier rubyid_command_arry'>command_arry</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-verbose</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:verbose</span><span class='rbracket'>]</span>
-
-    <span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='id identifier rubyid_command_arry'>command_arry</span><span class='period'>.</span><span class='id identifier rubyid_shelljoin'>shelljoin</span>
-
-    <span class='id identifier rubyid_jamf_output'>jamf_output</span> <span class='op'>=</span>  <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Client.html" title="JSS::Client (class)">Client</a></span></span><span class='period'>.</span><span class='id identifier rubyid_run_jamf'><span class='object_link'><a href="Client.html#run_jamf-class_method" title="JSS::Client.run_jamf (method)">run_jamf</a></span></span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>runScript</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:show_output</span><span class='rbracket'>]</span>
-
-    <span class='id identifier rubyid_jamf_output'>jamf_output</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^.*Script exit code: (\d+)(\D|$)</span><span class='regexp_end'>/</span></span>
-
-    <span class='id identifier rubyid_script_exitstatus'>script_exitstatus</span> <span class='op'>=</span> <span class='const'>Regexp</span><span class='period'>.</span><span class='id identifier rubyid_last_match'>last_match</span><span class='lparen'>(</span><span class='int'>1</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
-
-  <span class='kw'>ensure</span>
-    <span class='id identifier rubyid_executable'>executable</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span> <span class='kw'>if</span> <span class='id identifier rubyid_delete_exec'>delete_exec</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_executable'>executable</span><span class='period'>.</span><span class='id identifier rubyid_exist?'>exist?</span>
-    <span class='id identifier rubyid_dist_point'>dist_point</span><span class='period'>.</span><span class='id identifier rubyid_unmount'>unmount</span> <span class='kw'>if</span> <span class='id identifier rubyid_dp_mount_pt'>dp_mount_pt</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_dp_mount_pt'>dp_mount_pt</span><span class='period'>.</span><span class='id identifier rubyid_mountpoint?'>mountpoint?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:unmount</span><span class='rbracket'>]</span>
-  <span class='kw'>end</span> <span class='comment'># begin/ensure
-</span>
-  <span class='lbracket'>[</span><span class='id identifier rubyid_script_exitstatus'>script_exitstatus</span><span class='comma'>,</span> <span class='id identifier rubyid_jamf_output'>jamf_output</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_return_value'>return_value</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2719,6 +2484,10 @@ available in $? immediately after running.</p>
     #<strong>set_parameter</strong>(param_num, new_val)  &#x21d2; <tt>void</tt> 
   
 
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='set_parameter_label-instance_method'>set_parameter_label</span>, <span id='set_parameter_description-instance_method'>set_parameter_description</span></span>
+    </span>
   
 
   
@@ -2788,17 +2557,17 @@ available in $? immediately after running.</p>
       <pre class="lines">
 
 
-304
-305
-306
-307
-308
-309
 310
-311</pre>
+311
+312
+313
+314
+315
+316
+317</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 304</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 310</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_parameter'>set_parameter</span><span class='lparen'>(</span><span class='id identifier rubyid_param_num'>param_num</span><span class='comma'>,</span> <span class='id identifier rubyid_new_val'>new_val</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="NoSuchItemError.html" title="JSS::NoSuchItemError (class)">NoSuchItemError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Parameter numbers must be from 4-11</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='lparen'>(</span><span class='int'>4</span><span class='op'>..</span><span class='int'>11</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_cover?'>cover?</span> <span class='id identifier rubyid_param_num'>param_num</span>
@@ -2900,127 +2669,14 @@ available in $? immediately after running.</p>
 </div>
 </div>
     
-      <div class="method_details ">
-  <h3 class="signature " id="upload_master_file-instance_method">
-  
-    #<strong>upload_master_file</strong>(rw_pw, unmount = true)  &#x21d2; <tt>void</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    <p class="note returns_void">This method returns an undefined value.</p>
-<p>Save the @script_contents for this script to a file on the Master
-Distribution point.</p>
-
-<p>If you&#39;ll be uploading several files you can specify unmount as false,
-and do it manually when all are finished.</p>
-
-<p>use <span class='object_link'><a href="#script_contents=-instance_method" title="JSS::Script#script_contents= (method)">#script_contents=</a></span>  to set the script_contents from a String or
-Pathname</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  <p class="tag_title">Parameters:</p>
-<ul class="param">
-  
-    <li>
-      
-        <span class='name'>rw_pw</span>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>the password for the read/write account on the master Distribution Point</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>unmount</span>
-      
-      
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-        <em class="default">(defaults to: <tt>true</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>whether or not ot unount the distribution point when finished.</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-<p class="tag_title">Raises:</p>
-<ul class="raise">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="MissingDataError.html" title="JSS::MissingDataError (class)">JSS::MissingDataError</a></span></tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-360
-361
-362
-363
-364
-365
-366
-367
-368
-369</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/script.rb', line 360</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_upload_master_file'>upload_master_file</span><span class='lparen'>(</span><span class='id identifier rubyid_rw_pw'>rw_pw</span><span class='comma'>,</span> <span class='id identifier rubyid_unmount'>unmount</span> <span class='op'>=</span> <span class='kw'>true</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="MissingDataError.html" title="JSS::MissingDataError (class)">MissingDataError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>No code specified. Use #code= first.</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='ivar'>@script_contents</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='ivar'>@script_contents</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
-
-  <span class='id identifier rubyid_mdp'>mdp</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DistributionPoint.html" title="JSS::DistributionPoint (class)">DistributionPoint</a></span></span><span class='period'>.</span><span class='id identifier rubyid_master_distribution_point'><span class='object_link'><a href="DistributionPoint.html#master_distribution_point-class_method" title="JSS::DistributionPoint.master_distribution_point (method)">master_distribution_point</a></span></span>
-  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'>InvaldDatatError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Incorrect password for read-write access to master distribution point.</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_mdp'>mdp</span><span class='period'>.</span><span class='id identifier rubyid_check_pw'>check_pw</span> <span class='symbol'>:rw</span><span class='comma'>,</span> <span class='id identifier rubyid_rw_pw'>rw_pw</span>
-
-  <span class='id identifier rubyid_destination'>destination</span> <span class='op'>=</span> <span class='id identifier rubyid_mdp'>mdp</span><span class='period'>.</span><span class='id identifier rubyid_mount'>mount</span><span class='lparen'>(</span><span class='id identifier rubyid_rw_pw'>rw_pw</span><span class='comma'>,</span> <span class='symbol'>:rw</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#DIST_POINT_SCRIPTS_FOLDER-constant" title="JSS::Script::DIST_POINT_SCRIPTS_FOLDER (constant)">DIST_POINT_SCRIPTS_FOLDER</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@filename</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-  <span class='id identifier rubyid_destination'>destination</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span> <span class='ivar'>@script_contents</span>
-  <span class='id identifier rubyid_mdp'>mdp</span><span class='period'>.</span><span class='id identifier rubyid_unmount'>unmount</span> <span class='kw'>if</span> <span class='id identifier rubyid_unmount'>unmount</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
   </div>
 
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:46 2020 by
+  Generated on Wed Feb  2 11:06:06 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

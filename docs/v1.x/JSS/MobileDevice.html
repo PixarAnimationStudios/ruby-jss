@@ -6,15 +6,15 @@
 <title>
   Class: JSS::MobileDevice
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::MobileDevice";
   relpath = '../';
 </script>
@@ -121,31 +121,21 @@
 
 <h3 id="label-Adding+devices+to+the+JSS">Adding devices to the JSS</h3>
 
-<p>When creating new MobileDevices in the JSS with this class (using
-make) you must specify a udid, and serial_number before
-calling `create` or `save`. You can provide these values with the `.make`
-call, or afterward using setters.</p>
+<p>When creating new MobileDevices in the JSS with this class (using make) you must specify a udid, and serial_number before calling `create` or `save`. You can provide these values with the `.make` call, or afterward using setters.</p>
 <hr>
 
 <h3 id="label-Management+History+-26+Logs">Management History &amp; Logs</h3>
 
-<p>MobileDevice Management History and logs can now be retrieved both from a
-MobileDevice instance, and directly via class methods without fetching an
-instance. This is handled by the mixed-in <span class='object_link'><a href="ManagementHistory.html" title="JSS::ManagementHistory (module)">ManagementHistory</a></span> module,
-Q.V. for details.</p>
+<p>MobileDevice Management History and logs can now be retrieved both from a MobileDevice instance, and directly via class methods without fetching an instance. This is handled by the mixed-in <span class='object_link'><a href="ManagementHistory.html" title="JSS::ManagementHistory (module)">ManagementHistory</a></span> module, Q.V. for details.</p>
 <hr>
 
 <h3 id="label-MDM+Commands">MDM Commands</h3>
 
-<p>See the <span class='object_link'><a href="MDM.html" title="JSS::MDM (module)">MDM</a></span> mixin module for Class and Instance methods for sending
-MDM commands to mobiledevices.</p>
+<p>See the <span class='object_link'><a href="MDM.html" title="JSS::MDM (module)">MDM</a></span> mixin module for Class and Instance methods for sending MDM commands to mobiledevices.</p>
 
-<p>To send MDM commands without fetching mobiledevice instances, use the class
-methods, which can take multiple identifiers at once.</p>
+<p>To send MDM commands without fetching mobiledevice instances, use the class methods, which can take multiple identifiers at once.</p>
 
-<p>NOTE: If the <span class='object_link'><a href="#name=-instance_method" title="JSS::MobileDevice#name= (method)">#name=</a></span> method is used to change the name of a supervized
-device, the DeviceName MDM command will be sent to the device when the
-changes are sent to the server via <span class='object_link'><a href="APIObject.html#save-instance_method" title="JSS::APIObject#save (method)">APIObject#save</a></span> or <span class='object_link'><a href="#update-instance_method" title="JSS::MobileDevice#update (method)">#update</a></span></p>
+<p>NOTE: If the <span class='object_link'><a href="#name=-instance_method" title="JSS::MobileDevice#name= (method)">#name=</a></span> method is used to change the name of a supervized device, the DeviceName MDM command will be sent to the device when the changes are sent to the server via <span class='object_link'><a href="APIObject.html#save-instance_method" title="JSS::APIObject#save (method)">APIObject#save</a></span> or <span class='object_link'><a href="#update-instance_method" title="JSS::MobileDevice#update (method)">#update</a></span></p>
 
 
   </div>
@@ -198,8 +188,7 @@ changes are sent to the server via <span class='object_link'><a href="APIObject.
           <div class="docstring">
   <div class="discussion">
     
-<p>The hash key used for the JSON object output. It&#39;s also used in various
-error messages</p>
+<p>The hash key used for the JSON object output. It&#39;s also used in various error messages</p>
 
 
   </div>
@@ -231,9 +220,7 @@ error messages</p>
           <div class="docstring">
   <div class="discussion">
     
-<p>these keys,  as well as :id and :name, can be used to look up objects of
-this class in the JSS the wierd alises wifi_mac_addresse,  mac_addresse and
-macaddresse are for proper pluralization of &#39;mac_address&#39; and such</p>
+<p>these keys,  as well as :id and :name, can be used to look up objects of this class in the JSS the wierd alises wifi_mac_addresse,  mac_addresse and macaddresse are for proper pluralization of &#39;mac_address&#39; and such</p>
 
 
   </div>
@@ -289,8 +276,7 @@ macaddresse are for proper pluralization of &#39;mac_address&#39; and such</p>
           <div class="docstring">
   <div class="discussion">
     
-<p>file uploads can send attachments to the JSS using :mobiledevices as the
-sub-resource.</p>
+<p>file uploads can send attachments to the JSS using :mobiledevices as the sub-resource.</p>
 
 
   </div>
@@ -354,8 +340,7 @@ sub-resource.</p>
           <div class="docstring">
   <div class="discussion">
     
-<p>the object type for this object in the object history table. See
-<span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
+<p>the object type for this object in the object history table. See <span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
 
 
   </div>
@@ -3133,6 +3118,35 @@ sub-resource.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#disable_remote_desktop-instance_method" title="#disable_remote_desktop (instance method)">#<strong>disable_remote_desktop</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="MDM.html#disable_remote_desktop-instance_method" title="JSS::MDM#disable_remote_desktop (method)">MDM</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send a disable_remote_desktop command to this computer or group.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#disable_voice_roaming-instance_method" title="#disable_voice_roaming (instance method)">#<strong>disable_voice_roaming</strong>  &#x21d2; Object </a>
     
 
@@ -3211,8 +3225,7 @@ sub-resource.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>EA names =&gt; data type (one of &#39;String&#39;, &#39;Number&#39;, or
-&#39;Date&#39;).</p>
+<p>EA names =&gt; data type (one of &#39;String&#39;, &#39;Number&#39;, or &#39;Date&#39;).</p>
 </div></span>
   
 </li>
@@ -3368,6 +3381,35 @@ sub-resource.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#enable_remote_desktop-instance_method" title="#enable_remote_desktop (instance method)">#<strong>enable_remote_desktop</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+    <span class="note title not_defined_here">
+      included
+      from <span class='object_link'><a href="MDM.html#enable_remote_desktop-instance_method" title="JSS::MDM#enable_remote_desktop (method)">MDM</a></span>
+    </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send an enable_remote_desktop command to this computer or group.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#enable_voice_roaming-instance_method" title="#enable_voice_roaming (instance method)">#<strong>enable_voice_roaming</strong>  &#x21d2; Object </a>
     
 
@@ -3448,8 +3490,7 @@ sub-resource.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>TODO: make this (and all XML amending) method take the in-progress XML doc
-and add (or not) the EA xml to it.</p>
+<p>TODO: make this (and all XML amending) method take the in-progress XML doc and add (or not) the EA xml to it.</p>
 </div></span>
   
 </li>
@@ -3713,8 +3754,7 @@ and add (or not) the EA xml to it.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>When creating new records with .make, udid:, serial_number:, and asset_tag:
-can be provided in the args.</p>
+<p>When creating new records with .make, udid:, serial_number:, and asset_tag: can be provided in the args.</p>
 </div></span>
   
 </li>
@@ -3907,8 +3947,7 @@ can be provided in the args.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Return a REXML &lt;location&gt; element to be included in the rest_xml of
-objects that have a Location subset.</p>
+<p>Return a REXML &lt;location&gt; element to be included in the rest_xml of objects that have a Location subset.</p>
 </div></span>
   
 </li>
@@ -4079,9 +4118,7 @@ objects that have a Location subset.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Populate @extension_attributes (the Array of Hashes that comes from the
-API) and @ext_attr_names, which is a Hash mapping the EA names to their
-values.</p>
+<p>Populate @extension_attributes (the Array of Hashes that comes from the API) and @ext_attr_names, which is a Hash mapping the EA names to their values.</p>
 </div></span>
   
 </li>
@@ -4110,9 +4147,7 @@ values.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Call this during initialization of objects that have a Location subset and
-the location attributes will be populated (as primary attributes) from
-@init_data.</p>
+<p>Call this during initialization of objects that have a Location subset and the location attributes will be populated (as primary attributes) from @init_data.</p>
 </div></span>
   
 </li>
@@ -4141,8 +4176,7 @@ the location attributes will be populated (as primary attributes) from
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Call this during initialization of objects that have a Purchasing subset
-and the purchasing attribute will be populated from @init_data.</p>
+<p>Call this during initialization of objects that have a Purchasing subset and the purchasing attribute will be populated from @init_data.</p>
 </div></span>
   
 </li>
@@ -4380,8 +4414,7 @@ and the purchasing attribute will be populated from @init_data.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>A &lt;purchasing&gt; element to be included in the rest_xml of objects that
-mix-in this module.</p>
+<p>A &lt;purchasing&gt; element to be included in the rest_xml of objects that mix-in this module.</p>
 </div></span>
   
 </li>
@@ -4854,7 +4887,7 @@ mix-in this module.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#upload-instance_method" title="#upload (instance method)">#<strong>upload</strong>(type, local_file)  &#x21d2; String </a>
+      <a href="#upload-instance_method" title="#upload (instance method)">#<strong>upload</strong>(type, local_file, force_ipa_upload: false)  &#x21d2; Boolean </a>
     
 
     
@@ -4874,8 +4907,7 @@ mix-in this module.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Upload a file to the JSS via the REST Resource of the object to which this
-module is mixed in.</p>
+<p>instance method wrapper for class method.</p>
 </div></span>
   
 </li>
@@ -4933,8 +4965,7 @@ module is mixed in.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>is the value being passed to set_ext_attr valid? Converts values as needed
-(e.g. strings to integers or Times).</p>
+<p>is the value being passed to set_ext_attr valid? Converts values as needed (e.g. strings to integers or Times).</p>
 </div></span>
   
 </li>
@@ -4992,8 +5023,7 @@ module is mixed in.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Raise an error if the named EA has a popup menu, but the provided value
-isn&#39;t one of the menu items.</p>
+<p>Raise an error if the named EA has a popup menu, but the provided value isn&#39;t one of the menu items.</p>
 </div></span>
   
 </li>
@@ -5070,8 +5100,7 @@ isn&#39;t one of the menu items.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>When creating new records with .make, udid:, serial_number:, and asset_tag:
-can be provided in the args.</p>
+<p>When creating new records with .make, udid:, serial_number:, and asset_tag: can be provided in the args.</p>
 
 
   </div>
@@ -5266,8 +5295,7 @@ can be provided in the args.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the airplay passwd on devices that can receive AirPlay (i.e. apple
-tvs)</p>
+<p>Returns the airplay passwd on devices that can receive AirPlay (i.e. apple tvs).</p>
 
 
   </div>
@@ -5369,7 +5397,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the applications on the device</p>
+<p>Returns the applications on the device.</p>
 
 
   </div>
@@ -5488,7 +5516,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns how much space available on the device?</p>
+<p>Returns how much space available on the device?.</p>
 
 
   </div>
@@ -5553,7 +5581,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns what percentage of the battery is remaining</p>
+<p>Returns what percentage of the battery is remaining.</p>
 
 
   </div>
@@ -5614,7 +5642,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns is this device ble_capable?</p>
+<p>Returns is this device ble_capable?.</p>
 
 
   </div>
@@ -5675,7 +5703,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the bluetooth mac addr</p>
+<p>Returns the bluetooth mac addr.</p>
 
 
   </div>
@@ -5781,7 +5809,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns total storage on the device</p>
+<p>Returns total storage on the device.</p>
 
 
   </div>
@@ -6013,7 +6041,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns An Apple TV identifier</p>
+<p>Returns An Apple TV identifier.</p>
 
 
   </div>
@@ -6128,7 +6156,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the device_ownership_level</p>
+<p>Returns the device_ownership_level.</p>
 
 
   </div>
@@ -6343,7 +6371,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The extension attribute values for the object</p>
+<p>Returns The extension attribute values for the object.</p>
 
 
   </div>
@@ -6386,7 +6414,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns uses the value from the API&#39;s initial_entry_date_epoch</p>
+<p>Returns uses the value from the API&#39;s initial_entry_date_epoch.</p>
 
 
   </div>
@@ -6447,7 +6475,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the IP addr</p>
+<p>Returns the IP addr.</p>
 
 
   </div>
@@ -6598,7 +6626,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the languages</p>
+<p>Returns the languages.</p>
 
 
   </div>
@@ -6663,7 +6691,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns uses the value from the API&#39;s last_backup_time_epoch</p>
+<p>Returns uses the value from the API&#39;s last_backup_time_epoch.</p>
 
 
   </div>
@@ -6724,7 +6752,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns last_cloud_backup_date</p>
+<p>Returns last_cloud_backup_date.</p>
 
 
   </div>
@@ -6785,7 +6813,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the last time this device enrolled in Jamf</p>
+<p>Returns the last time this device enrolled in Jamf.</p>
 
 
   </div>
@@ -6846,7 +6874,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns uses the value from the API&#39;s last_inventory_update_utc</p>
+<p>Returns uses the value from the API&#39;s last_inventory_update_utc.</p>
 
 
   </div>
@@ -6989,7 +7017,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the locales</p>
+<p>Returns the locales.</p>
 
 
   </div>
@@ -7054,7 +7082,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns is this device managed?</p>
+<p>Returns is this device managed?.</p>
 
 
   </div>
@@ -7178,7 +7206,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the display name of the model</p>
+<p>Returns the display name of the model.</p>
 
 
   </div>
@@ -7239,7 +7267,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the display name of the model</p>
+<p>Returns the display name of the model.</p>
 
 
   </div>
@@ -7300,7 +7328,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the model identifier</p>
+<p>Returns the model identifier.</p>
 
 
   </div>
@@ -7361,7 +7389,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the display name of the model</p>
+<p>Returns the display name of the model.</p>
 
 
   </div>
@@ -7422,7 +7450,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the model firmware</p>
+<p>Returns the model firmware.</p>
 
 
   </div>
@@ -7488,7 +7516,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns do we have unsaved changes?</p>
+<p>Returns do we have unsaved changes?.</p>
 
 
   </div>
@@ -7616,7 +7644,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the OS build</p>
+<p>Returns the OS build.</p>
 
 
   </div>
@@ -7677,7 +7705,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the OS type</p>
+<p>Returns the OS type.</p>
 
 
   </div>
@@ -7738,7 +7766,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the OS version</p>
+<p>Returns the OS version.</p>
 
 
   </div>
@@ -7799,7 +7827,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns how much of the capacity is in use?</p>
+<p>Returns how much of the capacity is in use?.</p>
 
 
   </div>
@@ -8414,7 +8442,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns is this device shared?</p>
+<p>Returns is this device shared?.</p>
 
 
   </div>
@@ -8479,7 +8507,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the phone number of the device&#39;s SIM card</p>
+<p>Returns the phone number of the device&#39;s SIM card.</p>
 
 
   </div>
@@ -8544,7 +8572,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns is this device supervised?</p>
+<p>Returns is this device supervised?.</p>
 
 
   </div>
@@ -8605,7 +8633,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the tether state of the device</p>
+<p>Returns the tether state of the device.</p>
 
 
   </div>
@@ -8847,7 +8875,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the wifi mac addr</p>
+<p>Returns the wifi mac addr.</p>
 
 
   </div>
@@ -8913,7 +8941,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the list of all iPads</p>
+<p>Returns the list of all iPads.</p>
 
 
   </div>
@@ -8972,7 +9000,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the list of all iPads</p>
+<p>Returns the list of all iPads.</p>
 
 
   </div>
@@ -9031,7 +9059,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the list of all iPhones</p>
+<p>Returns the list of all iPhones.</p>
 
 
   </div>
@@ -9090,7 +9118,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the list of all managed mobile devices</p>
+<p>Returns the list of all managed mobile devices.</p>
 
 
   </div>
@@ -9149,7 +9177,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns all mobiledevice phone numbers</p>
+<p>Returns all mobiledevice phone numbers.</p>
 
 
   </div>
@@ -9208,7 +9236,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the list of all supervised mobile devices</p>
+<p>Returns the list of all supervised mobile devices.</p>
 
 
   </div>
@@ -9267,7 +9295,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the list of all unmanaged mobile devices</p>
+<p>Returns the list of all unmanaged mobile devices.</p>
 
 
   </div>
@@ -9326,7 +9354,7 @@ tvs)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the list of all unsupervised mobile devices</p>
+<p>Returns the list of all unsupervised mobile devices.</p>
 
 
   </div>
@@ -9392,8 +9420,7 @@ tvs)</p>
     
 <p>Perform a match, returning an Array of Hashes, one for each item matched</p>
 
-<p>At the moment, it appears the search is an “exact match” search regardless
-of the prefs of the user connected to the API.</p>
+<p>At the moment, it appears the search is an “exact match” search regardless of the prefs of the user connected to the API.</p>
 
 
   </div>
@@ -9742,8 +9769,7 @@ of the prefs of the user connected to the API.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>make a clone of this API object, with a new name. The class must be
-creatable</p>
+<p>make a clone of this API object, with a new name. The class must be creatable</p>
 
 
   </div>
@@ -9776,11 +9802,12 @@ creatable</p>
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to
-instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
 </div>
       
     </li>
@@ -9972,8 +9999,7 @@ instantiate this object</p>
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to
-instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
 </div>
       
     </li>
@@ -10106,8 +10132,7 @@ instantiate this object</p>
       
         &mdash;
         <div class='inline'>
-<p>a six-char passcode, required for computers &amp; computergroups Or an
-optional message to display on mobiledevices &amp; mobiledevicegroups</p>
+<p>a six-char passcode, required for computers &amp; computergroups Or an optional message to display on mobiledevices &amp; mobiledevicegroups</p>
 </div>
       
     </li>
@@ -10231,6 +10256,34 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="disable_remote_desktop-instance_method">
+  
+    #<strong>disable_remote_desktop</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="MDM.html#disable_remote_desktop-instance_method" title="JSS::MDM#disable_remote_desktop (method)">MDM</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send a disable_remote_desktop command to this computer or group</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="disable_voice_roaming-instance_method">
   
     #<strong>disable_voice_roaming</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
@@ -10275,7 +10328,7 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the names of all known EAs</p>
+<p>Returns the names of all known EAs.</p>
 
 
   </div>
@@ -10321,8 +10374,7 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns EA names =&gt; data type (one of &#39;String&#39;,
-&#39;Number&#39;, or &#39;Date&#39;)</p>
+<p>Returns EA names =&gt; data type (one of &#39;String&#39;, &#39;Number&#39;, or &#39;Date&#39;).</p>
 
 
   </div>
@@ -10341,8 +10393,7 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
       
         &mdash;
         <div class='inline'>
-<p>EA names =&gt; data type (one of &#39;String&#39;, &#39;Number&#39;, or
-&#39;Date&#39;)</p>
+<p>EA names =&gt; data type (one of &#39;String&#39;, &#39;Number&#39;, or &#39;Date&#39;)</p>
 </div>
       
     </li>
@@ -10511,6 +10562,8 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -10526,6 +10579,8 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
       
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
       
       
         &mdash;
@@ -10543,6 +10598,8 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -10558,6 +10615,8 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
       
         <span class='type'>(<tt>Boolean</tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
       
       
         &mdash;
@@ -10575,6 +10634,8 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -10585,6 +10646,34 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
   
 </ul>
 
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="enable_remote_desktop-instance_method">
+  
+    #<strong>enable_remote_desktop</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+    <span class="not_defined_here">
+      Originally defined in module
+        <span class='object_link'><a href="MDM.html#enable_remote_desktop-instance_method" title="JSS::MDM#enable_remote_desktop (method)">MDM</a></span>
+    </span>
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send an enable_remote_desktop command to this computer or group</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
 
 </div>
 </div>
@@ -10692,9 +10781,7 @@ optional message to display on mobiledevices &amp; mobiledevicegroups</p>
   You should avoid using this method if possible, as it may be removed or be changed in the future.
 </p>
 
-<p>TODO: make this (and all XML amending) method take the in-progress XML doc
-and add (or not) the EA xml to it. See how Sitable#add_site_to_xml works,
-as called from Computer.rest_xml</p>
+<p>TODO: make this (and all XML amending) method take the in-progress XML doc and add (or not) the EA xml to it. See how Sitable#add_site_to_xml works, as called from Computer.rest_xml</p>
 
 
   </div>
@@ -10713,8 +10800,7 @@ as called from Computer.rest_xml</p>
       
         &mdash;
         <div class='inline'>
-<p>An &lt;extension_attribute&gt; element to be included in the rest_xml of
-objects that mix-in this module.</p>
+<p>An &lt;extension_attribute&gt; element to be included in the rest_xml of objects that mix-in this module.</p>
 </div>
       
     </li>
@@ -10741,8 +10827,7 @@ objects that mix-in this module.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>An easier-to-use hash of EA name to EA value. This isn&#39;t created until
-its needed, to speed up instantiation.</p>
+<p>An easier-to-use hash of EA name to EA value. This isn&#39;t created until its needed, to speed up instantiation.</p>
 
 
   </div>
@@ -10970,7 +11055,7 @@ its needed, to speed up instantiation.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Does this item have location data?</p>
+<p>Returns Does this item have location data?.</p>
 
 
   </div>
@@ -11016,7 +11101,7 @@ its needed, to speed up instantiation.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns does this item have any purchasing info?</p>
+<p>Returns does this item have any purchasing info?.</p>
 
 
   </div>
@@ -11281,8 +11366,7 @@ its needed, to speed up instantiation.</p>
     
 <p>All the location data in a Hash, as it comes from the API.</p>
 
-<p>The reason it isn&#39;t stored this way is to prevent editing of the hash
-directly.</p>
+<p>The reason it isn&#39;t stored this way is to prevent editing of the hash directly.</p>
 
 
   </div>
@@ -11332,8 +11416,7 @@ directly.</p>
   You should avoid using this method if possible, as it may be removed or be changed in the future.
 </p>
 
-<p>Return a REXML &lt;location&gt; element to be included in the rest_xml of
-objects that have a Location subset</p>
+<p>Return a REXML &lt;location&gt; element to be included in the rest_xml of objects that have a Location subset</p>
 
 
   </div>
@@ -11554,10 +11637,7 @@ objects that have a Location subset</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Populate @extension_attributes (the Array of Hashes that comes from the
-API) and @ext_attr_names, which is a Hash mapping the EA names to their
-values. This is called during initialization for all objects that mix in
-this module</p>
+<p>Populate @extension_attributes (the Array of Hashes that comes from the API) and @ext_attr_names, which is a Hash mapping the EA names to their values. This is called during initialization for all objects that mix in this module</p>
 
 
   </div>
@@ -11585,9 +11665,7 @@ this module</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Call this during initialization of objects that have a Location subset and
-the location attributes will be populated (as primary attributes) from
-@init_data</p>
+<p>Call this during initialization of objects that have a Location subset and the location attributes will be populated (as primary attributes) from @init_data</p>
 
 
   </div>
@@ -11619,8 +11697,7 @@ the location attributes will be populated (as primary attributes) from
   You should avoid using this method if possible, as it may be removed or be changed in the future.
 </p>
 
-<p>Call this during initialization of objects that have a Purchasing subset
-and the purchasing attribute will be populated from @init_data</p>
+<p>Call this during initialization of objects that have a Purchasing subset and the purchasing attribute will be populated from @init_data</p>
 
 
   </div>
@@ -11878,8 +11955,7 @@ and the purchasing attribute will be populated from @init_data</p>
     
 <p>All the purchasing data in a Hash, as it comes from the API.</p>
 
-<p>The reason it isn&#39;t stored this way is to prevent editing of the hash
-directly.</p>
+<p>The reason it isn&#39;t stored this way is to prevent editing of the hash directly.</p>
 
 
   </div>
@@ -11929,8 +12005,7 @@ directly.</p>
   You should avoid using this method if possible, as it may be removed or be changed in the future.
 </p>
 
-<p>Returns A &lt;purchasing&gt; element to be included in the rest_xml of
-objects that mix-in this module.</p>
+<p>Returns A &lt;purchasing&gt; element to be included in the rest_xml of objects that mix-in this module.</p>
 
 
   </div>
@@ -11949,8 +12024,7 @@ objects that mix-in this module.</p>
       
         &mdash;
         <div class='inline'>
-<p>A &lt;purchasing&gt; element to be included in the rest_xml of objects that
-mix-in this module.</p>
+<p>A &lt;purchasing&gt; element to be included in the rest_xml of objects that mix-in this module.</p>
 </div>
       
     </li>
@@ -12048,33 +12122,20 @@ mix-in this module.</p>
 
 <p>The new value is validated based on the data type of the Ext. Attrib:</p>
 <ul><li>
-<p>If the ext. attrib. is defined with a data type of Integer/Number, the
-value must be an Integer.</p>
+<p>If the ext. attrib. is defined with a data type of Integer/Number, the value must be an Integer.</p>
 </li><li>
-<p>If defined with a data type of Date, the value will be parsed as a
-timestamp, and parsing may raise an exception. Dates can&#39;t be blank.</p>
+<p>If defined with a data type of Date, the value will be parsed as a timestamp, and parsing may raise an exception. Dates can&#39;t be blank.</p>
 </li><li>
 <p>If defined wth data type of String, `to_s` will be called on the value.</p>
 </li></ul>
 
-<p>By default, the full EA definition object is fetched to see if the EA&#39;s
-input type is &#39;popup menu&#39;, and if so, the new value must be one of
-the defined popup choices, or blank.</p>
+<p>By default, the full EA definition object is fetched to see if the EA&#39;s input type is &#39;popup menu&#39;, and if so, the new value must be one of the defined popup choices, or blank.</p>
 
-<p>The EA definitions used for popup validation are cached, so we don&#39;t
-have to reach out to the server every time. If you expect the definition to
-have changed since it was cached, provide a truthy value to the refresh:
-parameter</p>
+<p>The EA definitions used for popup validation are cached, so we don&#39;t have to reach out to the server every time. If you expect the definition to have changed since it was cached, provide a truthy value to the refresh: parameter</p>
 
-<p>To bypass popup validation complepletely, provide a falsey value to the
-validate_popup_choice: parameter. WARNING: beware that your value is the
-correct type and format, or you might get errors when saving back to the
-API.</p>
+<p>To bypass popup validation complepletely, provide a falsey value to the validate_popup_choice: parameter. WARNING: beware that your value is the correct type and format, or you might get errors when saving back to the API.</p>
 
-<p>Note that while the Jamf Pro Web interface does not allow editing the
-values of Extension Attributes populated by Scripts or LDAP,  the API does
-allow it. Bear in mind however that those values will be reset again at the
-next recon.</p>
+<p>Note that while the Jamf Pro Web interface does not allow editing the values of Extension Attributes populated by Scripts or LDAP,  the API does allow it. Bear in mind however that those values will be reset again at the next recon.</p>
 
 
   </div>
@@ -12123,6 +12184,8 @@ next recon.</p>
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -12138,6 +12201,8 @@ next recon.</p>
       
         <span class='type'>(<tt>Boolean</tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
       
       
         &mdash;
@@ -12215,8 +12280,7 @@ next recon.</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the site of this object. Any of the NON_SITES values will unset the
-site</p>
+<p>Change the site of this object. Any of the NON_SITES values will unset the site</p>
 
 
   </div>
@@ -12373,8 +12437,7 @@ site</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The name of the site for this object. For backward compatibility, this is
-aliased to just &#39;site&#39;</p>
+<p>The name of the site for this object. For backward compatibility, this is aliased to just &#39;site&#39;</p>
 
 
   </div>
@@ -12578,10 +12641,7 @@ aliased to just &#39;site&#39;</p>
     
 <p>Send an unmanage device command to this object</p>
 
-<p>NOTE: when used with computers, the mdm profile will probably be
-re-installed immediately unless the computer is also no longer managed by
-Jamf Pro itself. To fully unmanage a computer, use the
-<span class='object_link'><a href="Computer.html#make_unmanaged-instance_method" title="JSS::Computer#make_unmanaged (method)">Computer#make_unmanaged</a></span> instance method.</p>
+<p>NOTE: when used with computers, the mdm profile will probably be re-installed immediately unless the computer is also no longer managed by Jamf Pro itself. To fully unmanage a computer, use the <span class='object_link'><a href="Computer.html#make_unmanaged-instance_method" title="JSS::Computer#make_unmanaged (method)">Computer#make_unmanaged</a></span> instance method.</p>
 
 
   </div>
@@ -12688,11 +12748,12 @@ Jamf Pro itself. To fully unmanage a computer, use the
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>should a MDM `set device name` command be sent if the device is managed and
-supervised?</p>
+<p>should a MDM `set device name` command be sent if the device is managed and supervised?</p>
 </div>
       
     </li>
@@ -12766,7 +12827,7 @@ supervised?</p>
       <div class="method_details ">
   <h3 class="signature " id="upload-instance_method">
   
-    #<strong>upload</strong>(type, local_file)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+    #<strong>upload</strong>(type, local_file, force_ipa_upload: false)  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -12780,8 +12841,9 @@ supervised?</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Upload a file to the JSS via the REST Resource of the object to which this
-module is mixed in.</p>
+<p>instance method wrapper for class method</p>
+
+<p>Upload a file to the JSS to be stored with this instance of the class mixing in the Uploadable module</p>
 
 
   </div>
@@ -12801,8 +12863,7 @@ module is mixed in.</p>
       
         &mdash;
         <div class='inline'>
-<p>the type of upload happening. Must be one of the keys defined in the
-class&#39;s UPLOAD_TYPES Hash.</p>
+<p>the type of upload happening. Must be one of the keys defined in the class&#39;s UPLOAD_TYPES Hash.</p>
 </div>
       
     </li>
@@ -12823,6 +12884,24 @@ class&#39;s UPLOAD_TYPES Hash.</p>
       
     </li>
   
+    <li>
+      
+        <span class='name'>force_ipa_upload</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Should the server upload the .ipa file to JCDS or AWS if such are confgured for use?</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 <p class="tag_title">Returns:</p>
@@ -12831,13 +12910,13 @@ class&#39;s UPLOAD_TYPES Hash.</p>
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>The xml response from the server.</p>
+<p>was the  upload successful?</p>
 </div>
       
     </li>
@@ -12912,11 +12991,9 @@ class&#39;s UPLOAD_TYPES Hash.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>is the value being passed to set_ext_attr valid? Converts values as needed
-(e.g. strings to integers or Times)</p>
+<p>is the value being passed to set_ext_attr valid? Converts values as needed (e.g. strings to integers or Times)</p>
 
-<p>If the EA is defined to hold a string, any value is accepted and converted
-with #to_s</p>
+<p>If the EA is defined to hold a string, any value is accepted and converted with #to_s</p>
 
 <p>Note: All EAs can be blank</p>
 
@@ -13060,8 +13137,7 @@ with #to_s</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Raise an error if the named EA has a popup menu, but the provided value
-isn&#39;t one of the menu items</p>
+<p>Raise an error if the named EA has a popup menu, but the provided value isn&#39;t one of the menu items</p>
 
 
   </div>
@@ -13123,6 +13199,8 @@ isn&#39;t one of the menu items</p>
         <span class='type'>(<tt>Symbol</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -13139,11 +13217,12 @@ isn&#39;t one of the menu items</p>
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Pathname.html" title="Pathname (class)">Pathname</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>The local path to a .png or .jpg to use as the walpaper image, required if
-no wallpaper_id</p>
+<p>The local path to a .png or .jpg to use as the walpaper image, required if no wallpaper_id</p>
 </div>
       
     </li>
@@ -13156,11 +13235,12 @@ no wallpaper_id</p>
         <span class='type'>(<tt>Symbol</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>The id of an Icon in Jamf Pro to use as the wallpaper image, required if no
-wallpaper_content</p>
+<p>The id of an Icon in Jamf Pro to use as the wallpaper image, required if no wallpaper_content</p>
 </div>
       
     </li>
@@ -13176,9 +13256,9 @@ wallpaper_content</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:40 2020 by
+  Generated on Wed Feb  2 11:06:01 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

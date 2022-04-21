@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: Jamf::BulkDeletable
+  
+    &mdash; ruby-jss-1.6.7
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Jamf::BulkDeletable";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (B)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span>
+     &raquo; 
+    <span class="title">BulkDeletable</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: Jamf::BulkDeletable
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+  <dl>
+    <dt>Included in:</dt>
+    <dd><span class='object_link'><a href="Building.html" title="Jamf::Building (class)">Building</a></span></dd>
+  </dl>
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/jamf/api/mixins/bulk_deletable.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>This mixin implements the …/delete-multiple endpoints that some collection resources have (and eventually all will??) It should be extended into classes representing those resources</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="DELETE_MULTIPLE_ENDPOINT-constant" class="">DELETE_MULTIPLE_ENDPOINT =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>delete-multiple</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#bulk_delete-instance_method" title="#bulk_delete (instance method)">#<strong>bulk_delete</strong>(ids, cnx: Jamf.cnx)  &#x21d2; Array&lt;Jamf::Connection::APIError::ErrorInfo] Info about any ids that failed to be deleted. </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Delete multiple objects by providing an array of their.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="bulk_delete-instance_method">
+  
+    #<strong>bulk_delete</strong>(ids, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="Connection/APIError.html#ErrorInfo-constant" title="Jamf::Connection::APIError::ErrorInfo (constant)">Jamf::Connection::APIError::ErrorInfo</a></span>] Info about any ids
+that failed to be deleted.</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Delete multiple objects by providing an array of their</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ids</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>,Integer&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The ids to delete</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>cnx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Jamf::Connection</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Jamf.cnx</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The connection to use, default: Jamf.cnx</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="Connection/APIError.html#ErrorInfo-constant" title="Jamf::Connection::APIError::ErrorInfo (constant)">Jamf::Connection::APIError::ErrorInfo</a></span>] Info about any ids
+that failed to be deleted.</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Array&lt;Jamf::Connection::APIError::ErrorInfo] Info about any ids that failed to be deleted.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/mixins/bulk_deletable.rb', line 44</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_bulk_delete'>bulk_delete</span><span class='lparen'>(</span><span class='id identifier rubyid_ids'>ids</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Jamf.html#cnx-class_method" title="Jamf.cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_ids'>ids</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_ids'>ids</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_ids'>ids</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></span>
+  <span class='id identifier rubyid_request_body'>request_body</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>ids:</span> <span class='id identifier rubyid_ids'>ids</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_s</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+
+  <span class='kw'>begin</span>
+    <span class='id identifier rubyid_cnx'>cnx</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_rsrc_path'>rsrc_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#DELETE_MULTIPLE_ENDPOINT-constant" title="Jamf::BulkDeletable::DELETE_MULTIPLE_ENDPOINT (constant)">DELETE_MULTIPLE_ENDPOINT</a></span></span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_request_body'>request_body</span>
+    <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='kw'>rescue</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Connection.html" title="Jamf::Connection (class)">Connection</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Connection/APIError.html" title="Jamf::Connection::APIError (class)">APIError</a></span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='id identifier rubyid_e'>e</span> <span class='kw'>unless</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_httpStatus'>httpStatus</span> <span class='op'>==</span> <span class='int'>400</span>
+
+    <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_errors'>errors</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Wed Feb  2 11:05:49 2022 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.25 (ruby-2.6.3).
+</div>
+
+    </div>
+  </body>
+</html>

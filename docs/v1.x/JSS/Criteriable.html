@@ -6,15 +6,15 @@
 <title>
   Module: JSS::Criteriable
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::Criteriable";
   relpath = '../';
 </script>
@@ -95,17 +95,11 @@
     
 <p>A mix-in module that allows objects to handle standardized search Criteria.</p>
 
-<p>Some objects in the JSS, such as Advanced Searches and Smart Groups,
-include a set of Criteria. (i.e conditions which, when met, signify
-inclusion in a result set.)</p>
+<p>Some objects in the JSS, such as Advanced Searches and Smart Groups, include a set of Criteria. (i.e conditions which, when met, signify inclusion in a result set.)</p>
 
-<p>A <span class='object_link'><a href="Criteriable/Criteria.html" title="JSS::Criteriable::Criteria (class)">Criteria</a></span> instance is a container for one or more
-<span class='object_link'><a href="Criteriable/Criterion.html" title="JSS::Criteriable::Criterion (class)">Criterion</a></span> instances and provides methods for dealing
-with them easily.</p>
+<p>A <span class='object_link'><a href="Criteriable/Criteria.html" title="JSS::Criteriable::Criteria (class)">Criteria</a></span> instance is a container for one or more <span class='object_link'><a href="Criteriable/Criterion.html" title="JSS::Criteriable::Criterion (class)">Criterion</a></span> instances and provides methods for dealing with them easily.</p>
 
-<p>When a <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span> subclass includes this module, that subclass will
-have a :criteria attribute, which holds a <span class='object_link'><a href="Criteriable/Criteria.html" title="JSS::Criteriable::Criteria (class)">Criteria</a></span>
-object and can be used to manipulate the Criterion objects inside.</p>
+<p>When a <span class='object_link'><a href="APIObject.html" title="JSS::APIObject (class)">APIObject</a></span> subclass includes this module, that subclass will have a :criteria attribute, which holds a <span class='object_link'><a href="Criteriable/Criteria.html" title="JSS::Criteriable::Criteria (class)">Criteria</a></span> object and can be used to manipulate the Criterion objects inside.</p>
 
 <p>The including subclass also gains some instance methods:</p>
 <ul><li>
@@ -113,14 +107,12 @@ object and can be used to manipulate the Criterion objects inside.</p>
 </li><li>
 <p>#criteria= - allows the wholesale replacement of the criteria</p>
 </li><li>
-<p>#need_to_update - allows the <span class='object_link'><a href="Criteriable/Criteria.html" title="JSS::Criteriable::Criteria (class)">Criteria</a></span> instance to
-inform the subclass instance that it has changed and needs an #update</p>
+<p>#need_to_update - allows the <span class='object_link'><a href="Criteriable/Criteria.html" title="JSS::Criteriable::Criteria (class)">Criteria</a></span> instance to inform the subclass instance that it has changed and needs an #update</p>
 </li></ul>
 
 <p>Classes mixing in this module <strong>must</strong></p>
 <ul><li>
-<p>If they are Updatable or Creatable, they must insert self.criteria.rest_xml
-into their own xml output.</p>
+<p>If they are Updatable or Creatable, they must insert self.criteria.rest_xml into their own xml output.</p>
 </li></ul>
 
 
@@ -320,8 +312,7 @@ srch.update :requery</code></pre>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>During initialization, convert the @<a href=":criteria">init_data</a> Hash
-into a JSS::Criteriable::Criteria instance stored in @criteria.</p>
+<p>During initialization, convert the @<a href=":criteria">init_data</a> Hash into a JSS::Criteriable::Criteria instance stored in @criteria.</p>
 </div></span>
   
 </li>
@@ -345,8 +336,7 @@ into a JSS::Criteriable::Criteria instance stored in @criteria.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Allow our Criteria to tell us when there&#39;s been a change that needs to
-be updated.</p>
+<p>Allow our Criteria to tell us when there&#39;s been a change that needs to be updated.</p>
 </div></span>
   
 </li>
@@ -439,8 +429,7 @@ be updated.</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>During initialization, convert the @<a href=":criteria">init_data</a> Hash
-into a JSS::Criteriable::Criteria instance stored in @criteria</p>
+<p>During initialization, convert the @<a href=":criteria">init_data</a> Hash into a JSS::Criteriable::Criteria instance stored in @criteria</p>
 
 <p>Classes mixing in this module must call this in #initialize</p>
 
@@ -493,8 +482,7 @@ into a JSS::Criteriable::Criteria instance stored in @criteria</p>
   You should avoid using this method if possible, as it may be removed or be changed in the future.
 </p>
 <p class="note returns_void">This method returns an undefined value.</p>
-<p>Allow our Criteria to tell us when there&#39;s been a change that needs to
-be updated.</p>
+<p>Allow our Criteria to tell us when there&#39;s been a change that needs to be updated.</p>
 
 
   </div>
@@ -528,9 +516,9 @@ be updated.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:24 2020 by
+  Generated on Wed Feb  2 11:05:47 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

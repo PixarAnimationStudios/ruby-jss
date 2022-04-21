@@ -6,15 +6,15 @@
 <title>
   Class: Jamf::DeviceEnrollmentDevice
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "Jamf::DeviceEnrollmentDevice";
   relpath = '../';
 </script>
@@ -109,14 +109,9 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>A decvice enrollment defined in the JSS This is a connection to Apple&#39;s
-Device Enrollment Program. A single Jamf server may have many of them, and
-they can belong to different sites.</p>
+<p>A decvice enrollment defined in the JSS This is a connection to Apple&#39;s Device Enrollment Program. A single Jamf server may have many of them, and they can belong to different sites.</p>
 
-<p>These objects can be used to find the details of all the devices connected
-to them, including the device serial numbers. To see how or if those
-devices are assigned to prestages, see Jamf::Prestage and its subclasses
-ComputerPrestage and MobileDevicePrestage</p>
+<p>These objects can be used to find the details of all the devices connected to them, including the device serial numbers. To see how or if those devices are assigned to prestages, see Jamf::Prestage and its subclasses ComputerPrestage and MobileDevicePrestage</p>
 
 
   </div>
@@ -178,8 +173,7 @@ ComputerPrestage and MobileDevicePrestage</p>
           <div class="docstring">
   <div class="discussion">
     
-<p>Object Model / Attributes See APIObject class documentation for details of
-how the OBJECT_MODEL hash works.</p>
+<p>Object Model / Attributes See APIObject class documentation for details of how the OBJECT_MODEL hash works.</p>
 
 
   </div>
@@ -192,25 +186,25 @@ how the OBJECT_MODEL hash works.</p>
         <dd><pre class="code"><span class='lbrace'>{</span>
 
   <span class='comment'># @!attribute id
-</span>  <span class='comment'>#   @return [Integer]
+</span>  <span class='comment'>#   @return [String]
 </span>  <span class='label'>id:</span> <span class='lbrace'>{</span>
-    <span class='label'>class:</span> <span class='symbol'>:integer</span><span class='comma'>,</span>
+    <span class='label'>class:</span> <span class='symbol'>:j_id</span><span class='comma'>,</span>
     <span class='label'>identifier:</span> <span class='kw'>true</span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
 
   <span class='comment'># @!attribute deviceEnrollmentProgramInstanceId
-</span>  <span class='comment'>#   @return [Integer]
+</span>  <span class='comment'>#   @return [String]
 </span>  <span class='label'>deviceEnrollmentProgramInstanceId:</span> <span class='lbrace'>{</span>
-    <span class='label'>class:</span> <span class='symbol'>:integer</span><span class='comma'>,</span>
-    <span class='label'>aliases:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>instanceId</span><span class='words_sep'>]</span>
+    <span class='label'>class:</span> <span class='symbol'>:j_id</span><span class='comma'>,</span>
+    <span class='label'>aliases:</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>instanceId</span><span class='tstring_end'>]</span></span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
 
   <span class='comment'># @!attribute prestageId
 </span>  <span class='comment'>#   The most recent prestage this device was assigned to, even if
 </span>  <span class='comment'>#   currently unassigned to any prestage.
-</span>  <span class='comment'>#   @return [Integer]
+</span>  <span class='comment'>#   @return [String]
 </span>  <span class='label'>prestageId:</span> <span class='lbrace'>{</span>
-    <span class='label'>class:</span> <span class='symbol'>:integer</span>
+    <span class='label'>class:</span> <span class='symbol'>:j_id</span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
 
   <span class='comment'># @!attribute serialNumber
@@ -246,7 +240,14 @@ how the OBJECT_MODEL hash works.</p>
   <span class='comment'># @!attribute profileStatus
 </span>  <span class='comment'>#   @return [String]
 </span>  <span class='label'>profileStatus:</span> <span class='lbrace'>{</span>
-    <span class='label'>class:</span> <span class='symbol'>:string</span>
+    <span class='label'>class:</span> <span class='symbol'>:string</span><span class='comma'>,</span>
+    <span class='label'>enum:</span> <span class='const'><span class='object_link'><a href="#PROFILE_STATUSES-constant" title="Jamf::DeviceEnrollmentDevice::PROFILE_STATUSES (constant)">PROFILE_STATUSES</a></span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span>
+
+  <span class='comment'># @!attribute syncState
+</span>  <span class='comment'>#   @return [DeviceEnrollmentDeviceSyncState]
+</span>  <span class='label'>syncState:</span> <span class='lbrace'>{</span>
+    <span class='label'>class:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="DeviceEnrollmentDeviceSyncState.html" title="Jamf::DeviceEnrollmentDeviceSyncState (class)">DeviceEnrollmentDeviceSyncState</a></span></span>
   <span class='rbrace'>}</span><span class='comma'>,</span>
 
   <span class='comment'># @!attribute profileAssignTime
@@ -383,7 +384,7 @@ how the OBJECT_MODEL hash works.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#deviceEnrollmentProgramInstanceId-instance_method" title="#deviceEnrollmentProgramInstanceId (instance method)">#<strong>deviceEnrollmentProgramInstanceId</strong>  &#x21d2; Integer </a>
+      <a href="#deviceEnrollmentProgramInstanceId-instance_method" title="#deviceEnrollmentProgramInstanceId (instance method)">#<strong>deviceEnrollmentProgramInstanceId</strong>  &#x21d2; String </a>
     
 
     
@@ -408,7 +409,7 @@ how the OBJECT_MODEL hash works.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#id-instance_method" title="#id (instance method)">#<strong>id</strong>  &#x21d2; Integer </a>
+      <a href="#id-instance_method" title="#id (instance method)">#<strong>id</strong>  &#x21d2; String </a>
     
 
     
@@ -458,7 +459,7 @@ how the OBJECT_MODEL hash works.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#prestageId-instance_method" title="#prestageId (instance method)">#<strong>prestageId</strong>  &#x21d2; Integer </a>
+      <a href="#prestageId-instance_method" title="#prestageId (instance method)">#<strong>prestageId</strong>  &#x21d2; String </a>
     
 
     
@@ -476,8 +477,7 @@ how the OBJECT_MODEL hash works.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The most recent prestage this device was assigned to, even if currently
-unassigned to any prestage.</p>
+<p>The most recent prestage this device was assigned to, even if currently unassigned to any prestage.</p>
 </div></span>
   
 </li>
@@ -562,6 +562,31 @@ unassigned to any prestage.</p>
   <span class="summary_signature">
     
       <a href="#serialNumber-instance_method" title="#serialNumber (instance method)">#<strong>serialNumber</strong>  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#syncState-instance_method" title="#syncState (instance method)">#<strong>syncState</strong>  &#x21d2; DeviceEnrollmentDeviceSyncState </a>
     
 
     
@@ -836,7 +861,7 @@ unassigned to any prestage.</p>
 </pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/json_objects/device_enrollment_device.rb', line 140</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/json_objects/device_enrollment_device.rb', line 147</span>
 
 </pre>
     </td>
@@ -849,7 +874,7 @@ unassigned to any prestage.</p>
       <div class="method_details ">
   <h3 class="signature " id="deviceEnrollmentProgramInstanceId-instance_method">
   
-    #<strong>deviceEnrollmentProgramInstanceId</strong>  &#x21d2; <tt>Integer</tt> 
+    #<strong>deviceEnrollmentProgramInstanceId</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
   
 
   
@@ -869,7 +894,7 @@ unassigned to any prestage.</p>
     <li>
       
       
-        <span class='type'>(<tt>Integer</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
       
@@ -899,7 +924,7 @@ unassigned to any prestage.</p>
       <div class="method_details ">
   <h3 class="signature " id="id-instance_method">
   
-    #<strong>id</strong>  &#x21d2; <tt>Integer</tt> 
+    #<strong>id</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
   
 
   
@@ -919,7 +944,7 @@ unassigned to any prestage.</p>
     <li>
       
       
-        <span class='type'>(<tt>Integer</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
       
@@ -999,7 +1024,7 @@ unassigned to any prestage.</p>
       <div class="method_details ">
   <h3 class="signature " id="prestageId-instance_method">
   
-    #<strong>prestageId</strong>  &#x21d2; <tt>Integer</tt> 
+    #<strong>prestageId</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
   
 
   
@@ -1008,8 +1033,7 @@ unassigned to any prestage.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The most recent prestage this device was assigned to, even if currently
-unassigned to any prestage.</p>
+<p>The most recent prestage this device was assigned to, even if currently unassigned to any prestage.</p>
 
 
   </div>
@@ -1022,7 +1046,7 @@ unassigned to any prestage.</p>
     <li>
       
       
-        <span class='type'>(<tt>Integer</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
       
@@ -1089,7 +1113,7 @@ unassigned to any prestage.</p>
 </pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/json_objects/device_enrollment_device.rb', line 128</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/json_objects/device_enrollment_device.rb', line 135</span>
 
 </pre>
     </td>
@@ -1139,7 +1163,7 @@ unassigned to any prestage.</p>
 </pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/json_objects/device_enrollment_device.rb', line 134</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/json_objects/device_enrollment_device.rb', line 141</span>
 
 </pre>
     </td>
@@ -1247,6 +1271,56 @@ unassigned to any prestage.</p>
 </table>
 </div>
     
+      
+      <span id="syncState=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="syncState-instance_method">
+  
+    #<strong>syncState</strong>  &#x21d2; <tt><span class='object_link'><a href="DeviceEnrollmentDeviceSyncState.html" title="Jamf::DeviceEnrollmentDeviceSyncState (class)">DeviceEnrollmentDeviceSyncState</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="DeviceEnrollmentDeviceSyncState.html" title="Jamf::DeviceEnrollmentDeviceSyncState (class)">DeviceEnrollmentDeviceSyncState</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/json_objects/device_enrollment_device.rb', line 129</span>
+
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 
@@ -1298,9 +1372,9 @@ unassigned to any prestage.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:54 2020 by
+  Generated on Wed Feb  2 11:06:13 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

@@ -6,15 +6,15 @@
 <title>
   Class: JSS::RestrictedSoftware
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::RestrictedSoftware";
   relpath = '../';
 </script>
@@ -171,8 +171,7 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>The hash key used for the JSON object output. It&#39;s also used in various
-error messages</p>
+<p>The hash key used for the JSON object output. It&#39;s also used in various error messages</p>
 
 
   </div>
@@ -204,8 +203,7 @@ error messages</p>
           <div class="docstring">
   <div class="discussion">
     
-<p>the object type for this object in the object history table. See
-<span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
+<p>the object type for this object in the object history table. See <span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
 
 
   </div>
@@ -618,8 +616,7 @@ error messages</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Change the name of this item Remember to #update to push changes to the
-server.</p>
+<p>Change the name of this item Remember to #update to push changes to the server.</p>
 </div></span>
   
 </li>
@@ -648,8 +645,7 @@ server.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Call this during initialization of objects that have a scope and the scope
-instance will be created from @init_data.</p>
+<p>Call this during initialization of objects that have a scope and the scope instance will be created from @init_data.</p>
 </div></span>
   
 </li>
@@ -955,7 +951,7 @@ instance will be created from @init_data.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns whether to delete the executable</p>
+<p>Returns whether to delete the executable.</p>
 
 
   </div>
@@ -1016,7 +1012,7 @@ instance will be created from @init_data.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns message displayed to the user</p>
+<p>Returns message displayed to the user.</p>
 
 
   </div>
@@ -1081,7 +1077,7 @@ instance will be created from @init_data.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns whether to kill the running process</p>
+<p>Returns whether to kill the running process.</p>
 
 
   </div>
@@ -1146,7 +1142,7 @@ instance will be created from @init_data.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns whether to return match exact process name</p>
+<p>Returns whether to return match exact process name.</p>
 
 
   </div>
@@ -1212,7 +1208,7 @@ instance will be created from @init_data.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns do we have unsaved changes?</p>
+<p>Returns do we have unsaved changes?.</p>
 
 
   </div>
@@ -1255,7 +1251,7 @@ instance will be created from @init_data.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the process name</p>
+<p>Returns the process name.</p>
 
 
   </div>
@@ -1350,7 +1346,7 @@ instance will be created from @init_data.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns whether to send a notification</p>
+<p>Returns whether to send a notification.</p>
 
 
   </div>
@@ -1411,7 +1407,7 @@ instance will be created from @init_data.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the :name and :id of the site for this machine</p>
+<p>Returns the :name and :id of the site for this machine.</p>
 
 
   </div>
@@ -1482,8 +1478,7 @@ instance will be created from @init_data.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>make a clone of this API object, with a new name. The class must be
-creatable</p>
+<p>make a clone of this API object, with a new name. The class must be creatable</p>
 
 
   </div>
@@ -1516,11 +1511,12 @@ creatable</p>
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to
-instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
 </div>
       
     </li>
@@ -1635,8 +1631,7 @@ instantiate this object</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the name of this item Remember to #update to push changes to the
-server.</p>
+<p>Change the name of this item Remember to #update to push changes to the server.</p>
 
 
   </div>
@@ -1701,8 +1696,7 @@ server.</p>
   You should avoid using this method if possible, as it may be removed or be changed in the future.
 </p>
 <p class="note returns_void">This method returns an undefined value.</p>
-<p>Call this during initialization of objects that have a scope and the scope
-instance will be created from @init_data</p>
+<p>Call this during initialization of objects that have a scope and the scope instance will be created from @init_data</p>
 
 
   </div>
@@ -1854,8 +1848,7 @@ instance will be created from @init_data</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The name of the site for this object. For backward compatibility, this is
-aliased to just &#39;site&#39;</p>
+<p>The name of the site for this object. For backward compatibility, this is aliased to just &#39;site&#39;</p>
 
 
   </div>
@@ -2017,9 +2010,9 @@ aliased to just &#39;site&#39;</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:45 2020 by
+  Generated on Wed Feb  2 11:06:06 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

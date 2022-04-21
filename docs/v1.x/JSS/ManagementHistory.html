@@ -6,15 +6,15 @@
 <title>
   Module: JSS::ManagementHistory
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::ManagementHistory";
   relpath = '../';
 </script>
@@ -93,54 +93,29 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>Objects mixing in this module have &#39;management history&#39; in the JSS,
-which at this point is Computers and MobileDevices</p>
+<p>Objects mixing in this module have &#39;management history&#39; in the JSS, which at this point is Computers and MobileDevices</p>
 
-<p><strong>Important:</strong> this is &#39;management history&#39;, i.e. the
-history and logs of mdm commands, locations, apps, policies, and other
-events that are part of management and inventory collection.</p>
+<p><strong>Important:</strong> this is &#39;management history&#39;, i.e. the history and logs of mdm commands, locations, apps, policies, and other events that are part of management and inventory collection.</p>
 
-<p>When viewing the details page for a computer or mobile device in the Web
-UI, this is the data visible in the &#39;History&#39; pane of the page.</p>
+<p>When viewing the details page for a computer or mobile device in the Web UI, this is the data visible in the &#39;History&#39; pane of the page.</p>
 
-<p>It is not the same as &#39;object history&#39; which are the changes made
-to a JSS object in the database, e.g. edits &amp; notes by admins or
-automated processes in the JSS web UI or via the API. Object history is
-visble in the Web UI by clicking the &#39;History&#39; button at the bottom
-of a machine&#39;s details page.</p>
+<p>It is not the same as &#39;object history&#39; which are the changes made to a JSS object in the database, e.g. edits &amp; notes by admins or automated processes in the JSS web UI or via the API. Object history is visble in the Web UI by clicking the &#39;History&#39; button at the bottom of a machine&#39;s details page.</p>
 
 <h2 id="label-Class+-26+Instance+Methods">Class &amp; Instance Methods</h2>
 
-<p>This module provides both class methods, which can be used to retrieve
-history data without instantiating a full Computer or MobileDevice, and
-instance methods that are wrappers around the class methods. The methods
-have the same names, but of course the class methods require arguments
-specifying the target for which to retrieve data, and which API connection
-to use (defaulting to the currently active connection).</p>
+<p>This module provides both class methods, which can be used to retrieve history data without instantiating a full Computer or MobileDevice, and instance methods that are wrappers around the class methods. The methods have the same names, but of course the class methods require arguments specifying the target for which to retrieve data, and which API connection to use (defaulting to the currently active connection).</p>
 
 <h2 id="label-Raw+data+versus+processed+data+-26+event+object+classes">Raw data versus processed data &amp; event object classes</h2>
 
-<p>The primary data-retrieval method for management history data is
-management_history. This method returns the raw
-JSON data from the API, parsed into a Ruby Hash. If you don&#39;t specify a
-subset, the data returned can be very large.</p>
+<p>The primary data-retrieval method for management history data is management_history. This method returns the raw JSON data from the API, parsed into a Ruby Hash. If you don&#39;t specify a subset, the data returned can be very large.</p>
 
-<p>This data is somewhat inconsistent in its structure and content across the
-different subsets of history events, but you&#39;re welcome to use it if
-needed.</p>
+<p>This data is somewhat inconsistent in its structure and content across the different subsets of history events, but you&#39;re welcome to use it if needed.</p>
 
-<p>To provide a more consistent and ruby-like interface to the history events,
-the remaining methods, which only return subsets of the full dataset, will
-return Arrays of instances of the classes defined in this module.</p>
+<p>To provide a more consistent and ruby-like interface to the history events, the remaining methods, which only return subsets of the full dataset, will return Arrays of instances of the classes defined in this module.</p>
 
-<p>For example, the JSS::MobileDevice.audit_history method returns an Array
-of JSS::ManagementHistory::AuditEvent instances,  and the
-Computer.completed_policies gives an Array of
-JSS::ManagementHistory::PolicyLog objects.</p>
+<p>For example, the JSS::MobileDevice.audit_history method returns an Array of JSS::ManagementHistory::AuditEvent instances,  and the Computer.completed_policies gives an Array of JSS::ManagementHistory::PolicyLog objects.</p>
 
-<p>These objects are read-only and provide access to their values via both
-attribute-style methods, and hash-like keys, similar to how OpenStruct
-objects do. This means that</p>
+<p>These objects are read-only and provide access to their values via both attribute-style methods, and hash-like keys, similar to how OpenStruct objects do. This means that</p>
 
 <pre class="code ruby"><code class="ruby"><span class='backtick'>`</span><span class='tstring_content'>some_log_event.date_time</span><span class='tstring_end'>`</span></span>
 </code></pre>
@@ -150,13 +125,9 @@ objects do. This means that</p>
 <pre class="code ruby"><code class="ruby"><span class='backtick'>`</span><span class='tstring_content'>some_log_event[:date_time]</span><span class='tstring_end'>`</span></span>
 </code></pre>
 
-<p>are identical. This <strong>may</strong> help with some
-backward-compatibility issues.</p>
+<p>are identical. This <strong>may</strong> help with some backward-compatibility issues.</p>
 
-<p>NOTE: History queries from the API are <strong>not</strong> cached in
-ruby-jss, like the APIObject.all data is - instead it is queried anew every
-time. For this reason, you are encouraged to store the results of these
-methods in variables for later use if needed.</p>
+<p>NOTE: History queries from the API are <strong>not</strong> cached in ruby-jss, like the APIObject.all data is - instead it is queried anew every time. For this reason, you are encouraged to store the results of these methods in variables for later use if needed.</p>
 
 
   </div>
@@ -347,8 +318,7 @@ methods in variables for later use if needed.</p>
           <div class="docstring">
   <div class="discussion">
     
-<p>The keys are both the subset names in the resrouce URLS (when converted to
-strings) and the second-level hash key of the returned subset data.</p>
+<p>The keys are both the subset names in the resrouce URLS (when converted to strings) and the second-level hash key of the returned subset data.</p>
 
 
   </div>
@@ -358,24 +328,23 @@ strings) and the second-level hash key of the returned subset data.</p>
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='qsymbols_beg'>%i[
-</span><span class='tstring_content'>  computer_usage_logs</span><span class='words_sep'>
-</span><span class='tstring_content'>  audits</span><span class='words_sep'>
-</span><span class='tstring_content'>  policy_logs</span><span class='words_sep'>
-</span><span class='tstring_content'>  casper_remote_logs</span><span class='words_sep'>
-</span><span class='tstring_content'>  screen_sharing_logs</span><span class='words_sep'>
-</span><span class='tstring_content'>  casper_imaging_logs</span><span class='words_sep'>
-</span><span class='tstring_content'>  commands</span><span class='words_sep'>
-</span><span class='tstring_content'>  user_location</span><span class='words_sep'>
-</span><span class='tstring_content'>  mac_app_store_applications</span><span class='words_sep'>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='words_sep'>
+  </span><span class='tstring_content'>computer_usage_logs</span><span class='words_sep'>
+  </span><span class='tstring_content'>audits</span><span class='words_sep'>
+  </span><span class='tstring_content'>policy_logs</span><span class='words_sep'>
+  </span><span class='tstring_content'>casper_remote_logs</span><span class='words_sep'>
+  </span><span class='tstring_content'>screen_sharing_logs</span><span class='words_sep'>
+  </span><span class='tstring_content'>casper_imaging_logs</span><span class='words_sep'>
+  </span><span class='tstring_content'>commands</span><span class='words_sep'>
+  </span><span class='tstring_content'>user_location</span><span class='words_sep'>
+  </span><span class='tstring_content'>mac_app_store_applications</span><span class='words_sep'>
 </span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="HIST_DEVICE_SUBSETS-constant" class="">HIST_DEVICE_SUBSETS =
           <div class="docstring">
   <div class="discussion">
     
-<p>The keys are both the subset names in the resrouce URLS (when converted to
-strings) and the second-level hash key of the returned subset data.</p>
+<p>The keys are both the subset names in the resrouce URLS (when converted to strings) and the second-level hash key of the returned subset data.</p>
 
 
   </div>
@@ -385,12 +354,12 @@ strings) and the second-level hash key of the returned subset data.</p>
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='qsymbols_beg'>%i[
-</span><span class='tstring_content'>  management_commands</span><span class='words_sep'>
-</span><span class='tstring_content'>  user_location</span><span class='words_sep'>
-</span><span class='tstring_content'>  audits</span><span class='words_sep'>
-</span><span class='tstring_content'>  applications</span><span class='words_sep'>
-</span><span class='tstring_content'>  ebooks</span><span class='words_sep'>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='words_sep'>
+  </span><span class='tstring_content'>management_commands</span><span class='words_sep'>
+  </span><span class='tstring_content'>user_location</span><span class='words_sep'>
+  </span><span class='tstring_content'>audits</span><span class='words_sep'>
+  </span><span class='tstring_content'>applications</span><span class='words_sep'>
+  </span><span class='tstring_content'>ebooks</span><span class='words_sep'>
 </span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
     </dl>
@@ -428,10 +397,7 @@ strings) and the second-level hash key of the returned subset data.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Extend ourself when included See <a
-href="https://codereview.stackexchange.com/questions/23637/mixin-both-instance-and-class-methods-in-ruby">codereview.stackexchange.com/questions/23637/mixin-both-instance-and-class-methods-in-ruby</a>
-for discussion of this technique for mixing in both Class and Instance
-methods when including a module.</p>
+<p>Extend ourself when included See <a href="https://codereview.stackexchange.com/questions/23637/mixin-both-instance-and-class-methods-in-ruby">codereview.stackexchange.com/questions/23637/mixin-both-instance-and-class-methods-in-ruby</a> for discussion of this technique for mixing in both Class and Instance methods when including a module.</p>
 </div></span>
   
 </li>
@@ -1097,10 +1063,7 @@ methods when including a module.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Extend ourself when included See <a
-href="https://codereview.stackexchange.com/questions/23637/mixin-both-instance-and-class-methods-in-ruby">codereview.stackexchange.com/questions/23637/mixin-both-instance-and-class-methods-in-ruby</a>
-for discussion of this technique for mixing in both Class and Instance
-methods when including a module.</p>
+<p>Extend ourself when included See <a href="https://codereview.stackexchange.com/questions/23637/mixin-both-instance-and-class-methods-in-ruby">codereview.stackexchange.com/questions/23637/mixin-both-instance-and-class-methods-in-ruby</a> for discussion of this technique for mixing in both Class and Instance methods when including a module.</p>
 
 
   </div>
@@ -2407,9 +2370,9 @@ methods when including a module.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:24 2020 by
+  Generated on Wed Feb  2 11:05:47 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

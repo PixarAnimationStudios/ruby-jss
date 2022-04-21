@@ -6,15 +6,15 @@
 <title>
   Class: JSS::Criteriable::Criterion
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::Criteriable::Criterion";
   relpath = '../../';
 </script>
@@ -109,15 +109,11 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>This class defines a single criterion used in advanced searches and smart
-groups throughout the JSS module.</p>
+<p>This class defines a single criterion used in advanced searches and smart groups throughout the JSS module.</p>
 
-<p>They are used within <span class='object_link'><a href="Criteria.html" title="JSS::Criteriable::Criteria (class)">Criteria</a></span> instances which store an
-array of these objects and provides methods for working with them as a
-group.</p>
+<p>They are used within <span class='object_link'><a href="Criteria.html" title="JSS::Criteriable::Criteria (class)">Criteria</a></span> instances which store an array of these objects and provides methods for working with them as a group.</p>
 
-<p>The classes that mix-in <span class='object_link'><a href="../Criteriable.html" title="JSS::Criteriable (module)">JSS::Criteriable</a></span> each have a :criteria attribute
-which holds one <span class='object_link'><a href="Criteria.html" title="JSS::Criteriable::Criteria (class)">Criteria</a></span></p>
+<p>The classes that mix-in <span class='object_link'><a href="../Criteriable.html" title="JSS::Criteriable (module)">JSS::Criteriable</a></span> each have a :criteria attribute which holds one <span class='object_link'><a href="Criteria.html" title="JSS::Criteriable::Criteria (class)">Criteria</a></span></p>
 
 <p>See <span class='object_link'><a href="../Criteriable.html" title="JSS::Criteriable (module)">JSS::Criteriable</a></span> for examples</p>
 
@@ -190,7 +186,7 @@ which holds one <span class='object_link'><a href="Criteria.html" title="JSS::Cr
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>and</span><span class='words_sep'> </span><span class='tstring_content'>or</span><span class='words_sep'>]</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+        <dd><pre class="code"><span class='qsymbols_beg'>%i[</span><span class='tstring_content'>and</span><span class='words_sep'> </span><span class='tstring_content'>or</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
     </dl>
   
@@ -222,8 +218,7 @@ which holds one <span class='object_link'><a href="Criteria.html" title="JSS::Cr
 
   
     <span class="summary_desc"><div class='inline'>
-<p>:and or :or - the and_or value for associating this criterion with the
-previous one, defaults to :and.</p>
+<p>:and or :or - the and_or value for associating this criterion with the previous one, defaults to :and.</p>
 </div></span>
   
 </li>
@@ -335,8 +330,7 @@ previous one, defaults to :and.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Zero-based index of this criterion within an array of criteria used for an
-advanced search or smart group.</p>
+<p>Zero-based index of this criterion within an array of criteria used for an advanced search or smart group.</p>
 </div></span>
   
 </li>
@@ -363,8 +357,7 @@ advanced search or smart group.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The comparator between the field and the value, must be one of
-SEARCH_TYPES.</p>
+<p>The comparator between the field and the value, must be one of SEARCH_TYPES.</p>
 </div></span>
   
 </li>
@@ -502,8 +495,7 @@ SEARCH_TYPES.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The xml element for the criterion, to be embeded in that of a Criteria
-instance.</p>
+<p>The xml element for the criterion, to be embeded in that of a Criteria instance.</p>
 </div></span>
   
 </li>
@@ -527,8 +519,7 @@ instance.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>All our values except priority joined together for comparing this Criterion
-to another for equality and order.</p>
+<p>All our values except priority joined together for comparing this Criterion to another for equality and order.</p>
 </div></span>
   
 </li>
@@ -556,13 +547,12 @@ to another for equality and order.</p>
   <div class="note notetag">
     <strong>Note:</strong>
     <div class='inline'>
-<p>:priority is maintained by the JSS::Criteriable::Criteria object holding
-this instance</p>
+<p>:priority is maintained by the JSS::Criteriable::Criteria object holding this instance</p>
 </div>
   </div>
 
 
-<p>Returns a new instance of Criterion</p>
+<p>Returns a new instance of Criterion.</p>
 
 
   </div>
@@ -754,8 +744,7 @@ this instance</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns :and or :or - the and_or value for associating this criterion with
-the previous one, defaults to :and</p>
+<p>Returns :and or :or - the and_or value for associating this criterion with the previous one, defaults to :and.</p>
 
 
   </div>
@@ -774,8 +763,7 @@ the previous one, defaults to :and</p>
       
         &mdash;
         <div class='inline'>
-<p>:and or :or - the and_or value for associating this criterion with the
-previous one, defaults to :and</p>
+<p>:and or :or - the and_or value for associating this criterion with the previous one, defaults to :and</p>
 </div>
       
     </li>
@@ -817,7 +805,7 @@ previous one, defaults to :and</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Is there a closing paren after this criterion</p>
+<p>Returns Is there a closing paren after this criterion.</p>
 
 
   </div>
@@ -878,7 +866,7 @@ previous one, defaults to :and</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the name of the field being searched</p>
+<p>Returns the name of the field being searched.</p>
 
 
   </div>
@@ -939,7 +927,7 @@ previous one, defaults to :and</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Is there an opening paren before this criterion</p>
+<p>Returns Is there an opening paren before this criterion.</p>
 
 
   </div>
@@ -1000,9 +988,7 @@ previous one, defaults to :and</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns zero-based index of this criterion within an array of criteria used
-for an advanced search or smart group. This is maintained automaticaly by
-the enclosing Criteria object</p>
+<p>Returns zero-based index of this criterion within an array of criteria used for an advanced search or smart group. This is maintained automaticaly by the enclosing Criteria object.</p>
 
 
   </div>
@@ -1021,9 +1007,7 @@ the enclosing Criteria object</p>
       
         &mdash;
         <div class='inline'>
-<p>zero-based index of this criterion within an array of criteria used for an
-advanced search or smart group. This is maintained automaticaly by the
-enclosing Criteria object</p>
+<p>zero-based index of this criterion within an array of criteria used for an advanced search or smart group. This is maintained automaticaly by the enclosing Criteria object</p>
 </div>
       
     </li>
@@ -1065,8 +1049,7 @@ enclosing Criteria object</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the comparator between the field and the value, must be one of
-SEARCH_TYPES</p>
+<p>Returns the comparator between the field and the value, must be one of SEARCH_TYPES.</p>
 
 
   </div>
@@ -1134,7 +1117,7 @@ SEARCH_TYPES</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value being searched for in the field named by :name</p>
+<p>Returns the value being searched for in the field named by :name.</p>
 
 
   </div>
@@ -1363,8 +1346,7 @@ SEARCH_TYPES</p>
   </div>
 
 
-<p>Returns The xml element for the criterion, to be embeded in that of a
-Criteria instance</p>
+<p>Returns The xml element for the criterion, to be embeded in that of a Criteria instance.</p>
 
 
   </div>
@@ -1383,8 +1365,7 @@ Criteria instance</p>
       
         &mdash;
         <div class='inline'>
-<p>The xml element for the criterion, to be embeded in that of a Criteria
-instance</p>
+<p>The xml element for the criterion, to be embeded in that of a Criteria instance</p>
 </div>
       
     </li>
@@ -1440,8 +1421,7 @@ instance</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns All our values except priority joined together for comparing this
-Criterion to another for equality and order</p>
+<p>Returns All our values except priority joined together for comparing this Criterion to another for equality and order.</p>
 
 
   </div>
@@ -1460,8 +1440,7 @@ Criterion to another for equality and order</p>
       
         &mdash;
         <div class='inline'>
-<p>All our values except priority joined together for comparing this Criterion
-to another for equality and order</p>
+<p>All our values except priority joined together for comparing this Criterion to another for equality and order</p>
 </div>
       
     </li>
@@ -1501,9 +1480,9 @@ to another for equality and order</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:27 2020 by
+  Generated on Wed Feb  2 11:05:50 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

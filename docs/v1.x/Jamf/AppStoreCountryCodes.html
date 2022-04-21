@@ -6,15 +6,15 @@
 <title>
   Class: Jamf::AppStoreCountryCodes
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "Jamf::AppStoreCountryCodes";
   relpath = '../';
 </script>
@@ -115,8 +115,7 @@
     
 <p>The API endpoint for country codes.</p>
 
-<p>Probably more useful is the Jamf.app_store_country_codes method which
-parses this into a hash of Code =&gt; Name</p>
+<p>Probably more useful is the Jamf.app_store_country_codes method which parses this into a hash of Code =&gt; Name</p>
 
 
   </div>
@@ -164,7 +163,8 @@ parses this into a hash of Code =&gt; Name</p>
 </span>  <span class='label'>countryCodes:</span> <span class='lbrace'>{</span>
     <span class='label'>class:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Country.html" title="Jamf::Country (class)">Country</a></span></span><span class='comma'>,</span>
     <span class='label'>multi:</span> <span class='kw'>true</span><span class='comma'>,</span>
-    <span class='label'>read_only:</span> <span class='kw'>true</span>
+    <span class='label'>read_only:</span> <span class='kw'>true</span><span class='comma'>,</span>
+    <span class='label'>aliases:</span> <span class='lbracket'>[</span><span class='symbol'>:list</span><span class='rbracket'>]</span>
   <span class='rbrace'>}</span>
 
 <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
@@ -174,36 +174,6 @@ parses this into a hash of Code =&gt; Name</p>
 
 
 
-
-  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
-  <ul class="summary">
-    
-      <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#checkInFrequency-instance_method" title="#checkInFrequency (instance method)">#<strong>checkInFrequency</strong>  &#x21d2; integer </a>
-    
-
-    
-  </span>
-  
-  
-  
-    
-    
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-    
-  </ul>
 
 
 
@@ -283,6 +253,30 @@ parses this into a hash of Code =&gt; Name</p>
   
     <span class="summary_desc"><div class='inline'>
 <p>Class level wrapper for #codes_by_name.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#list-class_method" title="list (class method)">.<strong>list</strong>(refresh = false, cnx: Jamf.cnx)  &#x21d2; Array&lt;Jamf::Country&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>All the Countries available.</p>
 </div></span>
   
 </li>
@@ -560,61 +554,6 @@ parses this into a hash of Code =&gt; Name</p>
   
 </div>
 
-  <div id="instance_attr_details" class="attr_details">
-    <h2>Instance Attribute Details</h2>
-    
-      
-      <span id="checkInFrequency=-instance_method"></span>
-      <div class="method_details first">
-  <h3 class="signature first" id="checkInFrequency-instance_method">
-  
-    #<strong>checkInFrequency</strong>  &#x21d2; <tt>integer</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>integer</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/singleton_resources/app_store_country_codes.rb', line 46</span>
-
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-  </div>
-
 
   <div id="class_method_details" class="method_details_list">
     <h2>Class Method Details</h2>
@@ -646,12 +585,12 @@ parses this into a hash of Code =&gt; Name</p>
       <pre class="lines">
 
 
-82
-83
-84</pre>
+92
+93
+94</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/singleton_resources/app_store_country_codes.rb', line 82</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/singleton_resources/app_store_country_codes.rb', line 92</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_code_for_name'>code_for_name</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Jamf.html#cnx-class_method" title="Jamf.cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_code_for_name'>code_for_name</span> <span class='id identifier rubyid_name'>name</span>
@@ -687,12 +626,12 @@ parses this into a hash of Code =&gt; Name</p>
       <pre class="lines">
 
 
-67
-68
-69</pre>
+77
+78
+79</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/singleton_resources/app_store_country_codes.rb', line 67</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/singleton_resources/app_store_country_codes.rb', line 77</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_codes'>codes</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Jamf.html#cnx-class_method" title="Jamf.cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_codes'>codes</span>
@@ -728,15 +667,74 @@ parses this into a hash of Code =&gt; Name</p>
       <pre class="lines">
 
 
-72
-73
-74</pre>
+82
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/singleton_resources/app_store_country_codes.rb', line 72</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/singleton_resources/app_store_country_codes.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_codes_by_name'>codes_by_name</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Jamf.html#cnx-class_method" title="Jamf.cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_codes_by_name'>codes_by_name</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="list-class_method">
+  
+    .<strong>list</strong>(refresh = false, cnx: Jamf.cnx)  &#x21d2; <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="Country.html" title="Jamf::Country (class)">Jamf::Country</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns all the Countries available.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="Country.html" title="Jamf::Country (class)">Jamf::Country</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>all the Countries available</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+67
+68
+69</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/singleton_resources/app_store_country_codes.rb', line 67</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_list'>list</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Jamf.html#cnx-class_method" title="Jamf.cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_countryCodes'>countryCodes</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -808,12 +806,12 @@ parses this into a hash of Code =&gt; Name</p>
       <pre class="lines">
 
 
-87
-88
-89</pre>
+97
+98
+99</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/singleton_resources/app_store_country_codes.rb', line 87</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/singleton_resources/app_store_country_codes.rb', line 97</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_name_for_code'>name_for_code</span><span class='lparen'>(</span><span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Jamf.html#cnx-class_method" title="Jamf.cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_name_for_code'>name_for_code</span> <span class='id identifier rubyid_code'>code</span>
@@ -849,12 +847,12 @@ parses this into a hash of Code =&gt; Name</p>
       <pre class="lines">
 
 
-62
-63
-64</pre>
+72
+73
+74</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/singleton_resources/app_store_country_codes.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/singleton_resources/app_store_country_codes.rb', line 72</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_names'>names</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Jamf.html#cnx-class_method" title="Jamf.cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_names'>names</span>
@@ -890,12 +888,12 @@ parses this into a hash of Code =&gt; Name</p>
       <pre class="lines">
 
 
-77
-78
-79</pre>
+87
+88
+89</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/singleton_resources/app_store_country_codes.rb', line 77</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/singleton_resources/app_store_country_codes.rb', line 87</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_names_by_code'>names_by_code</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='const'><span class='object_link'><a href="../Jamf.html" title="Jamf (module)">Jamf</a></span></span><span class='period'>.</span><span class='id identifier rubyid_cnx'><span class='object_link'><a href="../Jamf.html#cnx-class_method" title="Jamf.cnx (method)">cnx</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>cnx:</span> <span class='id identifier rubyid_cnx'>cnx</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_names_by_code'>names_by_code</span>
@@ -970,13 +968,13 @@ parses this into a hash of Code =&gt; Name</p>
       <pre class="lines">
 
 
-117
-118
-119
-120</pre>
+127
+128
+129
+130</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/singleton_resources/app_store_country_codes.rb', line 117</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/singleton_resources/app_store_country_codes.rb', line 127</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_code_for_name'>code_for_name</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_names'>names</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_n'>n</span><span class='op'>|</span> <span class='id identifier rubyid_n'>n</span><span class='period'>.</span><span class='id identifier rubyid_casecmp?'>casecmp?</span> <span class='id identifier rubyid_name'>name</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span>
@@ -999,7 +997,7 @@ parses this into a hash of Code =&gt; Name</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the available country codes</p>
+<p>Returns the available country codes.</p>
 
 
   </div>
@@ -1031,15 +1029,15 @@ parses this into a hash of Code =&gt; Name</p>
       <pre class="lines">
 
 
-100
-101
-102</pre>
+110
+111
+112</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/singleton_resources/app_store_country_codes.rb', line 100</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/singleton_resources/app_store_country_codes.rb', line 110</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_codes'>codes</span>
-  <span class='ivar'>@codes</span> <span class='op'>||=</span> <span class='id identifier rubyid_countryCodes'>countryCodes</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_country'>country</span><span class='op'>|</span> <span class='id identifier rubyid_country'>country</span><span class='period'>.</span><span class='id identifier rubyid_code'>code</span> <span class='rbrace'>}</span>
+  <span class='ivar'>@codes</span> <span class='op'>||=</span> <span class='id identifier rubyid_countryCodes'>countryCodes</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:code</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1058,7 +1056,7 @@ parses this into a hash of Code =&gt; Name</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns name =&gt; code</p>
+<p>Returns name =&gt; code.</p>
 
 
   </div>
@@ -1090,15 +1088,15 @@ parses this into a hash of Code =&gt; Name</p>
       <pre class="lines">
 
 
-105
-106
-107</pre>
+115
+116
+117</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/singleton_resources/app_store_country_codes.rb', line 105</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/singleton_resources/app_store_country_codes.rb', line 115</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_codes_by_name'>codes_by_name</span>
-  <span class='ivar'>@codes_by_name</span> <span class='op'>||=</span> <span class='id identifier rubyid_countryCodes'>countryCodes</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_country'>country</span><span class='op'>|</span> <span class='lbracket'>[</span><span class='id identifier rubyid_country'>country</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_country'>country</span><span class='period'>.</span><span class='id identifier rubyid_code'>code</span><span class='rbracket'>]</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_to_h'>to_h</span>
+  <span class='ivar'>@codes_by_name</span> <span class='op'>||=</span> <span class='id identifier rubyid_countryCodes'>countryCodes</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_country'>country</span><span class='op'>|</span> <span class='lbracket'>[</span><span class='id identifier rubyid_country'>country</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_country'>country</span><span class='period'>.</span><span class='id identifier rubyid_code'>code</span><span class='rbracket'>]</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_to_h'>to_h</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1164,12 +1162,12 @@ parses this into a hash of Code =&gt; Name</p>
       <pre class="lines">
 
 
-125
-126
-127</pre>
+135
+136
+137</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/singleton_resources/app_store_country_codes.rb', line 125</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/singleton_resources/app_store_country_codes.rb', line 135</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_name_for_code'>name_for_code</span><span class='lparen'>(</span><span class='id identifier rubyid_code'>code</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_names_by_code'>names_by_code</span><span class='lbracket'>[</span><span class='id identifier rubyid_code'>code</span><span class='period'>.</span><span class='id identifier rubyid_upcase'>upcase</span><span class='rbracket'>]</span>
@@ -1191,7 +1189,7 @@ parses this into a hash of Code =&gt; Name</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the available country names</p>
+<p>Returns the available country names.</p>
 
 
   </div>
@@ -1223,15 +1221,15 @@ parses this into a hash of Code =&gt; Name</p>
       <pre class="lines">
 
 
-95
-96
-97</pre>
+105
+106
+107</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/singleton_resources/app_store_country_codes.rb', line 95</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/singleton_resources/app_store_country_codes.rb', line 105</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_names'>names</span>
-  <span class='ivar'>@names</span> <span class='op'>||=</span> <span class='id identifier rubyid_countryCodes'>countryCodes</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_country'>country</span><span class='op'>|</span> <span class='id identifier rubyid_country'>country</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='rbrace'>}</span>
+  <span class='ivar'>@names</span> <span class='op'>||=</span> <span class='id identifier rubyid_countryCodes'>countryCodes</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:name</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1250,7 +1248,7 @@ parses this into a hash of Code =&gt; Name</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns code =&gt; name</p>
+<p>Returns code =&gt; name.</p>
 
 
   </div>
@@ -1282,15 +1280,15 @@ parses this into a hash of Code =&gt; Name</p>
       <pre class="lines">
 
 
-110
-111
-112</pre>
+120
+121
+122</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/singleton_resources/app_store_country_codes.rb', line 110</span>
+      <pre class="code"><span class="info file"># File 'lib/jamf/api/resources/singleton_resources/app_store_country_codes.rb', line 120</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_names_by_code'>names_by_code</span>
-  <span class='ivar'>@names_by_code</span> <span class='op'>||=</span> <span class='id identifier rubyid_countryCodes'>countryCodes</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_country'>country</span><span class='op'>|</span> <span class='lbracket'>[</span><span class='id identifier rubyid_country'>country</span><span class='period'>.</span><span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='id identifier rubyid_country'>country</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_to_h'>to_h</span>
+  <span class='ivar'>@names_by_code</span> <span class='op'>||=</span> <span class='id identifier rubyid_countryCodes'>countryCodes</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_country'>country</span><span class='op'>|</span> <span class='lbracket'>[</span><span class='id identifier rubyid_country'>country</span><span class='period'>.</span><span class='id identifier rubyid_code'>code</span><span class='comma'>,</span> <span class='id identifier rubyid_country'>country</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_to_h'>to_h</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1302,9 +1300,9 @@ parses this into a hash of Code =&gt; Name</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:27:03 2020 by
+  Generated on Wed Feb  2 11:06:21 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

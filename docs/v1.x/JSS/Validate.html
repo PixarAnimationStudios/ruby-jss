@@ -6,15 +6,15 @@
 <title>
   Module: JSS::Validate
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::Validate";
   relpath = '../';
 </script>
@@ -86,13 +86,9 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>A collection of methods for validating values. Mostly for ensuring the
-validity of data being set as attributes of APIObject subclass instances.</p>
+<p>A collection of methods for validating values. Mostly for ensuring the validity of data being set as attributes of APIObject subclass instances.</p>
 
-<p>Some of these methods can take multiple input types, such as a String or an
-Array.  All of them will either raise an exception if the value isn&#39;t
-valid, or will return a standardized form of the input (e.g. an Array, even
-if given a String)</p>
+<p>Some of these methods can take multiple input types, such as a String or an Array.  All of them will either raise an exception if the value isn&#39;t valid, or will return a standardized form of the input (e.g. an Array, even if given a String)</p>
 
 
   </div>
@@ -166,6 +162,30 @@ if given a String)</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#app_store_country_code-class_method" title="app_store_country_code (class method)">.<strong>app_store_country_code</strong>(country, msg = nil)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>validate a country name or code from JSS::APP_STORE_COUNTRY_CODES returning the validated code, or raising an error.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#boolean-class_method" title="boolean (class method)">.<strong>boolean</strong>(bool, msg = nil)  &#x21d2; Boolean </a>
     
 
@@ -181,10 +201,7 @@ if given a String)</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Confirm that the given value is a boolean value, accepting strings and
-symbols and returning real booleans as needed Accepts: true, false,
-&#39;true&#39;, &#39;false&#39;, :true, :false, &#39;yes&#39;,
-&#39;no&#39;, :yes, or :no (all Strings and Symbols are case insensitive).</p>
+<p>Confirm that the given value is a boolean value, accepting strings and symbols and returning real booleans as needed Accepts: true, false, &#39;true&#39;, &#39;false&#39;, &#39;yes&#39;, &#39;no&#39;, &#39;t&#39;,&#39;f&#39;, &#39;y&#39;, or &#39;n&#39; as strings or symbols, case insensitive.</p>
 </div></span>
   
 </li>
@@ -208,8 +225,31 @@ symbols and returning real booleans as needed Accepts: true, false,
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Validate that a value doesn&#39;t already exist for a given identifier of a
-given class.</p>
+<p>Validate that a value doesn&#39;t already exist for a given identifier of a given class.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#email_address-class_method" title="email_address (class method)">.<strong>email_address</strong>(email, msg = nil)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>validate an email address - must match the RegEx /^S+@S+.S+$/ i.e.:  1 or more non-whitespace chars, followed by  an @ character, followed by  1 or more non-whitespace chars, followed by  a dot, followed by  1 or more non-whitespace chars.</p>
 </div></span>
   
 </li>
@@ -233,8 +273,7 @@ given class.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>validate that the given value is an integer in the
-JSS::IBeacon::MAJOR_MINOR_RANGE.</p>
+<p>validate that the given value is an integer in the JSS::IBeacon::MAJOR_MINOR_RANGE.</p>
 </div></span>
   
 </li>
@@ -258,8 +297,7 @@ JSS::IBeacon::MAJOR_MINOR_RANGE.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Confirm that a value is an integer or a string representation of an
-integer.</p>
+<p>Confirm that a value is an integer or a string representation of an integer.</p>
 </div></span>
   
 </li>
@@ -371,7 +409,133 @@ integer.</p>
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="boolean-class_method">
+  <h3 class="signature first" id="app_store_country_code-class_method">
+  
+    .<strong>app_store_country_code</strong>(country, msg = nil)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>validate a country name or code from JSS::APP_STORE_COUNTRY_CODES returning the validated code, or raising an error</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>country</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The country name or code</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>msg</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A custom error message when the value is invalid</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the valid two-letter country code</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">JSS::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/validate.rb', line 212</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_app_store_country_code'>app_store_country_code</span><span class='lparen'>(</span><span class='id identifier rubyid_country'>country</span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_country'>country</span> <span class='op'>=</span> <span class='id identifier rubyid_country'>country</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_upcase'>upcase</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_country'>country</span> <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../JSS.html#APP_STORE_COUNTRY_CODES-constant" title="JSS::APP_STORE_COUNTRY_CODES (constant)">APP_STORE_COUNTRY_CODES</a></span></span><span class='period'>.</span><span class='id identifier rubyid_value?'>value?</span> <span class='id identifier rubyid_country'>country</span>
+
+  <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../JSS.html#APP_STORE_COUNTRY_CODES-constant" title="JSS::APP_STORE_COUNTRY_CODES (constant)">APP_STORE_COUNTRY_CODES</a></span></span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_code'>code</span><span class='op'>|</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_code'>code</span> <span class='kw'>if</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_upcase'>upcase</span> <span class='op'>==</span> <span class='id identifier rubyid_country'>country</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_msg'>msg</span> <span class='op'>||=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Unknown country name or code. See JSS::APP_STORE_COUNTRY_CODES or JSS.country_code_match(str)</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="boolean-class_method">
   
     .<strong>boolean</strong>(bool, msg = nil)  &#x21d2; <tt>Boolean</tt> 
   
@@ -382,10 +546,7 @@ integer.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Confirm that the given value is a boolean value, accepting strings and
-symbols and returning real booleans as needed Accepts: true, false,
-&#39;true&#39;, &#39;false&#39;, :true, :false, &#39;yes&#39;,
-&#39;no&#39;, :yes, or :no (all Strings and Symbols are case insensitive)</p>
+<p>Confirm that the given value is a boolean value, accepting strings and symbols and returning real booleans as needed Accepts: true, false, &#39;true&#39;, &#39;false&#39;, &#39;yes&#39;, &#39;no&#39;, &#39;t&#39;,&#39;f&#39;, &#39;y&#39;, or &#39;n&#39; as strings or symbols, case insensitive</p>
 
 <p>TODO: use this throughout ruby-jss</p>
 
@@ -483,11 +644,11 @@ symbols and returning real booleans as needed Accepts: true, false,
       <pre class="code"><span class="info file"># File 'lib/jss/validate.rb', line 125</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_boolean'>boolean</span><span class='lparen'>(</span><span class='id identifier rubyid_bool'>bool</span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_msg'>msg</span> <span class='op'>||=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Value must be boolean true or false</span><span class='tstring_end'>&#39;</span></span>
   <span class='kw'>return</span> <span class='id identifier rubyid_bool'>bool</span> <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../JSS.html#TRUE_FALSE-constant" title="JSS::TRUE_FALSE (constant)">TRUE_FALSE</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_bool'>bool</span>
-  <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='id identifier rubyid_bool'>bool</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^(true|yes)$</span><span class='regexp_end'>/i</span></span>
-  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>if</span> <span class='id identifier rubyid_bool'>bool</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^(false|no)$</span><span class='regexp_end'>/i</span></span>
+  <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='id identifier rubyid_bool'>bool</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^(t(rue)?|y(es)?)$</span><span class='regexp_end'>/i</span></span>
+  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>if</span> <span class='id identifier rubyid_bool'>bool</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^(f(alse)?|no?)$</span><span class='regexp_end'>/i</span></span>
 
+  <span class='id identifier rubyid_msg'>msg</span> <span class='op'>||=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Value must be boolean true or false, or an equivalent string or symbol</span><span class='tstring_end'>&#39;</span></span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -507,12 +668,9 @@ symbols and returning real booleans as needed Accepts: true, false,
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Validate that a value doesn&#39;t already exist for a given identifier of a
-given class</p>
+<p>Validate that a value doesn&#39;t already exist for a given identifier of a given class</p>
 
-<p>e.g. when klass = JSS::Computer, identifier = :name, and val =
-&#39;foo&#39; will raise an error when a computer named &#39;foo&#39;
-exists</p>
+<p>e.g. when klass = JSS::Computer, identifier = :name, and val = &#39;foo&#39; will raise an error when a computer named &#39;foo&#39; exists</p>
 
 <p>Otherwise returns val.</p>
 
@@ -596,6 +754,8 @@ exists</p>
       
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
       
       
         &mdash;
@@ -681,6 +841,131 @@ exists</p>
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="email_address-class_method">
+  
+    .<strong>email_address</strong>(email, msg = nil)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>validate an email address - must match the RegEx /^S+@S+.S+$/ i.e.:</p>
+
+<pre class="code ruby"><code class="ruby">1 or more non-whitespace chars, followed by
+an @ character, followed by
+1 or more non-whitespace chars, followed by
+a dot, followed by
+1 or more non-whitespace chars
+</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>email</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The email address</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>msg</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A custom error message when the value is invalid</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the validly formatted email address</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">JSS::InvalidDataError</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+238
+239
+240
+241
+242
+243
+244</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/validate.rb', line 238</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_email_address'>email_address</span><span class='lparen'>(</span><span class='id identifier rubyid_email'>email</span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_msg'>msg</span> <span class='op'>||=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&#39;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_email'>email</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39; is not formatted as a valid email address</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_email'>email</span> <span class='op'>=</span> <span class='id identifier rubyid_email'>email</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_email'>email</span> <span class='kw'>if</span> <span class='id identifier rubyid_email'>email</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^\S+@\S+\.\S+$</span><span class='regexp_end'>/</span></span>
+
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="ibeacon_major_minor-class_method">
   
     .<strong>ibeacon_major_minor</strong>(val, msg = nil)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
@@ -692,8 +977,7 @@ exists</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>validate that the given value is an integer in the
-JSS::IBeacon::MAJOR_MINOR_RANGE</p>
+<p>validate that the given value is an integer in the JSS::IBeacon::MAJOR_MINOR_RANGE</p>
 
 
   </div>
@@ -790,13 +1074,13 @@ JSS::IBeacon::MAJOR_MINOR_RANGE</p>
       <pre class="code"><span class="info file"># File 'lib/jss/validate.rb', line 193</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_ibeacon_major_minor'>ibeacon_major_minor</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_msg'>msg</span> <span class='op'>||=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>value must be an integer in the range </span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="IBeacon.html" title="JSS::IBeacon (class)">IBeacon</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="IBeacon.html#MAJOR_MINOR_RANGE-constant" title="JSS::IBeacon::MAJOR_MINOR_RANGE (constant)">MAJOR_MINOR_RANGE</a></span></span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
   <span class='id identifier rubyid_val'>val</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='kw'>if</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_jss_integer?'>jss_integer?</span>
   <span class='id identifier rubyid_ok'>ok</span> <span class='op'>=</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Integer</span>
   <span class='id identifier rubyid_ok'>ok</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="IBeacon.html" title="JSS::IBeacon (class)">IBeacon</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="IBeacon.html#MAJOR_MINOR_RANGE-constant" title="JSS::IBeacon::MAJOR_MINOR_RANGE (constant)">MAJOR_MINOR_RANGE</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_val'>val</span> <span class='kw'>if</span> <span class='id identifier rubyid_ok'>ok</span>
-  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span> <span class='kw'>unless</span> <span class='id identifier rubyid_ok'>ok</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_val'>val</span> <span class='kw'>if</span> <span class='id identifier rubyid_ok'>ok</span>
 
-  <span class='id identifier rubyid_val'>val</span>
+  <span class='id identifier rubyid_msg'>msg</span> <span class='op'>||=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>value must be an integer in the range </span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="IBeacon.html" title="JSS::IBeacon (class)">IBeacon</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="IBeacon.html#MAJOR_MINOR_RANGE-constant" title="JSS::IBeacon::MAJOR_MINOR_RANGE (constant)">MAJOR_MINOR_RANGE</a></span></span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span> <span class='kw'>unless</span> <span class='id identifier rubyid_ok'>ok</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -815,8 +1099,7 @@ JSS::IBeacon::MAJOR_MINOR_RANGE</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Confirm that a value is an integer or a string representation of an
-integer. Return the integer, or raise an error</p>
+<p>Confirm that a value is an integer or a string representation of an integer. Return the integer, or raise an error</p>
 
 <p>TODO: use this throughout ruby-jss</p>
 
@@ -1368,10 +1651,10 @@ integer. Return the integer, or raise an error</p>
       <pre class="code"><span class="info file"># File 'lib/jss/validate.rb', line 178</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_uuid'>uuid</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_msg'>msg</span> <span class='op'>||=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>value must be valid uuid</span><span class='tstring_end'>&#39;</span></span>
-  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span> <span class='kw'>unless</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_val'>val</span> <span class='op'>=~</span> <span class='const'><span class='object_link'><a href="#UUID_RE-constant" title="JSS::Validate::UUID_RE (constant)">UUID_RE</a></span></span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_val'>val</span> <span class='kw'>if</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_val'>val</span> <span class='op'>=~</span> <span class='const'><span class='object_link'><a href="#UUID_RE-constant" title="JSS::Validate::UUID_RE (constant)">UUID_RE</a></span></span>
 
-  <span class='id identifier rubyid_val'>val</span>
+  <span class='id identifier rubyid_msg'>msg</span> <span class='op'>||=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>value must be valid uuid</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="InvalidDataError.html" title="JSS::InvalidDataError (class)">InvalidDataError</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_msg'>msg</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1383,9 +1666,9 @@ integer. Return the integer, or raise an error</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:25 2020 by
+  Generated on Wed Feb  2 11:05:47 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

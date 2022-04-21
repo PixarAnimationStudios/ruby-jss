@@ -6,15 +6,15 @@
 <title>
   Class: JSS::DirectoryBinding
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::DirectoryBinding";
   relpath = '../';
 </script>
@@ -114,15 +114,12 @@
   <div class="note notetag">
     <strong>Note:</strong>
     <div class='inline'>
-<p>“JSS::DirectoryBinding.fetch name: &#39;BindingName&#39;” seems to be
-returning a 500 error in my test evironment. Use
-“JSS::DirectoryBinding.fetch &#39;BindingName&#39; instead.”</p>
+<p>“JSS::DirectoryBinding.fetch name: &#39;BindingName&#39;” seems to be returning a 500 error in my test evironment. Use “JSS::DirectoryBinding.fetch &#39;BindingName&#39; instead.”</p>
 </div>
   </div>
 
 
-<p>A Directory Binding object in the JSS These are rather complex objects, and
-contain settings specific to the directory object&#39;s type.</p>
+<p>A Directory Binding object in the JSS These are rather complex objects, and contain settings specific to the directory object&#39;s type.</p>
 
 
   </div>
@@ -217,8 +214,7 @@ contain settings specific to the directory object&#39;s type.</p>
           <div class="docstring">
   <div class="discussion">
     
-<p>The hash key used for the JSON object output. It&#39;s also used in various
-error messages</p>
+<p>The hash key used for the JSON object output. It&#39;s also used in various error messages</p>
 
 
   </div>
@@ -673,8 +669,7 @@ error messages</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Change the name of this item Remember to #update to push changes to the
-server.</p>
+<p>Change the name of this item Remember to #update to push changes to the server.</p>
 </div></span>
   
 </li>
@@ -799,11 +794,7 @@ server.</p>
   </div>
 
 
-<p>Constructor objects name and then the settings. Ex: Creating an Active
-Directory object: JSS::DirectoryBinding.make name: “Example Binding”,
-username: “BindingUser”, password: “SuperMonkey123”, computer_ou:
-“computers”, active_directory: { multiple_domains: false }, domain:
-your.domain.server</p>
+<p>Constructor objects name and then the settings. Ex: Creating an Active Directory object: JSS::DirectoryBinding.make name: “Example Binding”, username: “BindingUser”, password: “SuperMonkey123”, computer_ou: “computers”, active_directory: { multiple_domains: false }, domain: your.domain.server</p>
 
 
   </div>
@@ -930,7 +921,7 @@ your.domain.server</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute computer_ou</p>
+<p>Returns the value of attribute computer_ou.</p>
 
 
   </div>
@@ -973,7 +964,7 @@ your.domain.server</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute domain</p>
+<p>Returns the value of attribute domain.</p>
 
 
   </div>
@@ -1059,7 +1050,7 @@ your.domain.server</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute name</p>
+<p>Returns the value of attribute name.</p>
 
 
   </div>
@@ -1107,7 +1098,7 @@ your.domain.server</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns do we have unsaved changes?</p>
+<p>Returns do we have unsaved changes?.</p>
 
 
   </div>
@@ -1150,7 +1141,7 @@ your.domain.server</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute password</p>
+<p>Returns the value of attribute password.</p>
 
 
   </div>
@@ -1193,7 +1184,7 @@ your.domain.server</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute password_sha256</p>
+<p>Returns the value of attribute password_sha256.</p>
 
 
   </div>
@@ -1236,7 +1227,7 @@ your.domain.server</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute priority</p>
+<p>Returns the value of attribute priority.</p>
 
 
   </div>
@@ -1279,7 +1270,7 @@ your.domain.server</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute type</p>
+<p>Returns the value of attribute type.</p>
 
 
   </div>
@@ -1322,7 +1313,7 @@ your.domain.server</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute type_settings</p>
+<p>Returns the value of attribute type_settings.</p>
 
 
   </div>
@@ -1365,7 +1356,7 @@ your.domain.server</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute username</p>
+<p>Returns the value of attribute username.</p>
 
 
   </div>
@@ -1418,8 +1409,7 @@ your.domain.server</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>make a clone of this API object, with a new name. The class must be
-creatable</p>
+<p>make a clone of this API object, with a new name. The class must be creatable</p>
 
 
   </div>
@@ -1452,11 +1442,12 @@ creatable</p>
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to
-instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
 </div>
       
     </li>
@@ -1535,8 +1526,7 @@ instantiate this object</p>
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to
-instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
 </div>
       
     </li>
@@ -1595,8 +1585,7 @@ instantiate this object</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the name of this item Remember to #update to push changes to the
-server.</p>
+<p>Change the name of this item Remember to #update to push changes to the server.</p>
 
 
   </div>
@@ -1749,9 +1738,9 @@ server.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:38 2020 by
+  Generated on Wed Feb  2 11:05:59 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

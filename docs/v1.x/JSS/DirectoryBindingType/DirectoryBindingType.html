@@ -6,15 +6,15 @@
 <title>
   Class: JSS::DirectoryBindingType::DirectoryBindingType
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::DirectoryBindingType::DirectoryBindingType";
   relpath = '../../';
 </script>
@@ -102,8 +102,7 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>A generic binding type class that sets common variables, methods, and
-constructors  for all the different directory binding types.</p>
+<p>A generic binding type class that sets common variables, methods, and constructors for all the different directory binding types.</p>
 
 
   </div>
@@ -155,8 +154,8 @@ constructors  for all the different directory binding types.</p>
 </div>
         </dt>
         <dd><pre class="code"><span class='lbrace'>{</span>
-    <span class='label'>afp:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>AFP</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
-    <span class='label'>smb:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SMB</span><span class='tstring_end'>&quot;</span></span>
+  <span class='label'>afp:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>AFP</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>smb:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>SMB</span><span class='tstring_end'>&#39;</span></span>
 <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="HOME_FOLDER_TYPE-constant" class="">HOME_FOLDER_TYPE =
@@ -174,10 +173,10 @@ constructors  for all the different directory binding types.</p>
 </div>
         </dt>
         <dd><pre class="code"><span class='lbrace'>{</span>
-    <span class='label'>network:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Network</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
-    <span class='label'>local:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Local</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
-    <span class='label'>either:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Either</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
-    <span class='label'>mobile:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Mobile</span><span class='tstring_end'>&quot;</span></span>
+  <span class='label'>network:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Network</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>local:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Local</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>either:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Either</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+  <span class='label'>mobile:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Mobile</span><span class='tstring_end'>&#39;</span></span>
 <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
     </dl>
@@ -253,12 +252,12 @@ constructors  for all the different directory binding types.</p>
       <pre class="lines">
 
 
-81
 82
-83</pre>
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/directory_binding_type.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/directory_binding_type.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_container'>container</span>
   <span class='ivar'>@container</span>
@@ -274,9 +273,9 @@ constructors  for all the different directory binding types.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:52 2020 by
+  Generated on Wed Feb  2 11:06:12 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

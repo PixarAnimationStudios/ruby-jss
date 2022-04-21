@@ -6,15 +6,15 @@
 <title>
   Class: JSS::ConfigurationProfile
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::ConfigurationProfile";
   relpath = '../';
 </script>
@@ -111,11 +111,9 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>The parent class of OSXConfigurationProfile and
-MobileDeviceConfigurationProfile</p>
+<p>The parent class of OSXConfigurationProfile and MobileDeviceConfigurationProfile</p>
 
-<p>Note that the profile payloads and the profile UUID cannot be edited or
-updated with this via this class. Use the web UI.</p>
+<p>Note that the profile payloads and the profile UUID cannot be edited or updated with this via this class. Use the web UI.</p>
 
 
   </div>
@@ -174,6 +172,27 @@ updated with this via this class. Use the web UI.</p>
 </div>
         </dt>
         <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Make Available in Self Service</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="REDEPLOY_NEWLY_ASSIGNED-constant" class="">REDEPLOY_NEWLY_ASSIGNED =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>when a change is made, which in-scope machines should get the changed profile?</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Newly Assigned</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="REDEPLOY_ALL-constant" class="">REDEPLOY_ALL =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>All</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="SELF_SERVICE_PAYLOAD-constant" class="">SELF_SERVICE_PAYLOAD =
           <div class="docstring">
@@ -411,7 +430,7 @@ updated with this via this class. Use the web UI.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#redeploy_on_update-instance_method" title="#redeploy_on_update (instance method)">#<strong>redeploy_on_update</strong>  &#x21d2; Boolean </a>
+      <a href="#redeploy_on_update-instance_method" title="#redeploy_on_update (instance method)">#<strong>redeploy_on_update</strong>  &#x21d2; String </a>
     
 
     
@@ -431,7 +450,7 @@ updated with this via this class. Use the web UI.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Should this profile be redeployed when an inventory update happens?.</p>
+<p>When a change is made to the profile, which scoped machines should get the changes? This will always contain REDEPLOY_NEWLY_ASSIGNED when fetched, but can be set to REDEPLOY_ALL via the redeploy_to_all: parameter to #update &amp; #save.</p>
 </div></span>
   
 </li>
@@ -497,8 +516,7 @@ updated with this via this class. Use the web UI.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Each Hash has these keys about the category - :id =&gt; [Integer] the JSS
-id of the category - :name =&gt; [String] the name of the category.</p>
+<p>Each Hash has these keys about the category - :id =&gt; [Integer] the JSS id of the category - :name =&gt; [String] the name of the category.</p>
 </div></span>
   
 </li>
@@ -628,8 +646,7 @@ id of the category - :name =&gt; [String] the name of the category.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Should an extra window appear before the user can install the item? (OSX
-SSvc only).</p>
+<p>Should an extra window appear before the user can install the item? (OSX SSvc only).</p>
 </div></span>
   
 </li>
@@ -889,8 +906,7 @@ SSvc only).</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Should self service give reminders by displaying the notification
-repeatedly?.</p>
+<p>Should self service give reminders by displaying the notification repeatedly?.</p>
 </div></span>
   
 </li>
@@ -1265,8 +1281,7 @@ repeatedly?.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Given a category name or id, return the name and id TODO: use
-APIObject.exist? and/or APIObject.valid_id.</p>
+<p>Given a category name or id, return the name and id TODO: use APIObject.exist? and/or APIObject.valid_id.</p>
 </div></span>
   
 </li>
@@ -1321,8 +1336,7 @@ APIObject.exist? and/or APIObject.valid_id.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Change the name of this item Remember to #update to push changes to the
-server.</p>
+<p>Change the name of this item Remember to #update to push changes to the server.</p>
 </div></span>
   
 </li>
@@ -1351,8 +1365,7 @@ server.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Call this during initialization of objects that have a scope and the scope
-instance will be created from @init_data.</p>
+<p>Call this during initialization of objects that have a scope and the scope instance will be created from @init_data.</p>
 </div></span>
   
 </li>
@@ -1402,6 +1415,28 @@ instance will be created from @init_data.</p>
     <span class="summary_desc"><div class='inline'>
 <p>The individual payloads from the payload Plist.</p>
 </div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#payload_content=-instance_method" title="#payload_content= (instance method)">#<strong>payload_content=</strong>(new_content)  &#x21d2; void </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -1483,6 +1518,30 @@ instance will be created from @init_data.</p>
   
     <span class="summary_desc"><div class='inline'>
 <p>Remove a category from those for this item in SSvc.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#save-instance_method" title="#save (instance method)">#<strong>save</strong>(redeploy_to_all: false)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>wrapper with param.</p>
 </div></span>
   
 </li>
@@ -1841,16 +1900,11 @@ instance will be created from @init_data.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#update-instance_method" title="#update (instance method)">#<strong>update</strong>  &#x21d2; Object </a>
+      <a href="#update-instance_method" title="#update (instance method)">#<strong>update</strong>(redeploy_to_all: false)  &#x21d2; Object </a>
     
 
     
   </span>
-  
-    <span class="note title not_defined_here">
-      included
-      from <span class='object_link'><a href="SelfServable.html#update-instance_method" title="JSS::SelfServable#update (method)">SelfServable</a></span>
-    </span>
   
   
   
@@ -1861,7 +1915,7 @@ instance will be created from @init_data.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>HACK: ity hack hack…</p>
+<p>clear flag after updating.</p>
 </div></span>
   
 </li>
@@ -1870,7 +1924,7 @@ instance will be created from @init_data.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#upload-instance_method" title="#upload (instance method)">#<strong>upload</strong>(type, local_file)  &#x21d2; String </a>
+      <a href="#upload-instance_method" title="#upload (instance method)">#<strong>upload</strong>(type, local_file, force_ipa_upload: false)  &#x21d2; Boolean </a>
     
 
     
@@ -1890,8 +1944,7 @@ instance will be created from @init_data.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Upload a file to the JSS via the REST Resource of the object to which this
-module is mixed in.</p>
+<p>instance method wrapper for class method.</p>
 </div></span>
   
 </li>
@@ -1972,16 +2025,16 @@ module is mixed in.</p>
       <pre class="lines">
 
 
-92
-93
-94
-95
-96
-97
-98</pre>
+99
+100
+101
+102
+103
+104
+105</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/configuration_profile.rb', line 92</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/configuration_profile.rb', line 99</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>super</span>
@@ -2014,7 +2067,7 @@ module is mixed in.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the description of this profile</p>
+<p>Returns the description of this profile.</p>
 
 
   </div>
@@ -2046,12 +2099,12 @@ module is mixed in.</p>
       <pre class="lines">
 
 
-76
-77
-78</pre>
+79
+80
+81</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/configuration_profile.rb', line 76</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/configuration_profile.rb', line 79</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_description'>description</span>
   <span class='ivar'>@description</span>
@@ -2084,7 +2137,7 @@ module is mixed in.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The icon used in self-service</p>
+<p>Returns The icon used in self-service.</p>
 
 
   </div>
@@ -2136,7 +2189,7 @@ module is mixed in.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Is this thing available in Self Service?</p>
+<p>Returns Is this thing available in Self Service?.</p>
 
 
   </div>
@@ -2184,7 +2237,7 @@ module is mixed in.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns do we have unsaved changes?</p>
+<p>Returns do we have unsaved changes?.</p>
 
 
   </div>
@@ -2227,7 +2280,7 @@ module is mixed in.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the plist containing the payloads for this profile. NOT Updatable</p>
+<p>Returns the plist containing the payloads for this profile. NOT Updatable.</p>
 
 
   </div>
@@ -2259,12 +2312,12 @@ module is mixed in.</p>
       <pre class="lines">
 
 
-85
-86
-87</pre>
+92
+93
+94</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/configuration_profile.rb', line 85</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/configuration_profile.rb', line 92</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_payloads'>payloads</span>
   <span class='ivar'>@payloads</span>
@@ -2279,7 +2332,7 @@ module is mixed in.</p>
       <div class="method_details ">
   <h3 class="signature " id="redeploy_on_update-instance_method">
   
-    #<strong>redeploy_on_update</strong>  &#x21d2; <tt>Boolean</tt>  <span class="extras">(readonly)</span>
+    #<strong>redeploy_on_update</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>  <span class="extras">(readonly)</span>
   
 
   
@@ -2288,7 +2341,7 @@ module is mixed in.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Should this profile be redeployed when an inventory update happens?</p>
+<p>Returns When a change is made to the profile, which scoped machines should get the changes? This will always contain REDEPLOY_NEWLY_ASSIGNED when fetched, but can be set to REDEPLOY_ALL via the redeploy_to_all: parameter to #update &amp; #save. After the update is complete, it reverts to REDEPLOY_NEWLY_ASSIGNED.</p>
 
 
   </div>
@@ -2301,13 +2354,13 @@ module is mixed in.</p>
     <li>
       
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>Should this profile be redeployed when an inventory update happens?</p>
+<p>When a change is made to the profile, which scoped machines should get the changes? This will always contain REDEPLOY_NEWLY_ASSIGNED when fetched, but can be set to REDEPLOY_ALL via the redeploy_to_all: parameter to #update &amp; #save. After the update is complete, it reverts to REDEPLOY_NEWLY_ASSIGNED</p>
 </div>
       
     </li>
@@ -2320,12 +2373,12 @@ module is mixed in.</p>
       <pre class="lines">
 
 
-82
-83
-84</pre>
+89
+90
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/configuration_profile.rb', line 82</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/configuration_profile.rb', line 89</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_redeploy_on_update'>redeploy_on_update</span>
   <span class='ivar'>@redeploy_on_update</span>
@@ -2393,11 +2446,9 @@ module is mixed in.</p>
 
 <p>Most objects also include one or both of these keys:</p>
 <ul><li>
-<p>:display_in =&gt; [Boolean] should the item be displayed in this category
-in SSvc? (not MobDevConfProfiles)</p>
+<p>:display_in =&gt; [Boolean] should the item be displayed in this category in SSvc? (not MobDevConfProfiles)</p>
 </li><li>
-<p>:feature_in =&gt; [Boolean] should the item be featured in this category in
-SSVC? (macOS targets only)</p>
+<p>:feature_in =&gt; [Boolean] should the item be featured in this category in SSVC? (macOS targets only)</p>
 </li></ul>
 
 
@@ -2446,7 +2497,7 @@ SSVC? (macOS targets only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The verbage that appears in SelfSvc for this item</p>
+<p>Returns The verbage that appears in SelfSvc for this item.</p>
 
 
   </div>
@@ -2594,8 +2645,7 @@ SSVC? (macOS targets only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Should an extra window appear before the user can install the item?
-(OSX SSvc only)</p>
+<p>Returns Should an extra window appear before the user can install the item? (OSX SSvc only).</p>
 
 
   </div>
@@ -2614,8 +2664,7 @@ SSVC? (macOS targets only)</p>
       
         &mdash;
         <div class='inline'>
-<p>Should an extra window appear before the user can install the item? (OSX
-SSvc only)</p>
+<p>Should an extra window appear before the user can install the item? (OSX SSvc only)</p>
 </div>
       
     </li>
@@ -2692,7 +2741,7 @@ SSvc only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The message text of the notification</p>
+<p>Returns The message text of the notification.</p>
 
 
   </div>
@@ -2788,8 +2837,7 @@ SSvc only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns How should notifications be sent either :ssvc_only or
-:ssvc_and_nctr</p>
+<p>Returns How should notifications be sent either :ssvc_only or :ssvc_and_nctr.</p>
 
 
   </div>
@@ -2841,7 +2889,7 @@ SSvc only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Should jamf send notifications to self service?</p>
+<p>Returns Should jamf send notifications to self service?.</p>
 
 
   </div>
@@ -2937,7 +2985,7 @@ SSvc only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns How often (in days) should reminders be given</p>
+<p>Returns How often (in days) should reminders be given.</p>
 
 
   </div>
@@ -2989,8 +3037,7 @@ SSvc only)</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns Should self service give reminders by displaying the notification
-repeatedly?</p>
+<p>Returns Should self service give reminders by displaying the notification repeatedly?.</p>
 
 
   </div>
@@ -3009,8 +3056,7 @@ repeatedly?</p>
       
         &mdash;
         <div class='inline'>
-<p>Should self service give reminders by displaying the notification
-repeatedly?</p>
+<p>Should self service give reminders by displaying the notification repeatedly?</p>
 </div>
       
     </li>
@@ -3087,7 +3133,7 @@ repeatedly?</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns one of the keys in PROFILE_REMOVAL_BY_USER</p>
+<p>Returns one of the keys in PROFILE_REMOVAL_BY_USER.</p>
 
 
   </div>
@@ -3130,7 +3176,7 @@ repeatedly?</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the uuid of this profile. NOT Updatable</p>
+<p>Returns the uuid of this profile. NOT Updatable.</p>
 
 
   </div>
@@ -3162,12 +3208,12 @@ repeatedly?</p>
       <pre class="lines">
 
 
-79
-80
-81</pre>
+82
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/configuration_profile.rb', line 79</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/configuration_profile.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_uuid'>uuid</span>
   <span class='ivar'>@uuid</span>
@@ -3238,11 +3284,12 @@ repeatedly?</p>
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>should this item appear in the SelfSvc page for the category? Only
-meaningful in applicable classes</p>
+<p>should this item appear in the SelfSvc page for the category? Only meaningful in applicable classes</p>
 </div>
       
     </li>
@@ -3255,12 +3302,12 @@ meaningful in applicable classes</p>
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>should this item be featured in the SelfSvc page for the category? Only
-meaningful in applicable classes. NOTE: this will always be false if
-display_in is false.</p>
+<p>should this item be featured in the SelfSvc page for the category? Only meaningful in applicable classes. NOTE: this will always be false if display_in is false.</p>
 </div>
       
     </li>
@@ -3329,8 +3376,7 @@ display_in is false.</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the category of this object. Any of the NON_CATEGORIES values will
-unset the category</p>
+<p>Change the category of this object. Any of the NON_CATEGORIES values will unset the category</p>
 
 
   </div>
@@ -3491,8 +3537,7 @@ unset the category</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The name of the category for this object. For backward compatibility, this
-is aliased to just &#39;category&#39;</p>
+<p>The name of the category for this object. For backward compatibility, this is aliased to just &#39;category&#39;</p>
 
 
   </div>
@@ -3612,8 +3657,7 @@ is aliased to just &#39;category&#39;</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Given a category name or id, return the name and id TODO: use
-APIObject.exist? and/or APIObject.valid_id</p>
+<p>Given a category name or id, return the name and id TODO: use APIObject.exist? and/or APIObject.valid_id</p>
 
 
   </div>
@@ -3679,8 +3723,7 @@ APIObject.exist? and/or APIObject.valid_id</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the name of this item Remember to #update to push changes to the
-server.</p>
+<p>Change the name of this item Remember to #update to push changes to the server.</p>
 
 
   </div>
@@ -3745,8 +3788,7 @@ server.</p>
   You should avoid using this method if possible, as it may be removed or be changed in the future.
 </p>
 <p class="note returns_void">This method returns an undefined value.</p>
-<p>Call this during initialization of objects that have a scope and the scope
-instance will be created from @init_data</p>
+<p>Call this during initialization of objects that have a scope and the scope instance will be created from @init_data</p>
 
 
   </div>
@@ -3801,15 +3843,15 @@ instance will be created from @init_data</p>
       <pre class="lines">
 
 
-118
-119
-120</pre>
+125
+126
+127</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/configuration_profile.rb', line 118</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/configuration_profile.rb', line 125</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_parsed_payloads'>parsed_payloads</span>
-  <span class='const'>Plist</span><span class='period'>.</span><span class='id identifier rubyid_parse_xml'>parse_xml</span> <span class='ivar'>@payloads</span>
+  <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse_plist'><span class='object_link'><a href="../JSS.html#parse_plist-class_method" title="JSS.parse_plist (method)">parse_plist</a></span></span> <span class='ivar'>@payloads</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -3828,7 +3870,7 @@ instance will be created from @init_data</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the individual payloads from the payload Plist</p>
+<p>Returns the individual payloads from the payload Plist.</p>
 
 
   </div>
@@ -3860,15 +3902,88 @@ instance will be created from @init_data</p>
       <pre class="lines">
 
 
-124
-125
-126</pre>
+131
+132
+133</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/configuration_profile.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/configuration_profile.rb', line 131</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_payload_content'>payload_content</span>
   <span class='id identifier rubyid_parsed_payloads'>parsed_payloads</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>PayloadContent</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="payload_content=-instance_method">
+  
+    #<strong>payload_content=</strong>(new_content)  &#x21d2; <tt>void</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>new_content</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>replace the payload content entirely.</p>
+
+<p>The &#39;payload&#39; of a config profile is an XML Plist. The top-level key of that plist &#39;PayloadContent&#39; contains an Array of Dicts, each one being a part of the payload for the profile.</p>
+
+<p>When replacing the PayloadContent Array, using this method, provide a <strong>ruby</strong> Array full of <strong>ruby</strong> hashes, and they will be converted to a Plist and embedded into the API XML appropriately.</p>
+
+<p>WARNING: This is experimental! Editing the Plist Payload of a Config profile may break the profile. Make sure you test on a fake profile before using this method in production.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+151
+152
+153
+154
+155
+156
+157</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/configuration_profile.rb', line 151</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_payload_content='>payload_content=</span><span class='lparen'>(</span><span class='id identifier rubyid_new_content'>new_content</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_payload_plist_data'>payload_plist_data</span> <span class='op'>=</span> <span class='id identifier rubyid_parsed_payloads'>parsed_payloads</span>
+  <span class='id identifier rubyid_payload_plist_data'>payload_plist_data</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>PayloadContent</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_new_content'>new_content</span>
+  <span class='ivar'>@payloads</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_xml_plist_from'><span class='object_link'><a href="../JSS.html#xml_plist_from-class_method" title="JSS.xml_plist_from (method)">xml_plist_from</a></span></span> <span class='id identifier rubyid_new_content'>new_content</span>
+  <span class='ivar'>@need_to_update</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='ivar'>@update_payloads</span> <span class='op'>=</span> <span class='kw'>true</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -3887,7 +4002,7 @@ instance will be created from @init_data</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the PayloadType of each payload (e.g. com.apple.caldav.account)</p>
+<p>Returns the PayloadType of each payload (e.g. com.apple.caldav.account).</p>
 
 
   </div>
@@ -3919,12 +4034,12 @@ instance will be created from @init_data</p>
       <pre class="lines">
 
 
-130
-131
-132</pre>
+161
+162
+163</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/configuration_profile.rb', line 130</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/configuration_profile.rb', line 161</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_payload_types'>payload_types</span>
   <span class='id identifier rubyid_payload_content'>payload_content</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span> <span class='id identifier rubyid_p'>p</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>PayloadType</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
@@ -4011,6 +4126,63 @@ instance will be created from @init_data</p>
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="save-instance_method">
+  
+    #<strong>save</strong>(redeploy_to_all: false)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>wrapper with param</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/configuration_profile.rb', line 175</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_save'>save</span><span class='lparen'>(</span><span class='label'>redeploy_to_all:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='ivar'>@in_jss</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Updating this object in the JSS is currently not supported by ruby-jss</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_updatable?'>updatable?</span>
+
+    <span class='id identifier rubyid_update'>update</span> <span class='label'>redeploy_to_all:</span> <span class='id identifier rubyid_redeploy_to_all'>redeploy_to_all</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../JSS.html" title="JSS (module)">JSS</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="UnsupportedError.html" title="JSS::UnsupportedError (class)">UnsupportedError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Creating this object in the JSS is currently not supported by ruby-jss</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_creatable?'>creatable?</span>
+
+    <span class='id identifier rubyid_create'>create</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="self_service_execute_url-instance_method">
   
     #<strong>self_service_execute_url</strong>  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
@@ -4027,7 +4199,7 @@ instance will be created from @init_data</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The url to view this thing in Self Service</p>
+<p>Returns The url to view this thing in Self Service.</p>
 
 
   </div>
@@ -4165,7 +4337,7 @@ instance will be created from @init_data</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns The url to view this thing in Self Service</p>
+<p>Returns The url to view this thing in Self Service.</p>
 
 
   </div>
@@ -4239,8 +4411,7 @@ instance will be created from @init_data</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the site of this object. Any of the NON_SITES values will unset the
-site</p>
+<p>Change the site of this object. Any of the NON_SITES values will unset the site</p>
 
 
   </div>
@@ -4397,8 +4568,7 @@ site</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The name of the site for this object. For backward compatibility, this is
-aliased to just &#39;site&#39;</p>
+<p>The name of the site for this object. For backward compatibility, this is aliased to just &#39;site&#39;</p>
 
 
   </div>
@@ -4532,21 +4702,16 @@ aliased to just &#39;site&#39;</p>
       <div class="method_details ">
   <h3 class="signature " id="update-instance_method">
   
-    #<strong>update</strong>  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
+    #<strong>update</strong>(redeploy_to_all: false)  &#x21d2; <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt> 
   
 
   
 
-  
-    <span class="not_defined_here">
-      Originally defined in module
-        <span class='object_link'><a href="SelfServable.html#update-instance_method" title="JSS::SelfServable#update (method)">SelfServable</a></span>
-    </span>
   
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>HACK: ity hack hack… remove when jamf fixes these bugs</p>
+<p>clear flag after updating</p>
 
 
   </div>
@@ -4554,13 +4719,39 @@ aliased to just &#39;site&#39;</p>
 <div class="tags">
   
 
-</div>
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+166
+167
+168
+169
+170
+171
+172</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/configuration_profile.rb', line 166</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_update'>update</span><span class='lparen'>(</span><span class='label'>redeploy_to_all:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='ivar'>@redeploy_on_update</span> <span class='op'>=</span> <span class='id identifier rubyid_redeploy_to_all'>redeploy_to_all</span> <span class='op'>?</span> <span class='const'><span class='object_link'><a href="#REDEPLOY_ALL-constant" title="JSS::ConfigurationProfile::REDEPLOY_ALL (constant)">REDEPLOY_ALL</a></span></span> <span class='op'>:</span> <span class='const'><span class='object_link'><a href="#REDEPLOY_NEWLY_ASSIGNED-constant" title="JSS::ConfigurationProfile::REDEPLOY_NEWLY_ASSIGNED (constant)">REDEPLOY_NEWLY_ASSIGNED</a></span></span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='rparen'>)</span>
+  <span class='comment'># always reset to newly assigned
+</span>  <span class='ivar'>@redeploy_on_update</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#REDEPLOY_NEWLY_ASSIGNED-constant" title="JSS::ConfigurationProfile::REDEPLOY_NEWLY_ASSIGNED (constant)">REDEPLOY_NEWLY_ASSIGNED</a></span></span>
+  <span class='ivar'>@update_payloads</span> <span class='op'>=</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
 </div>
     
       <div class="method_details ">
   <h3 class="signature " id="upload-instance_method">
   
-    #<strong>upload</strong>(type, local_file)  &#x21d2; <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt> 
+    #<strong>upload</strong>(type, local_file, force_ipa_upload: false)  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -4574,8 +4765,9 @@ aliased to just &#39;site&#39;</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Upload a file to the JSS via the REST Resource of the object to which this
-module is mixed in.</p>
+<p>instance method wrapper for class method</p>
+
+<p>Upload a file to the JSS to be stored with this instance of the class mixing in the Uploadable module</p>
 
 
   </div>
@@ -4595,8 +4787,7 @@ module is mixed in.</p>
       
         &mdash;
         <div class='inline'>
-<p>the type of upload happening. Must be one of the keys defined in the
-class&#39;s UPLOAD_TYPES Hash.</p>
+<p>the type of upload happening. Must be one of the keys defined in the class&#39;s UPLOAD_TYPES Hash.</p>
 </div>
       
     </li>
@@ -4617,6 +4808,24 @@ class&#39;s UPLOAD_TYPES Hash.</p>
       
     </li>
   
+    <li>
+      
+        <span class='name'>force_ipa_upload</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Should the server upload the .ipa file to JCDS or AWS if such are confgured for use?</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 <p class="tag_title">Returns:</p>
@@ -4625,13 +4834,13 @@ class&#39;s UPLOAD_TYPES Hash.</p>
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>The xml response from the server.</p>
+<p>was the  upload successful?</p>
 </div>
       
     </li>
@@ -4705,9 +4914,9 @@ class&#39;s UPLOAD_TYPES Hash.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:34 2020 by
+  Generated on Wed Feb  2 11:05:55 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

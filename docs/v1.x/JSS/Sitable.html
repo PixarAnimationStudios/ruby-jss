@@ -6,15 +6,15 @@
 <title>
   Module: JSS::Sitable
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::Sitable";
   relpath = '../';
 </script>
@@ -76,7 +76,7 @@
   
   <dl>
     <dt>Included in:</dt>
-    <dd><span class='object_link'><a href="AdvancedSearch.html" title="JSS::AdvancedSearch (class)">AdvancedSearch</a></span>, <span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span>, <span class='object_link'><a href="ComputerInvitation.html" title="JSS::ComputerInvitation (class)">ComputerInvitation</a></span>, <span class='object_link'><a href="ConfigurationProfile.html" title="JSS::ConfigurationProfile (class)">ConfigurationProfile</a></span>, <span class='object_link'><a href="EBook.html" title="JSS::EBook (class)">EBook</a></span>, <span class='object_link'><a href="Group.html" title="JSS::Group (class)">Group</a></span>, <span class='object_link'><a href="MacApplication.html" title="JSS::MacApplication (class)">MacApplication</a></span>, <span class='object_link'><a href="MobileDevice.html" title="JSS::MobileDevice (class)">MobileDevice</a></span>, <span class='object_link'><a href="MobileDeviceApplication.html" title="JSS::MobileDeviceApplication (class)">MobileDeviceApplication</a></span>, <span class='object_link'><a href="PatchTitle.html" title="JSS::PatchTitle (class)">PatchTitle</a></span>, <span class='object_link'><a href="Peripheral.html" title="JSS::Peripheral (class)">Peripheral</a></span>, <span class='object_link'><a href="Policy.html" title="JSS::Policy (class)">Policy</a></span>, <span class='object_link'><a href="RestrictedSoftware.html" title="JSS::RestrictedSoftware (class)">RestrictedSoftware</a></span></dd>
+    <dd><span class='object_link'><a href="AdvancedSearch.html" title="JSS::AdvancedSearch (class)">AdvancedSearch</a></span>, <span class='object_link'><a href="Computer.html" title="JSS::Computer (class)">Computer</a></span>, <span class='object_link'><a href="ComputerInvitation.html" title="JSS::ComputerInvitation (class)">ComputerInvitation</a></span>, <span class='object_link'><a href="ConfigurationProfile.html" title="JSS::ConfigurationProfile (class)">ConfigurationProfile</a></span>, <span class='object_link'><a href="EBook.html" title="JSS::EBook (class)">EBook</a></span>, <span class='object_link'><a href="Group.html" title="JSS::Group (class)">Group</a></span>, <span class='object_link'><a href="MacApplication.html" title="JSS::MacApplication (class)">MacApplication</a></span>, <span class='object_link'><a href="MobileDevice.html" title="JSS::MobileDevice (class)">MobileDevice</a></span>, <span class='object_link'><a href="MobileDeviceApplication.html" title="JSS::MobileDeviceApplication (class)">MobileDeviceApplication</a></span>, <span class='object_link'><a href="PatchTitle.html" title="JSS::PatchTitle (class)">PatchTitle</a></span>, <span class='object_link'><a href="Peripheral.html" title="JSS::Peripheral (class)">Peripheral</a></span>, <span class='object_link'><a href="Policy.html" title="JSS::Policy (class)">Policy</a></span>, <span class='object_link'><a href="RestrictedSoftware.html" title="JSS::RestrictedSoftware (class)">RestrictedSoftware</a></span>, <span class='object_link'><a href="VPPAccount.html" title="JSS::VPPAccount (class)">VPPAccount</a></span></dd>
   </dl>
   
 
@@ -93,20 +93,15 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>A mix-in module that centralizes the code for handling objects which can be
-assigned a &#39;site&#39; in the JSS.</p>
+<p>A mix-in module that centralizes the code for handling objects which can be assigned a &#39;site&#39; in the JSS.</p>
 
-<p>Objects in the JSS present site data in the top-level :general Hash in the
-:site key which is a Hash with a :name and :id key.</p>
+<p>Objects in the JSS present site data in the top-level :general Hash in the :site key which is a Hash with a :name and :id key.</p>
 
 <p>Classes mixing in this module MUST:</p>
 <ul><li>
-<p>define the constant SITE_SUBSET as either :top, :general, or whatever
-sub-hash of API data conaints the site info. (most are :general, but some,
-like advanced searches, are at the top level)</p>
+<p>define the constant SITE_SUBSET as either :top, :general, or whatever sub-hash of API data conaints the site info. (most are :general, but some, like advanced searches, are at the top level)</p>
 </li><li>
-<p>call #add_site_to_xml(xmldoc) from their #rest_xml method if they are
-<span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span> or <span class='object_link'><a href="Creatable.html" title="JSS::Creatable (module)">Creatable</a></span></p>
+<p>call #add_site_to_xml(xmldoc) from their #rest_xml method if they are <span class='object_link'><a href="Updatable.html" title="JSS::Updatable (module)">Updatable</a></span> or <span class='object_link'><a href="Creatable.html" title="JSS::Creatable (module)">Creatable</a></span></p>
 </li></ul>
 
 
@@ -367,8 +362,7 @@ like advanced searches, are at the top level)</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the site of this object. Any of the NON_SITES values will unset the
-site</p>
+<p>Change the site of this object. Any of the NON_SITES values will unset the site</p>
 
 
   </div>
@@ -606,8 +600,7 @@ site</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The name of the site for this object. For backward compatibility, this is
-aliased to just &#39;site&#39;</p>
+<p>The name of the site for this object. For backward compatibility, this is aliased to just &#39;site&#39;</p>
 
 
   </div>
@@ -769,9 +762,9 @@ aliased to just &#39;site&#39;</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:24 2020 by
+  Generated on Wed Feb  2 11:05:46 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>

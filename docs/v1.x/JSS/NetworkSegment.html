@@ -6,15 +6,15 @@
 <title>
   Class: JSS::NetworkSegment
   
-    &mdash; ruby-jss-1.3.3
+    &mdash; ruby-jss-1.6.7
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JSS::NetworkSegment";
   relpath = '../';
 </script>
@@ -164,8 +164,7 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>The hash key used for the JSON object output. It&#39;s also used in various
-error messages</p>
+<p>The hash key used for the JSON object output. It&#39;s also used in various error messages</p>
 
 
   </div>
@@ -181,8 +180,7 @@ error messages</p>
           <div class="docstring">
   <div class="discussion">
     
-<p>the object type for this object in the object history table. See
-<span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
+<p>the object type for this object in the object history table. See <span class='object_link'><a href="APIObject.html#add_object_history_entry-instance_method" title="JSS::APIObject#add_object_history_entry (method)">APIObject#add_object_history_entry</a></span></p>
 
 
   </div>
@@ -540,8 +538,7 @@ error messages</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Given a starting address &amp; ending address, mask, or cidr, return a
-Range object of IPAddr objects.</p>
+<p>Given a starting address &amp; ending address, mask, or cidr, return a Range object of IPAddr objects.</p>
 </div></span>
   
 </li>
@@ -565,8 +562,7 @@ Range object of IPAddr objects.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>given 2 IPAddr instances, find out how &#39;wide&#39; they are - how many
-IP addresses exist between them.</p>
+<p>given 2 IPAddr instances, find out how &#39;wide&#39; they are - how many IP addresses exist between them.</p>
 </div></span>
   
 </li>
@@ -614,8 +610,7 @@ IP addresses exist between them.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Which network segment is seen as current? According to the Jamf Pro Admin
-Guide, the &#39;smallest&#39; one - the one with fewest IP addrs within it.</p>
+<p>Which network segment is seen as current? According to the Jamf Pro Admin Guide, the &#39;smallest&#39; one - the one with fewest IP addrs within it.</p>
 </div></span>
   
 </li>
@@ -663,8 +658,7 @@ Guide, the &#39;smallest&#39; one - the one with fewest IP addrs within it.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>All NetworkSegments in the given API as ruby Ranges of IPAddr instances
-representing the Segment, e.g.</p>
+<p>All NetworkSegments in the given API as ruby Ranges of IPAddr instances representing the Segment, e.g.</p>
 </div></span>
   
 </li>
@@ -688,8 +682,7 @@ representing the Segment, e.g.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>An IPv4 Address is really just a 32-bit integer, displayed as four 8-bit
-integers.</p>
+<p>An IPv4 Address is really just a 32-bit integer, displayed as four 8-bit integers.</p>
 </div></span>
   
 </li>
@@ -818,8 +811,7 @@ integers.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Does this network segment equal another? equality means the ranges are
-equal.</p>
+<p>Does this network segment equal another? equality means the ranges are equal.</p>
 </div></span>
   
 </li>
@@ -845,8 +837,7 @@ equal.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>set the ending address by applying a new cidr (e.g. 24) or mask (e.g.
-255.255.255.0).</p>
+<p>set the ending address by applying a new cidr (e.g. 24) or mask (e.g. 255.255.255.0).</p>
 </div></span>
   
 </li>
@@ -917,6 +908,8 @@ equal.</p>
     
 
     
+      (also: #cover?)
+    
   </span>
   
   
@@ -928,8 +921,7 @@ equal.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Does this network segment include an address or another segment? Inclusion
-means the other is completely inside this one.</p>
+<p>Does this network segment include an address or another segment? Inclusion means the other is completely inside this one.</p>
 </div></span>
   
 </li>
@@ -984,8 +976,7 @@ means the other is completely inside this one.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Change the name of this item Remember to #update to push changes to the
-server.</p>
+<p>Change the name of this item Remember to #update to push changes to the server.</p>
 </div></span>
   
 </li>
@@ -1215,7 +1206,7 @@ server.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns building for this segment. Must be one of the buildings in the JSS</p>
+<p>Returns building for this segment. Must be one of the buildings in the JSS.</p>
 
 
   </div>
@@ -1276,7 +1267,7 @@ server.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns department for this segment. Must be one of the depts in the JSS</p>
+<p>Returns department for this segment. Must be one of the depts in the JSS.</p>
 
 
   </div>
@@ -1337,8 +1328,7 @@ server.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the name of the distribution point to be used from this network
-segment</p>
+<p>Returns the name of the distribution point to be used from this network segment.</p>
 
 
   </div>
@@ -1399,7 +1389,7 @@ segment</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns ending IP adresss</p>
+<p>Returns ending IP adresss.</p>
 
 
   </div>
@@ -1465,7 +1455,7 @@ segment</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns do we have unsaved changes?</p>
+<p>Returns do we have unsaved changes?.</p>
 
 
   </div>
@@ -1508,7 +1498,7 @@ segment</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the netboot server for this segment</p>
+<p>Returns the netboot server for this segment.</p>
 
 
   </div>
@@ -1569,7 +1559,7 @@ segment</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns should machines checking in from this segment update their building</p>
+<p>Returns should machines checking in from this segment update their building.</p>
 
 
   </div>
@@ -1630,7 +1620,7 @@ segment</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns should machines checking in from this segment update their dept</p>
+<p>Returns should machines checking in from this segment update their dept.</p>
 
 
   </div>
@@ -1691,7 +1681,7 @@ segment</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns starting IP adresss</p>
+<p>Returns starting IP adresss.</p>
 
 
   </div>
@@ -1813,7 +1803,7 @@ segment</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the mount url for the distribution point</p>
+<p>Returns the mount url for the distribution point.</p>
 
 
   </div>
@@ -1879,26 +1869,17 @@ segment</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Given a starting address &amp; ending address, mask, or cidr, return a
-Range object of IPAddr objects.</p>
+<p>Given a starting address &amp; ending address, mask, or cidr, return a Range object of IPAddr objects.</p>
 
-<p>starting_address: must be provided, and may be a masked address, in which
-case nothing else is needed.</p>
+<p>starting_address: must be provided, and may be a masked address, in which case nothing else is needed.</p>
 
-<p>If starting_address: is an unmasked address, then one of ending_address:
-cidr: or mask: must be provided.</p>
+<p>If starting_address: is an unmasked address, then one of ending_address: cidr: or mask: must be provided.</p>
 
-<p>If given, ending_address: overrides mask:, cidr:, and a masked
-starting_address:</p>
+<p>If given, ending_address: overrides mask:, cidr:, and a masked starting_address:</p>
 
 <p>These give the same result:</p>
 
-<p>ip_range starting_address: &#39;192.168.1.0&#39;, ending_address:
-&#39;192.168.1.255&#39; ip_range starting_address: &#39;192.168.1.0&#39;,
-mask: &#39;255.255.255.0&#39; ip_range starting_address:
-&#39;192.168.1.0&#39;, cidr: 24 ip_range starting_address:
-&#39;192.168.1.0/24&#39; ip_range starting_address:
-&#39;192.168.1.0/255.255.255.0&#39;</p>
+<p>ip_range starting_address: &#39;192.168.1.0&#39;, ending_address: &#39;192.168.1.255&#39; ip_range starting_address: &#39;192.168.1.0&#39;, mask: &#39;255.255.255.0&#39; ip_range starting_address: &#39;192.168.1.0&#39;, cidr: 24 ip_range starting_address: &#39;192.168.1.0/24&#39; ip_range starting_address: &#39;192.168.1.0/255.255.255.0&#39;</p>
 
 <p>All the above will produce:</p>
 
@@ -1922,6 +1903,8 @@ mask: &#39;255.255.255.0&#39; ip_range starting_address:
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -1938,11 +1921,12 @@ mask: &#39;255.255.255.0&#39; ip_range starting_address:
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>The ending address. If given, it overrides mask:, cidr: and a masked
-starting_address:</p>
+<p>The ending address. If given, it overrides mask:, cidr: and a masked starting_address:</p>
 </div>
       
     </li>
@@ -1954,6 +1938,8 @@ starting_address:</p>
       
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
       
       
         &mdash;
@@ -1970,6 +1956,8 @@ starting_address:</p>
       
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
       
       
         &mdash;
@@ -2076,8 +2064,7 @@ starting_address:</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>given 2 IPAddr instances, find out how &#39;wide&#39; they are - how many
-IP addresses exist between them.</p>
+<p>given 2 IPAddr instances, find out how &#39;wide&#39; they are - how many IP addresses exist between them.</p>
 
 
   </div>
@@ -2170,6 +2157,8 @@ IP addresses exist between them.</p>
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -2185,6 +2174,8 @@ IP addresses exist between them.</p>
       
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
       
       
         &mdash;
@@ -2250,10 +2241,7 @@ IP addresses exist between them.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Which network segment is seen as current? According to the Jamf Pro Admin
-Guide, the &#39;smallest&#39; one - the one with fewest IP addrs within it.
-If multiple ones have the same number of IPs, then its the one with the
-lowest starting address</p>
+<p>Which network segment is seen as current? According to the Jamf Pro Admin Guide, the &#39;smallest&#39; one - the one with fewest IP addrs within it.  If multiple ones have the same number of IPs, then its the one with the lowest starting address</p>
 
 
   </div>
@@ -2269,6 +2257,8 @@ lowest starting address</p>
       
         <span class='type'>(<tt>Boolean</tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
       
       
         &mdash;
@@ -2363,6 +2353,8 @@ lowest starting address</p>
         <span class='type'>(<tt>Boolean</tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -2433,13 +2425,12 @@ lowest starting address</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>All NetworkSegments in the given API as ruby Ranges of IPAddr instances
-representing the Segment, e.g. with starting = 10.24.9.1 and ending =
-10.24.15.254 the range looks like:</p>
+<p>All NetworkSegments in the given API as ruby Ranges of IPAddr instances representing the Segment, e.g. with starting = 10.24.9.1 and ending = 10.24.15.254 the range looks like:</p>
 
 <pre class="code ruby"><code class="ruby">&lt;IPAddr: IPv4:10.24.9.1/255.255.255.255&gt;
  ..
-&lt;IPAddr: IPv4:10.24.15.254/255.255.255.255&gt;</code></pre>
+&lt;IPAddr: IPv4:10.24.15.254/255.255.255.255&gt;
+</code></pre>
 
 <p>Using the #include? method on those Ranges is very useful.</p>
 
@@ -2447,11 +2438,13 @@ representing the Segment, e.g. with starting = 10.24.9.1 and ending =
 
 <pre class="code ruby"><code class="ruby">best for masked IPAddrs (which are ranges of IPs with widths
 determined by the mask) and Jamf Network Segments can have arbitrary
-widths.</code></pre>
+widths.
+</code></pre>
 
 <p>Note2: See the network_ranges_as_integers method below, which is similar</p>
 
-<pre class="code ruby"><code class="ruby">but much faster.</code></pre>
+<pre class="code ruby"><code class="ruby">but much faster.
+</code></pre>
 
 
   </div>
@@ -2485,6 +2478,8 @@ widths.</code></pre>
       
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
       
       
         &mdash;
@@ -2541,7 +2536,7 @@ widths.</code></pre>
 
   <span class='ivar'>@network_ranges</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='id identifier rubyid_all'>all</span><span class='lparen'>(</span><span class='id identifier rubyid_refresh'>refresh</span><span class='comma'>,</span> <span class='label'>api:</span> <span class='id identifier rubyid_api'>api</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_ns'>ns</span><span class='op'>|</span>
-    <span class='ivar'>@network_ranges</span><span class='lbracket'>[</span><span class='id identifier rubyid_ns'>ns</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../IPAddr.html" title="IPAddr (class)">IPAddr</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_ns'>ns</span><span class='lbracket'>[</span><span class='symbol'>:starting_address</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='op'>..</span><span class='const'><span class='object_link'><a href="../IPAddr.html" title="IPAddr (class)">IPAddr</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_ns'>ns</span><span class='lbracket'>[</span><span class='symbol'>:ending_address</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+    <span class='ivar'>@network_ranges</span><span class='lbracket'>[</span><span class='id identifier rubyid_ns'>ns</span><span class='lbracket'>[</span><span class='symbol'>:id</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../IPAddr.html" title="IPAddr (class)">IPAddr</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_ns'>ns</span><span class='lbracket'>[</span><span class='symbol'>:starting_address</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='op'>..</span><span class='const'>IPAddr</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_ns'>ns</span><span class='lbracket'>[</span><span class='symbol'>:ending_address</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
   <span class='ivar'>@network_ranges</span>
 <span class='kw'>end</span></pre>
@@ -2562,13 +2557,9 @@ widths.</code></pre>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>An IPv4 Address is really just a 32-bit integer, displayed as four 8-bit
-integers. e.g. &#39;10.0.69.1&#39; is really the integer 167789825 The
-#to_i method of IPAddr objects returns that integer (or the first of them
-if the IPAddr is masked).</p>
+<p>An IPv4 Address is really just a 32-bit integer, displayed as four 8-bit integers. e.g. &#39;10.0.69.1&#39; is really the integer 167789825 The #to_i method of IPAddr objects returns that integer (or the first of them if the IPAddr is masked).</p>
 
-<p>Using ranges made of those integers is far faster than using ranges if
-IPAddr objects, so that&#39;s what this method returns.</p>
+<p>Using ranges made of those integers is far faster than using ranges if IPAddr objects, so that&#39;s what this method returns.</p>
 
 <p>See also: the network_ranges method above</p>
 
@@ -2604,6 +2595,8 @@ IPAddr objects, so that&#39;s what this method returns.</p>
       
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
       
       
         &mdash;
@@ -2687,12 +2680,9 @@ IPAddr objects, so that&#39;s what this method returns.</p>
     
 <p>Which network segment is seen as current for a given IP addr?</p>
 
-<p>According to the Jamf Pro Admin Guide, if an IP is in more than one network
-segment, it uses the &#39;smallest&#39; (narrowest) one - the one with
-fewest IP addrs within it.</p>
+<p>According to the Jamf Pro Admin Guide, if an IP is in more than one network segment, it uses the &#39;smallest&#39; (narrowest) one - the one with fewest IP addrs within it.</p>
 
-<p>If multiple ones have the same width, then it uses the one of those with
-the lowest starting address</p>
+<p>If multiple ones have the same width, then it uses the one of those with the lowest starting address</p>
 
 
   </div>
@@ -2807,9 +2797,7 @@ the lowest starting address</p>
     
 <p>Find the ids of the network segments that contain a given IP address.</p>
 
-<p>Even tho IPAddr.include? will take a String or an IPAddr I convert the ip
-to an IPAddr so that an exception will be raised if the ip isn&#39;t a
-valid ip.</p>
+<p>Even tho IPAddr.include? will take a String or an IPAddr I convert the ip to an IPAddr so that an exception will be raised if the ip isn&#39;t a valid ip.</p>
 
 
   </div>
@@ -2859,6 +2847,8 @@ valid ip.</p>
       
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>JSS.api</tt>)</em>
       
       
         &mdash;
@@ -3078,8 +3068,7 @@ valid ip.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Does this network segment equal another? equality means the ranges are
-equal</p>
+<p>Does this network segment equal another? equality means the ranges are equal</p>
 
 
   </div>
@@ -3144,14 +3133,14 @@ equal</p>
       <pre class="lines">
 
 
-449
 450
 451
 452
-453</pre>
+453
+454</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 449</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 450</span>
 
 <span class='kw'>def</span> <span class='op'>==</span><span class='lparen'>(</span><span class='id identifier rubyid_other'>other</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>TypeError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Argument must be a JSS::NetworkSegment</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> \
@@ -3179,8 +3168,7 @@ equal</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>set the ending address by applying a new cidr (e.g. 24) or mask (e.g.
-255.255.255.0)</p>
+<p>set the ending address by applying a new cidr (e.g. 24) or mask (e.g. 255.255.255.0)</p>
 
 
   </div>
@@ -3214,15 +3202,15 @@ equal</p>
       <pre class="lines">
 
 
-584
-585
-586
-587
-588
-589</pre>
+616
+617
+618
+619
+620
+621</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 584</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 616</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_cidr='>cidr=</span><span class='lparen'>(</span><span class='id identifier rubyid_newval'>newval</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_new_end'>new_end</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../IPAddr.html" title="IPAddr (class)">IPAddr</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@starting_address</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_newval'>newval</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_range'>to_range</span><span class='period'>.</span><span class='id identifier rubyid_end'>end</span><span class='period'>.</span><span class='id identifier rubyid_mask'>mask</span> <span class='int'>32</span>
@@ -3252,8 +3240,7 @@ equal</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>make a clone of this API object, with a new name. The class must be
-creatable</p>
+<p>make a clone of this API object, with a new name. The class must be creatable</p>
 
 
   </div>
@@ -3286,11 +3273,12 @@ creatable</p>
         <span class='type'>(<tt><span class='object_link'><a href="APIConnection.html" title="JSS::APIConnection (class)">JSS::APIConnection</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to
-instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
 </div>
       
     </li>
@@ -3369,8 +3357,7 @@ instantiate this object</p>
       
         &mdash;
         <div class='inline'>
-<p>the API in which to create the object Defaults to the API used to
-instantiate this object</p>
+<p>the API in which to create the object Defaults to the API used to instantiate this object</p>
 </div>
       
     </li>
@@ -3419,13 +3406,16 @@ instantiate this object</p>
   
 
   
+    <span class="aliases">Also known as:
+    <span class="names"><span id='cover?-instance_method'>cover?</span></span>
+    </span>
+  
 
   
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Does this network segment include an address or another segment? Inclusion
-means the other is completely inside this one.</p>
+<p>Does this network segment include an address or another segment? Inclusion means the other is completely inside this one.</p>
 
 
   </div>
@@ -3494,7 +3484,7 @@ means the other is completely inside this one.</p>
     <span class='ivar'>@starting_address</span> <span class='op'>&lt;=</span> <span class='id identifier rubyid_thing'>thing</span><span class='period'>.</span><span class='id identifier rubyid_range'>range</span><span class='period'>.</span><span class='id identifier rubyid_begin'>begin</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@ending_address</span> <span class='op'>&gt;=</span> <span class='id identifier rubyid_thing'>thing</span><span class='period'>.</span><span class='id identifier rubyid_range'>range</span><span class='period'>.</span><span class='id identifier rubyid_end'>end</span>
   <span class='kw'>else</span>
     <span class='id identifier rubyid_thing'>thing</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../IPAddr.html" title="IPAddr (class)">IPAddr</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_thing'>thing</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
-    <span class='id identifier rubyid_range'>range</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_thing'>thing</span>
+    <span class='id identifier rubyid_range'>range</span><span class='period'>.</span><span class='id identifier rubyid_cover?'>cover?</span> <span class='id identifier rubyid_thing'>thing</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -3519,8 +3509,7 @@ means the other is completely inside this one.</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p class="note returns_void">This method returns an undefined value.</p>
-<p>Change the name of this item Remember to #update to push changes to the
-server.</p>
+<p>Change the name of this item Remember to #update to push changes to the server.</p>
 
 
   </div>
@@ -3678,8 +3667,7 @@ server.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>a Range built from the start and end addresses. To be used for finding
-inclusion and overlaps.</p>
+<p>a Range built from the start and end addresses. To be used for finding inclusion and overlaps.</p>
 
 
   </div>
@@ -3757,6 +3745,8 @@ inclusion and overlaps.</p>
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -3772,6 +3762,8 @@ inclusion and overlaps.</p>
       
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
       
       
         &mdash;
@@ -3789,6 +3781,8 @@ inclusion and overlaps.</p>
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
       
         &mdash;
         <div class='inline'>
@@ -3804,6 +3798,8 @@ inclusion and overlaps.</p>
       
         <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
       
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
       
       
         &mdash;
@@ -3822,20 +3818,20 @@ inclusion and overlaps.</p>
       <pre class="lines">
 
 
-608
-609
-610
-611
-612
-613
-614
-615
-616
-617
-618</pre>
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 608</span>
+      <pre class="code"><span class="info file"># File 'lib/jss/api_object/network_segment.rb', line 640</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set_ip_range'>set_ip_range</span><span class='lparen'>(</span><span class='label'>starting_address:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>ending_address:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>mask:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>cidr:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_range'>range</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_ip_range'>ip_range</span><span class='lparen'>(</span>
@@ -3917,9 +3913,9 @@ inclusion and overlaps.</p>
 </div>
 
       <div id="footer">
-  Generated on Fri Aug  7 11:26:41 2020 by
+  Generated on Wed Feb  2 11:06:02 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20 (ruby-2.3.7).
+  0.9.25 (ruby-2.6.3).
 </div>
 
     </div>
