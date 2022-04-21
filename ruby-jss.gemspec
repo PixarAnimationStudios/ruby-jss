@@ -87,6 +87,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'rexml', '~> 3.2', '>= 3.2.4'
 
   # Rdoc
-  s.extra_rdoc_files = ['README.md', 'LICENSE.txt', 'CHANGES.md', 'THANKS.md']
+  s.extra_rdoc_files = ['README.md', 'LICENSE.txt', 'CHANGES.md', 'THANKS.md', 'README-2.0.0.md']
   s.rdoc_options << '--title' << 'JSS' << '--line-numbers' << '--main' << 'README.md'
 end
