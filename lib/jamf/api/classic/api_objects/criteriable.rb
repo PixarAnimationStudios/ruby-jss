@@ -153,7 +153,7 @@ module Jamf
     #
     def parse_criteria
       @criteria = Jamf::Criteriable::Criteria.new
-      @criteria.criteria = @init_data[:criteria].map { |c| Jamf::Criteriable::Criterion.new c } if @init_data[:criteria]
+      @criteria.criteria = @init_data[:criteria].map { |c| Jamf::Criteriable::Criterion.new **c } if @init_data[:criteria]
 
       @criteria.container = self
     end

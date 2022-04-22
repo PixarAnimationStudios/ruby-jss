@@ -144,7 +144,7 @@ module Jamf
     # @see APIObject#initialize
     #
     def initialize(**args)
-      super
+      super **args
 
       # @init_data now has the raw data
       # so fill in our attributes or set defaults
