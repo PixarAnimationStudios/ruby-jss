@@ -42,7 +42,7 @@ module JamfTest
     def run_class_tests
       run_collection_tests do_object_tests: false
 
-      # object tests... some from the mixin, others overridden here
+      # custom object tests... some from the mixin, others overridden here
       create_new # in mixin
       add_data_to_new_with_failures
       save_new_with_failures

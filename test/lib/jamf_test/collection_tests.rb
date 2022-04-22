@@ -93,11 +93,12 @@ module JamfTest
       fetch_random
       return unless do_object_tests
 
-      # These methods are very basic and assume a simple object
+      # The methods below are very basic and assume a simple object
       # that can be created with only a 'name'.
       #
       # For anything more complex, they should be overridden in the classes that
       # mixin this module, since the details will be very different
+      # See inventory_preload_record.rb for an example
 
       create_new
       add_data_to_new
@@ -128,8 +129,7 @@ module JamfTest
 
       one_of_all = @cached_all.sample
 
-      validate_hash one_of_all, has_key: :id, val_class: id_class
-
+      validate_hash one_of_all, has_key: :id, class_for_has_key: id_class
     end
 
     #################
@@ -140,8 +140,6 @@ module JamfTest
         say "There are no #{collection_class} objects on the server, not testing sorted_all"
         return
       end
-
-
       sorted_desc = collection_class.all sort: 'id:desc'
       raise "#{collection_class}.all sort: 'id:desc' ; didn't work as expected" unless sorted_desc.first[:id].to_i >= sorted_desc.last[:id].to_i
 

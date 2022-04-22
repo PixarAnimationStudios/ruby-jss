@@ -41,25 +41,51 @@ module JamfTest
     end
 
     #####
-    def validate_hash(hash, has_key: nil, val_class: nil)
+    def validate_hash(hash, has_key: nil, class_for_has_key: nil, key_class: nil, val_class: nil)
       raise 'Value is not a Hash' unless hash.is_a? Hash
-      return unless has_key
 
-      raise "Hash does not have required key #{has_key}" unless hash.key? has_key
-      return unless val_class
+      if hash.empty?
+        say 'WARNING: Hash is empty! This may be OK depending on your environment'
+        return
+      end
 
-      raise "Value for Hash key #{has_key} is not a #{val_class}" unless hash[has_key].is_a? val_class
+      if has_key
+        raise "Hash does not have required key #{has_key}" unless hash.key?(has_key)
+
+        say "Hash has key '#{has_key}'"
+        if class_for_has_key
+          val = hash[has_key]
+          raise "Value '#{val}' for key '#{has_key}' is a #{val.class} not #{class_for_has_key}" unless val.is_a?(class_for_has_key)
+
+          say "Value '#{val}' for key '#{has_key}' is a #{class_for_has_key}"
+        end
+      end
+
+      if key_class
+        key = hash.keys.sample
+
+        raise "Hash key'#{key}' is a #{key.class} not #{key_class}" unless key.is_a?(key_class)
+
+        say "Hash keys are class: #{key_class}"
+      end
+
+      if val_class
+        val = hash.values.sample
+        raise "Hash value '#{val}' is a #{val.class} not #{val_class}" unless val.is_a?(val_class)
+
+        say "Hash value are class: #{val_class}"
+      end
     end
 
     #####
     def validate_array(ary, item_class: nil)
       raise 'Value is not an Array' unless ary.is_a? Array
-      return unless item_class
 
       if ary.empty?
-        puts 'WARNING: Array is empty! This may be OK depending on your environment'
+        say 'WARNING: Array is empty! This may be OK depending on your environment'
         return
       end
+      return unless item_class
 
       raise "Randomly chosen item from Array is not a #{item_class}" unless ary.sample.is_a? item_class
     end
