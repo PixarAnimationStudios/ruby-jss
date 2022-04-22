@@ -123,16 +123,17 @@ def setup_zeitwerk_loader(loader)
     # Parse OAPI_PROPERTIES into getters and setters for subclasses of
     # OAPIObject in the JPAPI.
     # The class we just loaded must have this method and constant
-    # and the constant must be defined directly in the file we just loaded.
+    # and the method must not have run already for the class or any superclass.
     # This prevents running parse_oapi_properties again in subclasses that
     # don't need to do that
-    if value.respond_to?(:parse_oapi_properties) && \
+    if value.respond_to?(:oapi_properties_parsed?) && \
        defined?(value::OAPI_PROPERTIES) && \
-       abspath == value.const_source_location(:OAPI_PROPERTIES).first
+       !value.oapi_properties_parsed?
 
       parsed = value.parse_oapi_properties
       Jamf.load_msg "Parsed OAPI_PROPERTIES for #{value}" if parsed
     end
+
 
     # Generate the identifier list methods (.all_*) for subclasses of APIObject
     # in the Classic API

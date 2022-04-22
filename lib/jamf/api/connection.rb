@@ -198,7 +198,7 @@ module Jamf
     def to_s
       return 'not connected' unless connected?
 
-      if name.start_with? "#{user}@"
+      if name.to_s.start_with? "#{user}@"
         name
       else
         "#{user}@#{host}:#{port}, name: #{name}"

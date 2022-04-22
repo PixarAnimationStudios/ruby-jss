@@ -60,6 +60,12 @@ module Jamf
       self::OAPI_PROPERTIES.select { |_attr, deets| deets[:required] }.keys
     end
 
+    # have we already parsed our OAPI_PROPERTIES? If so,
+    # we shoudn't do it again, an this can be used to check
+    def self.oapi_properties_parsed?
+      @oapi_properties_parsed
+    end
+
     # create getters and setters for subclasses of APIObject
     # based on their OAPI_PROPERTIES Hash.
     #

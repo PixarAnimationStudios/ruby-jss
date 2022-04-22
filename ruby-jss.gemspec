@@ -58,7 +58,7 @@ Gem::Specification.new do |s|
   s.executables << 'jamfHelperBackgrounder'
 
   # Dependencies
-  s.required_ruby_version = '>= 2.7.0'
+  s.required_ruby_version = '>= 2.6.3'
 
   # https://github.com/ckruse/CFPropertyList  MIT License (no dependencies)
   s.add_runtime_dependency 'CFPropertyList', '~> 3.0'

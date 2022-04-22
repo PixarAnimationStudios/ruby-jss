@@ -43,7 +43,9 @@ These changes have been in mind for some time, but the ability (soon to be requi
 
 ## Requirements
 
-ruby-jss 2.0.0 requires ruby 2.7 or higher , and a Jamf Pro server running version 10.35 or higher.
+ruby-jss 2.0 requires ruby 2.6.3 or higher, and a Jamf Pro server running version 10.35 or higher.
+
+This means it will work with the OS-supplied /usr/bin/ruby in macOS 10.15 Catalina and above, until Apple removes ruby from the OS.
 
 ## High level changes
 

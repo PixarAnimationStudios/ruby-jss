@@ -180,7 +180,7 @@ module JamfTest
       identifiers.each do |ident|
         next if ident == :id
 
-        mth = ident.end_with?('s') ? "all_#{ident}es" : "all_#{ident}s"
+        mth = ident.to_s.end_with?('s') ? "all_#{ident}es" : "all_#{ident}s"
         collection_class.send mth
         say "Ran #{collection_class}.#{mth}"
       end

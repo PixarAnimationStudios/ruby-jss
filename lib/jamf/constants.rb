@@ -30,7 +30,7 @@ module Jamf
   module Constants
 
     # The minimum Ruby version needed for ruby-jss
-    MINIMUM_RUBY_VERSION = '2.7.0'.freeze
+    MINIMUM_RUBY_VERSION = '2.6.3'.freeze
 
     # These are handy for testing values without making new arrays, strings, etc every time.
     TRUE_FALSE = [true, false].freeze
