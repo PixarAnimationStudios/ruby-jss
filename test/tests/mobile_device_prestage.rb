@@ -25,11 +25,12 @@
 
 module JamfTest
 
-  class ComputerPrestage < JamfTest::APITest
+  class MobileDevicePrestage < JamfTest::APITest
 
     include JamfTest::PrestageTests
 
-    COLLECTION_CLASS = Jamf::ComputerPrestage
+    COLLECTION_CLASS = Jamf::MobileDevicePrestage
+
 
   end # class
 

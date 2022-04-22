@@ -139,6 +139,11 @@ module Jamf
       # Is the given serialNumber assigned to any prestage, or to the
       # given prestage if a prestage is specified?
       #
+      # This uses .serials_by_prestage_id, the class-level scope path which
+      # gets a hash of all assigned SNS => the id of the prestage they are
+      # assigned to. The instance#assigned? method uses a different path
+      # which returnds more data in an OAPI object.
+      #
       # NOTE: If a serial number isn't assigned to any prestage, it may really be
       # unassigned or it may not exist in your ADE. To see if a SN exists in one
       # of your Device Enrollment instances, use Jamf::DeviceEnrollment.include?
@@ -269,6 +274,8 @@ module Jamf
 
     # The scope data for this prestage
     #
+    # TODO: retain this caching?
+    #
     # @param refresh[Boolean] reload fromthe API?
     #
     # @return [PrestageScope]
@@ -278,6 +285,8 @@ module Jamf
       return @scope if @scope
 
       @scope = INSTANCE_SCOPE_OBJECT.new @cnx.get(scope_path)
+      # TODO: is this the best way to deal with fetching a scope that
+      # is more updated than the rest of the object?
       unless @scope.versionLock == @versionLock
         raise Jamf::VersionLockError, "The #{self.class} '#{name}' has been modified since it was fetched. Please refetch and try again"
       end
@@ -286,11 +295,17 @@ module Jamf
     end
 
     # @return [Array<String>] the serialnumbers assigned to this prestage
-    def assigned_sns
-      scope.assignments.map(&:serialNumber)
+    def assigned_sns(refresh: false)
+      return @assigned_sns if @assigned_sns
+
+      @assigned_sns = nil if refresh
+      @assigned_sns = scope.assignments.map(&:serialNumber)
     end
 
     # Is this SN assigned to this prestage?
+    #
+    # This method uses the instance's scope object, from a different API
+    # path than the class-level .assigned? method.
     #
     # @param sn[String] the sn to look for
     #
@@ -334,11 +349,6 @@ module Jamf
     # The scope endpoint for this instance
     def scope_path
       @scope_path ||= "#{get_path}/#{SCOPE_PATH}"
-    end
-
-    def scope
-      data = @cnx.jp_get(scope_path)
-      INSTANCE_SCOPE_OBJECT.new **data
     end
 
   end # class

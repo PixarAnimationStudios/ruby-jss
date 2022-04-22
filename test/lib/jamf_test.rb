@@ -63,4 +63,9 @@ end # module JamfTest
 # load in the rest of the module
 libdir = Pathname.new File.dirname(__FILE__)
 moduledir = libdir + 'jamf_test'
-moduledir.children.each { |mf| load mf.to_s }
+
+# order matters, of course
+require "#{moduledir}/auth"
+require "#{moduledir}/APITest"
+require "#{moduledir}/collection_tests"
+require "#{moduledir}/prestage_tests"
