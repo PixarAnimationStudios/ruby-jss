@@ -52,7 +52,7 @@ module JamfTest
         by_name: false,
         by_searchterm: true,
         by_ident: :serialNumber,
-        val_to_fetch: @cached_all.sample[:serialNumber]
+        val_to_fetch: TEST_SN
       ) # in mixin
       validate_fetched # in mixin
       modify_fetched
