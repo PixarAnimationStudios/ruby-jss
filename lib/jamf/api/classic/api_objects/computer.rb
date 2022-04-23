@@ -183,8 +183,6 @@ module Jamf
     # these keys,  as well as :id and :name, can be used to look up objects
     # of this class in the JSS
     #
-    # the weird alises mac_addresse and macaddresse
-    # are for proper pluralization of 'mac_address' and such
     OTHER_LOOKUP_KEYS = {
       udid: {
         aliases: [:uuid, :guid],
@@ -197,9 +195,7 @@ module Jamf
       mac_address: {
         aliases: [
           :mac_address,
-          :mac_addresse,
           :macaddress,
-          :macaddresse,
           :macaddr
         ],
         fetch_rsrc_key: :macaddress
