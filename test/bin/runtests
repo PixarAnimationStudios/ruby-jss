@@ -126,6 +126,7 @@ class App
 
   ###################################
   def run_tests
+    puts
     JamfTest.say "Starting tests of ruby-jss v#{Jamf::VERSION}, using ruby version #{RUBY_VERSION}"
     JamfTest.say "API Connection: #{Jamf.cnx}; Server running Jamf Pro #{Jamf.cnx.jamf_version}"
 
