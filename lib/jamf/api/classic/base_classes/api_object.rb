@@ -299,7 +299,6 @@ module Jamf
 
       lookup_keys.each do |als, key|
         meth_name = key.to_s.end_with?('s') ? "all_#{key}es" : "all_#{key}s"
-
         if als == key
           # the all_ method - skip if defined in the class
           next if singleton_methods.include? meth_name
@@ -323,7 +322,7 @@ module Jamf
           Jamf.load_msg "Defined alias '#{als_name}' of #{self}##{meth_name}"
 
         end # if
-      end # lookup_keys.eachs
+      end # lookup_keys.each
       true
     end # self.define_identifier_list_methods
 
