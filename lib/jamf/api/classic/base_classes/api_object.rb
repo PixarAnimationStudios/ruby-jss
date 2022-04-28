@@ -1254,24 +1254,24 @@ module Jamf
     #
     def save
       if @in_jss
-        raise Jamf::UnsupportedError, 'Updating this object in the JSS is currently not supported by ruby-jss' unless updatable?
-
-        update_in_jamf
+        update
       else
-        raise Jamf::UnsupportedError, 'Creating this object in the JSS is currently not supported by ruby-jss' unless creatable?
-
-        create_in_jamf
+        create
       end
     end
 
     # @deprecated, use #save
     def create
-      save
+      raise Jamf::UnsupportedError, 'Creating this object in the JSS is currently not supported by ruby-jss' unless creatable?
+
+      create_in_jamf
     end
 
     # @deprecated, use #save
     def update
-      save
+      raise Jamf::UnsupportedError, 'Updating this object in the JSS is currently not supported by ruby-jss' unless updatable?
+
+      update_in_jamf
     end
 
     # Mix-in Modules.
