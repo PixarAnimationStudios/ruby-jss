@@ -189,7 +189,7 @@ module Jamf
       raise Jamf::InvalidDataError, 'Jamf::Criteriable::Criteria instance required' unless @criteria.is_a? Jamf::Criteriable::Criteria
       raise Jamf::InvalidDataError, 'display_fields must be an Array.' unless @display_fields.is_a? Array
 
-      orig_timeout = @cnx.cnx.options[:timeout]
+      orig_timeout = @cnx.timeout
       @cnx.timeout = 1800
       super()
       requery_search_results if get_results
@@ -207,7 +207,7 @@ module Jamf
     # @return [Integer] the id of the updated search
     #
     def update(get_results = false)
-      orig_timeout = @cnx.cnx.options[:timeout]
+      orig_timeout = @cnx.timeout
       @cnx.timeout = 1800
       super()
       requery_search_results if get_results
@@ -235,8 +235,8 @@ module Jamf
     # @return [Array<Hash>] the new search results
     #
     def requery_search_results
-      orig_open_timeout = @cnx.cnx.options[:open_timeout]
-      orig_timeout = @cnx.cnx.options[:timeout]
+      orig_open_timeout = @cnx.open_timeout
+      orig_timeout = @cnx.timeout
       @cnx.timeout = 1800
       @cnx.open_timeout = 1800
       begin

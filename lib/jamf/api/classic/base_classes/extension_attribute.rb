@@ -207,8 +207,8 @@ module Jamf
     # @see Jamf::APIObject#delete
     #
     def delete
-      orig_open_timeout = @cnx.cnx.options[:open_timeout]
-      orig_timeout = @cnx.cnx.options[:timeout]
+      orig_open_timeout = @cnx.open_timeout
+      orig_timeout = @cnx.timeout
       @cnx.timeout = orig_timeout + 1800
       @cnx.open_timeout = orig_open_timeout + 1800
       begin
