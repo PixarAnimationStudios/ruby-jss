@@ -64,9 +64,9 @@ module Jamf
     # the path to a users byhost folder from home
     USER_PREFS_BYHOST_FOLDER = 'Library/Preferences/ByHost/'.freeze
 
-    extend Jamf::Client::JamfBinary
-    extend Jamf::Client::JamfHelper
-    extend Jamf::Client::ManagementAction
+    include Jamf::Client::JamfBinary
+    include Jamf::Client::JamfHelper
+    include Jamf::Client::ManagementAction
 
     # Class Methods
     #####################################
