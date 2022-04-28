@@ -22,4 +22,6 @@
 #    language governing permissions and limitations under the Apache License.
 
 # @deprecated Use Jamf.config to access the module-wide config settings
-Jamf::CONFIG = Jamf.config
+module Jamf
+  CONFIG = Jamf.config
+end

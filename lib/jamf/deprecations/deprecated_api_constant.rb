@@ -22,4 +22,6 @@
 #    language governing permissions and limitations under the Apache License.
 
 # @deprecated Use Jamf.cnx to access the module-wide default connection
-Jamf::API = Jamf.cnx
+module Jamf
+  API = Jamf.cnx
+end
