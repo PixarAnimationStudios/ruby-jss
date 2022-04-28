@@ -83,8 +83,9 @@ Gem::Specification.new do |s|
   # https://github.com/fxn/zeitwerk MIT License (no dependencies)
   s.add_runtime_dependency 'zeitwerk', '~> 2.5', '>= 2.5.4'
 
-  # Ruby 3.0+ doesn't include rexml in the stdlib
-  s.add_runtime_dependency 'rexml', '~> 3.2', '>= 3.2.4'
+  # Ruby 3.0+ doesn't include rexml in the stdlib, but
+  # the min. version of ruby 2 we support includes v 3.1.9
+  s.add_runtime_dependency 'rexml', '>= 3.1.9'
 
   # Rdoc
   s.extra_rdoc_files = ['README.md', 'LICENSE.txt', 'CHANGES.md', 'THANKS.md', 'README-2.0.0.md']
