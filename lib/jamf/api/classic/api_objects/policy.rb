@@ -1425,29 +1425,21 @@ module Jamf
     #
     # @option [Symbol] priority: either :before or :after
     #
-    # @option [String] parameter4: the value of the 4th parameter passed to the script. this
-    #   overrides the same parameter in the script object itself.
+    # @option [String] parameter4: the value of the 4th parameter passed to the script.
     #
-    # @option [String] parameter5: the value of the 5th parameter passed to the script. this
-    #   overrides the same parameter in the script object itself.
+    # @option [String] parameter5: the value of the 5th parameter passed to the script.
     #
-    # @option [String] parameter6: the value of the 6th parameter passed to the script. this
-    #   overrides the same parameter in the script object itself.
+    # @option [String] parameter6: the value of the 6th parameter passed to the script.
     #
-    # @option [String] parameter7: the value of the 7th parameter passed to the script. this
-    #   overrides the same parameter in the script object itself.
+    # @option [String] parameter7: the value of the 7th parameter passed to the script.
     #
-    # @option [String] parameter8: the value of the 8th parameter passed to the script. this
-    #   overrides the same parameter in the script object itself.
+    # @option [String] parameter8: the value of the 8th parameter passed to the script.
     #
-    # @option [String] parameter9: the value of the 9th parameter passed to the script. this
-    #   overrides the same parameter in the script object itself.
+    # @option [String] parameter9: the value of the 9th parameter passed to the script.
     #
-    # @option [String] parameter10: the value of the 10th parameter passed to the script. this
-    #   overrides the same parameter in the script object itself.
+    # @option [String] parameter10: the value of the 10th parameter passed to the script.
     #
-    # @option [String] parameter11: the value of the 11th parameter passed to the script. this
-    #   overrides the same parameter in the script object itself.
+    # @option [String] parameter11: the value of the 11th parameter passed to the script.
     #
     # @return [Array, nil]  the new @scripts array, nil if script was already in the policy
     #
@@ -1642,7 +1634,6 @@ module Jamf
       @need_to_update = true
       @printers
     end
-
 
     # Remove a specific printer object from the policy.
     #
