@@ -20,7 +20,6 @@
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
 #
-#
 
 
 module Jamf
@@ -31,13 +30,12 @@ module Jamf
   module OAPISchemas
 
 
-    # OAPI Object Model and Enums for: DeprecatedConfigurationSearchResults
+    # OAPI Object Model and Enums for: ComputerGroup
     #
-    # Description of this class from the OAPI Schema:
-    #   A list with old Cloud Identity Providers configurations
+    #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.36.1-t1645562643
+    # URL path on a Jamf Pro server version 10.40.0-t1657115323
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -54,37 +52,44 @@ module Jamf
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #  - Jamf::OAPISchemas::DeprecatedConfigurationResponse
+    #  
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/cloud-ldaps:GET' needs permissions:
-    #    - Read LDAP Servers
+    #  - '/v1/computer-groups:GET' needs permissions:
+    #    - Read Smart Computer Groups
+    #    - Read Static Computer Groups
     #
     #
-    class DeprecatedConfigurationSearchResults < Jamf::OAPIObject
+    class ComputerGroup < Jamf::OAPIObject
 
       
 
       OAPI_PROPERTIES = {
 
-        # @!attribute totalCount
-        #   @return [Integer]
-        totalCount: {
-          class: :integer
+        # @!attribute id
+        #   @return [String]
+        id: {
+          class: :j_id,
+          identifier: :primary
         },
 
-        # @!attribute results
-        #   @return [Array<Jamf::OAPISchemas::DeprecatedConfigurationResponse>]
-        results: {
-          class: Jamf::OAPISchemas::DeprecatedConfigurationResponse,
-          multi: true
+        # @!attribute name
+        #   @return [String]
+        name: {
+          class: :string
+        },
+
+        # @!attribute smartGroup
+        #   @return [Boolean]
+        smartGroup: {
+          class: :boolean
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class DeprecatedConfigurationSearchResults
+    end # class ComputerGroup
 
   end # module OAPISchemas
 

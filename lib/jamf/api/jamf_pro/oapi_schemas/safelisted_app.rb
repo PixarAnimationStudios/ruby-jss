@@ -20,7 +20,6 @@
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
 #
-#
 
 
 module Jamf
@@ -31,12 +30,12 @@ module Jamf
   module OAPISchemas
 
 
-    # OAPI Object Model and Enums for: EnrollmentAccessGroup
+    # OAPI Object Model and Enums for: SafelistedApp
     #
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.36.1-t1645562643
+    # URL path on a Jamf Pro server version 10.40.0-t1657115323
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -49,7 +48,9 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #  - Jamf::OAPISchemas::AccessGroupsSearchResults
+    #  - Jamf::OAPISchemas::ParentApp
+    #  - Jamf::OAPISchemas::TeacherSettingsRequest
+    #  - Jamf::OAPISchemas::TeacherSettingsResponse
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
@@ -58,31 +59,14 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/enrollment/access-groups/{group-key}:GET' needs permissions:
-    #    - Read User-Initiated Enrollment
-    #  - '/v1/enrollment/access-groups/{group-key}:PUT' needs permissions:
-    #    - Update User-Initiated Enrollment
     #
     #
-    class EnrollmentAccessGroup < Jamf::OAPIObject
+    #
+    class SafelistedApp < Jamf::OAPIObject
 
       
 
       OAPI_PROPERTIES = {
-
-        # @!attribute [r] id
-        #   @return [String]
-        id: {
-          class: :j_id,
-          identifier: :primary,
-          readonly: true
-        },
-
-        # @!attribute ldapServerId
-        #   @return [Integer]
-        ldapServerId: {
-          class: :integer
-        },
 
         # @!attribute name
         #   @return [String]
@@ -90,33 +74,15 @@ module Jamf
           class: :string
         },
 
-        # @!attribute siteId
-        #   @return [Integer]
-        siteId: {
-          class: :integer
-        },
-
-        # @!attribute isEnableEnterpriseEnrollment
-        #   @return [Boolean]
-        isEnableEnterpriseEnrollment: {
-          class: :boolean
-        },
-
-        # @!attribute isEnablePersonalEnrollment
-        #   @return [Boolean]
-        isEnablePersonalEnrollment: {
-          class: :boolean
-        },
-
-        # @!attribute isRequireEula
-        #   @return [Boolean]
-        isRequireEula: {
-          class: :boolean
+        # @!attribute bundleId
+        #   @return [String]
+        bundleId: {
+          class: :string
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class EnrollmentAccessGroup
+    end # class SafelistedApp
 
   end # module OAPISchemas
 

@@ -20,7 +20,6 @@
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
 #
-#
 
 
 module Jamf
@@ -36,7 +35,7 @@ module Jamf
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.36.1-t1645562643
+    # URL path on a Jamf Pro server version 10.40.0-t1657115323
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -66,16 +65,12 @@ module Jamf
     #    - Update Categories
     #  - '/v1/cloud-idp/{id}/history:POST' needs permissions:
     #    - Update LDAP Servers
-    #  - '/v1/cloud-ldaps/{id}/history:POST' needs permissions:
-    #    - Update LDAP Servers
     #  - '/v1/device-communication-settings/history:POST' needs permissions:
     #    - Update Automatically Renew MDM Profile Settings
     #  - '/v1/engage/history:POST' needs permissions:
     #    - Update Engage Settings
     #  - '/v1/enrollment-customization/{id}/history:POST' needs permissions:
     #    - Update Enrollment Customizations
-    #  - '/v1/enrollment/history:POST' needs permissions:
-    #    - Update User-Initiated Enrollment
     #  - '/v1/inventory-preload/history:POST' needs permissions:
     #    - Update Inventory Preload Records
     #  - '/v1/jamf-pro-server-url/history:POST' needs permissions:

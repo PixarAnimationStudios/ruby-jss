@@ -20,7 +20,6 @@
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
 #
-#
 
 
 module Jamf
@@ -36,7 +35,7 @@ module Jamf
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.36.1-t1645562643
+    # URL path on a Jamf Pro server version 10.40.0-t1657115323
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -50,6 +49,7 @@ module Jamf
     # Other object models that use this model as the value in one
     # of their attributes.
     #  - Jamf::OAPISchemas::IosDetailsV2
+    #  - Jamf::OAPISchemas::TvOsDetails
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
@@ -63,7 +63,20 @@ module Jamf
     #
     class MobileDeviceCertificateV2 < Jamf::OAPIObject
 
-      
+      # Enums used by this class or others
+
+      CERTIFICATE_STATUS_OPTIONS = [
+        'EXPIRING',
+        'EXPIRED',
+        'REVOKED',
+        'PENDING_REVOKE',
+        'ISSUED'
+      ]
+
+      LIFECYCLE_STATUS_OPTIONS = [
+        'ACTIVE',
+        'INACTIVE'
+      ]
 
       OAPI_PROPERTIES = {
 
@@ -77,6 +90,51 @@ module Jamf
         #   @return [Boolean]
         identity: {
           class: :boolean
+        },
+
+        # @!attribute expirationDateEpoch
+        #   @return [Jamf::Timestamp]
+        expirationDateEpoch: {
+          class: Jamf::Timestamp,
+          format: 'date-time'
+        },
+
+        # @!attribute subjectName
+        #   @return [String]
+        subjectName: {
+          class: :string
+        },
+
+        # @!attribute serialNumber
+        #   @return [String]
+        serialNumber: {
+          class: :string
+        },
+
+        # @!attribute sha1Fingerprint
+        #   @return [String]
+        sha1Fingerprint: {
+          class: :string
+        },
+
+        # @!attribute issuedDateEpoch
+        #   @return [String]
+        issuedDateEpoch: {
+          class: Jamf::Timestamp
+        },
+
+        # @!attribute certificateStatus
+        #   @return [String]
+        certificateStatus: {
+          class: :string,
+          enum: CERTIFICATE_STATUS_OPTIONS
+        },
+
+        # @!attribute lifecycleStatus
+        #   @return [String]
+        lifecycleStatus: {
+          class: :string,
+          enum: LIFECYCLE_STATUS_OPTIONS
         }
 
       } # end OAPI_PROPERTIES

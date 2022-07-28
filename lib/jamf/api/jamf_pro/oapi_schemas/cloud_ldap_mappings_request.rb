@@ -20,7 +20,6 @@
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
 #
-#
 
 
 module Jamf
@@ -37,7 +36,7 @@ module Jamf
     #   Mappings configurations request for Ldap Cloud Identity Provider configuration
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.36.1-t1645562643
+    # URL path on a Jamf Pro server version 10.40.0-t1657115323
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -50,8 +49,6 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #  - Jamf::OAPISchemas::DeprecatedConfigurationRequest
-    #  - Jamf::OAPISchemas::DeprecatedConfigurationUpdate
     #  - Jamf::OAPISchemas::LdapConfigurationRequest
     #  - Jamf::OAPISchemas::LdapConfigurationUpdate
     #
@@ -64,8 +61,6 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/cloud-ldaps/{id}/mappings:PUT' needs permissions:
-    #    - Update LDAP Servers
     #  - '/v2/cloud-ldaps/{id}/mappings:PUT' needs permissions:
     #    - Update LDAP Servers
     #

@@ -20,7 +20,6 @@
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
 #
-#
 
 
 module Jamf
@@ -36,7 +35,7 @@ module Jamf
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.36.1-t1645562643
+    # URL path on a Jamf Pro server version 10.40.0-t1657115323
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -58,8 +57,6 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/preview/enrollment/access-groups:POST' needs permissions:
-    #    - Update User-Initiated Enrollment
     #  - '/preview/mdm/commands:POST' needs permissions:
     #    - View MDM command information in Jamf Pro API
     #  - '/preview/remote-administration-configurations/team-viewer:POST' needs permissions:
@@ -139,6 +136,8 @@ module Jamf
     #    - Update Mobile Device PreStage Enrollments
     #  - '/v3/check-in/history:POST' needs permissions:
     #    - Update Computer Check-In
+    #  - '/v3/enrollment/access-groups:POST' needs permissions:
+    #    - Update User-Initiated Enrollment
     #
     #
     class HrefResponse < Jamf::OAPIObject

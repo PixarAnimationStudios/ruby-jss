@@ -20,7 +20,6 @@
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
 #
-#
 
 
 module Jamf
@@ -31,12 +30,12 @@ module Jamf
   module OAPISchemas
 
 
-    # OAPI Object Model and Enums for: AccessGroupsSearchResults
+    # OAPI Object Model and Enums for: AvailableUpdates
     #
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.36.1-t1645562643
+    # URL path on a Jamf Pro server version 10.40.0-t1657115323
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -53,37 +52,31 @@ module Jamf
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #  - Jamf::OAPISchemas::EnrollmentAccessGroup
+    #  
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/enrollment/access-groups:GET' needs permissions:
-    #    - Read User-Initiated Enrollment
+    #  - '/v1/macos-managed-software-updates/available-updates:GET' needs permissions:
+    #    - Unknown
     #
     #
-    class AccessGroupsSearchResults < Jamf::OAPIObject
+    class AvailableUpdates < Jamf::OAPIObject
 
       
 
       OAPI_PROPERTIES = {
 
-        # @!attribute totalCount
-        #   @return [Integer]
-        totalCount: {
-          class: :integer
-        },
-
-        # @!attribute results
-        #   @return [Array<Jamf::OAPISchemas::EnrollmentAccessGroup>]
-        results: {
-          class: Jamf::OAPISchemas::EnrollmentAccessGroup,
+        # @!attribute availableUpdates
+        #   @return [Array<String>]
+        availableUpdates: {
+          class: :string,
           multi: true
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class AccessGroupsSearchResults
+    end # class AvailableUpdates
 
   end # module OAPISchemas
 

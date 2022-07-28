@@ -20,7 +20,6 @@
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
 #
-#
 
 
 module Jamf
@@ -31,12 +30,12 @@ module Jamf
   module OAPISchemas
 
 
-    # OAPI Object Model and Enums for: MdmSigningCertificate
+    # OAPI Object Model and Enums for: AccountDrivenUserEnrollmentSessionTokenSettings
     #
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.36.1-t1645562643
+    # URL path on a Jamf Pro server version 10.40.0-t1657115323
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -49,7 +48,7 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #  - Jamf::OAPISchemas::EnrollmentSettings
+    #  
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
@@ -58,44 +57,33 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
+    #  - '/v1/adue-session-token-settings:GET' needs permissions:
+    #    - Read User-Initiated Enrollment
+    #  - '/v1/adue-session-token-settings:PUT' needs permissions:
+    #    - Update User-Initiated Enrollment
     #
     #
-    #
-    class MdmSigningCertificate < Jamf::OAPIObject
+    class AccountDrivenUserEnrollmentSessionTokenSettings < Jamf::OAPIObject
 
       
 
       OAPI_PROPERTIES = {
 
-        # @!attribute filename
-        #   @return [String]
-        filename: {
-          class: :string
+        # @!attribute expirationIntervalDays
+        #   @return [Integer]
+        expirationIntervalDays: {
+          class: :integer
         },
 
-        # @!attribute keystorePassword
-        #   @return [String]
-        keystorePassword: {
-          class: :string
-        },
-
-        # The the certificate base 64 encoded. Will not be returned on a GET.
-        # @!attribute identityKeystore
-        #   @return [String]
-        identityKeystore: {
-          class: :string
-        },
-
-        # The md5 checksum of the certificate file. Intended to be used in verifification the cert being used to sign MDM profiles.
-        # @!attribute md5Sum
-        #   @return [String]
-        md5Sum: {
-          class: :string
+        # @!attribute enabled
+        #   @return [Boolean]
+        enabled: {
+          class: :boolean
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class MdmSigningCertificate
+    end # class AccountDrivenUserEnrollmentSessionTokenSettings
 
   end # module OAPISchemas
 

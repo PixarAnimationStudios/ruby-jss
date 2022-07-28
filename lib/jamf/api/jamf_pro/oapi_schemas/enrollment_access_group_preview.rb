@@ -20,7 +20,6 @@
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
 #
-#
 
 
 module Jamf
@@ -36,7 +35,7 @@ module Jamf
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.36.1-t1645562643
+    # URL path on a Jamf Pro server version 10.40.0-t1657115323
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -58,11 +57,11 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/preview/enrollment/access-groups:POST' needs permissions:
+    #  - '/v3/enrollment/access-groups:POST' needs permissions:
     #    - Update User-Initiated Enrollment
-    #  - '/preview/enrollment/access-groups/{id}:GET' needs permissions:
+    #  - '/v3/enrollment/access-groups/{id}:GET' needs permissions:
     #    - Read User-Initiated Enrollment
-    #  - '/preview/enrollment/access-groups/{id}:PUT' needs permissions:
+    #  - '/v3/enrollment/access-groups/{id}:PUT' needs permissions:
     #    - Update User-Initiated Enrollment
     #
     #
@@ -85,7 +84,8 @@ module Jamf
         # @!attribute groupId
         #   @return [String]
         groupId: {
-          class: :string
+          class: :string,
+          required: true
         },
 
         # @!attribute ldapServerId
@@ -117,6 +117,12 @@ module Jamf
         # @!attribute personalEnrollmentEnabled
         #   @return [Boolean]
         personalEnrollmentEnabled: {
+          class: :boolean
+        },
+
+        # @!attribute accountDrivenUserEnrollmentEnabled
+        #   @return [Boolean]
+        accountDrivenUserEnrollmentEnabled: {
           class: :boolean
         },
 

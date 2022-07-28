@@ -20,7 +20,6 @@
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
 #
-#
 
 
 module Jamf
@@ -31,13 +30,12 @@ module Jamf
   module OAPISchemas
 
 
-    # OAPI Object Model and Enums for: DeprecatedServerRequest
+    # OAPI Object Model and Enums for: JamfProInformationV2
     #
-    # Description of this class from the OAPI Schema:
-    #   An old Cloud Identity Provider LDAP server configuration for requests
+    #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.36.1-t1645562643
+    # URL path on a Jamf Pro server version 10.40.0-t1657115323
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -50,116 +48,76 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #  - Jamf::OAPISchemas::DeprecatedConfigurationRequest
+    #  
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #  - Jamf::OAPISchemas::CloudLdapKeystoreFile
+    #  
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
+    #  - '/v2/jamf-pro-information:GET' needs permissions:
+    #    - Unknown
     #
     #
-    #
-    class DeprecatedServerRequest < Jamf::OAPIObject
+    class JamfProInformationV2 < Jamf::OAPIObject
 
-      # Enums used by this class or others
-
-      CONNECTION_TYPE_OPTIONS = [
-        'LDAPS',
-        'START_TLS'
-      ]
+      
 
       OAPI_PROPERTIES = {
 
-        # @!attribute enabled
+        # @!attribute vppTokenEnabled
         #   @return [Boolean]
-        enabled: {
-          class: :boolean,
-          required: true
+        vppTokenEnabled: {
+          class: :boolean
         },
 
-        # @!attribute providerName
-        #   @return [String]
-        providerName: {
-          class: :string,
-          required: true
-        },
-
-        # @!attribute displayName
-        #   @return [String]
-        displayName: {
-          class: :string,
-          required: true
-        },
-
-        # @!attribute serverUrl
-        #   @return [String]
-        serverUrl: {
-          class: :string,
-          required: true
-        },
-
-        # @!attribute domainName
-        #   @return [String]
-        domainName: {
-          class: :string,
-          required: true
-        },
-
-        # @!attribute port
-        #   @return [Integer]
-        port: {
-          class: :integer,
-          required: true,
-          minimum: 1,
-          maximum: 65535
-        },
-
-        # @!attribute keystore
-        #   @return [Jamf::OAPISchemas::CloudLdapKeystoreFile]
-        keystore: {
-          class: Jamf::OAPISchemas::CloudLdapKeystoreFile,
-          required: true
-        },
-
-        # @!attribute connectionTimeout
-        #   @return [Integer]
-        connectionTimeout: {
-          class: :integer,
-          required: true,
-          minimum: 5,
-          maximum: 600.0
-        },
-
-        # @!attribute searchTimeout
-        #   @return [Integer]
-        searchTimeout: {
-          class: :integer,
-          required: true,
-          minimum: 5,
-          maximum: 600.0
-        },
-
-        # @!attribute useWildcards
+        # @!attribute depAccountEnabled
         #   @return [Boolean]
-        useWildcards: {
-          class: :boolean,
-          required: true
+        depAccountEnabled: {
+          class: :boolean
         },
 
-        # @!attribute connectionType
-        #   @return [String]
-        connectionType: {
-          class: :string,
-          required: true,
-          enum: CONNECTION_TYPE_OPTIONS
+        # @!attribute byodEnabled
+        #   @return [Boolean]
+        byodEnabled: {
+          class: :boolean
+        },
+
+        # @!attribute userMigrationEnabled
+        #   @return [Boolean]
+        userMigrationEnabled: {
+          class: :boolean
+        },
+
+        # @!attribute cloudDeploymentsEnabled
+        #   @return [Boolean]
+        cloudDeploymentsEnabled: {
+          class: :boolean
+        },
+
+        # @!attribute patchEnabled
+        #   @return [Boolean]
+        patchEnabled: {
+          class: :boolean
+        },
+
+        # @!attribute ssoSamlEnabled
+        #   @return [Boolean]
+        ssoSamlEnabled: {
+          class: :boolean
+        },
+
+        # @!attribute smtpEnabled
+        #   @return [Boolean]
+        smtpEnabled: {
+          class: :boolean
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class DeprecatedServerRequest
+    end # class JamfProInformationV2
 
   end # module OAPISchemas
 

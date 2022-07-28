@@ -20,7 +20,6 @@
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
 #
-#
 
 
 module Jamf
@@ -36,7 +35,7 @@ module Jamf
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.36.1-t1645562643
+    # URL path on a Jamf Pro server version 10.40.0-t1657115323
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -120,7 +119,8 @@ module Jamf
         'VPP_TOKEN_REVOKED',
         'DEVICE_COMPLIANCE_CONNECTION_ERROR',
         'CONDITIONAL_ACCESS_CONNECTION_ERROR',
-        'AZURE_AD_MIGRATION_REPORT_GENERATED'
+        'AZURE_AD_MIGRATION_REPORT_GENERATED',
+        'BEYOND_CORP_CONNECTION_ERROR'
       ]
 
       OAPI_PROPERTIES = {

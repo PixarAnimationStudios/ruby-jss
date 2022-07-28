@@ -20,7 +20,6 @@
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
 #
-#
 
 
 module Jamf
@@ -36,7 +35,7 @@ module Jamf
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.36.1-t1645562643
+    # URL path on a Jamf Pro server version 10.40.0-t1657115323
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -70,8 +69,12 @@ module Jamf
     #    - Jamf Connect Deployment Retry
     #  - '/v1/jamf-protect/deployments/{id}/tasks/retry:POST' needs permissions:
     #    - Jamf Protect Deployment Retry
+    #  - '/v2/enrollment/languages/delete-multiple:POST' needs permissions:
+    #    - Update User-Initiated Enrollment
     #  - '/v2/mobile-device-prestages/{id}/attachments/delete-multiple:POST' needs permissions:
     #    - Delete Mobile Device PreStage Enrollments
+    #  - '/v3/enrollment/languages/delete-multiple:POST' needs permissions:
+    #    - Update User-Initiated Enrollment
     #
     #
     class Ids < Jamf::OAPIObject

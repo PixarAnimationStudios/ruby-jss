@@ -20,7 +20,6 @@
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
 #
-#
 
 
 module Jamf
@@ -31,12 +30,12 @@ module Jamf
   module OAPISchemas
 
 
-    # OAPI Object Model and Enums for: ComputerInventoryResponse
+    # OAPI Object Model and Enums for: ComputerInventory
     #
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.36.1-t1645562643
+    # URL path on a Jamf Pro server version 10.40.0-t1657115323
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -89,7 +88,7 @@ module Jamf
     #    - Read Computers
     #
     #
-    class ComputerInventoryResponse < Jamf::OAPIObject
+    class ComputerInventory < Jamf::OAPIObject
 
       
 
@@ -269,7 +268,7 @@ module Jamf
 
       } # end OAPI_PROPERTIES
 
-    end # class ComputerInventoryResponse
+    end # class ComputerInventory
 
   end # module OAPISchemas
 

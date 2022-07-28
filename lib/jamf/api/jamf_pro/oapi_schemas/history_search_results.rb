@@ -20,7 +20,6 @@
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
 #
-#
 
 
 module Jamf
@@ -36,7 +35,7 @@ module Jamf
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.36.1-t1645562643
+    # URL path on a Jamf Pro server version 10.40.0-t1657115323
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -66,8 +65,6 @@ module Jamf
     #    - Read Categories
     #  - '/v1/cloud-idp/{id}/history:GET' needs permissions:
     #    - Read LDAP Servers
-    #  - '/v1/cloud-ldaps/{id}/history:GET' needs permissions:
-    #    - Read LDAP Servers
     #  - '/v1/departments/{id}/history:GET' needs permissions:
     #    - Read Departments
     #  - '/v1/device-communication-settings/history:GET' needs permissions:
@@ -78,8 +75,6 @@ module Jamf
     #    - Read Engage Settings
     #  - '/v1/enrollment-customization/{id}/history:GET' needs permissions:
     #    - Read Enrollment Customizations
-    #  - '/v1/enrollment/history:GET' needs permissions:
-    #    - Read User-Initiated Enrollment
     #  - '/v1/inventory-preload/history:GET' needs permissions:
     #    - Read Inventory Preload Records
     #  - '/v1/jamf-connect/history:GET' needs permissions:

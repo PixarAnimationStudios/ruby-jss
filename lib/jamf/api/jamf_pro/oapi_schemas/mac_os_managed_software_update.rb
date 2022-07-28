@@ -20,7 +20,6 @@
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
 #
-#
 
 
 module Jamf
@@ -36,7 +35,7 @@ module Jamf
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.36.1-t1645562643
+    # URL path on a Jamf Pro server version 10.40.0-t1657115323
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -77,8 +76,13 @@ module Jamf
         #   @return [Array<String>]
         deviceIds: {
           class: :string,
-          required: true,
           multi: true
+        },
+
+        # @!attribute groupId
+        #   @return [String]
+        groupId: {
+          class: :string
         },
 
         # Allow users to defer the update the provided number of times before macOS forces the update. If a value is provided, the Software Update will use the InstallLater install action.
@@ -96,12 +100,33 @@ module Jamf
           class: :string
         },
 
+        # If no value is provided, the skipVersionVerification will default to false. If a value is provided, the specified version will be forced to complete DownloadAndInstall install action.
+        # @!attribute skipVersionVerification
+        #   @return [Boolean]
+        skipVersionVerification: {
+          class: :boolean
+        },
+
+        # ApplyMajorUpdate setting is available only when updating to the latest version based on device eligibility. If no value is provided, the calculated latest version will only include minor version updates. If a value is provided, the calculated latest version will include minor and major version updates.
+        # @!attribute applyMajorUpdate
+        #   @return [Boolean]
+        applyMajorUpdate: {
+          class: :boolean
+        },
+
         # MaxDeferral is ignored if using the DownloadOnly install action.
         # @!attribute updateAction
         #   @return [String]
         updateAction: {
           class: :string,
           enum: UPDATE_ACTION_OPTIONS
+        },
+
+        # If not set, forceRestart will default to false. Can only be true if using the DownloadAndInstall install action and the devices the command is sent to are on macOs 11 or higher. If true, the DownloadAndInstall action is performed, a restart will be forced. MaxDeferral will be ignored if defined. 
+        # @!attribute forceRestart
+        #   @return [Boolean]
+        forceRestart: {
+          class: :boolean
         }
 
       } # end OAPI_PROPERTIES
