@@ -185,18 +185,18 @@ module Jamf
     #
     OTHER_LOOKUP_KEYS = {
       udid: {
-        aliases: [:uuid, :guid],
+        aliases: %i[uuid guid],
         fetch_rsrc_key: :udid
       },
       serial_number: {
-        aliases: [:serialnumber, :sn],
+        aliases: %i[serialnumber sn],
         fetch_rsrc_key: :serialnumber
       },
       mac_address: {
-        aliases: [
-          :mac_address,
-          :macaddress,
-          :macaddr
+        aliases: %i[
+          mac_address
+          macaddress
+          macaddr
         ],
         fetch_rsrc_key: :macaddress
       }
@@ -363,14 +363,14 @@ module Jamf
     def self.all_macbookpros(refresh = false, api: nil, cnx: Jamf.cnx)
       cnx = api if api
 
-      all(refresh, cnx: cnx).select { |d| d[:model] =~ /^macbookpro\d/i  }
+      all(refresh, cnx: cnx).select { |d| d[:model] =~ /^macbookpro\d/i }
     end
 
     # @return [Array<Hash>] all macbookairs in the jss
     def self.all_macbookairs(refresh = false, api: nil, cnx: Jamf.cnx)
       cnx = api if api
 
-      all(refresh, cnx: cnx).select { |d| d[:model] =~ /^macbookair\d/i  }
+      all(refresh, cnx: cnx).select { |d| d[:model] =~ /^macbookair\d/i }
     end
 
     # @return [Array<Hash>] all xserves in the jss
@@ -569,6 +569,7 @@ module Jamf
 
       id = valid_id ident, cnx: cnx
       raise "No computer matches identifier: #{ident}" unless id
+
       if subset
         management_data_subset id, subset: subset, only: only, cnx: cnx
       else
@@ -1003,6 +1004,7 @@ module Jamf
     #
     def filevault1_accounts
       return [] if filevault2_enabled?
+
       local_accounts.select { |a| a[:filevault_enabled] }
     end
 
@@ -1055,6 +1057,7 @@ module Jamf
     #
     def management_data(subset: nil, only: nil)
       raise Jamf::NoSuchItemError, 'Computer not yet saved in the JSS' unless @in_jss
+
       Jamf::Computer.management_data @id, subset: subset, only: only, cnx: @cnx
     end
 
@@ -1140,6 +1143,7 @@ module Jamf
     #
     def make_unmanaged
       return nil unless managed?
+
       set_management_to(nil, nil)
       @unmange_at_update = true
     end
@@ -1182,30 +1186,35 @@ module Jamf
 
     def ip_address=(new_val)
       return nil if @ip_address == new_val
+
       @ip_address = new_val.empty? ? new_val : Jamf::Validate.ip_address(new_val)
       @need_to_update = true
     end
 
     def mac_address=(new_val)
       return nil if new_val == @mac_address
+
       @mac_address =  new_val.empty? ? new_val : Jamf::Validate.mac_address(new_val)
       @need_to_update = true
     end
 
     def alt_mac_address=(new_val)
       return nil if new_val == @alt_mac_address
+
       @alt_mac_address = new_val.empty? ? new_val : Jamf::Validate.mac_address(new_val)
       @need_to_update = true
     end
 
     def serial_number=(new_val)
       return nil if new_val == @serial_number
+
       @serial_number =  new_val.empty? ? new_val : Jamf::Validate.doesnt_already_exist(Jamf::Computer, :serial_number, new_val, cnx: cnx)
       @need_to_update = true
     end
 
     def udid=(new_val)
       return nil if new_val == @udid
+
       @udid = new_val.empty? ? new_val : Jamf::Validate.doesnt_already_exist(Jamf::Computer, :udid, new_val, cnx: cnx)
       @need_to_update = true
     end
@@ -1264,9 +1273,6 @@ module Jamf
       @purchasing = nil
       @software = nil
     end # delete
-
-
-
 
     # aliases
     alias alt_macaddress alt_mac_address
