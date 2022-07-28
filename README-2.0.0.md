@@ -51,7 +51,7 @@ This means it will work with the OS-supplied /usr/bin/ruby in macOS 10.15 Catali
 
 ### Ruby 3.x support
 
-The plan is for ruby-jss 2.0+ to be compatible with ruby 2.7 and higher, including ruby 3.x
+The plan is for ruby-jss 2.0+ to be compatible with ruby 2.6.3 and higher, including ruby 3.x
 
 As of this writing, basic access to the API seems to be working in ruby 3, but much much more testing is needed.
 
@@ -125,7 +125,7 @@ If you develop ruby-jss, please see (documentation link TBA) for more info about
 
 ### Autoloading with Zeitwerk
 
-Because the classes generated from the OAPI spec number in the hundreds, it's a waste of memory and time to load all of them in every time you `require ruby-jss`, since most of them will never be used for any given application.
+Because the classes generated from the OAPI spec number in the hundreds, it's a waste of memory and time to load all of them in every time you `require 'ruby-jss'`, since most of them will never be used for any given application.
 
 To deal with this, ruby-jss now uses the wonderfully cool [Zeitwerk gem](https://github.com/fxn/zeitwerk) to automatically load only the files needed for classes and modules as they are used.
 
