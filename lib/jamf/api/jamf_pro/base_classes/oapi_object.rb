@@ -35,7 +35,6 @@ module Jamf
 
     include Comparable
 
-
     # Public Class Methods
     #####################################
 
@@ -49,7 +48,7 @@ module Jamf
     # and will cause Jamf::Resource.save to raise an error
     #
     def self.mutable?
-        !singleton_class.ancestors.include? Jamf::Immutable
+      !singleton_class.ancestors.include? Jamf::Immutable
     end
 
     # An array of attribute names that are required when
@@ -110,7 +109,6 @@ module Jamf
 
     # Private Class Methods
     #####################################
-
 
     # create a getter for an attribute, and any aliases needed
     ##############################
@@ -345,7 +343,6 @@ module Jamf
     # Constructor
     #####################################
 
-
     # Make an instance. Data comes from the API
     #
     # @param data[Hash] the data for constructing a new object.
@@ -377,7 +374,7 @@ module Jamf
     # Are objects of this class mutable?
     # @see the class method in OAPIObject
     def mutable?
-        self.class.mutable?
+      self.class.mutable?
     end
 
     # a hash of all unsaved changes
@@ -399,6 +396,7 @@ module Jamf
 
         # skip those that don't have any changes
         next unless value.respond_to? :unsaved_changes?
+
         attr_changes = value.unsaved_changes
         next if attr_changes.empty?
 
@@ -433,7 +431,7 @@ module Jamf
     end
 
     # @return [Hash] The data to be sent to the API, as a Hash
-    #  to be converted to JSON by the Jamf::Connection
+    #  to be converted to JSON before sending to the JPAPI
     #
     def to_jamf
       jamf_data = {}
@@ -442,6 +440,13 @@ module Jamf
         jamf_data[attr_name] = attr_def[:multi] ? multi_to_jamf(raw_value, attr_def) : single_to_jamf(raw_value, attr_def)
       end
       jamf_data
+    end
+
+    # @return [String] the JSON to be sent to the API for this
+    #   object
+    #
+    def to_json(*_args)
+      to_jamf.to_json
     end
 
     # Print the JSON version of the to_jamf outout
@@ -543,7 +548,7 @@ module Jamf
         parse_enum_value(api_value, attr_name, attr_def)
 
       # a Class value
-    elsif attr_def[:class].instance_of? Class
+      elsif attr_def[:class].instance_of? Class
         attr_def[:class].new api_value
 
       # a :j_id value. See the docs for OAPI_PROPERTIES in Jamf::OAPIObject
@@ -562,12 +567,13 @@ module Jamf
     # @return (see parse_single_init_value)
     #
     def parse_enum_value(api_value, attr_name, attr_def)
-      Jamf::Validate.in_enum  api_value, enum: attr_def[:enum], msg: "#{api_value} is not in the allowed values for attribute #{attr_name}. Must be one of: #{attr_def[:enum].join ', '}"
+      Jamf::Validate.in_enum  api_value, enum: attr_def[:enum], 
+                                         msg: "#{api_value} is not in the allowed values for attribute #{attr_name}. Must be one of: #{attr_def[:enum].join ', '}"
     end
 
     # call to_jamf on a single value if it knows that method
     #
-    def single_to_jamf(raw_value, attr_def)
+    def single_to_jamf(raw_value, _attr_def)
       raw_value.respond_to?(:to_jamf) ? raw_value.to_jamf : raw_value
     end
 
