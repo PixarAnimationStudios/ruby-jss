@@ -57,6 +57,7 @@ module Jamf
     ### Mix-Ins
     #####################################
     include Jamf::MDM
+    include Jamf::MacOSManagedUpdates
 
     #####################################
     ### Class Methods

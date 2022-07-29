@@ -86,10 +86,11 @@ def setup_zeitwerk_loader(loader)
   loader.inflector.inflect 'md_prestage_name' => 'MobileDevicePrestageName'
   loader.inflector.inflect 'md_prestage_names' => 'MobileDevicePrestageNames'
   loader.inflector.inflect 'md_prestage_skip_setup_items' => 'MobileDevicePrestageSkipSetupItems'
+  loader.inflector.inflect 'macos_managed_updates' => 'MacOSManagedUpdates'
 
   # deprecations, separated so they load only when used
-  loader.inflector.inflect("deprecated_api_constant" => "API")
-  loader.inflector.inflect("deprecated_config_constant" => "CONFIG")
+  loader.inflector.inflect('deprecated_api_constant' => 'API')
+  loader.inflector.inflect('deprecated_config_constant' => 'CONFIG')
 
   # These should be ignored, some will be required directly
   #####################################
@@ -134,7 +135,6 @@ def setup_zeitwerk_loader(loader)
       Jamf.load_msg "Parsed OAPI_PROPERTIES for #{value}" if parsed
     end
 
-
     # Generate the identifier list methods (.all_*) for subclasses of APIObject
     # in the Classic API
     if value.is_a?(Class) && value.superclass == Jamf::APIObject
@@ -158,6 +158,6 @@ def eager_load_for_testing
 
   @loader.eager_load(force: true)
   warn :loaded
-# rescue Zeitwerk::NameError => e
-#   warn e.message
+  # rescue Zeitwerk::NameError => e
+  #   warn e.message
 end
