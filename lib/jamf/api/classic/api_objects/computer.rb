@@ -159,7 +159,7 @@ module Jamf
     include Jamf::MDM
     include Jamf::ManagementHistory
     include Jamf::MacOSManagedUpdates
-    
+
     extend Jamf::Matchable
 
     # Class Constants

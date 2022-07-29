@@ -112,6 +112,11 @@ module Jamf
       attr_reader :pw_fallback
       alias pw_fallback? pw_fallback
 
+      # @return [String] The sticky_session cookie from the token response
+      #    Only stored if initialized with sticky_session: set to true, AND
+      #    the connection is to a Jamf Cloud server.
+      attr_reader :sticky_session_cookie
+
       # @param params [Hash] The data for creating and maintaining the token
       #
       # @option params [String] :token_string An existing valid token string.
@@ -139,6 +144,7 @@ module Jamf
       #
       # @option params [Boolean] :verify_cert (see Connection#connect)
       #
+      # @option params [Boolean] :sticky_session (see Connection#connect)
       #
       ###########################################
       def initialize(**params)
@@ -164,6 +170,7 @@ module Jamf
       #################################
       def init_from_pw
         resp = token_connection(NEW_TOKEN_RSRC).post
+        cache_sticky_session_cookie(resp) if @sticky_session
 
         if resp.success?
           parse_token_from_response resp
@@ -184,6 +191,8 @@ module Jamf
         resp = token_connection(AUTH_RSRC, token: str).get
         raise Jamf::InvalidDataError, 'Token is not valid' unless resp.success?
 
+        cache_sticky_session_cookie(resp) if @sticky_session
+
         @token = str
         @user = resp.body.dig :account, :username
 
@@ -196,6 +205,21 @@ module Jamf
         # use this token to get a fresh one with a known expiration
         refresh
       end # init_from_token_string
+
+      #################################
+      def cache_sticky_session_cookie(resp)
+        raw_cookies = resp.headers['set-cookie'].split(/\s*,\s*/)
+
+        raw_cookies.each do |rc|
+          cookie_data = rc.split(/\s*;\s*/).first
+          cookie_name, cookie_value = cookie_data.split('=')
+          next unless cookie_name == Jamf::Connection::STICKY_SESSION_COOKIE_NAME
+
+          @sticky_session_cookie = cookie_value
+          break
+        end
+        nil
+      end
 
       #################################
       def host
@@ -348,7 +372,6 @@ module Jamf
       end
       alias keep_alive refresh
 
-
       # Make this token invalid
       #################################
       def invalidate
@@ -438,6 +461,7 @@ module Jamf
         @ssl_options = { version: @ssl_version, verify: @verify_cert }
 
         @keep_alive = params[:keep_alive].instance_of?(FalseClass) ? false : true
+        @sticky_session = params[:sticky_session]
       end
 
       # refresh a token using the pw cached when @pw_fallback is true

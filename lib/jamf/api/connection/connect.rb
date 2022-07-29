@@ -138,9 +138,22 @@ module Jamf
       #   token this many seconds before it expires.
       #   Must be >= Jamf::Connection::Token::MIN_REFRESH_BUFFER, which is the default
       #
-      # @option params :pw_fallback  [Boolean] If keep_alive, should the passwd be
+      # @option params :pw_fallback [Boolean] If keep_alive, should the passwd be
       #   cached in memory and used to create a new token, if there are problems
       #   with the normal token refresh process?
+      #
+      # @option params :sticky_session [Boolean] Use a 'sticky session'? Default is false.
+      #   The hostname of Jamf Cloud urls does not point to a single https server,
+      #   but any node of a cluster. Those nodes often take time to see changes
+      #   made in other node. Sometimes, its important to perform a series of API 
+      #   actions to the same node, to avoid sync-timing problems between node. Setting
+      #   sticky_session to true will cause all communication for this Connection to go
+      #   through the one specific node it first connected ith.
+      #   This is only relevant to Jamf Cloud connections, and has no effect on connections
+      #   to on-prem Jamf Pro servers.
+      #   NOTE: It is not always appropriate to use this feature, and inapproriate use
+      #   may negatively impact server performance. For more info, see
+      #   https://developer.jamf.com/developer-guide/docs/sticky-sessions-for-jamf-cloud
       #
       # @return [String] connection description, the output of #to_s
       #
@@ -148,6 +161,8 @@ module Jamf
       def connect(url = nil, **params)
         raise ArgumentError, 'No url or connection parameters provided' if url.nil? && params.empty?
 
+        @sticky_session = params[:sticky_session]
+        
         # reset all values, flush caches
         disconnect
 
@@ -424,12 +439,13 @@ module Jamf
           refresh_buffer: params[:token_refresh_buffer],
           pw_fallback: params[:pw_fallback],
           ssl_version: params[:ssl_version],
-          verify_cert: params[:verify_cert]
+          verify_cert: params[:verify_cert],
+          sticky_session: params[:sticky_session]
         }
         token_params[:token_string] = params[:token] if type == :token_string
         token_params[:pw] = params[:pw] unless params[:pw].is_a? Symbol
 
-        self.class::Token.new **token_params
+        self.class::Token.new(**token_params)
       end
 
       # Build the base URL for the API connection

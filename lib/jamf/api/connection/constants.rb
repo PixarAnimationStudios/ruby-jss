@@ -99,6 +99,8 @@ module Jamf
         @connect_time
       ].freeze
 
+      STICKY_SESSION_COOKIE_NAME = 'APBALANCEID'.freeze
+
     end # module
 
   end # class
