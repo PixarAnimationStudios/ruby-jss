@@ -176,11 +176,11 @@ module JamfTest
       say "Ran #{collection_class}.all_ids"
       validate_array ids, item_class: id_class
 
-
       identifiers.each do |ident|
         next if ident == :id
 
         mth = ident.to_s.end_with?('s') ? "all_#{ident}es" : "all_#{ident}s"
+        say "Testing #{collection_class}.#{mth}"
         collection_class.send mth
         say "Ran #{collection_class}.#{mth}"
       end
@@ -196,7 +196,6 @@ module JamfTest
       cached_ids = collection_class.all_ids cached_list: @cached_all
       say "Ran #{collection_class}.all_ids cached_list: @cached_all"
       validate_array cached_ids, item_class: id_class
-
     end
 
     #################
@@ -223,7 +222,6 @@ module JamfTest
 
       validate_hash ids_to_other
       validate_array ids_to_other.keys, item_class: id_class
-
     end
 
     ################
@@ -250,7 +248,6 @@ module JamfTest
 
       validate_hash ids_to_other
       validate_array ids_to_other.keys, item_class: id_class
-
     end
 
     ################
@@ -265,7 +262,9 @@ module JamfTest
       id, other = ids_to_other_ident.to_a.sample
 
       valid_id = collection_class.valid_id other
-      raise "#{collection_class} id #{id}, has #{other_ident} '#{other}', but calling .valid_id('#{other}') returned id: #{valid_id}" unless id.to_s == valid_id.to_s
+      unless id.to_s == valid_id.to_s
+        raise "#{collection_class} id #{id}, has #{other_ident} '#{other}', but calling .valid_id('#{other}') returned id: #{valid_id}"
+      end
 
       say "#{collection_class}.valid_id for #{other_ident} '#{other}' returned the correct id"
     end
@@ -284,13 +283,11 @@ module JamfTest
     ########### Object Tests
     ####################################
 
-
     # override this if the class requires more than 'name' with .create
     ################
     def create_new
       @unsaved_new_object = collection_class.create name: test_object_name
       say "Created new #{collection_class}, to be saved in Jamf."
-
     end
 
     # override this if your class can take more than 'name'
