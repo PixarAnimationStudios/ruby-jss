@@ -207,6 +207,10 @@ module Jamf
       end # connect
       alias login connect
 
+      # If a sticky_session was requested when the connection was made, and
+      # we are connected to a jamf cloud server, the token's http response 
+      # contains the cookie we need to send with every request to ensure a 
+      # stickey session.
       #################################
       def cache_sticky_session_cookie
         return unless @sticky_session
@@ -225,6 +229,9 @@ module Jamf
 
           return @sticky_session_cookie = cookie_value
         end
+        # be sure to return nil if there was no appropriate cookie,
+        # which means we aren't using Jamf Cloud
+        nil
       end
 
       # raise exception if not connected, and make sure we're using
