@@ -106,21 +106,18 @@ module Jamf
     # are for proper pluralization of 'mac_address' and such
     OTHER_LOOKUP_KEYS = {
       udid: {
-        aliases: [:uuid, :guid],
+        aliases: %i[uuid guid],
         fetch_rsrc_key: :udid
       },
       serial_number: {
-        aliases: [:serialnumber, :sn],
+        aliases: %i[serialnumber sn],
         fetch_rsrc_key: :serialnumber
       },
       wifi_mac_address: {
-        aliases: [
-          :wifi_mac_addresse,
-          :mac_address,
-          :mac_addresse,
-          :macaddress,
-          :macaddresse,
-          :macaddr
+        aliases: %i[
+          wifi_macaddr
+          mac_address
+          macaddr
         ],
         fetch_rsrc_key: :macaddress
       }
@@ -530,21 +527,20 @@ module Jamf
       @needs_mdm_name_change = true if managed? && supervised?
     end
 
-    #
     def serial_number=(new_val)
       return nil if new_val == @serial_number
+
       @serial_number =  new_val.empty? ? new_val : Jamf::Validate.doesnt_already_exist(self.class, :serial_number, new_val, cnx: cnx)
       @need_to_update = true
     end
 
-    #
     def udid=(new_val)
       return nil if new_val == @udid
+
       @udid = new_val.empty? ? new_val : Jamf::Validate.doesnt_already_exist(self.class, :udid, new_val, cnx: cnx)
       @need_to_update = true
     end
 
-    #
     def asset_tag=(new_val)
       new_val = new_val.strip
       return nil if @asset_tag == new_val
