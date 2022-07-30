@@ -29,6 +29,35 @@ require 'pathname'
 require 'getoptlong'
 require 'ruby-jss'
 
+# Enable tracing to help debug stack level too deep errors
+$do_tracing = false
+
+# set this to true to save the call traces to a file
+$save_trace = false
+
+# the file to hold the traces
+$trace_out = open('/tmp/ruby-jss-tests-trace.txt', 'w')
+
+# the max call-stack depth - adjust this to help catch and 
+# debug SystemStackError exceptions
+$trace_max_call_stack_depth = 1000
+
+# the tracing proc
+set_trace_func proc { |event, file, line, id, _binding, classname|
+  if $do_tracing
+    begin
+      if event == 'call'
+        $trace_out.puts "#{file}:#{line} #{classname}##{id}" if $save_trace 
+        raise 'MaxCallStackReached' if caller_locations.length > $trace_max_call_stack_depth
+      end
+    rescue => e
+      warn "ERROR: #{e.class}: #{e}"
+      e.backtrace.each { |l| warn "..#{l}" }
+      exit 1
+    end
+  end # if
+}
+
 # app
 class App
 
@@ -62,8 +91,8 @@ class App
     @testsdir = @appdir + 'tests'
 
     @tests_to_run = ARGV.dup
-    @tests_to_run = @testsdir.children.map { |c| c.basename.to_s }.sort if @tests_to_run .empty?
-    @tests_to_run.delete_if { |t| t.start_with? '.'}
+    @tests_to_run = @testsdir.children.map { |c| c.basename.to_s }.sort if @tests_to_run.empty?
+    @tests_to_run.delete_if { |t| t.start_with? '.' }
 
     @minitest_opts = ['--verbose']
 
@@ -159,6 +188,7 @@ class App
   ###################################
   def show_help
     return false unless @show_help
+
     puts <<-USAGEBLURB
 Usage: #{File.basename __FILE__} [options] [spec [spec ...]]
 
@@ -210,6 +240,10 @@ if $PROGRAM_NAME == __FILE__
     app = App.new
     app.run
     exit 0
+  rescue SystemStackError
+    puts $!
+    puts caller[0..100]
+    exit 1
   rescue => e
     puts "ERROR #{e.class}: #{e}"
     puts e.backtrace
