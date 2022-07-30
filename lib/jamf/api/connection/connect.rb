@@ -161,8 +161,6 @@ module Jamf
       def connect(url = nil, **params)
         raise ArgumentError, 'No url or connection parameters provided' if url.nil? && params.empty?
 
-        @sticky_session = params[:sticky_session]
-        
         # reset all values, flush caches
         disconnect
 
@@ -196,15 +194,38 @@ module Jamf
         @c_base_url = base_url + Jamf::Connection::CAPI_RSRC_BASE
         @jp_base_url = base_url + Jamf::Connection::JPAPI_RSRC_BASE
 
+        @sticky_session = params[:sticky_session]
+        cache_sticky_session_cookie
+
         # the faraday connection objects
-        @c_cnx = create_classic_connection
-        @jp_cnx = create_jp_connection
+        @c_cnx = create_classic_connection sticky_session_cookie: sticky_session_cookie
+        @jp_cnx = create_jp_connection sticky_session_cookie: sticky_session_cookie
 
         @connected = true
 
         to_s
       end # connect
       alias login connect
+
+      #################################
+      def cache_sticky_session_cookie
+        return unless @sticky_session
+
+        # commas separate the cookies
+        raw_cookies = @token.token_http_response.headers['set-cookie'].split(/\s*,\s*/)
+
+        raw_cookies.each do |rc|
+          # semicolons separate the attributes of the cookie,
+          # with its name and value being the first pair.
+          cookie_data = rc.split(/\s*;\s*/).first
+
+          # attribute name and value are separated by '='
+          cookie_name, cookie_value = cookie_data.split('=')
+          next unless cookie_name == STICKY_SESSION_COOKIE_NAME
+
+          return @sticky_session_cookie = cookie_value
+        end
+      end
 
       # raise exception if not connected, and make sure we're using
       # the current token

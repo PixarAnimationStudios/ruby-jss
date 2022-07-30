@@ -70,6 +70,11 @@ module Jamf
       attr_reader :connect_time
       alias login_time connect_time
 
+      # @return [String] The sticky_session cookie from the token response
+      #    Only stored if initialized with sticky_session: set to true, AND
+      #    the connection is to a Jamf Cloud server.
+      attr_reader :sticky_session_cookie
+
       # Reset the response timeout for the rest connection
       #
       # @param timeout[Integer] the new timeout in seconds

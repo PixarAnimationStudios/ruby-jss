@@ -112,10 +112,11 @@ module Jamf
       attr_reader :pw_fallback
       alias pw_fallback? pw_fallback
 
-      # @return [String] The sticky_session cookie from the token response
-      #    Only stored if initialized with sticky_session: set to true, AND
-      #    the connection is to a Jamf Cloud server.
-      attr_reader :sticky_session_cookie
+      # @return [Faraday::Response] The response object from instantiating
+      #   a new Token object and creating a new token or validating a token 
+      #   string. This is not updated when refreshing a token, only when
+      #   calling Token.new
+      attr_reader :token_http_response
 
       # @param params [Hash] The data for creating and maintaining the token
       #
@@ -170,11 +171,11 @@ module Jamf
       #################################
       def init_from_pw
         resp = token_connection(NEW_TOKEN_RSRC).post
-        cache_sticky_session_cookie(resp) if @sticky_session
-
+        
         if resp.success?
           parse_token_from_response resp
           @last_refresh = Time.now
+          @token_http_response = resp
         elsif resp.status == 401
           raise Jamf::AuthenticationError, 'Incorrect name or password'
         else
@@ -191,8 +192,7 @@ module Jamf
         resp = token_connection(AUTH_RSRC, token: str).get
         raise Jamf::InvalidDataError, 'Token is not valid' unless resp.success?
 
-        cache_sticky_session_cookie(resp) if @sticky_session
-
+        @token_http_response = resp
         @token = str
         @user = resp.body.dig :account, :username
 
@@ -205,21 +205,6 @@ module Jamf
         # use this token to get a fresh one with a known expiration
         refresh
       end # init_from_token_string
-
-      #################################
-      def cache_sticky_session_cookie(resp)
-        raw_cookies = resp.headers['set-cookie'].split(/\s*,\s*/)
-
-        raw_cookies.each do |rc|
-          cookie_data = rc.split(/\s*;\s*/).first
-          cookie_name, cookie_value = cookie_data.split('=')
-          next unless cookie_name == Jamf::Connection::STICKY_SESSION_COOKIE_NAME
-
-          @sticky_session_cookie = cookie_value
-          break
-        end
-        nil
-      end
 
       #################################
       def host
