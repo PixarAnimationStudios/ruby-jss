@@ -301,7 +301,7 @@ module Jamf
         meth_name = key.to_s.end_with?('s') ? "all_#{key}es" : "all_#{key}s"
         if als == key
           # the all_ method - skip if defined in the class
-          next if singleton_methods.include? meth_name
+          next if singleton_methods.include? meth_name.to_sym
 
           define_singleton_method meth_name do |refresh = false, cached_list: nil, api: nil, cnx: Jamf.cnx|
             cnx = api if api
@@ -313,8 +313,9 @@ module Jamf
         else
           # an alias - skip if defined in the class
           als_name = als.to_s.end_with?('s') ? "all_#{als}es" : "all_#{als}s"
-          next if singleton_methods.include? als_name
 
+          next if singleton_methods.include? als_name.to_sym
+          
           define_singleton_method als_name do |refresh = false, api: nil, cnx: Jamf.cnx|
             cnx = api if api
             send meth_name, refresh, cnx: cnx
@@ -323,6 +324,7 @@ module Jamf
 
         end # if
       end # lookup_keys.each
+      
       true
     end # self.define_identifier_list_methods
 
@@ -533,7 +535,7 @@ module Jamf
           dups[obj[:name]] = 1
         end # if
       end # all(refresh, cnx: cnx).each
-      dups.delete_if { |k,v| v == 1 }
+      dups.delete_if { |_k, v| v == 1 }
       dups
     end
 
@@ -558,7 +560,7 @@ module Jamf
       ident = lookup_keys[ident]
       raise Jamf::InvalidDataError, "No identifier :#{ident} for class #{self}" unless ident
 
-      list = cached_list ? cached_list : all(refresh, cnx: cnx)
+      list = cached_list || all(refresh, cnx: cnx)
       mapped = list.map do |i|
         [
           i[ident],
@@ -658,7 +660,6 @@ module Jamf
         fetch id: o[:id], cnx: cnx, refresh: false
       end
     end
-
 
     # Return the id of the object of this subclass with the given identifier.
     #
@@ -1026,7 +1027,7 @@ module Jamf
 
       validate_not_metaclass(self)
       rsrc = "#{self::RSRC_BASE}/id/#{id}"
-      REXML::Document.new(cnx.c_put rsrc, xml.to_s)
+      REXML::Document.new(cnx.c_put(rsrc, xml.to_s))
     end
 
     # POST some raw XML to the API for a given id in this subclass.
@@ -1054,7 +1055,7 @@ module Jamf
 
       validate_not_metaclass(self)
       rsrc = "#{self::RSRC_BASE}/id/-1"
-      REXML::Document.new(cnx.c_post rsrc, xml.to_s)
+      REXML::Document.new(cnx.c_post(rsrc, xml.to_s))
     end
 
     # Make a ruby instance of a not-yet-existing APIObject.
@@ -1086,13 +1087,13 @@ module Jamf
 
       args[:api] ||= Jamf.cnx
       args[:id] = :new
-      new **args
+      new(**args)
     end
 
     # backward compatability
     # @deprecated use .create instead
     def self.make(**args)
-      create **args
+      create(**args)
     end
 
     # Disallow direct use of ruby's .new class method for creating instances.
@@ -1101,9 +1102,7 @@ module Jamf
       validate_not_metaclass(self)
 
       calling_method = caller_locations(1..1).first.label
-      unless OK_INSTANTIATORS.include? calling_method
-        raise Jamf::UnsupportedError, 'Use .fetch or .create to instantiate APIObject classes'
-      end
+      raise Jamf::UnsupportedError, 'Use .fetch or .create to instantiate APIObject classes' unless OK_INSTANTIATORS.include? calling_method
 
       super
     end
@@ -1509,9 +1508,11 @@ module Jamf
 
       raise Jamf::InvalidConnectionError, 'Not connected to MySQL' unless Jamf::DB_CNX.connected?
 
-      raise Jamf::UnsupportedError, "Object History access is not supported for #{self.class} objects at this time" unless defined? self.class::OBJECT_HISTORY_OBJECT_TYPE
+      unless defined? self.class::OBJECT_HISTORY_OBJECT_TYPE
+        raise Jamf::UnsupportedError, 
+              "Object History access is not supported for #{self.class} objects at this time"
+      end
     end
-
 
     # If we're making a new object in the JSS, make sure we were given
     # valid data to do so, raise exceptions otherwise.
@@ -1534,7 +1535,6 @@ module Jamf
       matches = self.class.all_names(:refresh, cnx: @cnx).select { |n| n.casecmp? args[:name] }
 
       raise Jamf::AlreadyExistsError, "A #{self.class::RSRC_OBJECT_KEY} already exists with the name '#{args[:name]}'" unless matches.empty?
-
     end
 
     # Given initialization args, perform an API lookup for an object.
@@ -1611,6 +1611,7 @@ module Jamf
     def find_main_subset
       return @init_data if @init_data[:id] && @init_data[:name]
       return @init_data[:general] if @init_data[:general] && @init_data[:general][:id] && @init_data[:general][:name]
+
       @init_data.each do |_key, value|
         next unless value.is_a? Hash
         return value if value.keys.include?(:id) && value.keys.include?(:name)
