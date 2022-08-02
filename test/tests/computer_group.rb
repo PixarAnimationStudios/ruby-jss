@@ -120,6 +120,13 @@ module JamfTest
       say "Successfully used #{collection_class}.change_membership to immediately add and remove members."
     end
 
+    ################
+    def confirm_deleted
+      say 'Pausing 15 secs for group deletion to complete...'
+      sleep 15
+      super
+    end
+
   end # class ComputerGroup
 
 end # module JamfTest
