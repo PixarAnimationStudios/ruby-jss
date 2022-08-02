@@ -29,6 +29,11 @@ require 'pathname'
 require 'getoptlong'
 require 'ruby-jss'
 
+# Debug Trace support, Ideas from
+# https://gist.github.com/bendilley/1453a555e981ed533f68
+# and the other gist and stack overflow mentioned there.
+####################################
+
 # Enable tracing to help debug stack level too deep errors
 $do_tracing = false
 
