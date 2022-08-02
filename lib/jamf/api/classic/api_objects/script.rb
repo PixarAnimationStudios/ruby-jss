@@ -389,7 +389,7 @@ module Jamf
       raise Jamf::MissingDataError, 'script_contents does not start with #!' unless @script_contents.to_s.start_with? '#!'
 
       opts[:target] ||= '/'
-      opts[:computer_name] ||= Jamf::Client.run_jamf('getComputerName')[/>(.)</, 1]
+      opts[:computer_name] ||= Jamf::Client.run_jamf('getComputerName')[/>(.*?)</, 1]
       opts[:username] ||= Jamf::Client.console_user
 
       params = [opts[:target], opts[:computer_name], opts[:username]]
