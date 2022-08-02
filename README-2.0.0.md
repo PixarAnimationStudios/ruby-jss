@@ -8,36 +8,38 @@ These changes have been in mind for some time, but the ability (soon to be requi
 
 **CONTENTS**
 
-<!-- TOC depthFrom:2 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+<!-- TOC -->
 
-- [Requirements](#requirements)
-- [High level changes](#high-level-changes)
-  - [Ruby 3.x support](#ruby-3x-support)
-  - [Combined API access](#combined-api-access)
-    - [A single Connection class](#a-single-connection-class)
-      - [Connecting to the API](#connecting-to-the-api)
-        - [The default connection](#the-default-connection)
-    - [A single namespace `Jamf`](#a-single-namespace-jamf)
-      - [Inherant differences between the APIs](#inherant-differences-between-the-apis)
-      - [Which API does an object come from?](#which-api-does-an-object-come-from)
-  - [Automatic code generation](#automatic-code-generation)
-  - [Autoloading with Zeitwerk](#autoloading-with-zeitwerk)
-- [Notable changes from ruby-jss 1.x](#notable-changes-from-ruby-jss-1x)
-  - [Paged queries to the Jamf Pro API](#paged-queries-to-the-jamf-pro-api)
-  - [API data are no longer cached (?)](#api-data-are-no-longer-cached-)
-  - [No Attribute aliases for Jamf Pro API objects](#no-attribute-aliases-for-jamf-pro-api-objects)
-  - [Class/Mixin hierarchy for Jamf Pro API objects](#classmixin-hierarchy-for-jamf-pro-api-objects)
-- [Planned deprecations](#planned-deprecations)
-  - [Use of the term 'api' in method names, parameter names, and attributes](#use-of-the-term-api-in-method-names-parameter-names-and-attributes)
-  - [`.map_all_ids_to` method for Classic API collection classes](#map_all_ids_to-method-for-classic-api-collection-classes)
-  - [Using `.make`, `#create`, and `#update` for Classic API objects](#using-make-create-and-update-for-classic-api-objects)
-  - [JSS::CONFIG](#jssconfig)
-  - [Jamf::Connection instance methods `#next_refresh`, `#secs_to_refresh`, &  `#time_to_refresh`](#jamfconnection-instance-methods-next_refresh-secs_to_refresh---time_to_refresh)
-  - [Cross-object validation in setters](#cross-object-validation-in-setters)
-  - [.fetch :random](#fetch-random)
-- [Documentation](#documentation)
-- [How to install for testing](#how-to-install-for-testing)
-- [Contact](#contact)
+- [ruby-jss 2.0: Combined access to the Classic and Jamf Pro APIs](#ruby-jss-20-combined-access-to-the-classic-and-jamf-pro-apis)
+  - [Requirements](#requirements)
+  - [High level changes](#high-level-changes)
+    - [Ruby 3.x support](#ruby-3x-support)
+    - [Combined API access](#combined-api-access)
+      - [A single Connection class](#a-single-connection-class)
+        - [Connecting to the API](#connecting-to-the-api)
+          - [The default connection](#the-default-connection)
+      - [A single namespace Jamf](#a-single-namespace-jamf)
+        - [Inherant differences between the APIs](#inherant-differences-between-the-apis)
+        - [Which API does an object come from?](#which-api-does-an-object-come-from)
+    - [Automatic code generation](#automatic-code-generation)
+    - [Autoloading with Zeitwerk](#autoloading-with-zeitwerk)
+  - [Notable changes from ruby-jss 1.x](#notable-changes-from-ruby-jss-1x)
+    - [Paged queries to the Jamf Pro API](#paged-queries-to-the-jamf-pro-api)
+    - [API data are no longer cached ?](#api-data-are-no-longer-cached-)
+    - [No Attribute aliases for Jamf Pro API objects](#no-attribute-aliases-for-jamf-pro-api-objects)
+    - [Class/Mixin hierarchy for Jamf Pro API objects](#classmixin-hierarchy-for-jamf-pro-api-objects)
+    - [Support for 'Sticky Sessions' in Jamf Cloud](#support-for-sticky-sessions-in-jamf-cloud)
+  - [Planned deprecations](#planned-deprecations)
+    - [Use of the term 'api' in method names, parameter names, and attributes](#use-of-the-term-api-in-method-names-parameter-names-and-attributes)
+    - [.map_all_ids_to method for Classic API collection classes](#map_all_ids_to-method-for-classic-api-collection-classes)
+    - [Using .make, #create, and #update for Classic API objects](#using-make-create-and-update-for-classic-api-objects)
+    - [JSS::CONFIG](#jssconfig)
+    - [Jamf::Connection instance methods #next_refresh, #secs_to_refresh, &  #time_to_refresh](#jamfconnection-instance-methods-next_refresh-secs_to_refresh---time_to_refresh)
+    - [Cross-object validation in setters](#cross-object-validation-in-setters)
+    - [fetch :random](#fetch-random)
+  - [Documentation](#documentation)
+  - [How to install for testing](#how-to-install-for-testing)
+  - [Contact](#contact)
 
 <!-- /TOC -->
 
@@ -176,6 +178,17 @@ If you contribute to ruby-jss, be aware that the structure of superclasses, subc
 There's a lot to document about these changes, and much of the current documentation is out of date, referring to how things were done when the Jamf module was separate and only talked to the Jamf Pro API.
 
 Give us time and we'll get everything updated. In the meantime, feel free to reach out in the #ruby-jss channel of Macadmins Slack, or open an issue on GitHub, or email ruby-jss@pixar.com.
+
+### Support for 'Sticky Sessions' in Jamf Cloud
+
+If you are connecting to a Jamf Cloud server, you can specifcy `sticky_sessions: true` when calling `Jamf::Connection.new` or `Jamf::Connection#connect`. If you already have a connected Connection object, you can enable or disable Sticky Sessions using `my_connection_object.sticky_session =` with a boolean value (for the default connection use `Jamf.cnx.sticky_session = <boolean>`). To see the actual cookie being sent to enable sticky sessions, use `Jamf::Connection#sticky_session_cookie`. 
+
+Attempting to enable a sticky session with a connection to an on-prem server (host not ending in 'jamfcloud.com') will raise an error.
+
+For details about Sticky Sessions see [Sticky Sessions for Jamf Cloud](https://developer.jamf.com/developer-guide/docs/sticky-sessions-for-jamf-cloud) at the Jamf Developer site. 
+
+**WARNING:** Jamf recommends NOT using sticky sessions unless they are needed. Using them inappropriately may negatively impact performance, especially for large automated processes.
+
 
 ## Planned deprecations
 
