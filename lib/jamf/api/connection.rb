@@ -231,8 +231,4 @@ module Jamf
 
   end # class Connection
 
-  # Some backward compatibility
-  # @deprecated
-  APIConnection = Connection
-
 end # module
