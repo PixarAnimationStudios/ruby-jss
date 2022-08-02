@@ -65,6 +65,7 @@ module Jamf
         resp =
           @c_cnx.get(rsrc) do |req|
             req.headers[Jamf::Connection::HTTP_ACCEPT_HEADER] = format == :json ? Jamf::Connection::MIME_JSON : Jamf::Connection::MIME_XML
+            # puts "Classic API Cookie is: #{req.headers['Cookie']}"
           end
         @last_http_response = resp
         unless resp.success?

@@ -60,8 +60,7 @@ module Jamf
         validate_connected @jp_cnx
         resp = @jp_cnx.get(rsrc) do |req|
           # Modify the request here if needed.
-
-          # puts "Cookie is: #{req.headers['Cookie']}"
+          # puts "JPAPI Cookie is: #{req.headers['Cookie']}"
         end
         @last_http_response = resp
 

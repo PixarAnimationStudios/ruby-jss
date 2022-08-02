@@ -96,6 +96,13 @@ module Jamf
       # @return [void]
       #
       def sticky_session=(value)
+        @sticky_session ||= false
+
+        # convert boolean-y to boolean
+        value = value ? true : false
+        
+        return if @sticky_session == value
+
         if value
           raise Jamf::UnsupportedError, 'Sticky Sessions may only be used with Jamf Cloud servers.' unless host.end_with? Jamf::Connection::JAMFCLOUD_DOMAIN
 

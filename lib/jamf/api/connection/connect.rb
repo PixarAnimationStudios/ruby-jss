@@ -198,8 +198,8 @@ module Jamf
         @c_cnx = create_classic_connection
         @jp_cnx = create_jp_connection
 
-        # set the connection objects to sticky if desired.
-        self.sticky_session = true if params[:sticky_session]
+        # set the connection objects to sticky if desired. enforce booleans
+        self.sticky_session = params[:sticky_session] ? true : false
 
         @connected = true
 
