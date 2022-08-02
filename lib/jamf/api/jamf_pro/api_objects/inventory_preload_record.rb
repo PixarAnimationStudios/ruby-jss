@@ -42,6 +42,7 @@ module Jamf
   #
   #
   class InventoryPreloadRecord < Jamf::OAPISchemas::InventoryPreloadRecordV2
+
     # Mix-Ins
     #####################################
     include Jamf::CollectionResource
@@ -128,7 +129,7 @@ module Jamf
       new_val
     end
 
-    # remove an EA value
+    # remove an EA totally (vs setting its value to nil)
     def remove_ext_attr(ea_name)
       idx = extensionAttributes.index { |ea| ea.name == ea_name }
       extensionAttributes_delete_at idx if idx
@@ -158,6 +159,7 @@ module Jamf
     def history_path(_id)
       raise Jamf::UnsupportedError, 'InventoryPreloadRecords do not have individual change logs. Use Jamf::InventoryPreloadRecord.change_log'
     end
+
   end # class
 
 end # module
