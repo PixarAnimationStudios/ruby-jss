@@ -216,14 +216,12 @@ module Jamf
       private
 
       # create the faraday CAPI connection object
-      def create_classic_connection(sticky_session_cookie: nil)
+      def create_classic_connection
         Faraday.new(@c_base_url, ssl: ssl_options) do |cnx|
           cnx.authorization :Bearer, @token.token
 
           cnx.options[:timeout] = @timeout
           cnx.options[:open_timeout] = @open_timeout
-
-          cnx.headers['Cookie'] = "#{Jamf::Connection::STICKY_SESSION_COOKIE_NAME}=#{sticky_session_cookie}" if sticky_session_cookie
           
           cnx.request :multipart
           cnx.request :url_encoded

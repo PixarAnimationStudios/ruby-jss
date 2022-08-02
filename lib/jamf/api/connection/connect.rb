@@ -149,8 +149,8 @@ module Jamf
       #   actions to the same node, to avoid sync-timing problems between node. Setting
       #   sticky_session to true will cause all communication for this Connection to go
       #   through the one specific node it first connected ith.
-      #   This is only relevant to Jamf Cloud connections, and has no effect on connections
-      #   to on-prem Jamf Pro servers.
+      #   This is only relevant to Jamf Cloud connections, and will raise an exception
+      #   is used with on-prem Jamf Pro servers.
       #   NOTE: It is not always appropriate to use this feature, and inapproriate use
       #   may negatively impact server performance. For more info, see
       #   https://developer.jamf.com/developer-guide/docs/sticky-sessions-for-jamf-cloud
@@ -194,12 +194,12 @@ module Jamf
         @c_base_url = base_url + Jamf::Connection::CAPI_RSRC_BASE
         @jp_base_url = base_url + Jamf::Connection::JPAPI_RSRC_BASE
 
-        @sticky_session = params[:sticky_session]
-        cache_sticky_session_cookie
-
         # the faraday connection objects
-        @c_cnx = create_classic_connection sticky_session_cookie: sticky_session_cookie
-        @jp_cnx = create_jp_connection sticky_session_cookie: sticky_session_cookie
+        @c_cnx = create_classic_connection
+        @jp_cnx = create_jp_connection
+
+        # set the connection objects to sticky if desired.
+        self.sticky_session = true if params[:sticky_session]
 
         @connected = true
 
@@ -212,11 +212,9 @@ module Jamf
       # contains the cookie we need to send with every request to ensure a 
       # stickey session.
       #################################
-      def cache_sticky_session_cookie
-        return unless @sticky_session
-
+      def enable_sticky_session(headers) 
         # commas separate the cookies
-        raw_cookies = @token.token_http_response.headers['set-cookie'].split(/\s*,\s*/)
+        raw_cookies = headers[Jamf::Connection::SET_COOKIE_HEADER].split(/\s*,\s*/)
 
         raw_cookies.each do |rc|
           # semicolons separate the attributes of the cookie,
@@ -225,12 +223,16 @@ module Jamf
 
           # attribute name and value are separated by '='
           cookie_name, cookie_value = cookie_data.split('=')
-          next unless cookie_name == STICKY_SESSION_COOKIE_NAME
+          next unless cookie_name == Jamf::Connection::STICKY_SESSION_COOKIE_NAME
 
-          return @sticky_session_cookie = cookie_value
+          @sticky_session_cookie = "#{Jamf::Connection::STICKY_SESSION_COOKIE_NAME}=#{cookie_value}"
+          jp_cnx.headers[Jamf::Connection::COOKIE_HEADER] = @sticky_session_cookie
+          c_cnx.headers[Jamf::Connection::COOKIE_HEADER] = @sticky_session_cookie 
+          return @sticky_session_cookie
         end
         # be sure to return nil if there was no appropriate cookie,
         # which means we aren't using Jamf Cloud
+
         nil
       end
 
@@ -267,6 +269,8 @@ module Jamf
         @jp_base_url = nil
         @server_path = nil
         @token = nil
+        @sticky_session_cookie = nil
+        @sticky_session = nil
         @connected = false
         :disconnected
       end # disconnect
@@ -467,8 +471,7 @@ module Jamf
           refresh_buffer: params[:token_refresh_buffer],
           pw_fallback: params[:pw_fallback],
           ssl_version: params[:ssl_version],
-          verify_cert: params[:verify_cert],
-          sticky_session: params[:sticky_session]
+          verify_cert: params[:verify_cert]
         }
         token_params[:token_string] = params[:token] if type == :token_string
         token_params[:pw] = params[:pw] unless params[:pw].is_a? Symbol

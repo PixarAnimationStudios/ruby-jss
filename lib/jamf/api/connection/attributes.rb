@@ -70,10 +70,45 @@ module Jamf
       attr_reader :connect_time
       alias login_time connect_time
 
-      # @return [String] The sticky_session cookie from the token response
-      #    Only stored if sticky_session: set to true on #connect, AND
-      #    the connection is to a Jamf Cloud server.
+      # @return [Boolean] are we using a sticky session?
+      attr_reader :sticky_session
+      alias sticky_session? sticky_session
+      alias sticky? sticky_session
+      
+      # @return [String, nil] The current sticky_session cookie. nil unless
+      #   sticky_session is set to true, either as a param to 'connect' or via
+      #   #sticky_session=
+      #
+      #   When set via .connect, the cookie is gleaned from the token creation 
+      #   reponse. When set via #sticky_session=, a HEAD request is made, and the
+      #   cookie will be in the response.
+      #   
+      #    Only valid when the connection is to a Jamf Cloud server.
       attr_reader :sticky_session_cookie
+
+      ##########################################
+
+      # Turn sticky-sessions on or off. If turning on, host must be a Jamf Cloud
+      # server, with a hostname ending with Jamf::Connection::JAMFCLOUD_DOMAIN
+      #
+      # @param value [Boolean] should we use a sticky session?
+      #
+      # @return [void]
+      #
+      def sticky_session=(value)
+        if value
+          raise Jamf::UnsupportedError, 'Sticky Sessions may only be used with Jamf Cloud servers.' unless host.end_with? Jamf::Connection::JAMFCLOUD_DOMAIN
+
+          @sticky_session = true
+          enable_sticky_session Jamf.cnx.jp_cnx.head.headers
+
+        else
+          @sticky_session = false
+          @sticky_session_cookie = nil
+          @c_cnx&.headers&.delete Jamf::Connection::COOKIE_HEADER
+          @jp_cnx&.headers&.delete Jamf::Connection::COOKIE_HEADER
+        end
+      end
 
       # Reset the response timeout for the rest connection
       #
@@ -83,8 +118,8 @@ module Jamf
       #
       def timeout=(new_timeout)
         @timeout = new_timeout.to_i
-        @c_cnx.options[:timeout] = @timeout if @c_cnx
-        @jp_cnx.options[:timeout] = @timeout if @jp_cnx
+        @c_cnx&.options[:timeout] = @timeout 
+        @jp_cnx&.options[:timeout] = @timeout 
       end
 
       # Reset the open-connection timeout for the rest connection
@@ -95,8 +130,8 @@ module Jamf
       #
       def open_timeout=(new_timeout)
         @open_timeout = new_timeout.to_i
-        @c_cnx.options[:open_timeout] = @open_timeout if @c_cnx
-        @jp_cnx.options[:open_timeout] = @open_timeout if @jp_cnx
+        @c_cnx&.options[:open_timeout] = @open_timeout
+        @jp_cnx&.options[:open_timeout] = @open_timeout 
       end
 
       # @return [URI::HTTPS] the base URL to the server

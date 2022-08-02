@@ -35,15 +35,12 @@ module Jamf
 
       # create the faraday JPAPI connection object
       #######################################################
-      def create_jp_connection(parse_json: true, sticky_session_cookie: nil)
+      def create_jp_connection(parse_json: true)
         Faraday.new(@jp_base_url, ssl: ssl_options) do |cnx|
           cnx.authorization :Bearer, @token.token
 
           cnx.options[:timeout] = @timeout
           cnx.options[:open_timeout] = @open_timeout
-
-          
-          cnx.headers['Cookie'] = "#{Jamf::Connection::STICKY_SESSION_COOKIE_NAME}=#{sticky_session_cookie}" if sticky_session_cookie
 
           if parse_json
             cnx.request :json
@@ -61,8 +58,13 @@ module Jamf
       #######################################################
       def jp_get(rsrc)
         validate_connected @jp_cnx
-        resp = @jp_cnx.get rsrc
+        resp = @jp_cnx.get(rsrc) do |req|
+          # Modify the request here if needed.
+
+          # puts "Cookie is: #{req.headers['Cookie']}"
+        end
         @last_http_response = resp
+
         return resp.body if resp.success?
 
         raise Jamf::Connection::JamfProAPIError, resp

@@ -99,6 +99,10 @@ module Jamf
         @connect_time
       ].freeze
 
+      SET_COOKIE_HEADER = 'set-cookie'.freeze
+
+      COOKIE_HEADER = 'Cookie'.freeze
+
       STICKY_SESSION_COOKIE_NAME = 'APBALANCEID'.freeze
 
     end # module

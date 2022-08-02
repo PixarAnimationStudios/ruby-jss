@@ -113,10 +113,10 @@ module Jamf
       alias pw_fallback? pw_fallback
 
       # @return [Faraday::Response] The response object from instantiating
-      #   a new Token object and creating a new token or validating a token 
+      #   a new Token object by creating a new token or validating a token 
       #   string. This is not updated when refreshing a token, only when
       #   calling Token.new
-      attr_reader :token_http_response
+      attr_reader :creation_http_response
 
       # @param params [Hash] The data for creating and maintaining the token
       #
@@ -144,8 +144,6 @@ module Jamf
       # @option params [String, Symbol] :ssl_version (see Connection#connect)
       #
       # @option params [Boolean] :verify_cert (see Connection#connect)
-      #
-      # @option params [Boolean] :sticky_session (see Connection#connect)
       #
       ###########################################
       def initialize(**params)
@@ -175,7 +173,7 @@ module Jamf
         if resp.success?
           parse_token_from_response resp
           @last_refresh = Time.now
-          @token_http_response = resp
+          @creation_http_response = resp
         elsif resp.status == 401
           raise Jamf::AuthenticationError, 'Incorrect name or password'
         else
@@ -192,7 +190,7 @@ module Jamf
         resp = token_connection(AUTH_RSRC, token: str).get
         raise Jamf::InvalidDataError, 'Token is not valid' unless resp.success?
 
-        @token_http_response = resp
+        @creation_http_response = resp
         @token = str
         @user = resp.body.dig :account, :username
 
@@ -446,7 +444,6 @@ module Jamf
         @ssl_options = { version: @ssl_version, verify: @verify_cert }
 
         @keep_alive = params[:keep_alive].instance_of?(FalseClass) ? false : true
-        @sticky_session = params[:sticky_session]
       end
 
       # refresh a token using the pw cached when @pw_fallback is true
