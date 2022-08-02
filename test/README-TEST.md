@@ -47,6 +47,9 @@ Want to test with a different version of ruby? Change the #! line of the `runtes
 
  - The individual tests are methods in classes defined in files in the 'tests' directory adjacent to this file.
  - In general, each class test a matching ruby-jss class, usually an APIObject (classic) or JPAPIResource (jamf pro).
+ - Shared code is in modules defined in the 'jamf_test' directory. See those files for more info. E.g.
+   - 'collection_tests.rb' defines common tests for all collection-resources
+   - 'prestage_tests.rb' defines common tests for 'computer_prestage' and 'mobile_device_prestage'
 
 **WARNING**: **DANGER DANGER** Be very careful about running these tests on your production Jamf Pro server!!!
 
