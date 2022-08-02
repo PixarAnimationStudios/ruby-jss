@@ -442,7 +442,7 @@ module Jamf
       #
       # @return [Array<Integer>] The ids of the target devices for a command
       #
-      def raw_targets_to_ids(targets, expand_groups: true, api: nil, cnx: Jamf.cnx)
+      def raw_targets_to_ids(targets, expand_groups: true, unmanaged_ok: false, api: nil, cnx: Jamf.cnx)
         cnx = api if api
 
         targets = targets.is_a?(Array) ? targets : [targets]
@@ -454,6 +454,7 @@ module Jamf
         targets.map! do |md|
           id = valid_id md, cnx: cnx
           raise Jamf::NoSuchItemError, "No #{self} matches identifier: #{md}" unless id
+
           id
         end # map!
 
@@ -465,13 +466,17 @@ module Jamf
         end
 
         # make sure all of them are managed, or else the API will raise a 400
-        # 'Bad Request' when sending the command to an unmanaged target
-        all_mgd = map_all_ids_to(:managed, cnx: cnx).select { |_id, mgd| mgd }.keys
+        # 'Bad Request' when sending the command to an unmanaged target.
+        # Some actions, like flushing MDM commands (see .flush_mdm_commands)
+        # are OK on unmanaged machines, so they will specify 'unmanaged_ok'
+        unless unmanaged_ok
+          all_mgd = map_all_ids_to(:managed, cnx: cnx).select { |_id, mgd| mgd }.keys
 
-        targets.each do |target_id|
-          raise Jamf::UnmanagedError, "#{self} with id #{target_id} is not managed. Cannot send command." unless all_mgd.include? target_id
-        end
-
+          targets.each do |target_id|
+            raise Jamf::UnmanagedError, "#{self} with id #{target_id} is not managed. Cannot send command." unless all_mgd.include? target_id
+          end
+        end # unles
+        
         targets
       end
 
@@ -535,9 +540,11 @@ module Jamf
         case self::MDM_COMMAND_TARGET
         when *COMPUTER_TARGETS
           return command if COMPUTER_COMMANDS.include? command
+
           raise Jamf::UnsupportedError, "'#{command}' cannot be sent to computers or computer groups"
         when *DEVICE_TARGETS
           return command if DEVICE_COMMANDS.include? command
+
           raise Jamf::UnsupportedError, "'#{command}' cannot be sent to mobile devices or mobile device groups"
         end
 
@@ -585,6 +592,7 @@ module Jamf
         case self::MDM_COMMAND_TARGET
         when *COMPUTER_TARGETS
           raise Jamf::InvalidDataError, 'Locking computers requires a 6-character String passcode' unless passcode.size == 6
+
           opts = { passcode: passcode }
         when *DEVICE_TARGETS
           opts = {}
@@ -613,6 +621,7 @@ module Jamf
         case self::MDM_COMMAND_TARGET
         when *COMPUTER_TARGETS
           raise Jamf::InvalidDataError, 'Erasing computers requires a 6-character String passcode' unless passcode.size == 6
+
           opts = { passcode: passcode }
         when *DEVICE_TARGETS
           opts = {}
@@ -850,13 +859,17 @@ module Jamf
       def wallpaper(targets, wallpaper_setting: nil, wallpaper_content: nil, wallpaper_id: nil, api: nil, cnx: Jamf.cnx)
         cnx = api if api
 
-        raise ArgumentError, "wallpaper_setting must be one of: :#{WALLPAPER_LOCATIONS.keys.join ', :'}" unless WALLPAPER_LOCATIONS.keys.include? wallpaper_setting
+        unless WALLPAPER_LOCATIONS.keys.include? wallpaper_setting
+          raise ArgumentError, 
+                "wallpaper_setting must be one of: :#{WALLPAPER_LOCATIONS.keys.join ', :'}"
+        end
 
         opts = { wallpaper_setting: WALLPAPER_LOCATIONS[wallpaper_setting] }
 
         if wallpaper_content
           file = Pathname.new wallpaper_content
           raise Jamf::NoSuchItemError, "Not a file: #{file}" unless file.file?
+
           opts[:wallpaper_content] = Base64.encode64 file.read
         elsif wallpaper_id
           opts[:wallpaper_id] = wallpaper_id
@@ -993,18 +1006,19 @@ module Jamf
       # @return (see .send_mdm_command)
       #
       def enable_lost_mode(
-            targets,
-            message: nil,
-            phone: nil,
-            footnote: nil,
-            play_sound: false,
-            enforce_lost_mode: true,
-            api: nil,
-            cnx: Jamf.cnx
-          )
+        targets,
+        message: nil,
+        phone: nil,
+        footnote: nil,
+        play_sound: false,
+        enforce_lost_mode: true,
+        api: nil,
+        cnx: Jamf.cnx
+      )
         cnx = api if api
 
         raise ArgumentError, 'Either message: or phone_number: must be provided' unless message || phone
+
         opts = { always_enforce_lost_mode: enforce_lost_mode }
         opts[:lost_mode_message] = message if message
         opts[:lost_mode_phone] = phone if phone
@@ -1067,7 +1081,9 @@ module Jamf
 
         status = FLUSHABLE_STATUSES[status]
 
-        target_ids = raw_targets_to_ids targets, cnx: cnx, expand_groups: false
+        # TODO: add 'unmanaged_ok:' param to raw_targets_to_ids method, so that we can 
+        # use this to flush commands for unmanaged machines.
+        target_ids = raw_targets_to_ids targets, cnx: cnx, expand_groups: false, unmanaged_ok: true
 
         command_flush_rsrc = "commandflush/#{self::MDM_COMMAND_TARGET}/id"
 
@@ -1367,11 +1383,11 @@ module Jamf
     # @return (see .send_mdm_command)
     #
     def enable_lost_mode(
-          message: nil,
-          phone_number: nil,
-          footnote: nil,
-          enforce_lost_mode: true,
-          play_sound: false
+      message: nil,
+      phone_number: nil,
+      footnote: nil,
+      enforce_lost_mode: true,
+      play_sound: false
     )
       self.class.enable_lost_mode(
         @id,
