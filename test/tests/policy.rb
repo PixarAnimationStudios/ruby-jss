@@ -25,6 +25,7 @@
 
 module JamfTest
 
+  # Policy Tests
   class Policy < JamfTest::APITest
 
     include JamfTest::CollectionTests

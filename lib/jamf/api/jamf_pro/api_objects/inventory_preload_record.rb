@@ -110,7 +110,6 @@ module Jamf
     # Must define this when extending Filterable
     FILTER_KEYS = OAPI_PROPERTIES.keys - [:extensionAttributes]
 
-
     DEVICE_TYPE_COMPUTER = 'Computer'.freeze
 
     DEVICE_TYPE_MOBILE_DEV = 'Mobile Device'.freeze
