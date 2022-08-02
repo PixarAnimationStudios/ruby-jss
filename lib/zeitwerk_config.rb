@@ -29,7 +29,7 @@ def setup_zeitwerk_loader(loader)
   loader.ignore __FILE__
 
   # these paths all define classes & modules directly below 'Jamf'
-  # If we didn't collaps them, then e.g.
+  # If we didn't collapse them, then e.g.
   #   /jamf/api/base_classes/classic/group.rb
   # would be expected to define
   #   Jamf::Api::BaseClasses::Classic::Group
@@ -51,7 +51,8 @@ def setup_zeitwerk_loader(loader)
 
   loader.collapse("#{__dir__}/jamf/deprecations")
 
-  # filenames => Constants, which don't adhere to zeitwerk's parsing standards
+  # filenames => Constants, which don't adhere to zeitwerk's parsing standards.
+  #
   # Mostly because the a filename like 'oapi_object' would be
   # loaded by zeitwerk expecting it to define 'OapiObject', but it really
   # defines 'OAPIObject'
@@ -88,14 +89,15 @@ def setup_zeitwerk_loader(loader)
   loader.inflector.inflect 'md_prestage_skip_setup_items' => 'MobileDevicePrestageSkipSetupItems'
   loader.inflector.inflect 'macos_managed_updates' => 'MacOSManagedUpdates'
 
-  # deprecations, separated so they load only when used
+  # deprecations, separated so they load only when used.
+  # When its time to get rid of them, delete the files from the 
+  # 'deprecations' directory, and the matching line here.
   loader.inflector.inflect('deprecated_api_constant' => 'API')
   loader.inflector.inflect('deprecated_config_constant' => 'CONFIG')
+  loader.inflector.inflect('deprecated_api_connection_class' => 'APIConnection')
 
   # These should be ignored, some will be required directly
   #####################################
-
-  loader.ignore "#{__dir__}/jamf/api/jamf_pro/pre_oapi"
 
   loader.ignore "#{__dir__}/jamf/db_connection.rb"
   loader.ignore "#{__dir__}/jamf/ruby_extensions.rb"
@@ -106,16 +108,18 @@ def setup_zeitwerk_loader(loader)
   loader.ignore "#{__dir__}/ruby-jss.rb"
 
   # callback for when a specific file/constant loads
+  # duplicate and uncomment this if desired to react to 
+  # specific things loading 
   #####################################
-  loader.on_load('Jamf::SomeClass') do |klass, abspath|
-    Jamf.load_msg "I just loaded #{klass} from #{abspath}"
-  end
+  # loader.on_load('Jamf::SomeClass') do |klass, abspath|
+  #   Jamf.load_msg "I just loaded #{klass} from #{abspath}"
+  # end
 
   # callback for when anything loads
   #  - const_path is like "Jamf::SomeClass" or "Jamf::SomeClass::SOME_CONST_ARRY"
   #  - value is the value that constant contains after loading,
-  #    e.g. a the class Jamf::SomeClass for 'Jamf::SomeClass' or
-  #    and Array for the constant  "Jamf::SomeClass::SOME_CONST_ARRY"
+  #    e.g. the class Jamf::SomeClass for 'Jamf::SomeClass' or
+  #    an Array for the constant  "Jamf::SomeClass::SOME_CONST_ARRY"
   #  - abspath is the full path to the file where the constant was loaded from.
   #####################################
   loader.on_load do |const_path, value, abspath|
@@ -123,6 +127,7 @@ def setup_zeitwerk_loader(loader)
 
     # Parse OAPI_PROPERTIES into getters and setters for subclasses of
     # OAPIObject in the JPAPI.
+    #
     # The class we just loaded must have this method and constant
     # and the method must not have run already for the class or any superclass.
     # This prevents running parse_oapi_properties again in subclasses that
