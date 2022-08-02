@@ -430,7 +430,7 @@ module Jamf
       raise UnsupportedError, "Smart group members can't be changed." if smart?
 
       # See if we have the identifier in the @members hash
-      id_to_remove = @members.select { |mm| mm.values.include? mem }.first.dig :id
+      id_to_remove = @members.select { |mm| mm.values.include? mem }.first&.dig :id
       # But the members hash might not have SN, macaddr, etc, and never has udid, so
       # look at the MEMBER_CLASS if needed
       id_to_remove ||= self.class::MEMBER_CLASS.valid_id mem
