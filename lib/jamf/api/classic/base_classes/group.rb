@@ -112,7 +112,7 @@ module Jamf
       cnx = api if api
 
       raise Jamf::NoSuchItemError, "No #{self} matching '#{group}'" unless (group_id = valid_id group, cnx: cnx)
-      raise Jamf::UnsupportedError, "Not a static group, can't change membership directly" if map_all_ids_to(:is_smart, cnx: cnx)[group_id]
+      raise Jamf::UnsupportedError, "Not a static group, can't change membership" if map_all(:id, to: :is_smart, cnx: cnx)[group_id]
 
       add_members = [add_members].flatten
       remove_members = [remove_members].flatten
@@ -123,6 +123,8 @@ module Jamf
       # that isn't in the group (which is kinda lame - it should just
       # ignore this, like it does when we add a member that's already
       # in the group.)
+      # Its even more lame because we have to instantiate the group
+      # and part of the point of this class method is to avoid that.
       current_member_ids = fetch(id: group_id, cnx: cnx).member_ids
 
       # nil if no changes to be made
@@ -189,7 +191,6 @@ module Jamf
     end
     private_class_method :member_removals_xml
 
-
     # Attributes
     #####################################
 
@@ -207,10 +208,12 @@ module Jamf
 
     # @return [Boolean] is this a smart group
     attr_reader :is_smart
+    alias smart? is_smart
 
     # @return [Boolean] does this group send notifications when it changes?
     attr_reader :notify_on_change
-
+    alias notify_on_change? notify_on_change
+    alias notify? notify_on_change
 
     # Constructor
     #####################################
@@ -221,20 +224,14 @@ module Jamf
     # @see Jamf::APIObject
     #
     def initialize(**args)
-      if args[:id] == :new
-        raise Jamf::InvalidDataError, 'New group creation must specify a :type of :smart or :static' unless GROUP_TYPES.include? args[:type]
-      end
+      raise Jamf::InvalidDataError, 'New group creation must specify a :type of :smart or :static' if args[:id] == :new && !(GROUP_TYPES.include? args[:type])
 
       super
 
       @is_smart = @init_data[:is_smart] || (args[:type] == :smart)
 
       @members =
-        if @init_data[self.class::MEMBER_CLASS::RSRC_LIST_KEY]
-          @init_data[self.class::MEMBER_CLASS::RSRC_LIST_KEY]
-        else
-          []
-        end
+        @init_data[self.class::MEMBER_CLASS::RSRC_LIST_KEY] || []
     end # init
 
     # Public Instance Methods
@@ -251,9 +248,8 @@ module Jamf
     #   happens, try again this many times with a 1 second pause between attempts.
     #
     def create(calculate_members: true, retries: 10)
-      if @is_smart
-        raise Jamf::MissingDataError, 'No criteria specified for smart group' unless @criteria
-      end
+      raise Jamf::MissingDataError, 'No criteria specified for smart group' if @is_smart && !@criteria
+
       super()
 
       if calculate_members
@@ -289,10 +285,10 @@ module Jamf
       if @in_jss
         raise Jamf::UnsupportedError, 'Updating this object in the JSS is currently not supported by ruby-jss' unless updatable?
 
-
         update refresh: params[:refresh]
       else
         raise Jamf::UnsupportedError, 'Creating this object in the JSS is currently not supported by ruby-jss' unless creatable?
+
         create calculate_members: params[:calculate_members], retries: params[:retries]
       end
     end
@@ -321,8 +317,10 @@ module Jamf
     #
     # @param args[Hash] the options and settings use for switching the computer group from static group to smart group
     #
-    # @option args criteria[Array] The criterias to be user for the smart group
-    def set_smart(*params)
+    # @option args criteria[Array] The criteria to be user for the smart group
+    #
+    # @return [void]
+    def make_smart(**params)
       return if @is_smart
 
       params[:criteria] = [] if params[:criteria].nil?
@@ -332,22 +330,28 @@ module Jamf
       @is_smart = true
       @need_to_update = true
     end
+    # backward compatility
+    alias set_smart make_smart
 
     # Change smart group to static group
     #
     # @param args[Hash] the options and settings use for switching the computer group from smart group to static group
     #
     # @option args preserve_members[Boolean] Should the smart group preserve it's current members?
-    def set_static(*params)
+    #
+    # @return [void]
+    def make_static(**params)
       return unless @is_smart
 
       preserve_members = params.include? :preserve_members
 
       @is_smart = false
 
-      clear() unless preserve_members
+      clear unless preserve_members
     end
-
+    # backward compatility
+    alias set_static make_static
+        
     # How many members of the group?
     #
     # @return [Integer] the number of members of the group
@@ -355,6 +359,13 @@ module Jamf
     def size
       @members.count
     end
+    alias count size
+
+    # @return [Boolean] Is this a static group?
+    def static?
+      !smart?
+    end
+    alias is_static static?
 
     # @return [Array<String>] the names of the group members
     #
@@ -381,6 +392,7 @@ module Jamf
     def members=(new_members)
       raise UnsupportedError, "Smart group members can't be changed." if @is_smart
       raise InvalidDataError, 'Arg must be an array of names and/or ids' unless new_members.is_a? Array
+
       ok_members = []
       new_members.each do |m|
         ok_members << check_member(m)
@@ -390,6 +402,7 @@ module Jamf
 
       # make sure we've actually changed...
       return if members.map { |m| m[:id] }.sort == ok_members.map { |m| m[:id] }.sort
+
       @members = ok_members
       @need_to_update = true
     end
@@ -401,22 +414,32 @@ module Jamf
     # @return [void]
     #
     def add_member(mem)
-      raise UnsupportedError, "Smart group members can't be changed." if @is_smart
+      raise UnsupportedError, "Smart group members can't be changed." if smart?
+
       @members << check_member(mem)
       @need_to_update = true
     end
 
     # Remove a member by id, or name
     #
-    # @param m[Integer,String] the id or name of the member to remove
+    # @param m[Integer,String] an identifier for the item to remove
     #
     # @return [void]
     #
     def remove_member(mem)
-      raise InvalidDataError, "Smart group members can't be changed." if @is_smart
-      raise InvalidDataError, "Can't remove nil" if mem.nil?
-      removed = @members.reject! { |mm| [mm[:id], mm[:name], mm[:username]].include? mem }
-      @need_to_update = true if removed
+      raise UnsupportedError, "Smart group members can't be changed." if smart?
+
+      # See if we have the identifier in the @members hash
+      id_to_remove = @members.select { |mm| mm.values.include? mem }.first.dig :id
+      # But the members hash might not have SN, macaddr, etc, and never has udid, so
+      # look at the MEMBER_CLASS if needed
+      id_to_remove ||= self.class::MEMBER_CLASS.valid_id mem
+
+      # nothing to do if that id isn't one of our members
+      return unless id_to_remove && member_ids.include?(id_to_remove)
+
+      @members.delete_if { |k, v| k == :id && v == id_to_remove }
+      @need_to_update = true 
     end
 
     # Remove all members
@@ -426,6 +449,7 @@ module Jamf
     def clear
       raise InvalidDataError, "Smart group members can't be changed." if @is_smart
       return if @members.empty?
+
       @members.clear
       @need_to_update = true
     end
@@ -458,13 +482,7 @@ module Jamf
     def refresh_members
       @members = @cnx.c_get(@rest_rsrc)[self.class::RSRC_OBJECT_KEY][self.class::MEMBER_CLASS::RSRC_LIST_KEY]
     end
-
-    # aliases
-
-    alias smart? is_smart
-    alias notify_on_change? notify_on_change
-    alias notify? notify_on_change
-    alias count size
+  
 
     # Public Instance Methods
     #####################################
@@ -477,13 +495,12 @@ module Jamf
     # @return [Hash{:id=>Integer,:name=>String}] the valid id and name
     #
     def check_member(m)
-      potential_members = self.class::MEMBER_CLASS.map_all_ids_to(:name, cnx: @cnx)
-      if m.to_s =~ /^\d+$/
-        return { id: m.to_i, name: potential_members[m] } if potential_members.key?(m.to_i)
-      else
-        return { name: m, id: potential_members.invert[m] } if potential_members.value?(m)
-      end
-      raise Jamf::NoSuchItemError, "No #{self.class::MEMBER_CLASS::RSRC_OBJECT_KEY} matching '#{m}' in the JSS."
+      desired_id = self.class::MEMBER_CLASS.valid_id m, cnx: @cnx
+      raise Jamf::NoSuchItemError, "No #{self.class::MEMBER_CLASS::RSRC_OBJECT_KEY} matching '#{m}' in the JSS." unless desired_id
+
+      desired_name = self.class::MEMBER_CLASS.map_all(:id, to: :name, cnx: @cnx)[desired_id]
+
+      { name: desired_name, id: desired_id }      
     end
 
     # the xml formated data for adding or updating this in the JSS,
