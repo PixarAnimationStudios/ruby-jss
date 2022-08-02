@@ -110,6 +110,13 @@ module Jamf
     # Must define this when extending Filterable
     FILTER_KEYS = OAPI_PROPERTIES.keys - [:extensionAttributes]
 
+
+    DEVICE_TYPE_COMPUTER = 'Computer'.freeze
+
+    DEVICE_TYPE_MOBILE_DEV = 'Mobile Device'.freeze
+
+    DEVICE_TYPE_UNKNOWN = 'Unknown'.freeze
+
     # InvPreload Recs have a non-standard /history path
     def self.history_path(_id)
       'v2/inventory-preload/history'
