@@ -50,7 +50,6 @@ module Jamf
     include Jamf::VPPable
     include Jamf::Sitable
 
-
     # Class Methods
     #####################################
 
@@ -162,6 +161,10 @@ module Jamf
     #   does its backups (to icloud or itunes)?
     attr_reader :prevent_backup_of_app_data
 
+    # @return [Boolean] Should this app auto-update on devices?
+    attr_reader :keep_app_updated_on_devices
+    alias auto_update? keep_app_updated_on_devices
+
     # @return [Boolean] should the JSS update the icon and description from the app
     #   source?
     attr_reader :keep_description_and_icon_up_to_date
@@ -185,7 +188,6 @@ module Jamf
     #   which contains a plist <dict> element with config data.
     attr_reader :configuration_prefs
 
-
     # Constructor
     #####################################
 
@@ -208,6 +210,7 @@ module Jamf
       @itunes_country_region = general[:itunes_country_region]
       @itunes_sync_time = general[:itunes_sync_time]
       @deploy_as_managed_app = general[:deploy_as_managed_app]
+      @keep_app_updated_on_devices = general[:keep_app_updated_on_devices]
       @remove_app_when_mdm_profile_is_removed = general[:remove_app_when_mdm_profile_is_removed]
       @prevent_backup_of_app_data = general[:prevent_backup_of_app_data]
       @keep_description_and_icon_up_to_date = general[:keep_description_and_icon_up_to_date]
@@ -232,6 +235,7 @@ module Jamf
     #
     def display_name=(new_val)
       return nil if new_val.to_s == @display_name
+
       @display_name = new_val.to_s
       @need_to_update = true
     end
@@ -274,6 +278,7 @@ module Jamf
     #
     def url=(new_val)
       return nil if new_val == @url
+
       @url = new_val
       @need_to_update = true
     end
@@ -288,6 +293,7 @@ module Jamf
     def make_available_after_install=(new_val)
       return nil if new_val == @make_available_after_install
       raise Jamf::InvalidDataError, 'New value must be true or false' unless new_val.jss_boolean?
+
       @make_available_after_install = new_val
       @need_to_update = true
     end
@@ -302,10 +308,25 @@ module Jamf
     def deploy_as_managed_app=(new_val)
       return nil if new_val == @deploy_as_managed_app
       raise Jamf::InvalidDataError, 'New value must be true or false' unless new_val.jss_boolean?
+
       @deploy_as_managed_app = new_val
       @need_to_update = true
     end
 
+    # Set whether or not this app should be auto-updated on devices
+    #
+    # @param new_val[Boolean] The new value
+    #
+    # @return [void]
+    #
+    def keep_app_updated_on_devices=(new_val)
+      return nil if new_val == @keep_app_updated_on_devices
+      raise Jamf::InvalidDataError, 'New value must be true or false' unless new_val.jss_boolean?
+
+      @keep_app_updated_on_devices = new_val
+      @need_to_update = true
+    end
+    alias auto_update= keep_app_updated_on_devices=
 
     # Set whether or not this app should be removed when
     # the device is unmanaged
@@ -317,6 +338,7 @@ module Jamf
     def remove_app_when_mdm_profile_is_removed=(new_val)
       return nil if new_val == @remove_app_when_mdm_profile_is_removed
       raise Jamf::InvalidDataError, 'New value must be true or false' unless new_val.jss_boolean?
+
       @remove_app_when_mdm_profile_is_removed = new_val
       @need_to_update = true
     end
@@ -330,10 +352,10 @@ module Jamf
     def prevent_backup_of_app_data=(new_val)
       return nil if new_val == @prevent_backup_of_app_data
       raise Jamf::InvalidDataError, 'New value must be true or false' unless new_val.jss_boolean?
+
       @prevent_backup_of_app_data = new_val
       @need_to_update = true
     end
-
 
     # Set whether or not the jss should update info about this app from the app store
     #
@@ -344,6 +366,7 @@ module Jamf
     def keep_description_and_icon_up_to_date=(new_val)
       return nil if new_val == @keep_description_and_icon_up_to_date
       raise Jamf::InvalidDataError, 'New value must be true or false' unless new_val.jss_boolean?
+
       @keep_description_and_icon_up_to_date = new_val
       @need_to_update = true
     end
@@ -357,6 +380,7 @@ module Jamf
     def free=(new_val)
       return nil if new_val == @free
       raise Jamf::InvalidDataError, 'New value must be true or false' unless new_val.jss_boolean?
+
       @free = new_val
       @need_to_update = true
     end
@@ -371,6 +395,7 @@ module Jamf
     def take_over_management=(new_val)
       return nil if new_val == @take_over_management
       raise Jamf::InvalidDataError, 'New value must be true or false' unless new_val.jss_boolean?
+
       @take_over_management = new_val
       @need_to_update = true
     end
@@ -432,6 +457,7 @@ module Jamf
     #
     def external_url=(new_val)
       return nil if new_val == @external_url
+
       @external_url = new_val
       @need_to_update = true
     end
@@ -445,10 +471,10 @@ module Jamf
     #
     def configuration_prefs=(new_val)
       return nil if new_val == @configuration_prefs
+
       @configuration_prefs = new_val
       @need_to_update = true
     end
-
 
     # Save the application to a file.
     #
@@ -462,10 +488,12 @@ module Jamf
     #
     def save_ipa(path, overwrite = false)
       return nil unless @ipa[:data]
+
       path = Pathname.new path
-      path = path + @ipa[:name] if path.directory? && @ipa[:name]
+      path += @ipa[:name] if path.directory? && @ipa[:name]
 
       raise Jamf::AlreadyExistsError, "The file #{path} already exists" if path.exist? && !overwrite
+
       path.delete if path.exist?
       path.jss_save Base64.decode64(@ipa[:data])
     end
@@ -507,6 +535,7 @@ module Jamf
     #
     def refresh_ipa
       return nil unless @in_jss
+
       fresh_data = @cnx.c_get(@rest_rsrc)[self.class::RSRC_OBJECT_KEY]
       @ipa = fresh_data[:general][:ipa]
     end
@@ -523,6 +552,7 @@ module Jamf
       gen.add_element('deploy_as_managed_app').text = @deploy_as_managed_app
       gen.add_element('remove_app_when_mdm_profile_is_removed').text = @remove_app_when_mdm_profile_is_removed
       gen.add_element('prevent_backup_of_app_data').text = @prevent_backup_of_app_data
+      gen.add_element('keep_app_updated_on_devices').text = @keep_app_updated_on_devices
       gen.add_element('keep_description_and_icon_up_to_date').text = @keep_description_and_icon_up_to_date
       gen.add_element('free').text = @free
       gen.add_element('take_over_management').text = @take_over_management
@@ -539,7 +569,6 @@ module Jamf
       add_vpp_xml doc
       doc.to_s
     end
-
 
   end # class removable_macaddr
 
