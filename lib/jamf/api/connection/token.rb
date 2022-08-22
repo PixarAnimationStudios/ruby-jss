@@ -87,6 +87,7 @@ module Jamf
       # @return [String] The token data
       attr_reader :token
       alias token_string token
+      alias auth_token token
 
       # @return [URI] The base API url, e.g. https://myjamf.jamfcloud.com/
       attr_reader :base_url
