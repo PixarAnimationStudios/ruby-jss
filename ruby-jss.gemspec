@@ -68,24 +68,24 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'ruby-mysql', '~> 2.9', '>= 2.9.12'
 
   # https://github.com/lostisland/faraday: MIT License
-  s.add_runtime_dependency 'faraday', '>= 1.0.0', '<= 1.0.1'
+  s.add_runtime_dependency 'faraday', '~> 1.0'
 
   # https://github.com/lostisland/faraday_middleware & dependencies: MIT License
-  s.add_runtime_dependency 'faraday_middleware', '>= 1.0.0', '<= 1.0.1'
+  s.add_runtime_dependency 'faraday_middleware', '~> 1.0'
 
   # https://github.com/ruby-concurrency/concurrent-ruby MIT License (no dependencies)
   s.add_runtime_dependency 'concurrent-ruby', '~> 1.1'
 
   # https://github.com/stitchfix/immutable-struct MIT License (no dependencies)
   # TODO: replace this with the one from concurrent-ruby
-  s.add_runtime_dependency 'immutable-struct', '~> 2.3', '>= 2.3.0'
+  s.add_runtime_dependency 'immutable-struct', '~> 2.3'
 
   # https://github.com/fxn/zeitwerk MIT License (no dependencies)
   s.add_runtime_dependency 'zeitwerk', '~> 2.5', '>= 2.5.4'
 
   # Ruby 3.0+ doesn't include rexml in the stdlib, but
   # the min. version of ruby 2 we support includes v 3.1.9
-  s.add_runtime_dependency 'rexml', '>= 3.1.9'
+  s.add_runtime_dependency 'rexml', '~> 3.1', '>= 3.1.9'
 
   # Rdoc
   s.extra_rdoc_files = ['README.md', 'LICENSE.txt', 'CHANGES.md', 'THANKS.md', 'README-2.0.0.md']
