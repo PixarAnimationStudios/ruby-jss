@@ -49,6 +49,10 @@ module Jamf
     # https://developer.jamf.com/jamf-pro/reference/post_v1-macos-managed-software-updates-send-updates
     MANAGED_SW_UPDATES_SEND_UPDATES_RSRC = "#{MANAGED_SW_UPDATES_RSRC}/send-updates"
 
+    # These are the options available in Jamf::OAPISchemas::MacOsManagedSoftwareUpdate::UPDATE_ACTION_OPTIONS
+    DOWNLOAD_AND_INSTALL = 'DOWNLOAD_AND_INSTALL'
+    DOWNLOAD_ONLY = 'DOWNLOAD_ONLY'
+
     # Class Methods
     #####################################
     module ClassMethods
