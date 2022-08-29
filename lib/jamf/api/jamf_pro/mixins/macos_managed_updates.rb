@@ -67,11 +67,11 @@ module Jamf
         Jamf::OAPISchemas::AvailableUpdates.new(data).availableUpdates
       end
 
-      # Send the os update command to target Macs or a group
+      # Send the os update command to target Computers or a ComputerGroup
       #
       # @param updateAction [String] Required. 'DOWNLOAD_AND_INSTALL' or 'DOWNLOAD_ONLY'
       #
-      # @param deviceIds [String, Integer, Array<String, Integer>] Identiiers for the 
+      # @param deviceIds [String, Integer, Array<String, Integer>] Identifiers for the 
       #   computer targets. Required if no groupId is given.
       #
       # @param groupId [String, Integer] Identifier for the computer group target.
@@ -82,19 +82,20 @@ module Jamf
       #   Update will use the InstallLater install action. MaxDeferral is ignored if using the 
       #   DOWNLOAD_ONLY updateAction.
       #
-      # @param version [String] If no value is provided, the version will default to latest
-      #   version based on device eligibility.
+      # @param version [String] The OS version to install. If no value is provided, the 
+      #   version will default to latest version based on device eligibility.
       #
-      # @param skipVersionVerification [Boolean] If no value is provided, will default to false.
+      # @param skipVersionVerification [Boolean] Should the specified version be installed
+      #   even it it isn't applicable to this machine? If no value is provided, will default to false.
       #   If true, the specified version will be forced to complete DownloadAndInstall
       #   install action.
       #
-      # @param applyMajorUpdate [Boolean] available only when updating to the latest version
+      # @param applyMajorUpdate [Boolean] Available only when updating to the latest version
       #   based on device eligibility. Defaults to false. If false the calculated latest version
       #   will only include minor version updates. If a value is provided, the calculated latest
       #   version will include minor and major version updates.
       #
-      # @param forceRestart [Boolean]  will default to false. Can only be true if updateAction 
+      # @param forceRestart [Boolean]  Will default to false. Can only be true if updateAction 
       #   is DOWNLOAD_AND_INSTALLn and the devices the command is sent to are on macOs 11 or higher. 
       #   If true, the DownloadAndInstall action is performed, a restart will be forced. 
       #   MaxDeferral will be ignored if true. 
