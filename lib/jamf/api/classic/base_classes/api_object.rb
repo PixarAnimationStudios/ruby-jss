@@ -295,7 +295,7 @@ module Jamf
     # This is called automatically when subclasses are loaded by zeitwerk
     #
     def self.define_identifier_list_methods
-      Jamf.load_msg "defining list-methods for APIObject subclass #{self}"
+      Jamf.load_msg "Defining list-methods for APIObject subclass #{self}"
 
       lookup_keys.each do |als, key|
         meth_name = key.to_s.end_with?('s') ? "all_#{key}es" : "all_#{key}s"
