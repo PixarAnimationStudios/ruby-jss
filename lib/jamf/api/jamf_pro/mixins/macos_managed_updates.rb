@@ -147,6 +147,11 @@ module Jamf
     # Instance Methods
     ######################################
 
+    # Send a managed update command to an instance of Computer or ComputerGroup.
+    # This just calls the class method of the same name.
+    #
+    # @see MacOSManagedUpdates.send_managed_os_update
+    #
     def send_managed_os_update(updateAction:, maxDeferrals: nil, version: nil, skipVersionVerification: false, applyMajorUpdate: false, forceRestart: false, cnx: Jamf.cnx)
       deviceIds = is_a?(Jamf::Computer) ? @id : nil
       groupId = is_a?(Jamf::Computer) ? nil : @id
