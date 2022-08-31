@@ -36,7 +36,7 @@ Gem::Specification.new do |s|
     'Jamf Pro' API. Jamf Pro objects are implemented as classes and can interact
     with each other. Authentication tokens, data transfer using JSON or XML and other
     details are handled automatically under the hood to allow simpler, intuitive
-    automation of Jamf-related Tasks.
+    automation of Jamf-related tasks.
   EODESC
 
   s.name        = proj_name
