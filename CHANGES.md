@@ -26,6 +26,7 @@ Here are the high-level changes and there are many many others. For more details
   - Base classes for JamfPro API objects are automatically generated from the OAPI3 Schema available at https://your.jamf.server/api/schema. This make it much simpler for ruby-jss to implement and update new and changed objects and endpoints in the Jamf Pro API.
 - Code is auto-loaded from disk
   - Because the auto-generated classes add hundreds of files to the gem, ruby-jss now uses [Zeitwerk](https://github.com/fxn/zeitwerk) to auto-load only the files it needs when they are needed.
+- Support for Ruby 3.x
 
 
 ## \[1.6.7] - 2022-02-22
