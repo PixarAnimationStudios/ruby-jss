@@ -34,7 +34,7 @@ Gem::Specification.new do |s|
     an enterprise/education tool for managing Apple devices, from jamf.com.
     The Jamf module provides access to both the 'Classic' API and the more modern
     'Jamf Pro' API. Jamf Pro objects are implemented as classes and can interact
-    with each other. Connection tokens, data transfer using JSON or XML and other
+    with each other. Authentication tokens, data transfer using JSON or XML and other
     details are handled automatically under the hood to allow simpler, intuitive
     automation of Jamf-related Tasks.
   EODESC
