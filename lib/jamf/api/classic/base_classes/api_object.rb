@@ -557,8 +557,9 @@ module Jamf
     #
     ######################################
     def self.map_all(ident, to:, cnx: Jamf.cnx, refresh: false, cached_list: nil)
+      orig_ident = ident
       ident = lookup_keys[ident]
-      raise Jamf::InvalidDataError, "No identifier :#{ident} for class #{self}" unless ident
+      raise Jamf::InvalidDataError, "No identifier :#{orig_ident} for class #{self}" unless ident
 
       list = cached_list || all(refresh, cnx: cnx)
       mapped = list.map do |i|
