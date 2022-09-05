@@ -674,28 +674,85 @@ module Jamf
     # is undefined. In short - dont' use names here unless you know they are
     # unique.
     #
+    # NOTE: Integers passed in as strings, e.g. '12345' will be converted to 
+    # integers and return the matching integer id if it exists.
+    #
+    # This means that if you have names that might match '12345' and you use
+    #    valid_id '12345' 
+    # you will get back the id 12345, if such an id exists, even if it is not
+    # the object with the name '12345'
+    #
+    # To explicitly look for '12345' as a name, use:
+    #      valid_id name: '12345' 
+    #   See the ident_and_val param below.
+    #
     # @param identfier [String,Integer] An identifier for an object, a value for
-    # one of the available lookup_keys
+    #   one of the available lookup_keys. Omit this and use 'identifier: value'
+    #   if you want to limit the search to a specific indentifier key, e.g.
+    #      name: 'somename'
+    #   or
+    #      id: 76538
     #
     # @param refresh [Boolean] Should the data be re-read from the server
+    #
+    # @param ident_and_val [Hash] Do not pass in Hash.
+    #   This Hash internally holds the arbitrary identifier key
+    #   and desired value when you call ".valid_id ident: 'value'", e.g. 
+    #   ".valid_id name: 'somename'" or ".valid_id udid: some_udid"
+    #   Using explicit identifier keys like this will speed things up, since
+    #   the method doesn't have to search through all available identifiers
+    #   for the desired value.
     #
     # @param cnx [Jamf::Connection] an API connection to use for the query.
     #   Defaults to the corrently active API. See {Jamf::Connection}
     #
     # @return [Integer, nil] the id of the matching object, or nil if it doesn't exist
     #
-    def self.valid_id(identifier, refresh = false, api: nil, cnx: Jamf.cnx)
+    def self.valid_id(identifier = nil, refresh = false, api: nil, cnx: Jamf.cnx, **ident_and_val)
       cnx = api if api
 
-      # refresh if needed
+      # refresh the cache if needed
       all(refresh, cnx: cnx) if refresh
 
-      # it its a valid id, return it
+      # Were we given an explict identifier key, like name: or id:?
+      # If so, just look for that.
+      unless ident_and_val.empty?
+        # only the first k/v pair of the ident_and_val hash is used
+        key = ident_and_val.keys.first
+        val = ident_and_val[key]
+
+        # if we are explicitly looking for an id, ensure we use an integer
+        # even if we were given an integer in a string.
+        if key == :id
+          val = val.to_i if val.is_a?(String) && val.j_integer?
+          return all_ids(cnx: cnx).include?(val) ? val : nil
+        end
+
+        # map the identifiers to ids, and return the id if there's
+        # a case-insensitive matching identifire
+        map_all(key, to: :id).each do |ident_val, id|
+          return id if ident_val.to_s.casecmp? val.to_s
+        end
+        nil
+      end
+
+      # If we are here, we need to seach all available identifier keys
+      # Start by looking for it as an id.
+
+      # it its a valid integer id, return it
       return identifier if all_ids(cnx: cnx).include? identifier
 
+      # if its a valid integer-in-a-string id, return it
+      if identifier.is_a?(String) && identifier.j_integer?
+        int_id = identifier.to_i
+        return int_id if all_ids(cnx: cnx).include? int_id
+      end 
+
+      # Now go through all the other identifier keys
       keys_to_check = lookup_keys(no_aliases: true)
       keys_to_check.delete :id # we've already checked :id
 
+      # loop thru looking for a match
       keys_to_check.each do |key|
         mapped_ids = map_all_ids_to key, cnx: cnx
         matches = mapped_ids.select { |_id, ident| ident.casecmp? identifier }
