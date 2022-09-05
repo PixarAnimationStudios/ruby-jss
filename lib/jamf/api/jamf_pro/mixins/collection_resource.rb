@@ -24,6 +24,7 @@
 #
 
 module Jamf
+
   # A Collection Resource in Jamf Pro
   #
   # See {Jamf::Resource} for general info about API resources.
@@ -60,6 +61,7 @@ module Jamf
   # @abstract
   ######################################
   module CollectionResource
+
     include Jamf::JPAPIResource
 
     # when this module is included, also extend our Class Methods
@@ -71,6 +73,7 @@ module Jamf
     # Class Methods
     #####################################
     module ClassMethods
+
       # 'include' all of these, so their methods become defined in this
       # module, and will become Class Methods when this module
       # is extended.
@@ -127,7 +130,6 @@ module Jamf
       def patch_path
         @patch_path ||= defined?(self::PATCH_PATH) ? self::PATCH_PATH : self::LIST_PATH
       end
-
 
       # The path for POSTing to create a single object in the collection.
       #
@@ -256,7 +258,6 @@ module Jamf
       #
       ######################################
       def all(sort: nil, filter: nil, instantiate: false, cnx: Jamf.cnx, refresh: nil)
-
         # if we are here, we need to query for all items, possibly filtered and
         # sorted
         sort = Jamf::Sortable.parse_url_sort_param(sort)
@@ -287,7 +288,6 @@ module Jamf
       #   arbitrary pages from the collection.
       #
       def pager(page_size: Jamf::Pager::DEFAULT_PAGE_SIZE, sort: nil, filter: nil, instantiate: false, cnx: Jamf.cnx)
-
         sort = Jamf::Sortable.parse_url_sort_param(sort)
         filter = filterable? ? Jamf::Filterable.parse_url_filter_param(filter) : nil
 
@@ -325,7 +325,6 @@ module Jamf
 
         raise Jamf::NoSuchItemError, "No attribute :#{to} for class #{self}" unless self::OAPI_PROPERTIES.key? to
 
-
         list = cached_list || all(cnx: cnx)
         to_class = self::OAPI_PROPERTIES[to][:class]
         to_multi = self::OAPI_PROPERTIES[to][:multi]
@@ -362,7 +361,7 @@ module Jamf
       #   raw_data some_value
       #
       # If some_value is an integer or a string containing an integer, it
-      # is assumed to be an :id otherwise all the available identifers
+      # is assumed to be an :id, otherwise all the available identifers
       # are searched, in the order you see them when you call <class>.identifiers
       #
       # If no matching object is found, nil is returned.
@@ -382,8 +381,6 @@ module Jamf
       #
       ######################################
       def raw_data(searchterm = nil, ident: nil, value: nil, cnx: Jamf.cnx)
-
-
         # given a value with no ident key
         return raw_data_by_searchterm_only(searchterm, cnx: cnx) if searchterm
 
@@ -491,15 +488,13 @@ module Jamf
       #
       # @return [Boolean]
       ######################################
-       def creatable?
+      def creatable?
         true
       end
 
       # Make a new thing to be added to the API
       ######################################
       def create(**params)
-
-
         # no such animal when .creating
         params.delete :id
 
@@ -582,7 +577,7 @@ module Jamf
       def delete(*ids, cnx: Jamf.cnx)
         raise Jamf::UnsupportedError, "Deleting #{self} objects is not currently supported" unless deletable?
 
-        return bulk_delete(ids, cnx: Jamf.cnx) if self.bulk_deletable?
+        return bulk_delete(ids, cnx: Jamf.cnx) if bulk_deletable?
 
         errs = []
         ids.each do |id_to_delete|
@@ -650,7 +645,6 @@ module Jamf
             raise NoMethodError, "no method '#{list_method_name}': '#{attr_name}' is not an indentifier for #{self}"
           end
         end
-
       end # create_identifier_list_method
       private :create_identifier_list_method
 
@@ -758,5 +752,7 @@ module Jamf
         raise Jamf::MissingDataError, "Attribute '#{attr_name}' cannot be nil, must be a #{attr_def[:class]}"
       end
     end
+
   end # class CollectionResource
+
 end # module JAMF
