@@ -54,49 +54,20 @@ require 'jamf/exceptions'
 require 'jamf/db_connection'
 
 # Configure the Zeitwerk loader, See https://github.com/fxn/zeitwerk
-require 'zeitwerk'
-require 'zeitwerk_config'
-
-# touch this file to make zeitwerk and mixins send text to stderr as things load
-# or get mixed in
-JAMF_VERBOSE_LOADING_FILE = Pathname.new('/tmp/ruby-jss-verbose-loading')
-
-# Or, set this ENV var to also make zeitverk and mixins send text to stderr
-JAMF_VERBOSE_LOADING_ENV = 'RUBY_JSS_VERBOSE_LOADING'.freeze
-
-# touch this file to make zeitwek  eager-load everything when the gem is required.
-JAMF_ZEITWERK_EAGER_LOAD_FILE = Pathname.new('/tmp/ruby-jss-zeitwerk-eager-load')
+require 'jamf/zeitwerk_config'
 
 # the `Zeitwerk::Loader.for_gem` creates the loader object, and must
 # happen in this file, so we pass it into a method defined in
 # zeitwerk_config
-setup_zeitwerk_loader Zeitwerk::Loader.for_gem
+JamfZeitwerkConfig.setup_zeitwerk_loader Zeitwerk::Loader.for_gem
 
 # Jamf, A Ruby module for interacting with the JAMF Pro Server via both of its REST APIs
 module Jamf
 
-  def self.validate_ruby_version
-    return if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new(MINIMUM_RUBY_VERSION)
-
-    raise "Can't use ruby-jss #{Jamf::VERSION}, ruby itself must be version #{MINIMUM_RUBY_VERSION} or greater, this is ruby #{RUBY_VERSION}."
-  end
-
-  # Only look at the filesystem once.
-  def self.verbose_loading?
-    return @verbose_loading unless @verbose_loading.nil?
-
-    @verbose_loading = JAMF_VERBOSE_LOADING_FILE.file?
-    @verbose_loading ||= ENV.include? JAMF_VERBOSE_LOADING_ENV
-    @verbose_loading
-  end
-
-  # rubocop: disable Style/StderrPuts
+  # Use the load_msg method defined for Zeitwerk
   def self.load_msg(msg)
-    return unless verbose_loading?
-
-    $stderr.puts msg
-  end
-  # rubocop: enable Style/StderrPuts
+    JamfZeitwerkConfig.load_msg msg
+  end  
 
   # the single instance of our configuration object
   def self.config
@@ -113,11 +84,8 @@ module Jamf
 
 end # module Jamf
 
-# make sure we can run
-Jamf.validate_ruby_version
-
 # JSS module is now a synonym for Jamf module
 JSS = Jamf
 
-# testing zeitwerk loading
-eager_load_for_testing if JAMF_ZEITWERK_EAGER_LOAD_FILE.file?
+# testing zeitwerk loading, the the desired file is present
+JamfZeitwerkConfig.eager_load_for_testing 
