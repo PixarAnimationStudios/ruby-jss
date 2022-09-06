@@ -107,27 +107,19 @@ module Jamf
     def self.master_distribution_point(refresh = false, default: nil, api: nil, cnx: Jamf.cnx)
       cnx = api if api
 
-      @master_distribution_point = nil if refresh
-      return @master_distribution_point if @master_distribution_point
-
       all_ids(refresh, cnx: cnx).each do |dp_id|
         dp = fetch id: dp_id, cnx: cnx
-        if dp.master?
-          @master_distribution_point = dp
-          break
-        end
+        return dp if dp.master?
       end
 
       # If we're here, the Cloud DP might be master, but there's no
       # access to it in the API :/
-      raise Jamf::NoSuchItemError, 'No Master FileShare Distribtion Point. Use the default: parameter if needed.' unless @master_distribution_point || default
+      raise Jamf::NoSuchItemError, 'No Master FileShare Distribtion Point. Use the default: parameter if needed.' unless default
 
-      if @master_distribution_point
-        @master_distribution_point
-      elsif default == :random
-        @master_distribution_point = fetch(id: all_ids.sample, cnx: cnx)
+      if default == :random
+        fetch(id: all_ids.sample, cnx: cnx)
       else
-        @master_distribution_point = fetch(default, cnx: cnx)
+        fetch(default, cnx: cnx)
       end
     end
 
