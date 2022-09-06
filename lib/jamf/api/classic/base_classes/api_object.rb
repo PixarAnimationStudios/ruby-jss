@@ -1131,7 +1131,7 @@ module Jamf
     # @param cnx [Jamf::Connection] the connection thru which to make this
     #   object. Defaults to the deault API connection in Jamf.cnx
     #
-    # @param args[Hash] The data for creating an object, such as name:
+    # @param args [Hash] The data for creating an object, such as name:
     #  See {APIObject#initialize}
     #
     # @return [APIObject] The un-created ruby-instance of a JSS object
@@ -1142,8 +1142,9 @@ module Jamf
         raise Jamf::UnsupportedError, "Creating #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows."
       end
       raise ArgumentError, "Use '#{self.class}.fetch id: xx' to retrieve existing JSS objects" if args[:id]
-
-      args[:api] ||= Jamf.cnx
+      
+      args[:cnx] ||= args[:api] # deprecated
+      args[:cnx] ||= Jamf.cnx
       args[:id] = :new
       new(**args)
     end

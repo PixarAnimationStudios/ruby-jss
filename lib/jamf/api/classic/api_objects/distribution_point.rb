@@ -275,17 +275,17 @@ module Jamf
     # You can also do this more easily by calling JSS.master_distribution_point
     #
     def initialize(**args)
-      # TODO: this looks redundant with super....
-      args[:cnx] ||= args[:api]
-      args[:cnx] ||= Jamf.cnx
-
-      @cnx = args[:cnx]
-
       @init_data = nil
 
       # looking for master?
       if args[:id] == :master
-
+        # figure out @cnx here so we can 
+        # look up :master if needed before
+        # continuing.
+        @cnx = args[:cnx]
+        @cnx ||= args[:api] # deprecated
+        @cnx ||= Jamf.cnx
+      
         self.class.all_ids(cnx: @cnx).each do |id|
           @init_data = @cnx.c_get("#{RSRC_BASE}/id/#{id}")[RSRC_OBJECT_KEY]
           if @init_data[:is_master]
@@ -297,7 +297,7 @@ module Jamf
         end # each id
       end # if args is master
 
-      super(args) if @init_data.nil?
+      super if @init_data.nil?
 
       @ip_address = @init_data[:ip_address]
       @local_path = @init_data[:local_path]
@@ -365,7 +365,7 @@ module Jamf
                when :ro then @read_only_password_sha256
                when :http then @http_password_sha256
                when :ssh then @ssh_password_sha256
-      end # case
+               end # case
 
       return nil if sha256 == EMPTY_PW_256
 
@@ -449,7 +449,7 @@ module Jamf
                    JSS.stdin line
                  else
                    pw
-      end
+                 end
 
       pwok = check_pw(access, password)
       unless pwok
@@ -466,7 +466,7 @@ module Jamf
                  when 'smb' then '/sbin/mount_smbfs'
                  when 'afp' then '/sbin/mount_afp'
                  else raise "Can't mount distribution point #{@name}: no known connection type."
-      end
+                 end
 
       @mountpoint.mkpath
 
