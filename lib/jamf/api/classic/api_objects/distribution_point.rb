@@ -112,14 +112,13 @@ module Jamf
         return dp if dp.master?
       end
 
-      # If we're here, the Cloud DP might be master, but there's no
-      # access to it in the API :/
-      raise Jamf::NoSuchItemError, 'No Master FileShare Distribtion Point. Use the default: parameter if needed.' unless default
-
-      if default == :random
-        fetch(id: all_ids.sample, cnx: cnx)
+      case default
+      when :random
+        fetch id: all_ids.sample, cnx: cnx
+      when nil
+        raise Jamf::NoSuchItemError, 'No Master FileShare Distribtion Point. Use the default: parameter if needed.'
       else
-        fetch(default, cnx: cnx)
+        fetch default, cnx: cnx
       end
     end
 
@@ -259,38 +258,9 @@ module Jamf
     # @return [String] the ssh password as a SHA256 digest
     attr_reader :ssh_password_sha256
 
-    # As well as the standard :id, :name, and :data, you can
-    # instantiate this class with :id => :master, in which case you'll
-    # get the Master Distribution Point as defined in the JSS.
-    # An error will be raised if one hasn't been defined.
-    #
-    # You can also do this more easily by calling JSS.master_distribution_point
-    #
     def initialize(**args)
-      @init_data = nil
-
-      # looking for master?
-      if args[:id] == :master
-        # figure out @cnx here so we can 
-        # look up :master if needed before
-        # continuing.
-        @cnx = args[:cnx]
-        @cnx ||= args[:api] # deprecated
-        @cnx ||= Jamf.cnx
+      super 
       
-        self.class.all_ids(cnx: @cnx).each do |id|
-          @init_data = @cnx.c_get("#{RSRC_BASE}/id/#{id}")[RSRC_OBJECT_KEY]
-          if @init_data[:is_master]
-            @id = @init_data[:id]
-            @name = @init_data[:name]
-            break
-          end # if data is master
-          @init_data = nil
-        end # each id
-      end # if args is master
-
-      super if @init_data.nil?
-
       @ip_address = @init_data[:ip_address]
       @local_path = @init_data[:local_path]
       @enable_load_balancing = @init_data[:enable_load_balancing]
