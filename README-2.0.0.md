@@ -189,7 +189,7 @@ Give us time and we'll get everything updated. In the meantime, feel free to rea
 
 ### Support for 'Sticky Sessions' in Jamf Cloud
 
-If you are connecting to a Jamf Cloud server, you can specifcy `sticky_sessions: true` when calling `Jamf::Connection.new` or `Jamf::Connection#connect`. If you already have a connected Connection object, you can enable or disable Sticky Sessions using `my_connection_object.sticky_session =` with a boolean value (for the default connection use `Jamf.cnx.sticky_session = <boolean>`). To see the actual cookie being sent to enable sticky sessions, use `Jamf::Connection#sticky_session_cookie`. 
+If you are connecting to a Jamf Cloud server, you can specifcy `sticky_session: true` when calling `Jamf::Connection.new` or `Jamf::Connection#connect`. If you already have a connected Connection object, you can enable or disable Sticky Sessions using `my_connection_object.sticky_session =` with a boolean value (for the default connection use `Jamf.cnx.sticky_session = <boolean>`). To see the actual cookie being sent to enable sticky sessions, use `Jamf::Connection#sticky_session_cookie`. 
 
 Attempting to enable a sticky session with a connection to an on-prem server (host not ending in 'jamfcloud.com') will raise an error.
 
