@@ -128,8 +128,9 @@ module Jamf
 
     # Fetch either an internal or external patch source
     #
-    # BUG: there's an API bug: fetching a non-existent
-    # which is why we rescue internal server errors.
+    # BUG: there's an API bug when fetching a non-existent patch source
+    # which is why we rescue 500 internal server errors and report them
+    # as 'no matching patch source'
     #
     # @see APIObject.fetch
     #
@@ -162,7 +163,7 @@ module Jamf
     # @see APIObject.make
     #
     def self.create(**args)
-      case self.name
+      case name
       when 'Jamf::PatchSource'
         Jamf::PatchExternalSource.make args
       when 'Jamf::PatchExternalSource'
@@ -184,7 +185,7 @@ module Jamf
     def self.delete(victims, api: nil, cnx: Jamf.cnx)
       cnx = api if api
 
-      case self.name
+      case name
       when 'Jamf::PatchSource'
         Jamf::PatchExternalSource victims, cnx: cnx
       when 'Jamf::PatchExternalSource'
@@ -292,6 +293,7 @@ module Jamf
 
       return :internel if Jamf::PatchInternalSource.valid_id ident, refresh, cnx: cnx
       return :external if Jamf::PatchExternalSource.valid_id ident, refresh, cnx: cnx
+
       nil
     end
 
@@ -324,7 +326,10 @@ module Jamf
 
     # Init
     def initialize(**args)
-      raise Jamf::UnsupportedError, 'PatchSource is an abstract metaclass. Please use PatchInternalSource or PatchExternalSource' if self.class == Jamf::PatchSource
+      if instance_of?(Jamf::PatchSource)
+        raise Jamf::UnsupportedError, 
+              'PatchSource is an abstract metaclass. Please use PatchInternalSource or PatchExternalSource'
+      end
 
       super
 
