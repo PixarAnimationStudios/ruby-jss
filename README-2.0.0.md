@@ -1,11 +1,10 @@
 # ruby-jss 2.0: Combined access to the Classic and Jamf Pro APIs
-<a id="markdown-ruby-jss-2.0%3A-combined-access-to-the-classic-and-jamf-pro-apis" name="ruby-jss-2.0%3A-combined-access-to-the-classic-and-jamf-pro-apis"></a>
 
 Version 2.0.0 is a major refactoring of ruby-jss. While attempting to provide as much backward compatibility as possible, there are some significant changes under the hood. **_PLEASE TEST YOUR CODE EXTENSIVELY_**
 
-This document discusses the high-level changes, listing the detailed changes that have already happened, as well as planned changes and deprecations. It also provides some discussion and background around all of this. It is a work-in-progress at the moment, and hopefully will prompt discussion and decision-making in the #ruby-jss channel of MacAdmins Slack (Please join us!)
+This document discusses the high-level changes, listing the changes that have already happened, as well as planned changes and deprecations. It also provides some discussion and background around all of this. It is a work-in-progress at the moment, and will probably remain so well after initial release. Hopefully this document will prompt discussion and decision-making in the #ruby-jss channel of MacAdmins Slack (Please join us!)
 
-These changes have been in mind for some time, but the ability (soon to be requirement) for the Classic API to authenticate with Bearer Tokens from the Jamf Pro API means that the time has come, so here we are!
+These changes have been in mind for some time, but the requirement in late 2022 for the Classic API to authenticate with Bearer Tokens from the Jamf Pro API means that the time has come, so here we are!
 
 **CONTENTS**
 
@@ -44,87 +43,77 @@ These changes have been in mind for some time, but the ability (soon to be requi
 <!-- /TOC -->
 
 ## Requirements
-<a id="markdown-requirements" name="requirements"></a>
 
 ruby-jss 2.0 requires ruby 2.6.3 or higher, and a Jamf Pro server running version 10.35 or higher.
 
 This means it will work with the OS-supplied /usr/bin/ruby in macOS 10.15 Catalina and above, until Apple removes ruby from the OS.
 
 ## High level changes
-<a id="markdown-high-level-changes" name="high-level-changes"></a>
 
 ### Ruby 3.x support
-<a id="markdown-ruby-3.x-support" name="ruby-3.x-support"></a>
 
 The plan is for ruby-jss 2.0+ to be compatible with ruby 2.6.3 and higher, including ruby 3.x
 
 As of this writing, basic access to the API seems to be working in ruby 3, but much much more testing is needed.
 
-It looks like the biggest changes have been dealing with keyword arguments as Hashs.  Methods defined with `def methodname([...] foo = {}` need to be changed to `def methodname([...] **foo` and calls to those methods, even in your own code, need to be changed to `methodname([...] **foo)` when `foo` is a hash of keyword args.
+It looks like the biggest changes have been dealing with keyword arguments as Hashs.  Methods defined with `def methodname([...] foo = {})` need to be changed to `def methodname([...] **foo)` and calls to those methods, even in your own code, need to be changed to `methodname([...] **foo)` when `foo` is a hash of keyword args.
 
 **IMPORTANT**: do not pass raw hashes as 'keyword' args.  Instead use the double-splat: `methodname(**hash)` which should be compatible with ruby 3.x and 2.6.x
 
 for more info see [Separation of positional and keyword arguments in Ruby 3.0](https://www.ruby-lang.org/en/news/2019/12/12/separation-of-positional-and-keyword-arguments-in-ruby-3-0/)
 
 ### Combined API access
-<a id="markdown-combined-api-access" name="combined-api-access"></a>
 
-ruby-jss has always used the `JSS` module to encapsulate all access to the Classic API. When the Jamf Pro API became a thing, the `Jamf` module was created as the way to interact with that API as it grew and developed.
+Previous versions of ruby-jss used the `JSS` module to encapsulate all access to the Classic API. When the Jamf Pro API became a thing, it was a vary different beast, so the `Jamf` module was created as the way to interact with that API as it grew and developed.
 
 Even though the latest Jamf Pro release notes say the Jamf Pro API is still officially "open for user testing", it has stablized enough that it is used by many folks for production work.
 
 The announcement with Jamf Pro 10.35 that the Classic API can use, and will eventually require, a Bearer Token from the Jamf Pro API meant that it was time to merge the two in ruby-jss.
 
 #### A single Connection class
-<a id="markdown-a-single-connection-class" name="a-single-connection-class"></a>
 
 There is now one `Jamf::Connection` class, instances of which are connections to a Jamf Pro server. Once connected, the connection instance maintains connections to _both_ APIs and other classes use them as needed. As before, there are low-level methods available for sending HTTP requests manually, which are specific to each API. See the documentation for `Jamf::Connection` (link TBA) for details.
 
 ##### Connecting to the API
-<a id="markdown-connecting-to-the-api" name="connecting-to-the-api"></a>
 
-Most of the previous methods and parameters for making API connections to either API should still work, including using a URL rather than individual connection parameters. So both of these are valid and identical:
+Most of the previous methods and parameters for making connections to either API should still work, including using a URL rather than individual connection parameters. So both of these are valid and identical:
 
 ```ruby
 a_connection = Jamf::Connection.new 'https://apiuser@my.jamf.server:8443/', pw: :prompt
 
 another_connection = Jamf::Connection.new host: 'my.jamf.server', port: 8443, user: 'apiuser', pw: :prompt
 ```
-
 Other connection parameters can be passed in as normal.
 
 ###### The default connection
-<a id="markdown-the-default-connection" name="the-default-connection"></a>
 
-The top-level module methods for accessing the 'default' connection are still available and are now synonyms: `Jamf.cnx` and `JSS.api` both return the current default Jamf::Connection instance. There is also a top-level methods`Jamf.connect` which is the same as `Jamf.cnx.connect`. The top-level methods for changing the default connection are still there. The use of `JSS::API` has been deprecated for years now, and still is (see below).
+The top-level module methods for accessing the 'default' connection are still available and are now synonyms: `Jamf.cnx` and `JSS.api` both return the current default Jamf::Connection instance. There is also a top-level methods`Jamf.connect` which is the same as `Jamf.cnx.connect`. The top-level methods for changing the default connection are still there. 
+
+NOTE: The use of `JSS::API` has been deprecated for years now, and still is (see below).
 
 #### A single namespace `Jamf`
-<a id="markdown-a-single-namespace-jamf" name="a-single-namespace-jamf"></a>
 
-Version 2.0.0 combines the `JSS` module and the `Jamf` module into a single `Jamf` module, with `JSS` aliased to it. This means you can use them interchangably to refer to the Jamf module, and existing code that used either should still work. The module name no longer indicates which API you're working with.
+Version 2.0.0 combines the `JSS` module and the `Jamf` module into a single `Jamf` module, with `JSS` aliased to it. This means you can use the names interchangably to refer to the Jamf module, and existing code that used either should still work. The module name no longer indicates which API you're working with.
 
 For example, the `JSS::Computer` class, from the Classic API, is still a thing, but now just points to the `Jamf::Computer` class, still from the Classic API.  The `Jamf::InventoryPreloadRecord` class, from the Jamf Pro API remains as is, but can also be referred to as `JSS::InventoryPreloadRecord`
 
 ##### Inherant differences between the APIs
-<a id="markdown-inherant-differences-between-the-apis" name="inherant-differences-between-the-apis"></a>
 
 In theory, you shouldn't need to worry about which classes and objects come from which API - you can just `.fetch`, `.create`, `.save`, etc.. and ruby-jss will deal with the API interaction for you.
 
 However, in reality the two APIs have different functionality, some of which must be reflected in the ruby classes that represent objects in those APIs.
 
-Take, for example, the classes for 'Collection Resources' - API endpoints that let you deal with collections of objects like Computers, or Inventory Preload Records.  These classes implement a `.all` class method, which retrieves a list of some data about all members of the collection.
+Take, for example, the classes for 'Collection Resources' - API endpoints that let you deal with collections of objects like Computers, or Inventory Preload Records.  These classes implement a `.all` class method, which retrieves an Array of some data about all members of the collection.
 
-Not only is the data returned in such lists very different between the APIs, but in the Jamf Pro API, you can ask the server to return the list already sorted, possibly filtered, or 'paged' in groups of some number of items. None of that is possible in the Classic API.
+Not only is the data returned in such Arrays very different between the APIs, but in the Jamf Pro API, you can ask the server to return the list already sorted, possibly filtered, or 'paged' in groups of some number of items. None of that is possible in the Classic API.
 
 The `.all` method, and its relatives like `.all_ids`, `.all_names`, etc. exist for Collection Resources in both APIs, but the methods take different parameters, e.g. to deal with sorting and filtering. Jamf Pro API classes have a `.pager` method which returns an object from which you can retrieve the 'pages' of your query.
 
 ##### Which API does an object come from?
-<a id="markdown-which-api-does-an-object-come-from%3F" name="which-api-does-an-object-come-from%3F"></a>
 
 To confirm which API a class comes from, just look at its `API_SOURCE` constant, e.g. `Jamf::Computer::API_SOURCE`. This constant will return a symbol, either `:classic` or `:jamf_pro`
 
 ### Automatic code generation
-<a id="markdown-automatic-code-generation" name="automatic-code-generation"></a>
 
 While the Classic API classes in ruby-jss are very hand-built and must be manually edited to add access to new data, the Jamf Pro API has an OpenAPI3 specification - a JSON document that fully describes the entire API and what it can do.
 
@@ -132,12 +121,13 @@ The API documentation you see at your own Jamf Pro server at https://your.jamf.s
 
 In ruby-jss 2.0 and up, the OAPI spec is used to automatically generate hundreds of 'base' classes in ruby-jss, each with automatically generated attribute getters, setters, validators, and other useful methods. These base classes can then be used as the superclasses of the Jamt Pro API objects we implement for direct use in ruby-jss - and the majority of the coding is already done! The subclasses implementing objects in ruby-jss can then be expanded and customized beyond the simple, auto-generated superclass.
 
-Not only does this make it fast and simple to implement new objects in ruby-jss, but allows fast and simple updates to existing objects, when new functionality is introduced to the API.
+Not only does this make it fast and simple to implement new objects in ruby-jss, but allows fast and simple updates to existing objects, when new functionality is introduced to the API. 
 
-If you develop ruby-jss, please see (documentation link TBA) for more info about how to use the auto-generated classes.
+Hopefully it will also allow a single version of ruby-jss to work with a wide range of Jamf Pro versions, as API endpoint versions are added and deprecated (details of how that'll work are TBD)
+
+If you develop ruby-jss, please see (documentation link will go here) for more info about how to use the auto-generated classes, or reach out to us. (See [Contact](#contact), below)
 
 ### Autoloading with Zeitwerk
-<a id="markdown-autoloading-with-zeitwerk" name="autoloading-with-zeitwerk"></a>
 
 Because the classes generated from the OAPI spec number in the hundreds, it's a waste of memory and time to load all of them in every time you `require 'ruby-jss'`, since most of them will never be used for any given application.
 
@@ -151,10 +141,8 @@ Then as files load, lines will be written to standard error indicating:
   - A method was just automatically defined
 
 ## Notable changes from ruby-jss 1.x
-<a id="markdown-notable-changes-from-ruby-jss-1.x" name="notable-changes-from-ruby-jss-1.x"></a>
 
 ### Paged queries to the Jamf Pro API
-<a id="markdown-paged-queries-to-the-jamf-pro-api" name="paged-queries-to-the-jamf-pro-api"></a>
 
 In the previous Jamf module, to get paged API results from a list of all objects in a collection, you would use the `page_size:` and `page:` parameters to the `.all` class method, and then use `.next_page_of_all` to get subsequent pages. Unfortunately the way this happened was not threadsafe.
 
@@ -163,41 +151,43 @@ Now to get paged results, use the `.pager` class method, optionally sorted and f
 The `.all` method will never deliver paged results, however if you give it a `filter` parameter for classes that support filtering, then `.all` returns "all that match the filter", which may be fewer than the entire collection.
 
 ### API data are no longer cached (?)
-<a id="markdown-api-data-are-no-longer-cached-%3F" name="api-data-are-no-longer-cached-%3F"></a>
 
-**NOTE:** As of this writing, caching has been removed for the objects from the Jamf Pro API, but caching remains in the Classic API. Its removal, or the re-instatement of caching for JP API objects, are pending discussion with users of ruby-jss.
+**NOTE:** As of this writing, caching has been removed for the objects from the Jamf Pro API, but caching remains in the Classic API. Its removal, or the re-instatement of caching for JP API objects, are pending discussion with other users of ruby-jss.
 
 Pre-2.0, methods that would fetch large datasets from the server would always cache that data in the Connection object, and by default use the cache in future calls unless a `refresh` parameter is given. These datasets included:
 
 - collection lists, used by `.all` and friends, like `.all_ids` and `.valid_id`
-- Extension Attribute, definitions, used for validating Extension Attribute values
+- Extension Attribute definitions, used for validating Extension Attribute values
 
 In 2.0+, that caching has been removed for objects from them Jamf Pro API.
 
- If you want to avoid repeated GET requests to the server when you aren't worried that the resulting data may have changed, you can store the results of `.all` in a variable, and either use it yourself, or pass it in to other methods via the `cached_list:` parameter. Passing in a cached_list wil prevent those methods from calling `.all` and reaching out to the server again.
+If you want to avoid repeated GET requests to the server when you aren't worried that the resulting data may have changed, you can store the results of `.all` in a variable, and either use it yourself, or pass it in to other methods via the `cached_list:` parameter. Passing in a cached_list wil prevent those methods from calling `.all` and reaching out to the server again.
 
-**WARNING**: Be careful that the list you pass in via `cached_list` contains the correct data structure for the class, and came from the desired Connection instance.
+**WARNING**: Caching a list yourself and using it with `cached_list` can cause all kinds of problems if you don't ensure these points:
+- the cached_list contains the correct data structure for the class
+  - i.e. pass in the results of `.all` for that class, not `.all_ids` or other sub-lists.
+- the cached_list came from the correct Connection instance
+- the cached_list is sufficiently up to date.
 
 ### No Attribute aliases for Jamf Pro API objects
-<a id="markdown-no-attribute-aliases-for-jamf-pro-api-objects" name="no-attribute-aliases-for-jamf-pro-api-objects"></a>
 
 Objects from the Jamf Pro API will no longer define aliases for the attribute names that come from the API itself. This means, e.g., to get the name of a ComputerPrestage or MobileDevicePrestage, you have to ask for its `displayName` not its `name`, since the property comes from the API as `displayName`. To see a list  of all the names, you must use `.all_displayNames` not `.all_names`.  For objects with a 'name' property (most of them) then you can use `.name` and `.all_names`.
 
-The reason behind this is twofold: 1) to simplify ruby-jss's code and automate as much as possible; 2) to reflect what Jamf actually gives us in the APIs.
+The reason behind this is twofold: 
+1) to simplify ruby-jss's code and automate as much as possible
+2) to reflect what Jamf actually gives us in the APIs
 
-This is a breaking change from earlier ruby-jss versions, for which Jamf Pro API objects had the potential for aliases of their attribute names.
+**IMPORTANT** This is a breaking change from earlier ruby-jss versions, for which Jamf Pro API objects had the potential for aliases of their attribute names.
 
 ### Class/Mixin hierarchy for Jamf Pro API objects
-<a id="markdown-class%2Fmixin-hierarchy-for-jamf-pro-api-objects" name="class%2Fmixin-hierarchy-for-jamf-pro-api-objects"></a>
 
 If you contribute to ruby-jss, be aware that the structure of superclasses, subclasses, and mixin modules, and their file locations has changed drastically. Also changed is how to implement new objects using the OAPI auto-generated classes. These changes are due to using the auto-generated classes, as well as using Zeitwerk to autoload everything.
 
 There's a lot to document about these changes, and much of the current documentation is out of date, referring to how things were done when the Jamf module was separate and only talked to the Jamf Pro API.
 
-Give us time and we'll get everything updated. In the meantime, feel free to reach out in the #ruby-jss channel of Macadmins Slack, or open an issue on GitHub, or email ruby-jss@pixar.com.
+Give us time and we'll get everything updated. In the meantime, feel free to reach out for assistance or questions. (See [Contact](#contact), below)
 
 ### Support for 'Sticky Sessions' in Jamf Cloud
-<a id="markdown-support-for-'sticky-sessions'-in-jamf-cloud" name="support-for-'sticky-sessions'-in-jamf-cloud"></a>
 
 If you are connecting to a Jamf Cloud server, you can specifcy `sticky_sessions: true` when calling `Jamf::Connection.new` or `Jamf::Connection#connect`. If you already have a connected Connection object, you can enable or disable Sticky Sessions using `my_connection_object.sticky_session =` with a boolean value (for the default connection use `Jamf.cnx.sticky_session = <boolean>`). To see the actual cookie being sent to enable sticky sessions, use `Jamf::Connection#sticky_session_cookie`. 
 
@@ -207,12 +197,9 @@ For details about Sticky Sessions see [Sticky Sessions for Jamf Cloud](https://d
 
 **WARNING:** Jamf recommends NOT using sticky sessions unless they are needed. Using them inappropriately may negatively impact performance, especially for large automated processes.
 
-
 ## Planned deprecations
-<a id="markdown-planned-deprecations" name="planned-deprecations"></a>
 
 ### Use of the term 'api' in method names, parameter names, and attributes
-<a id="markdown-use-of-the-term-'api'-in-method-names%2C-parameter-names%2C-and-attributes" name="use-of-the-term-'api'-in-method-names%2C-parameter-names%2C-and-attributes"></a>
 
 Use `cnx` instead. Example:
 
@@ -234,25 +221,27 @@ comp = JSS::Computer.fetch id: 12, cnx: my_connection
 comp.cnx # => my_connection
 ```
 
-In ruby-jss < 2.0, the term `api` is used with the Classic API in method names, method parameters, instance variables, attributes, and constants. It is used to pass, access, or hold instances of JSS::APIConnnection, e.g. so a method that talks to the server would use the passed connection rather than the module-wide default connection.  But, the thing being passed is a 'connection' not an 'API', and now that there are actually two APIs at play, that usage is even less appropriate.
+In ruby-jss < 2.0, the term `api` is used with the Classic API in method names, method parameters, instance variables, attributes, and constants. It is used to pass, access, refer to, or hold instances of JSS::APIConnnection, e.g. so a method that talks to the server would use the passed connection rather than the module-wide default connection.  
 
-The Original Jamf module, which accessed only the Jamf Pro API, has always used the better-suited abbreviation `cnx` for this, and now that is standard everywhere. For now `api` should continue to work, but it will be removed 'eventually', so please start changing your code now.
+But, the thing being passed is a 'connection' not an 'API', and now that there are actually two APIs at play, that usage is even less appropriate.
 
-Accordingly, `JSS::API` (which should never have been a constant to begin with) is also deprecated. To access the default connection, use `Jamf.cnx`
+The original Jamf module, which accessed only the Jamf Pro API, has always used the better-suited abbreviation `cnx` for this, and now that is standard everywhere. 
+
+For now `api` should continue to work, but it will be removed 'eventually', so please start changing your code now.
+
+Accordingly, `JSS::API` (which should never have been a constant to begin with) has been deprecated for years in favor of `JSS.api`, which is now also deprecated. To access the default connection, use `Jamf.cnx`
 
 ### `.map_all_ids_to` method for Classic API collection classes
-<a id="markdown-.map_all_ids_to-method-for-classic-api-collection-classes" name=".map_all_ids_to-method-for-classic-api-collection-classes"></a>
 
 The `map_all_ids_to` method for the Classic API collection classes has been superceded by the more flexible `map_all` method, bringing it in-line with the Jamf Pro API classes.
 
 For now `map_all_ids_to` still works, however it's just a wrapper for `map_all`. Eventually the older method will be removed.
 
 ### Using `.make`, `#create`, and `#update` for Classic API objects
-<a id="markdown-using-.make%2C-%23create%2C-and-%23update-for-classic-api-objects" name="using-.make%2C-%23create%2C-and-%23update-for-classic-api-objects"></a>
 
 Use `.create` and `#save` instead, as with the Jamf Pro API objects
 
-In previous ruby-jss, both APIs avoided the use of the ruby-standard `.new` on Collection Resource classes, because the word 'new' in this context is ambiguous: are you creating a new instance of the class in ruby (which might already exist on the server), or are you creating a new object in Jamf Pro that doesn't yet exist on the server?
+All versions of ruby-jss have avoided the use of the ruby-standard `.new` on Collection Resource classes, because the word 'new' in this context is ambiguous: are you creating a new instance of the class in ruby (which might already exist on the server), or are you creating a new object in Jamf Pro that doesn't yet exist on the server?
 
 In v2.0.0 we are standardizing on the behavior of the previous Jamf module:
 
@@ -307,17 +296,14 @@ existing_policy.save
 ```
 
 ### JSS::CONFIG
-<a id="markdown-jss%3A%3Aconfig" name="jss%3A%3Aconfig"></a>
 
-This also should never have been a constant.  Use Jamf.config.  JSS::CONFIG will go away eventually.
+This should never have been a constant.  Use Jamf.config.  JSS::CONFIG will go away eventually.
 
 ### Jamf::Connection instance methods `#next_refresh`, `#secs_to_refresh`, &  `#time_to_refresh`
-<a id="markdown-jamf%3A%3Aconnection-instance-methods-%23next_refresh%2C-%23secs_to_refresh%2C-%26--%23time_to_refresh" name="jamf%3A%3Aconnection-instance-methods-%23next_refresh%2C-%23secs_to_refresh%2C-%26--%23time_to_refresh"></a>
 
 These values are actually part of the token used by the connection, not the conection itself. Replace them with `#token.next_refresh`, `#token.secs_to_refresh`, & `#token.time_to_refresh`
 
 ### Cross-object validation in setters
-<a id="markdown-cross-object-validation-in-setters" name="cross-object-validation-in-setters"></a>
 
 Most 'setters' (methods that let you set values for the attributes of an object) in ruby-jss perform some kind of validation to make sure the value you're trying to set is valid for that attribute. While still true, in v2.0 and up, this validation will be much more limited, mostly to ensuring the new value is of the correct type, e.g. an integer or a string, or a Jamf::Timestamp.
 
@@ -338,19 +324,16 @@ This type of pre-validation will be removed over time from objects in the Classi
 The last point is very important.  Right now, in order to be able to manipulate the scope of any scopable object, the account with which you're accessing the API must have at least 'read' permission on all the different kinds of objects that _might_ be in the scope: computers, computer groups, buildings, departments, network segments, and so on. Removing or limiting the validation-based interdependency will make it easier to limit the access needed for API service accounts, and thereby increase overall security.
 
 ### .fetch :random
-<a id="markdown-fetch-%3Arandom" name="fetch-%3Arandom"></a>
 
 You can still fetch random objects from a collection, but use `.fetch random: true`. The older `.fetch :random` is deprecated and will be removed.
 
 ## Documentation
-<a id="markdown-documentation" name="documentation"></a>
 
 The YARD documentation for v2.0.0 is available before release in the [github.io site for ruby-jss](http://pixaranimationstudios.github.io/ruby-jss/docs/v2.x/index.html).
 
-All the documentation for ruby-jss is in need of updating, from the top-level README to the auto-generated YARD docs.  If you have questions that aren't answered there, please reach out (see Contact, below)
+All the documentation for ruby-jss is in serious need of updating, from the top-level README to the auto-generated YARD docs. Forgive us while we slowly get it up to snuff. If you have questions that aren't answered there, please reach out (see [Contact](#contact), below)
 
 ## How to install for testing
-<a id="markdown-how-to-install-for-testing" name="how-to-install-for-testing"></a>
 
 `gem install ruby-jss --version 2.0.0xy`
 
@@ -361,6 +344,5 @@ You can also clone the GitHub repo, cd into the top level of the project and run
 Check GitHub or rubygems.org to make sure you have the lastest test version.
 
 ## Contact
-<a id="markdown-contact" name="contact"></a>
 
 If you have questions or feedback about all this, please reach out in the [#ruby-jss channel of Macadmins Slack](https://macadmins.slack.com/archives/C03C7F563MK), or open an issue on GitHub, or email ruby-jss@pixar.com.
