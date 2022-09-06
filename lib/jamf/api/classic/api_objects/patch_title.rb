@@ -180,6 +180,7 @@ module Jamf
         info[:source_id] = info[:source_id].to_i
       end
       return data unless source_id
+
       data.select { |p| p[:source_id] == source_id }
     end
 
@@ -311,9 +312,11 @@ module Jamf
     # so all other lookup values have to be converted to ID before
     # the call to super
     #
-    def self.fetch(identifier = nil, **params)
-      # default api
-      api = params[:api] ? params[:api] : Jamf.cnx
+    def self.fetch(identifier = nil, **params)      
+      # default connection if unspecified
+      cnx = params.delete :cnx
+      cnx ||= params.delete :api # backward compatibility, deprecated
+      cnx ||= Jamf.cnx
 
       # source: and source_id: are considered the same, source_id: wins
       params[:source_id] ||= params[:source]
@@ -349,8 +352,8 @@ module Jamf
       cnx = api if api
 
       id = all_ids(refresh, cnx: cnx).include?(ident) ? ident : nil
-      id ||= map_all_ids_to(:source_name_id).invert[ident]
-      id ||= map_all_ids_to(:name).invert[ident]
+      id ||= map_all(:id, to: :source_name_id).invert[ident]
+      id ||= map_all(:id, to: :name).invert[ident]
       id
     end
 
@@ -376,7 +379,6 @@ module Jamf
     attr_reader :email_notification
     alias email_notification? email_notification
 
-    #
     def initialize(**args)
       super
 
@@ -421,10 +423,10 @@ module Jamf
     def versions
       return @versions unless in_jss
       return @versions unless @versions.empty?
+
       # if we are in jss, and versions is empty, re-fetch them
       @versions = self.class.fetch(id: id).versions
     end
-
 
     # @return [Hash] Subset of @versions, containing those which have packages
     #   assigned
@@ -442,6 +444,7 @@ module Jamf
     def email_notification=(new_setting)
       return if email_notification == new_setting
       raise Jamf::InvalidDataError, 'New Setting must be boolean true or false' unless Jamf::TRUE_FALSE.include? @email_notification = new_setting
+
       @need_to_update = true
     end
 
@@ -454,6 +457,7 @@ module Jamf
     def web_notification=(new_setting)
       return if web_notification == new_setting
       raise Jamf::InvalidDataError, 'New Setting must be boolean true or false' unless Jamf::TRUE_FALSE.include? @web_notification = new_setting
+
       @need_to_update = true
     end
 
@@ -467,8 +471,8 @@ module Jamf
 
     # wrapper to fetch versions after creating
     def create
-      response = super
-      response
+      super
+      
     end
 
     # wrapper to clear @changed_pkgs after updating
@@ -535,6 +539,7 @@ module Jamf
         pkg = velem.add_element 'package'
         # leave am empty package element to remove the pkg assignement
         next if versions[vers].package_id == :none
+
         pkg.add_element('id').text = versions[vers].package_id.to_s
       end # do vers
     end
