@@ -963,7 +963,7 @@ module Jamf
 
       # which connection?
       cnx = args.delete :cnx
-      cnx ||= args.delete :api
+      cnx ||= args.delete :api # backward compatibility, deprecated
       cnx ||= Jamf.cnx
 
       # refresh the .all list if needed
