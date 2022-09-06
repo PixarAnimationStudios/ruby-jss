@@ -106,7 +106,7 @@ module Jamf
   # If you provide connection details when calling 'new', they will be passed
   # to the {#connect} method immediately. Otherwise you can call {#connect} later.
   #
-  #   production_api = Jamf::Connection.new(
+  #   production_server = Jamf::Connection.new(
   #     'https://produser@prodserver.address.org:8443/'
   #     name: 'prod',
   #     pw: :prompt
