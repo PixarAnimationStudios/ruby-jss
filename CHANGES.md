@@ -4,29 +4,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## **IMPORTANT: Known Security Issue in v1.5.3 and below**
+## _IMPORTANT_: Known Security Issue in v1.5.3 and below
 
-Versions of ruby-jss prior to 1.6.0 contain a known security issue due to the use of the 'plist' gem.
+Versions of ruby-jss prior to 1.6.0 contain a known security issue due to how we were using the 'plist' gem.
 
 This has been resolved in 1.6.0, which now uses the CFProperlyList gem.
 
-Please update all installations of ruby-jss to at least v1.6.0.
+__Please update all installations of ruby-jss to at least v1.6.0.__
 
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
+
 
 ## \[2.0.0] - Unreleased
 
 Version 2.0.0 is a major refactoring of ruby-jss. While attempting to provide as much backward compatibility as possible, there are some significant changes and v2.0.0 is not fully backward compatible. **PLEASE TEST YOUR CODE EXTENSIVELY**
 
-Here are the high-level changes and there are many many others. For more details, see [CHANGES-2.0.0](CHANGES-2.0.0.md)
+Here are the high-level changes and there are many many others. For more details, see [CHANGES-2.0.0.md](CHANGES-2.0.0.md)
 
-- Combined access to both APIs.
-  - The Classic and Jamf Pro APIs are no longer separated into the JSS and Jamf modules. There is only the `Jamf` module, and `JSS` is merely an alias of it, so all your code refering to the JSS module should still work.
-- Auto-generated classes for the Jamf Pro API
-  - Base classes for JamfPro API objects are automatically generated from the OAPI3 Schema available at https://your.jamf.server/api/schema. This make it much simpler for ruby-jss to implement and update new and changed objects and endpoints in the Jamf Pro API.
-- Code is auto-loaded from disk
-  - Because the auto-generated classes add hundreds of files to the gem, ruby-jss now uses [Zeitwerk](https://github.com/fxn/zeitwerk) to auto-load only the files it needs when they are needed.
 - Support for Ruby 3.x
+  - tested in 3.0 and 3.1
+- Combined access to both the Classic and Jamf Pro APIs
+  - A single namespace module
+  - Connection objects talk to both APIs & automatically handle details like bearer tokens
+- Auto-generated code for Jamf Pro API objects
+- Autoloading of code using [Zeitwerk](https://github.com/fxn/zeitwerk)
+
 
 
 ## \[1.6.7] - 2022-02-22
