@@ -1,10 +1,25 @@
 # ruby-jss: Working with the Jamf Pro APIs in Ruby
-<a id="markdown-ruby-jss%3A-working-with-the-jamf-pro-apis-in-ruby" name="ruby-jss%3A-working-with-the-jamf-pro-apis-in-ruby"></a>
 [![Gem Version](https://badge.fury.io/rb/ruby-jss.svg)](http://badge.fury.io/rb/ruby-jss)
 
-**IMPORTANT: Known Security Issue in v1.5.3 and below**
+## Version 2.0.0 has been released
 
-Versions of ruby-jss prior to 1.6.0 contain a known security issue due to the use of the 'plist' gem.
+Version 2.0.0 has major changes! While we've strived for backward compatibility, and have done lots of testing, YMMV.  Please report any issues.
+
+### Highlights
+
+- Support for Ruby 3.x
+  - tested in 3.0 and 3.1
+- Combined access to both the Classic and Jamf Pro APIs
+  - A single namespace module
+  - Connection objects talk to both APIs & automatically handle details like bearer tokens
+- Auto-generated code for Jamf Pro API objects
+- Autoloading of code using [Zeitwerk](https://github.com/fxn/zeitwerk)
+
+For details about the changes, the document [README-2.0.0.md](README-2.0.0.md).
+
+## _IMPORTANT_: Known Security Issue in v1.5.3 and below
+
+Versions of ruby-jss prior to 1.6.0 contain a known security issue due to how we were using the 'plist' gem.
 
 This has been resolved in 1.6.0, which now uses the CFProperlyList gem.
 
@@ -15,10 +30,12 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
 ------
 
 # Table of contents
-<a id="markdown-table-of-contents" name="table-of-contents"></a>
 
 <!-- TOC -->
 
+- [Version 2.0.0 has been released](#version-200-has-been-released)
+  - [Highlights](#highlights)
+- [_IMPORTANT_: Known Security Issue in v1.5.3 and below](#_important_-known-security-issue-in-v153-and-below)
 - [DESCRIPTION](#description)
 - [SYNOPSIS](#synopsis)
 - [USAGE](#usage)
@@ -45,7 +62,6 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
 <!-- /TOC -->
 
 ## DESCRIPTION
-<a id="markdown-description" name="description"></a>
 
 ruby-jss defines a Ruby module called `Jamf`, which is used for accessing the 'Classic' and 
 'Jamf Pro' APIs of a Jamf Pro server. Jamf Pro is an enterprise-level management tool for Apple
@@ -69,7 +85,6 @@ Hopefully others will find it useful, and add more to it as well.
 [Full technical documentation can be found here.](http://www.rubydoc.info/gems/ruby-jss/)
 
 ## SYNOPSIS
-<a id="markdown-synopsis" name="synopsis"></a>
 
 Here are some simple examples of using ruby-jss
 
@@ -116,10 +131,8 @@ ns.save
 ```
 
 ## USAGE
-<a id="markdown-usage" name="usage"></a>
 
 ### Connecting to the Server
-<a id="markdown-connecting-to-the-server" name="connecting-to-the-server"></a>
 
 Before you can work with Jamf Pros Objects via the APIs, you have to connect to the server.
 
@@ -154,7 +167,6 @@ Also see Jamf::Configuration, and the [CONFIGURATION](#configuration) section be
 server connection parameters in a simple config file.
 
 #### Using multiple connections
-<a id="markdown-using-multiple-connections" name="using-multiple-connections"></a>
 
 Most of the time, you'll only need a single connection to a single server, and the default connection will be sufficient. However 
 you can also create multiple Connection objects, to different servers, or perhaps the same server with different credentials and 
@@ -179,7 +191,6 @@ common_ipr_sns = ipr_sns_1 & ipr_sns_2
 ```
 
 ### Working with Jamf Objects
-<a id="markdown-working-with-jamf-objects" name="working-with-jamf-objects"></a>
 
 All of the ruby classes representing objects in Jamf Pro have common methods for creating, listing, retrieving, updating, and deleting via the API. 
 All supported objects can be listed, retrieved and deleted, but only some can be updated or created, mostly becase we haven't needed to do that ourselves
@@ -193,7 +204,6 @@ as are the API resources for accessing management history.
 --------
 
 #### Listing Objects
-<a id="markdown-listing-objects" name="listing-objects"></a>
 
 To get an Array with a summary of every object in the Jamf of some Class, call that Class's .all method:
 
@@ -218,7 +228,6 @@ To create, modify, or perform advanced searches, use the classes Jamf::AdvancedC
 --------
 
 #### Retrieving Objects
-<a id="markdown-retrieving-objects" name="retrieving-objects"></a>
 
 To retrieve a single object call the class's `.fetch` method and provide a name:,  id:, or other valid identifier.
 
@@ -234,7 +243,6 @@ You can even fetch objects without specifying the kind of identifier, e.g. `Jamf
 --------
 
 #### Creating Objects
-<a id="markdown-creating-objects" name="creating-objects"></a>
 
 Some Objects can be created anew in the Jamf via ruby. To do so, first make a Ruby object using the class's `.create` method and providing a unique :name:, e.g.
 
@@ -260,7 +268,6 @@ new_pkg.save # returns 453, the id number of the object just created
 --------
 
 #### Updating Objects
-<a id="markdown-updating-objects" name="updating-objects"></a>
 
 Some objects can be modified.
 
@@ -278,7 +285,6 @@ existing_script.save #  => returns the id number of the object just saved
 --------
 
 #### Deleting Objects
-<a id="markdown-deleting-objects" name="deleting-objects"></a>
 
 To delete an object, just call its #delete method
 
@@ -300,7 +306,6 @@ For more details see the docs for:
 See the individual subclasses for any details specific to them.
 
 ## OBJECTS IMPLEMENTED
-<a id="markdown-objects-implemented" name="objects-implemented"></a>
 
 While the API itself supports nearly full CRUD (Create,Read,Update,Delete) for all objects, ruby-jss doesn't yet do so. Why? Because implementing the data validation and other parts needed for creating & updating can be time-consuming and we've focused on what we needed. As we keep developing ruby-jss, this list changes. If you'd like to help implement some of these objects more fully, please fork the github project and reach out to us at ruby-jss@pixar.com.
 
@@ -352,7 +357,6 @@ Here's some of what we've implemented so far. See each Class's [documentation(ht
 **NOTE** Most Computer and MobileDevice data gathered by an Inventory Upate (a.k.a. 'recon') is not editable.
 
 #### Other useful classes & modules:
-<a id="markdown-other-useful-classes-%26-modules%3A" name="other-useful-classes-%26-modules%3A"></a>
 
 These modules either provide stand-alone methods, or are mixed in to other classes to extend their functionality. See their documentation for details
 
@@ -365,7 +369,6 @@ These modules either provide stand-alone methods, or are mixed in to other class
 * {Jamf::MDM} - a module that handles sending MDM commands. It is accessed via the Computer and MobileDevice classes and their instances.
 
 ## Object-related API endpoints
-<a id="markdown-object-related-api-endpoints" name="object-related-api-endpoints"></a>
 
 The classic API provides many endpoints not just for objects stored in Jamf Pro, but also for accessing data *about* those  objects or interacting with the machines they represent. ruby-jss embeds access to those endpoints into their related classes.
 
@@ -379,7 +382,6 @@ For example:
   - These endpoints provide access to the MDM infrastructure, and can be used to send MDM commands. Ruby-jss provides these as class and instance methods in {Jamf::Computer}, {Jamf::ComputerGroup}, {Jamf::MobileDevice}, and {Jamf::MobileDeviceGroup}
 
 ## CONFIGURATION
-<a id="markdown-configuration" name="configuration"></a>
 
 The {Jamf::Configuration} singleton class is used to read, write, and use site-specific defaults for the Jamf module. When ruby-jss is required, the single instance of {Jamf::Configuration} is created and accessible via the `Jamf.config` method. At that time the system-wide file /etc/ruby-jss.conf is examined if it exists, and the items in it are loaded into the attributes of Configuration instance. The user-specific file ~/.ruby-jss.conf then is examined if it exists, and any items defined there will override those values from the system-wide file.
 
@@ -411,7 +413,6 @@ api_timeout: 90
 and then any calls to Jamf.cnx.connect will assume that server and username, and use a timeout of 90 seconds.
 
 ### Passwords
-<a id="markdown-passwords" name="passwords"></a>
 
 The config files don't store passwords and the {Jamf::Configuration} instance doesn't work with them. You'll have to use your own methods for acquiring the password for the Jamf.cnx.connect call.
 
@@ -435,7 +436,6 @@ Jamf.cnx.connect pw: password   # other arguments used from the config settings
 ```
 
 ## BEYOND THE API
-<a id="markdown-beyond-the-api" name="beyond-the-api"></a>
 
 While the Jamf Pro APIs provide access to object data in the Jamf, ruby-jss tries to use that data to provide more than just information exchange. Here are some examples of how ruby-jss uses the API to provide functionality found in various Jamf tools:
 
@@ -456,14 +456,12 @@ While the Jamf Pro APIs provide access to object data in the Jamf, ruby-jss trie
   * {Jamf::ExtensionAttribute} work with {Jamf::AdvancedSearch} subclasses to provide extra reporting about Extension Attribute values.
 
 ## INSTALL
-<a id="markdown-install" name="install"></a>
 
 In general, you can install ruby-jss with this command:
 
 `gem install ruby-jss`
 
 ## REQUIREMENTS
-<a id="markdown-requirements" name="requirements"></a>
 
 ruby-jss 2.0.0 requires:
 
@@ -475,7 +473,6 @@ See the .gemspec file for details
 
 
 ### Contact
-<a id="markdown-contact" name="contact"></a>
 
 If you have questions or feedback about ruby-jss, please reach out  to us via:
 - The [#ruby-jss channel of Macadmins Slack](https://macadmins.slack.com/archives/C03C7F563MK)
@@ -484,7 +481,6 @@ If you have questions or feedback about ruby-jss, please reach out  to us via:
 
 
 ## HELP & CONTACT INFO
-<a id="markdown-help-%26-contact-info" name="help-%26-contact-info"></a>
 
 Full documentation is available at [rubydoc.info](http://www.rubydoc.info/gems/ruby-jss/).
 
@@ -496,7 +492,6 @@ You can report issues in several ways:
 - Join the conversation in the [#ruby-jss Macadmins Slack Channel](https://macadmins.slack.com/archives/C03C7F563MK)
 
 ## LICENSE
-<a id="markdown-license" name="license"></a>
 
 Copyright 2022 Pixar
 

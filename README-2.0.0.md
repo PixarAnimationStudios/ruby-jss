@@ -2,7 +2,9 @@
 
 Version 2.0.0 is a major refactoring of ruby-jss. While attempting to provide as much backward compatibility as possible, there are some significant changes under the hood. **_PLEASE TEST YOUR CODE EXTENSIVELY_**
 
-This document discusses the high-level changes, listing the changes that have already happened, as well as planned changes and deprecations. It also provides some discussion and background around all of this. It is a work-in-progress at the moment, and will probably remain so well after initial release. Hopefully this document will prompt discussion and decision-making in the #ruby-jss channel of MacAdmins Slack (Please join us!)
+This document discusses the high-level changes, a few specific changes that have already happened, as well as planned changes and deprecations. It also provides some discussion and background around all of this. 
+
+This is a work-in-progress at the moment, and will probably remain so well after initial release. Hopefully this document will prompt discussion and decision-making in the [#ruby-jss channel of Macadmins Slack](https://macadmins.slack.com/archives/C03C7F563MK) (Please join us!)
 
 These changes have been in mind for some time, but the requirement in late 2022 for the Classic API to authenticate with Bearer Tokens from the Jamf Pro API means that the time has come, so here we are!
 
@@ -22,6 +24,7 @@ These changes have been in mind for some time, but the requirement in late 2022 
       - [Which API does an object come from?](#which-api-does-an-object-come-from)
   - [Automatic code generation](#automatic-code-generation)
   - [Autoloading with Zeitwerk](#autoloading-with-zeitwerk)
+- [Known Breaking Changes](#known-breaking-changes)
 - [Notable changes from ruby-jss 1.x](#notable-changes-from-ruby-jss-1x)
   - [Paged queries to the Jamf Pro API](#paged-queries-to-the-jamf-pro-api)
   - [API data are no longer cached ?](#api-data-are-no-longer-cached-)
@@ -29,7 +32,7 @@ These changes have been in mind for some time, but the requirement in late 2022 
   - [Class/Mixin hierarchy for Jamf Pro API objects](#classmixin-hierarchy-for-jamf-pro-api-objects)
   - [Support for 'Sticky Sessions' in Jamf Cloud](#support-for-sticky-sessions-in-jamf-cloud)
 - [Planned deprecations](#planned-deprecations)
-  - [Use of the term 'api' in method names, parameter names, and attributes](#use-of-the-term-api-in-method-names-parameter-names-and-attributes)
+  - [Use of the term 'api'](#use-of-the-term-api)
   - [.map_all_ids_to method for Classic API collection classes](#map_all_ids_to-method-for-classic-api-collection-classes)
   - [Using .make, #create, and #update for Classic API objects](#using-make-create-and-update-for-classic-api-objects)
   - [JSS::CONFIG](#jssconfig)
@@ -44,7 +47,7 @@ These changes have been in mind for some time, but the requirement in late 2022 
 
 ## Requirements
 
-ruby-jss 2.0 requires ruby 2.6.3 or higher, and a Jamf Pro server running version 10.35 or higher.
+ruby-jss 2.0,0 requires ruby 2.6.3 or higher, and a Jamf Pro server running version 10.35 or higher.
 
 This means it will work with the OS-supplied /usr/bin/ruby in macOS 10.15 Catalina and above, until Apple removes ruby from the OS.
 
@@ -58,9 +61,9 @@ As of this writing, basic access to the API seems to be working in ruby 3, but m
 
 It looks like the biggest changes have been dealing with keyword arguments as Hashs.  Methods defined with `def methodname([...] foo = {})` need to be changed to `def methodname([...] **foo)` and calls to those methods, even in your own code, need to be changed to `methodname([...] **foo)` when `foo` is a hash of keyword args.
 
-**IMPORTANT**: do not pass raw hashes as 'keyword' args.  Instead use the double-splat: `methodname(**hash)` which should be compatible with ruby 3.x and 2.6.x
+**IMPORTANT**: This may be a breaking change. Do not pass raw hashes as 'keyword' args. Instead use the double-splat: `methodname(**hash)` which should be compatible with ruby 3.x and 2.6.x
 
-for more info see [Separation of positional and keyword arguments in Ruby 3.0](https://www.ruby-lang.org/en/news/2019/12/12/separation-of-positional-and-keyword-arguments-in-ruby-3-0/)
+For more info see [Separation of positional and keyword arguments in Ruby 3.0](https://www.ruby-lang.org/en/news/2019/12/12/separation-of-positional-and-keyword-arguments-in-ruby-3-0/)
 
 ### Combined API access
 
@@ -140,6 +143,19 @@ Then as files load, lines will be written to standard error indicating:
   - A module was mixed-in to some other module or class
   - A method was just automatically defined
 
+## Known Breaking Changes
+
+So far we've only uncovered a few areas where our ruby-jss 1.x code didn't work with ruby-jss 2.0.0
+
+- Using unsplatted Hashes as 'named parameters' to method calls. 
+  - See [Ruby 3.x support](#ruby-3x-support) above
+
+- Jamf Pro API objects no longer have aliases for their attributes
+  - See [No Attribute aliases for Jamf Pro API objects](#no-attribute-aliases-for-jamf-pro-api-objects) below
+
+- Subclassing ruby-jss classes in your own code.
+  - Those classes, and methods called on them, may need to be updated to match the new ruby-jss classes, in order to maintain _their_ backward compatibility.
+
 ## Notable changes from ruby-jss 1.x
 
 ### Paged queries to the Jamf Pro API
@@ -199,9 +215,25 @@ For details about Sticky Sessions see [Sticky Sessions for Jamf Cloud](https://d
 
 ## Planned deprecations
 
-### Use of the term 'api' in method names, parameter names, and attributes
+Even though it was publically released in 2014, ruby-jss's origins are from 2009, so it's been around for a while. We've learned a lot since then, and lots of the old lingering code is terribly out of date.
 
-Use `cnx` instead. Example:
+The move to 2.0.0 is our opportunity to start streamlining things and cleaning up not just the code, but how it's used.
+
+We wanted to make the initial transition to 2.0.0 as backward-compatible as possible, but going forward, a lot of things will be changing or going away. 
+
+All of this is up for discussion! If you have suggestions or ideas for improvement, cleanup, or modernization, or if one of these deprecated items is important to you, [please reach out](#contact) and let us hear your thoughts.
+
+As a side effect of these planned changes, and due to our attempts to adhere to [Semantic Versioning](https://semver.org), you can expect the major version number to start going up faster than it used to.
+
+Here are the things we are planning on removing or changing in the coming months-to-years:
+
+### Use of the term 'api' 
+
+In ruby-jss < 2.0, the term `api` is used with the Classic API in method names, method parameters, instance variables, attributes, and constants. It is used to pass, access, refer to, or hold instances of JSS::APIConnnection, e.g. so a method that talks to the server would use the passed connection rather than the module-wide default connection.  
+
+The term 'api' is inappropriate because the thing being passed is a 'connection' not an 'api'. Now that there are actually two APIs at play, that usage is even less appropriate.
+
+Going forward, use `cnx` (simpler to type than 'connection') instead. Example:
 
 ```ruby
 my_connection = Jamf::Connection.new 'https://user@my.jamf.server:8443/', pw: :prompt
@@ -220,10 +252,6 @@ comp.api # => my_connection
 comp = JSS::Computer.fetch id: 12, cnx: my_connection
 comp.cnx # => my_connection
 ```
-
-In ruby-jss < 2.0, the term `api` is used with the Classic API in method names, method parameters, instance variables, attributes, and constants. It is used to pass, access, refer to, or hold instances of JSS::APIConnnection, e.g. so a method that talks to the server would use the passed connection rather than the module-wide default connection.  
-
-But, the thing being passed is a 'connection' not an 'API', and now that there are actually two APIs at play, that usage is even less appropriate.
 
 The original Jamf module, which accessed only the Jamf Pro API, has always used the better-suited abbreviation `cnx` for this, and now that is standard everywhere. 
 
@@ -249,8 +277,6 @@ In v2.0.0 we are standardizing on the behavior of the previous Jamf module:
 
   - `Jamf::SomeCollectionClass#save` instance method for sending an object to the server to be created OR updated in Jamf pro.
     - Note that `#save` has been available for this use since the earliest versions of ruby-jss.
-
-
 
 This means that these deprecated methods will go away for Classic API objects
 
