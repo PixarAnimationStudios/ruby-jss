@@ -3,8 +3,10 @@
 
 ## Version 2.0.0 has been released
 
-Version 2.0.0 has major changes! While we've strived for backward compatibility, and have done lots of testing, YMMV.  Please report any issues.
+Version 2.0.0 has major changes! While we've strived for _mostly_ being backward compatible, and have done lots of testing, YMMV.  Please report any issues.
 
+_NOTE_: ruby-jss 2.0 is not completely backward compatible, please see  [README-2.0.0.md](README-2.0.0.md) for more info
+ 
 ### Highlights
 
 - Support for Ruby 3.x
