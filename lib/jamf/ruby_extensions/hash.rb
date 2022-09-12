@@ -1,4 +1,4 @@
-# Copyright 2020 Pixar
+# Copyright 2022 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -23,11 +23,11 @@
 #
 #
 
-require 'jamf/ruby_extensions/hash/backports'
+require 'jamf/ruby_extensions/hash/utils'
 
 # include the modules loaded above
 class Hash
 
-  include JamfRubyExtensions::Hash::BackPorts
+  include JamfRubyExtensions::Hash::Utils
 
 end

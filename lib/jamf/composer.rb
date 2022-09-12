@@ -1,4 +1,4 @@
-### Copyright 2020 Pixar
+### Copyright 2022 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -92,7 +92,7 @@ module Jamf
     ###
     ### @return [Pathname] the local path to the new .pkg
     ###
-    def self.mk_pkg(name, version, root, opts = {})
+    def self.mk_pkg(name, version, root, **opts)
       raise NoSuchItemError, "Missing pkgbuild tool. Please make sure you're running 10.8 or later." unless PKGBUILD.executable?
 
       opts[:out_dir] ||= DEFAULT_OUT_DIR
@@ -126,7 +126,7 @@ module Jamf
       ###
       comp_plist_out = Pathname.new "/tmp/#{PKG_BUNDLE_ID_PFX}-#{pkg_filename}.plist"
       system "#{PKGBUILD} --analyze --root '#{root}' '#{comp_plist_out}'"
-      comp_plist = Jamf.parse_plist comp_plist_out
+      comp_plist = JSS.parse_plist comp_plist_out
 
       ### if the plist is empty, there are no bundles in the pkg
       if comp_plist[0].nil?
@@ -141,13 +141,13 @@ module Jamf
           bndl['BundleHasStrictIdentifier'] = false
         end
         ### write out the edits
-        comp_plist_out.open('w') { |f| f.write Jamf.xml_plist_from(comp_plist) }
+        comp_plist_out.open('w') { |f| f.write JSS.xml_plist_from(comp_plist) }
         comp_plist_arg = "--component-plist '#{comp_plist_out}'"
       end
 
       ### now build the pkg
       begin
-        it_built = system "#{PKGBUILD} --identifier '#{pkg_id}' --version '#{version}' --ownership #{pkg_ownership} --install-location / --root '#{root}' #{signing} #{comp_plist_arg} '#{pkg_out}' "
+        it_built = system "#{PKGBUILD} --identifier '#{pkg_id}' --version '#{version}' --ownership #{pkg_ownership} --install-location / --root '#{root}' #{signing} #{comp_plist_arg} '#{pkg_out}'"
 
         raise 'There was an error building the .pkg' unless it_built
       ensure

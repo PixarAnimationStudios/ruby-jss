@@ -1,4 +1,4 @@
-# Copyright 2020 Pixar
+# Copyright 2022 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -23,7 +23,6 @@
 #
 #
 
-# The Module
 module Jamf
 
   # Exceptions
@@ -55,6 +54,11 @@ module Jamf
   #
   class AlreadyExistsError < RuntimeError; end
 
+  # AmbiguousError - raise this error when a search
+  # term that should find one object finds more.
+  #
+  class AmbiguousError < RuntimeError; end
+
   # FileServiceError - raise this error when
   # there's a problem accessing file service on a
   # distribution point.
@@ -73,7 +77,7 @@ module Jamf
   class UnsupportedError < RuntimeError; end
 
   # TimeoutError - raise this when we
-  # try to do something and it times out
+  # try to do and it times out
   #
   class TimeoutError < RuntimeError; end
 
@@ -82,27 +86,22 @@ module Jamf
   #
   class AuthenticationError < RuntimeError; end
 
-  # InvalidTokenError - raise this when a connection token is
-  # expired or otherwise invalid
+  # Authorization error - rause this when the
+  # user doesn't have permission to do something
   #
-  class InvalidTokenError < RuntimeError; end
+  class AuthorizationError < RuntimeError ; end
 
   # ConflictError - raise this when
   # attempts to PUT or PUSH to the API
   # result in a 409 Conflict http error.
-  # See {Jamf::APIConnection#raise_conflict_error}
+  # See {Jamf::Connection#raise_conflict_error}
   #
   class ConflictError < RuntimeError; end
-
-  # A 409 error specifically raised when a Lockable resource
-  # has changed between fetching and saving.
-  # See the Jamf::Lockable mixin.
-  class VersionLockError < ConflictError; end
 
   # BadRequestError - raise this when
   # attempts to PUT or PUSH or DELETE to the API
   # result in a 400 Bad Request http error.
-  # See {Jamf::APIConnection.raise_bad_request_error}
+  # See {Jamf::Connection.raise_bad_request_error}
   #
   class BadRequestError < RuntimeError; end
 
@@ -110,8 +109,8 @@ module Jamf
   # attempts API actions generate an error not dealt with
   # by ConflictError or BadRequestError
   # result in a 400 Bad Request http error.
-  # See {Jamf::APIConnection.raise_api_error}
+  # See {Jamf::Connection.raise_api_error}
   #
   class APIRequestError < RuntimeError; end
 
-end # module JAMF
+end # module Jamf

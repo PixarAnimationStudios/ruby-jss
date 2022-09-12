@@ -1,4 +1,4 @@
-# Copyright 2020 Pixar
+# Copyright 2022 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -39,9 +39,10 @@ module JamfRubyExtensions
       ### @example
       ###   IPAddr.j_masked_v4addr '10.0.0.0', '10.0.0.255' # => #<IPAddr: IPv4:10.0.0.0/255.255.255.0>
       ###
-      def self.j_masked_v4addr(starting,ending)
+      def j_masked_v4addr(starting,ending)
         IPAddr.new "#{starting}/#{self.j_cidr_from_ends(starting,ending)}"
       end #self.j_masked_v4addr(starting,ending)
+      alias jss_masked_v4addr j_masked_v4addr
 
       ### Given starting and ending IPv4 IP addresses (either Strings or IPAddrs)
       ### return the CIDR notation routing prefix mask
@@ -55,7 +56,7 @@ module JamfRubyExtensions
       ### @example
       ###   IPAddr.j_cidr_from_ends '10.0.0.0', '10.0.0.255' # => 24
       ###
-      def self.j_cidr_from_ends(starting,ending)
+      def j_cidr_from_ends(starting,ending)
 
         starting = IPAddr.new(starting) unless starting.kind_of? IPAddr
         ending = IPAddr.new(ending) unless ending.kind_of? IPAddr
@@ -70,6 +71,7 @@ module JamfRubyExtensions
         return 32 - num_addrs.to_s(2).length + 1
 
       end #self.get_cidr(starting,ending)
+      alias jss_cidr_from_ends j_cidr_from_ends
 
       ### Convert a starting address (either String or IPAddr) and a
       ### CIDR notation routing prefix mask into the IPv4 address
@@ -84,9 +86,10 @@ module JamfRubyExtensions
       ### @example
       ###   IPAddr.j_ending_address '10.0.0.0', 24 # => #<IPAddr: IPv4:10.0.0.255>
       ###
-      def self.j_ending_address(starting, cidr)
+      def j_ending_address(starting, cidr)
         IPAddr.new( "#{starting}/#{cidr}").to_range.max
       end # ending_address
+      alias jss_ending_address j_ending_address
 
     end # module
 

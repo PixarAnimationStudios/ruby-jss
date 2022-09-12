@@ -1,4 +1,4 @@
-### Copyright 2020 Pixar
+### Copyright 2022 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -23,27 +23,28 @@
 ###
 
 proj_name = 'ruby-jss'
-lib_dir = 'jss'
+lib_dir = 'jamf'
 
 require "./lib/#{lib_dir}/version"
 
 Gem::Specification.new do |s|
   # General
-  s.description = <<~EOD
+  s.description = <<~EODESC
     The ruby-jss gem provides native ruby access to the REST APIs of Jamf Pro,
     an enterprise/education tool for managing Apple devices, from jamf.com.
-    The JSS module provides access to the 'Classic' API, while the Jamf module
-    provides access to the more modern 'Jamf Pro' API. Jamf Pro objects are
-    implemented as classes and, within each module, can interact with each other.
-    The underlying data transfer using JSON or XML is handled automatically
-    under the hood to allow simpler, intuitive automation of Jamf-related Tasks.
-  EOD
+    The Jamf module provides access to both the 'Classic' API and the more modern
+    'Jamf Pro' API. Jamf Pro objects are implemented as classes and can interact
+    with each other. Authentication tokens, data transfer using JSON or XML and other
+    details are handled automatically under the hood to allow simpler, intuitive
+    automation of Jamf-related tasks.
+  EODESC
+
   s.name        = proj_name
-  s.version     = JSS::VERSION
+  s.version     = Jamf::VERSION
   s.license     = 'Nonstandard'
   s.date        = Time.now.utc.strftime('%Y-%m-%d')
   s.summary     = 'A Ruby interface to the Jamf Pro REST APIs'
-  s.authors     = ['Chris Lasell', 'Aurica Hayes']
+  s.authors     = ['Chris Lasell', 'Aurica Hayes', 'Kristoffer Landes']
   s.email       = 'ruby-jss@pixar.com'
   s.homepage    = 'http://pixaranimationstudios.github.io/ruby-jss/'
 
@@ -57,22 +58,36 @@ Gem::Specification.new do |s|
   s.executables << 'jamfHelperBackgrounder'
 
   # Dependencies
-  s.required_ruby_version = '>= 2.3.0'
+  s.required_ruby_version = '>= 2.6.3'
 
   # https://github.com/ckruse/CFPropertyList  MIT License (no dependencies)
   s.add_runtime_dependency 'CFPropertyList', '~> 3.0'
+
   # https://github.com/tmtm/ruby-mysql Ruby License (no dependencies)
+  # DEPRECATED: mysql support in ruby-jss will be removed eventually
   s.add_runtime_dependency 'ruby-mysql', '~> 2.9', '>= 2.9.12'
+
   # https://github.com/lostisland/faraday: MIT License
-  s.add_runtime_dependency 'faraday', '>= 1.0.0', '<= 1.0.1'
+  s.add_runtime_dependency 'faraday', '~> 1.0'
+
   # https://github.com/lostisland/faraday_middleware & dependencies: MIT License
-  s.add_runtime_dependency 'faraday_middleware', '>= 1.0.0', '<= 1.0.1'
+  s.add_runtime_dependency 'faraday_middleware', '~> 1.0'
+
+  # https://github.com/ruby-concurrency/concurrent-ruby MIT License (no dependencies)
+  s.add_runtime_dependency 'concurrent-ruby', '~> 1.1'
+
   # https://github.com/stitchfix/immutable-struct MIT License (no dependencies)
-  s.add_runtime_dependency 'immutable-struct', '~> 2.3', '>= 2.3.0'
-  # https://github.com/aetherknight/recursive-open-struct MIT License (no dependencies)
-  s.add_runtime_dependency 'recursive-open-struct', '~> 1.1', '>= 1.1.0'
+  # TODO: replace this with the one from concurrent-ruby
+  s.add_runtime_dependency 'immutable-struct', '~> 2.3'
+
+  # https://github.com/fxn/zeitwerk MIT License (no dependencies)
+  s.add_runtime_dependency 'zeitwerk', '~> 2.5', '>= 2.5.4'
+
+  # Ruby 3.0+ doesn't include rexml in the stdlib, but
+  # the min. version of ruby 2 we support includes v 3.1.9
+  s.add_runtime_dependency 'rexml', '~> 3.1', '>= 3.1.9'
 
   # Rdoc
-  s.extra_rdoc_files = ['README.md', 'LICENSE.txt', 'CHANGES.md', 'THANKS.md']
+  s.extra_rdoc_files = ['README.md', 'LICENSE.txt', 'CHANGES.md', 'THANKS.md', 'README-2.0.0.md']
   s.rdoc_options << '--title' << 'JSS' << '--line-numbers' << '--main' << 'README.md'
 end

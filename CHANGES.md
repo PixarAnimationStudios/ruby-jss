@@ -4,15 +4,54 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## **IMPORTANT: Known Security Issue in v1.5.3 and below**
+## _IMPORTANT_: Known Security Issue in v1.5.3 and below
 
-Versions of ruby-jss prior to 1.6.0 contain a known security issue due to the use of the 'plist' gem.
+Versions of ruby-jss prior to 1.6.0 contain a known security issue due to how we were using the 'plist' gem.
 
 This has been resolved in 1.6.0, which now uses the CFProperlyList gem.
 
-Please update all installations of ruby-jss to at least v1.6.0.
+__Please update all installations of ruby-jss to at least v1.6.0.__
 
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
+
+
+## \[2.0.0] - Unreleased
+
+Version 2.0.0 is a major refactoring of ruby-jss. While attempting to provide as much backward compatibility as possible, there are some significant changes and v2.0.0 is not fully backward compatible. **PLEASE TEST YOUR CODE EXTENSIVELY**
+
+Here are the high-level changes and there are many many others. For more details, see [CHANGES-2.0.0.md](CHANGES-2.0.0.md)
+
+- Support for Ruby 3.x
+  - tested in 3.0 and 3.1
+- Combined access to both the Classic and Jamf Pro APIs
+  - A single namespace module
+  - Connection objects talk to both APIs & automatically handle details like bearer tokens
+- Auto-generated code for Jamf Pro API objects
+- Autoloading of code using [Zeitwerk](https://github.com/fxn/zeitwerk)
+
+
+
+## \[1.6.7] - 2022-02-22
+
+### Added
+
+  - Support for the FORCE_IPA_UPLOAD parameter when uploading mobiledeviceapplicationsipa data. This makes the server upload the .ipa to cloud distribution points, as it does when uploaded via the WebUI.
+
+## \[1.6.6] - 2022-02-06
+
+### Added
+
+  - Support for EnableRemoteDesktop and DisableRemoteDesktop MDM commands
+
+## \[1.6.5] - 2021-10-14
+
+### Fixed
+
+  - Uplodable#upload now works with Faraday
+
+### Added
+
+  - Attribute 'os_type' added to JSS::MobileDeviceApplication
 
 ## \[1.6.4] - 2021-10-04
 
@@ -133,7 +172,7 @@ Big thanks to @cybertunnel for many enhancements and fixes.
 
   - Removed dependency on net-ldap, which hasn't been used in a while
 
-  - Removed the redundant JSS::APIConnection instance methods that were just wrappers for various APIObject subclass Class methods, e.g. `JSS.api.valid_id :computers, 'compName'`. Please use the class method directly, e.g. `JSS::Computer.valid_id 'compName'`
+  - Removed the redundant JSS::APIConnection instance methods that were just wrappers for various APIObject subclass Class methods, e.g. `Jamf.cnx.valid_id :computers, 'compName'`. Please use the class method directly, e.g. `JSS::Computer.valid_id 'compName'`
 
 ### Fixed
 
@@ -494,7 +533,7 @@ To change the number of retries, provide an integer with the `retries:` paramete
   - The class method allows adding and removing members without fetching an instance of the group.
   - The instance method adds and/or removes members immediately, without needing to call #update or #save
 
-- LDAPServer.server_for_user and .server_for_group class methods, return the id of the first LDAP server containing the given user or group
+- LdapServer.server_for_user and .server_for_group class methods, return the id of the first LDAP server containing the given user or group
 
 - Client.homedir(user) and Client.do_not_disturb?(user)
 
@@ -506,7 +545,7 @@ To change the number of retries, provide an integer with the `retries:` paramete
   rather than
     `https://myjss.myserver.edu:8443/`
   then use this parameter to specify the path below the root e.g:
-    `JSS.api.connect server: 'myjss.myserver.edu', server_path: 'dev_mgmt/jssweb', port: 8443 [...]`
+    `Jamf.cnx.connect server: 'myjss.myserver.edu', server_path: 'dev_mgmt/jssweb', port: 8443 [...]`
   (Thanks @christopher.kemp!)
 
 - Packages in Jamf Pro 10.10 and higher now include checksum data (`hash_type` and `hash_value` in the raw data) via the classic API. This has been integrated into JSS::Package via the following methods:
@@ -585,7 +624,7 @@ Finally we're going to version 1.0, which we should have done when we went opens
 
   If you are using macOS 10.12 or lower to connect to Jamf Pro 10.4 (the lowest Jamf server supported by this version of ruby-jss), you must specify the older TLS when using APIConnection#connect, e.g.
 
-  `JSS.api.connect server: 'myjss.myschool.edu', user: 'username', pw: :prompt, ssl_version: :TLSv1`
+  `Jamf.cnx.connect server: 'myjss.myschool.edu', user: 'username', pw: :prompt, ssl_version: :TLSv1`
 
   Machines running macOS 10.12 or lower will not be able to connect to Jamf Pro > v10.4 with the built-in ruby openssl library. If you specify `ssl_version: :TLSv1` you will get an error because the server won't accept it. If you leave the default :TLSv1_2, ruby's openssl library will complain that it doesn't know about that.
 

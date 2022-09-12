@@ -1,7 +1,0 @@
-inherit_from: ~/.rubocop.yml
-
-Metrics/BlockLength:
-  Enabled: false
-
-Layout/EmptyLinesAroundBlockBody:
-  Enabled: false

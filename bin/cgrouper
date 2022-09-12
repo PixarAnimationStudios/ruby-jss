@@ -1,6 +1,6 @@
-#!/usr/bin/ruby
+#!/usr/bin/env ruby
 
-### Copyright 2020 Pixar
+### Copyright 2022 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -191,7 +191,7 @@ class App
     raise JSS::MissingDataError, "No JSS Username provided or found in the JSS gem config." unless @options.user
     raise JSS::MissingDataError, "No JSS Server provided or found in the JSS gem config." unless @options.server
 
-    JSS.api.connect( :server => @options.server,
+    Jamf.cnx.connect( :server => @options.server,
       :port => @options.port,
       :verify_cert => @options.verify_cert,
       :user => @options.user,

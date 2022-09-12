@@ -1,0 +1,118 @@
+# REFERENCE: http://rubocop.readthedocs.io/en/latest
+
+##### All Cops
+##############################
+
+AllCops:
+  TargetRubyVersion: 2.7
+  Exclude:
+    - '**/*playground*'
+    - '**/scratch*'
+
+##### Metrics
+##############################
+
+Metrics/ClassLength:
+  Max: 800 # default 100
+
+Metrics/ModuleLength:
+  Max: 800 # default 100
+
+Metrics/MethodLength:
+  Max: 40 # default 10
+
+Metrics/AbcSize:
+  Description: A calculated magnitude based on number of assignments, branches, and conditions.
+  Reference: http://c2.com/cgi/wiki?AbcMetric
+  Max: 30 # dft 15
+
+Metrics/ParameterLists:
+  CountKeywordArgs: false
+
+##### Style
+##############################
+
+Style/CommentedKeyword:
+  Enabled: false
+
+Style/RescueStandardError:
+  EnforcedStyle: implicit
+
+# someday we should adhere to this, but right now it'll break to much:
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# foo = bar + 'string' is not a problem when bar is a Pathname
+# but rubocopy things that's  string concateation, and it isn't.
+Style/StringConcatenation:
+  Enabled: false
+
+##### Naming
+##############################
+
+Naming/VariableName:
+  Enabled: false
+
+Naming/MethodParameterName:
+  AllowedNames:
+    - ad
+    - at
+    - be
+    - by
+    - db
+    - do
+    - fi
+    - hi
+    - ho
+    - id
+    - in
+    - io
+    - ip
+    - mr
+    - no
+    - of
+    - on
+    - os
+    - pp
+    - pw
+    - sn
+    - so
+    - st
+    - to
+
+Naming/MemoizedInstanceVariableName:
+  Enabled: false
+
+##### Layout
+##############################
+
+Layout/LineLength:
+  Max: 160 # default 80
+  URISchemes: # these kinds of URIs are exceptions to the cop
+  - http
+  - https
+  - git
+  - ssh
+  - ftp
+  - afp
+  - smb
+  - nfs
+
+Layout/TrailingWhitespace:
+  Description: Avoid trailing whitespace.
+  StyleGuide: https://github.com/bbatsov/ruby-style-guide#no-trailing-whitespace
+  Enabled: false # set your editor to strip trailing whitespace on save
+
+Layout/EmptyLinesAroundClassBody:
+  Description: Keeps track of empty lines around class bodies.
+  Enabled: true
+  EnforcedStyle: empty_lines
+
+Layout/EmptyLinesAroundModuleBody:
+  Description: Keeps track of empty lines around module bodies.
+  Enabled: true
+  EnforcedStyle: empty_lines
+
+
+# Your own will override these...
+inherit_from: ~/.rubocop.yml

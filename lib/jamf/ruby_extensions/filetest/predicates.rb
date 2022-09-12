@@ -1,4 +1,4 @@
-# Copyright 2020 Pixar
+# Copyright 2022 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -38,6 +38,7 @@ module JamfRubyExtensions
       def j_real_file?(path)
         FileTest.file?(path) && !FileTest.symlink?(path)
       end # real_file?
+      alias jss_real_file? j_real_file?
 
     end # module
 

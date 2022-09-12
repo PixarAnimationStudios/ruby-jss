@@ -1,4 +1,4 @@
-### Copyright 2020 Pixar
+### Copyright 2022 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -26,7 +26,7 @@
 ###
 module Jamf
 
-  ### The version of the Jamf module
-  VERSION = '0.0.8'.freeze
+  ### The version of ruby-jss
+  VERSION = '2.0.0'.freeze
 
 end # module

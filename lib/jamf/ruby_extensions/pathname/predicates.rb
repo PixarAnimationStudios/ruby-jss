@@ -1,4 +1,4 @@
-# Copyright 2020 Pixar
+# Copyright 2022 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -34,6 +34,7 @@ module JamfRubyExtensions
       def j_real_file?
         FileTest.real_file? self
       end # real_file?
+      alias jss_real_file? j_real_file?
 
       # does a path include another?
       # i.e. is 'other' a descendant of self ?
@@ -42,6 +43,7 @@ module JamfRubyExtensions
         oeps = other.expand_path.to_s
         oeps != eps && oeps.start_with?(eps)
       end
+      alias jss_include? j_include?
 
     end # module
 

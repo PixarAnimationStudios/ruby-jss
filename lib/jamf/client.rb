@@ -1,4 +1,4 @@
-### Copyright 2020 Pixar
+### Copyright 2022 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -23,23 +23,12 @@
 ###
 ###
 
-###
 module Jamf
 
-  # This class represents a Jamf/JSS Client computer, on which
-  # this code is running.
-  #
-  # Since the class represents the current machine, there's no need
-  # to make an instance of it, all methods are class methods.
-  #
-  # At the moment, only Macintosh computers are supported.
-  #
-  # TODO: convert this to a module, since that's how it's used.
+  # This module contains methods for working locally on a managed Jamf client
+  # computer, on which this code is running.
   #
   class Client
-
-    # Constants
-    #####################################
 
     # The Pathname to the preferences plist used by the jamf binary
     JAMF_PLIST = Pathname.new '/Library/Preferences/com.jamfsoftware.jamf.plist'
@@ -55,9 +44,6 @@ module Jamf
 
     # The bin folder inside the Jamf support folder
     SUPPORT_BIN_FOLDER = JAMF_SUPPORT_FOLDER + 'bin'
-
-    # The bin folder with the jamf binary and a few other things
-    USR_LOCAL_BIN_FOLDER = Pathname.new '/usr/local/jamf/bin'
 
     # This command gives raw info about console users
     CONSOLE_USERS_SCUTIL_CMD = 'echo "show State:/Users/ConsoleUser" | /usr/sbin/scutil'.freeze
@@ -76,16 +62,11 @@ module Jamf
     PS_USER_COMM = 'ps -A -o user,comm'.freeze
 
     # the path to a users byhost folder from home
-    USER_PREFS_BYHOST_FOLDER = 'Library/Preferences/ByHost/'
+    USER_PREFS_BYHOST_FOLDER = 'Library/Preferences/ByHost/'.freeze
 
-    # If some processs C has a parent process P whose command (via ps -o comm)
-    # matches this, then process C is being run by Jamf
-    POLICY_SCRIPT_CMD_RE = %r{sh -c PATH=\$PATH:/usr/local/jamf/bin; '/Library/Application Support/JAMF/tmp/.* >& '/Library/Application Support/JAMF/tmp/\d+.tmp}.freeze
-
-    # If some processs C has a parent process P whose command (via ps -o comm)
-    # matching POLICY_SCRIPT_CMD_RE, and process P has a parent process G that
-    # matches this (C is grandchild of G), then process C is being run by a Jamf policy
-    POLICY_CMD_RE = %r{/bin/jamf policy }.freeze
+    include Jamf::Client::JamfBinary
+    include Jamf::Client::JamfHelper
+    include Jamf::Client::ManagementAction
 
     # Class Methods
     #####################################
@@ -179,7 +160,7 @@ module Jamf
     #
     def self.jamf_plist
       return {} unless JAMF_PLIST.file?
-      Jamf.parse_plist JAMF_PLIST
+      JSS.parse_plist JAMF_PLIST
     end
 
     # All the JAMF receipts on this client
@@ -187,7 +168,7 @@ module Jamf
     # @return [Array<Pathname>] an array of Pathnames for all regular files in the jamf receipts folder
     #
     def self.receipts
-      raise JSS::NoSuchItemError, "The JAMF Receipts folder doesn't exist on this computer." unless RECEIPTS_FOLDER.exist?
+      raise Jamf::NoSuchItemError, "The JAMF Receipts folder doesn't exist on this computer." unless RECEIPTS_FOLDER.exist?
       RECEIPTS_FOLDER.children.select(&:file?)
     end
 
@@ -200,13 +181,13 @@ module Jamf
       $CHILD_STATUS.exitstatus.zero?
     end
 
-    # The JSS::Computer object for this computer
+    # The Jamf::Computer object for this computer
     #
-    # @return [JSS::Computer,nil] The JSS record for this computer, nil if not in the JSS
+    # @return [Jamf::Computer,nil] The JSS record for this computer, nil if not in the JSS
     #
     def self.jss_record
-      JSS::Computer.fetch udid: udid
-    rescue JSS::NoSuchItemError
+      Jamf::Computer.fetch udid: udid
+    rescue Jamf::NoSuchItemError
       nil
     end
 
@@ -232,7 +213,7 @@ module Jamf
     #
     def self.hardware_data
       raw = `/usr/sbin/system_profiler SPHardwareDataType -xml 2>/dev/null`
-      Jamf.parse_plist(raw)[0]['_items'][0]
+      JSS.parse_plist(raw)[0]['_items'][0]
     end
 
     # Who's currently got an active GUI session? - might be
@@ -284,7 +265,7 @@ module Jamf
       myudid = udid
       nc_prefs_file = Pathname.new "#{home}/#{USER_PREFS_BYHOST_FOLDER}/com.apple.notificationcenterui.#{myudid}.plist"
       return nil unless nc_prefs_file.readable?
-      Jamf.parse_plist(nc_prefs_file)['doNotDisturb']
+      JSS.parse_plist(nc_prefs_file)['doNotDisturb']
     end
 
     # The home dir of the specified user, nil if
@@ -299,58 +280,6 @@ module Jamf
       dir ? Pathname.new(dir) : nil
     end
 
-    # Search up the process lineage to see if any ancestor processes indicate
-    # that the current process is being run by a Jamf Policy.
-    #
-    # @return [Boolean] Is the current process being run as a script by a Jamf Policy?
-    #
-    def self.script_running_via_policy?
-      root_ps_lines = `ps -u root -x -o pid -o ppid -o user -o command`.lines
-
-      parent_pid, _parent_user, parent_command = parent_pid_user_and_cmd Process.pid, root_ps_lines
-      return false unless parent_pid
-
-      until parent_command =~ POLICY_SCRIPT_CMD_RE || parent_pid.nil?
-        parent_pid, _parent_user, parent_command = parent_pid_user_and_cmd parent_pid, root_ps_lines
-        return false if parent_pid.zero?
-      end
-      return false if parent_pid.nil?
-
-      # if we're here, our parent is a jamf process, lets confirm that its
-      # a jamf policy
-      until parent_command =~ POLICY_CMD_RE || parent_pid.nil?
-        parent_pid, _parent_user, parent_command = parent_pid_user_and_cmd parent_pid, root_ps_lines
-        return false if parent_pid.zero?
-      end
-      !parent_pid.nil?
-    end
-
-    # given a pid and optionally the output of `ps -o pid -o ppid -o user -o command`
-    # return an array with the pid, user, and command of the pid's parent process
-    #
-    # @param pid [Integer, String] the process id for which we want parent info
-    #
-    # @param ps_lines [Array<String>] the lines of output from
-    #   `ps -o pid -o ppid -o user -o command` possibly with other options.
-    #    If omitted, `ps -a -x -o pid -o ppid -o user -o command` will be used
-    #
-    # @return [Array<Integer, String, String>] the pid, user, and commandline
-    #  of the parent process of the given pid. All will be nil if not found
-    #
-    def self.parent_pid_user_and_cmd(pid, ps_lines = nil)
-      ps_lines ||= `ps -a -x -o pid -o ppid -o user -o command`.lines
-
-      parent_ps_line = ps_lines.select { |l| l =~ /^\s*#{pid}\s/ }.first
-      return [nil, nil, nil] unless parent_ps_line
-
-      parent_ps_line =~ /^\s*\d+\s+(\d+)\s+(\S+)\s+(.*)$/
-      [Regexp.last_match(1).to_i, Regexp.last_match(2), Regexp.last_match(3)]
-    end
-
   end # class Client
 
 end # module
-
-require 'jamf-client/jamf_binary'
-require 'jamf-client/jamf_helper'
-require 'jamf-client/management_action'
