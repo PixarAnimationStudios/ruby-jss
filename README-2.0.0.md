@@ -31,6 +31,7 @@ These changes have been in mind for some time, but the requirement in late 2022 
   - [No Attribute aliases for Jamf Pro API objects](#no-attribute-aliases-for-jamf-pro-api-objects)
   - [Class/Mixin hierarchy for Jamf Pro API objects](#classmixin-hierarchy-for-jamf-pro-api-objects)
   - [Support for 'Sticky Sessions' in Jamf Cloud](#support-for-sticky-sessions-in-jamf-cloud)
+  - [The valid_id method for Classic API collection classes](#the-valid_id-method-for-classic-api-collection-classes)
 - [Planned deprecations](#planned-deprecations)
   - [Use of the term 'api'](#use-of-the-term-api)
   - [.map_all_ids_to method for Classic API collection classes](#map_all_ids_to-method-for-classic-api-collection-classes)
@@ -156,6 +157,9 @@ So far we've only uncovered a few areas where our ruby-jss 1.x code didn't work 
 - Subclassing ruby-jss classes in your own code.
   - Those classes, and methods called on them, may need to be updated to match the new ruby-jss classes, in order to maintain _their_ backward compatibility.
 
+- If you make calls to Classic API's `.valid_id` class method for collection classes, and you pass in an integer as a String, e.g. '1234', expecting to get the valid id of the object with the _name_ or _serial_number_ '1234' you will now get back the id 1234 if there is an object with that id. That may not be the id of the object you were looking for.
+  - See [The valid_id method for Classic API collection classes](#the-valid_id-method-for-classic-api-collection-classes) below for details and how to do such a validation now.
+
 ## Notable changes from ruby-jss 1.x
 
 ### Paged queries to the Jamf Pro API
@@ -212,6 +216,43 @@ Attempting to enable a sticky session with a connection to an on-prem server (ho
 For details about Sticky Sessions see [Sticky Sessions for Jamf Cloud](https://developer.jamf.com/developer-guide/docs/sticky-sessions-for-jamf-cloud) at the Jamf Developer site. 
 
 **WARNING:** Jamf recommends NOT using sticky sessions unless they are needed. Using them inappropriately may negatively impact performance, especially for large automated processes.
+
+### The `valid_id` method for Classic API collection classes 
+
+In the Classic API, object ids are Integers, but in the Jamf Pro API, they are Strings containing integers. 
+
+In previous versions of ruby-jss, the `valid_id` class method for the Jamf Pro API will accept Integers and convert them to Strings to search for the valid id. In order to provide the same flexibility, `valid_id` now works the same way for regardless of which API is used.
+
+Previously, the Classic API collection classes would return nil (no match) if you passed in an id as a string, unless you had an object with a name or other identifier with that numeric string value.
+
+So for example, assuming you wanted to find out if the id 1234 was valid, you could do
+
+```ruby
+ok_id = JSS::Computer.valid_id 1234
+# =>  1234, or nil if 1234 is not a valid id
+```
+
+But if you did
+
+```ruby
+ok_id = JSS::Computer.valid_id '1234'
+# => nil, or the id of a computer _named_ '1234'
+# (no computer would have '1234' as a serialnumber, udid, or macaddress)
+```
+you would likely not get the integer id 1234 back.
+
+In ruby-jss 2.0.0, the valid_id method has changed so that the second example above will return the integer id 1234, if it exists as an id. If not, it will look at other identifiers with the string value, and return the id of any match, or nil if there's no match.
+
+The downside of this is: what if you really _are_ looking for the id of the object with the name '1234'? 
+
+To deal with that situation, the valid_id method for the Classic API now behaves like the one for the Jamf Pro API: it can accept an arbitrary key: value pair, limiting the search to the indentifier used as the key.  
+
+So you can use this to get what you're looking for
+
+```ruby
+ok_id = JSS::Computer.valid_id name: '1234'
+# => nil, or the id of a computer named '1234'
+```
 
 ## Planned deprecations
 
