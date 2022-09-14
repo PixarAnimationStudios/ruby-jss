@@ -156,7 +156,7 @@ module Jamf
     #
     # @see MacOSManagedUpdates.send_managed_os_update
     #
-    def send_managed_os_update(updateAction:, maxDeferrals: nil, version: nil, skipVersionVerification: false, applyMajorUpdate: false, forceRestart: false, cnx: Jamf.cnx)
+    def send_managed_os_update(updateAction:, maxDeferrals: nil, version: nil, skipVersionVerification: false, applyMajorUpdate: false, forceRestart: false)
       deviceIds = is_a?(Jamf::Computer) ? @id : nil
       groupId = is_a?(Jamf::Computer) ? nil : @id
 
