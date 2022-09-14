@@ -27,6 +27,6 @@
 module Jamf
 
   ### The version of ruby-jss
-  VERSION = '2.1.0b2'.freeze
+  VERSION = '2.1.0b3'.freeze
 
 end # module
