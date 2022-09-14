@@ -52,7 +52,6 @@ require 'concurrent'
 require 'jamf/ruby_extensions'
 require 'jamf/exceptions'
 require 'jamf/db_connection'
-require 'jamf/deprecations'
 
 # Configure the Zeitwerk loader, See https://github.com/fxn/zeitwerk
 require 'jamf/zeitwerk_config'
@@ -90,3 +89,7 @@ JSS = Jamf
 
 # testing zeitwerk loading, the the desired file is present
 JamfZeitwerkConfig.eager_load_for_testing 
+
+# Load more non-autoloaded stuff, but this stuff needs 
+# to happen after zeitwerk loading is active.
+require 'jamf/deprecations'
