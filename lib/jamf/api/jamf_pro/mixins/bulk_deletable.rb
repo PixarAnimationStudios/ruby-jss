@@ -39,7 +39,7 @@ module Jamf
     # @param cnx [Jamf::Connection] The connection to use, default: Jamf.cnx
     #
     # TODO: fix this return value, no more ErrorInfo
-    # @return [Array<Jamf::Connection::APIError::ErrorInfo] Info about any ids
+    # @return [Array<Jamf::Connection::JamfProAPIError::ErrorInfo] Info about any ids
     #   that failed to be deleted.
     #
     def bulk_delete(ids, cnx: Jamf.cnx)
@@ -49,7 +49,7 @@ module Jamf
       begin
         cnx.post "#{rsrc_path}/#{DELETE_MULTIPLE_ENDPOINT}", request_body
         []
-      rescue Jamf::Connection::APIError => e
+      rescue Jamf::Connection::JamfProAPIError => e
         raise e unless e.httpStatus == 400
 
         e.errors

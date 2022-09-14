@@ -101,12 +101,10 @@ module Jamf
       #
       # Classes including CollectionResource really need to define GET_PATH if it
       # is not the same as the LIST_PATH.
-      # rubocop:disable Naming/AccessorMethodName
       ######################################
       def get_path
         @get_path ||= defined?(self::GET_PATH) ? self::GET_PATH : self::LIST_PATH
       end
-      # rubocop:enable Naming/AccessorMethodName
 
       # The path for PUTting (replacing) a single object. The desired object id will
       # be appended to the end, e.g. if this value is 'v1/buildings' and you want
@@ -570,7 +568,7 @@ module Jamf
       # @param cnx [Jamf::Connection] The connection to use, default: Jamf.cnx
       #
       #
-      # @return [Array<Jamf::Connection::APIError::ErrorInfo] Info about any ids
+      # @return [Array<Jamf::Connection::JamfProAPIError::ErrorInfo] Info about any ids
       #   that failed to be deleted.
       #
       ######################################
