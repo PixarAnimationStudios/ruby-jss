@@ -23,10 +23,6 @@
 ###
 ###
 
-###
-module Jamf
-
-  ### The version of ruby-jss
-  VERSION = '2.1.0b2'.freeze
-
-end # module
+require 'jamf/ruby_extensiodeprecationsns/deprecated_api_connection_class'
+require 'jamf/deprecations/deprecated_api_constant'
+require 'jamf/deprecations/deprecated_config_constant'

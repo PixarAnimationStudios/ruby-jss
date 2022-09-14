@@ -52,6 +52,7 @@ require 'concurrent'
 require 'jamf/ruby_extensions'
 require 'jamf/exceptions'
 require 'jamf/db_connection'
+require 'jamf/deprecations'
 
 # Configure the Zeitwerk loader, See https://github.com/fxn/zeitwerk
 require 'jamf/zeitwerk_config'

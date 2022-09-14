@@ -79,6 +79,7 @@ module Jamf
   ###   {APIConnection#connect}, or by custom means.
   ###
   class Configuration
+
     include Singleton
 
     #####################################
@@ -89,31 +90,31 @@ module Jamf
     ### The first matching file is used - the array provides
     ### backward compatibility with earlier versions.
     ### Saving will always happen to the first filename
-    CONF_FILES = [ "ruby-jss.conf", "jss_gem.conf"]
+    CONF_FILES = ['ruby-jss.conf', 'jss_gem.conf']
 
     ### The Pathname to the machine-wide preferences plist
-    GLOBAL_CONFS =  CONF_FILES.map{|cf| Pathname.new "/etc/#{cf}"}
+    GLOBAL_CONFS = CONF_FILES.map { |cf| Pathname.new "/etc/#{cf}" }
 
     ### The Pathname to the user-specific preferences plist
-    USER_CONFS =  CONF_FILES.map{|cf| ENV["HOME"] ? Pathname.new("~/.#{cf}").expand_path : nil }.compact
+    USER_CONFS = CONF_FILES.map { |cf| ENV['HOME'] ? Pathname.new("~/.#{cf}").expand_path : nil }.compact
 
     ### The attribute keys we maintain, and the type they should be stored as
     CONF_KEYS = {
-      :api_server_name => :to_s,
-      :api_server_port => :to_i,
-      :api_ssl_version => :to_s,
-      :api_verify_cert => :jss_to_bool,
-      :api_username => :to_s,
-      :api_timeout_open => :to_i,
-      :api_timeout => :to_i,
-      :db_server_name => :to_s,
-      :db_server_port => :to_i,
-      :db_server_socket => :to_s,
-      :db_username => :to_s,
-      :db_name => :to_s,
-      :db_connect_timeout => :to_i,
-      :db_read_timeout => :to_i,
-      :db_write_timeout => :to_i
+      api_server_name: :to_s,
+      api_server_port: :to_i,
+      api_ssl_version: :to_s,
+      api_verify_cert: :jss_to_bool,
+      api_username: :to_s,
+      api_timeout_open: :to_i,
+      api_timeout: :to_i,
+      db_server_name: :to_s,
+      db_server_port: :to_i,
+      db_server_socket: :to_s,
+      db_username: :to_s,
+      db_name: :to_s,
+      db_connect_timeout: :to_i,
+      db_read_timeout: :to_i,
+      db_write_timeout: :to_i
     }
 
     #####################################
@@ -129,8 +130,7 @@ module Jamf
     #####################################
 
     # automatically create accessors for all the CONF_KEYS
-    CONF_KEYS.keys.each {|k| attr_accessor k}
-
+    CONF_KEYS.keys.each { |k| attr_accessor k }
 
     #####################################
     ### Constructor
@@ -140,10 +140,8 @@ module Jamf
     ### Initialize!
     ###
     def initialize
-
       read_global
       read_user
-
     end
 
     #####################################
@@ -156,7 +154,7 @@ module Jamf
     ### @return [void]
     ###
     def clear_all
-      CONF_KEYS.keys.each {|k| self.send "#{k}=".to_sym, nil}
+      CONF_KEYS.keys.each { |k| send "#{k}=".to_sym, nil }
     end
 
     ###
@@ -165,12 +163,12 @@ module Jamf
     ### @return [void]
     ###
     def read_global
-      GLOBAL_CONFS.each { |gcf|
+      GLOBAL_CONFS.each do |gcf|
         if gcf.file? and gcf.readable?
           read gcf
           return
         end
-      }
+      end
     end
 
     ###
@@ -179,14 +177,13 @@ module Jamf
     ### @return [void]
     ###
     def read_user
-      USER_CONFS.each { |ucf|
+      USER_CONFS.each do |ucf|
         if ucf.file? and ucf.readable?
           read ucf
           return
         end
-      }
+      end
     end
-
 
     ###
     ### Clear the settings and reload the prefs files, or another file if provided
@@ -203,9 +200,8 @@ module Jamf
       end
       read_global
       read_user
-      return true
+      true
     end
-
 
     ###
     ### Save the prefs into a file
@@ -216,10 +212,10 @@ module Jamf
     ###
     def save(file)
       path = case file
-        when :global then GLOBAL_CONFS.first
-        when :user then USER_CONFS.first
-        else Pathname.new(file)
-      end
+             when :global then GLOBAL_CONFS.first
+             when :user then USER_CONFS.first
+             else Pathname.new(file)
+             end
 
       raise Jamf::MissingDataError, "No HOME environment variable, can't write to user conf file." if path.nil?
 
@@ -229,21 +225,20 @@ module Jamf
 
         # go thru the known attributes/keys
         CONF_KEYS.keys.sort.each do |k|
-
           # if the key exists, update it.
           if data =~ /^#{k}:/
-            data.sub!(/^#{k}:.*$/, "#{k}: #{self.send k}")
+            data.sub!(/^#{k}:.*$/, "#{k}: #{send k}")
 
           # if not, add it to the end unless it's nil
           else
-            data += "\n#{k}: #{self.send k}" unless self.send(k).nil?
+            data += "\n#{k}: #{send k}" unless send(k).nil?
           end # if data =~ /^#{k}:/
-        end #each do |k|
+        end # each do |k|
 
       else # not readable, make a new file
-        data = ""
+        data = ''
         CONF_KEYS.keys.sort.each do |k|
-          data << "#{k}: #{self.send k}\n" unless self.send(k).nil?
+          data << "#{k}: #{send k}\n" unless send(k).nil?
         end
       end # if path readable
 
@@ -252,14 +247,13 @@ module Jamf
       path.jss_save data
     end # read file
 
-
     ###
     ### Print out the current settings to stdout
     ###
     ### @return [void]
     ###
     def print
-      CONF_KEYS.keys.sort.each{|k| puts "#{k}: #{self.send k}"}
+      CONF_KEYS.keys.sort.each { |k| puts "#{k}: #{send k}" }
     end
 
     #####################################
@@ -275,28 +269,29 @@ module Jamf
     ### @return [void]
     ###
     def read(file)
-
       Pathname.new(file).read.each_line do |line|
-          # skip blank lines and those starting with #
-          next if line =~ /^\s*(#|$)/
+        # skip blank lines and those starting with #
+        next if line =~ /^\s*(#|$)/
 
-          line.strip =~ /^(\w+?):\s*(\S.*)$/
-          next unless $1
-          attr = $1.to_sym
-          setter = "#{attr}=".to_sym
-          value = $2.strip
+        line.strip =~ /^(\w+?):\s*(\S.*)$/
+        next unless Regexp.last_match(1)
 
-          if CONF_KEYS.keys.include? attr
-            if value
-              # convert the value to the correct class
-              value = value.send(CONF_KEYS[attr])
-            end
-            self.send(setter, value)
-          end  # if
-        end # do line
+        attr = Regexp.last_match(1).to_sym
+        setter = "#{attr}=".to_sym
+        value = Regexp.last_match(2).strip
 
+        next unless CONF_KEYS.keys.include? attr
+
+        if value
+          # convert the value to the correct class
+          value = value.send(CONF_KEYS[attr])
+        end
+        send(setter, value)
+        # if
+      end # do line
     end # read file
 
   end # class Preferences
+
 
 end # module

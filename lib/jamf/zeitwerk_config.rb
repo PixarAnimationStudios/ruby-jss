@@ -89,8 +89,6 @@ module JamfZeitwerkConfig
     loader.collapse("#{__dir__}/api/jamf_pro/base_classes")
     loader.collapse("#{__dir__}/api/jamf_pro/other_classes")
 
-    loader.collapse("#{__dir__}/deprecations")
-
     ##### Inflected Paths
     
     # filenames => Constants, which don't adhere to zeitwerk's parsing standards.
@@ -148,6 +146,8 @@ module JamfZeitwerkConfig
     loader.ignore "#{__dir__}/ruby_extensions.rb"
     loader.ignore "#{__dir__}/ruby_extensions"
     loader.ignore "#{__dir__}/exceptions.rb"
+    loader.ignore "#{__dir__}/deprecations"
+    loader.ignore "#{__dir__}/deprecations.rb"
 
     lib_dir = Pathname.new(__dir__).parent.to_s
     loader.ignore "#{lib_dir}/ruby-jss.rb" 
