@@ -159,6 +159,7 @@ module Jamf
     include Jamf::MDM
     include Jamf::ManagementHistory
     include Jamf::MacOSManagedUpdates
+    include Jamf::MacOSRedeployMgmtFramework
 
     extend Jamf::Matchable
 

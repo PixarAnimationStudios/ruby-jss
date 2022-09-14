@@ -58,6 +58,7 @@ module Jamf
     #####################################
     include Jamf::MDM
     include Jamf::MacOSManagedUpdates
+    include Jamf::MacOSRedeployMgmtFramework
 
     #####################################
     ### Class Methods
@@ -68,7 +69,7 @@ module Jamf
     #####################################
 
     ### The base for REST resources of this class
-    RSRC_BASE = "computergroups"
+    RSRC_BASE = 'computergroups'
 
     ### the hash key used for the JSON list output of all objects in the JSS
     RSRC_LIST_KEY = :computer_groups
@@ -110,14 +111,13 @@ module Jamf
     ### Public Instance Methods
     #####################################
 
-
     ###
     ### The serial numbers of members in this group
     ###
     ### @return [Array<String>] the member serial numbers
     ###
     def member_serial_numbers
-      @members.map{|m| m[:serial_number]}
+      @members.map { |m| m[:serial_number] }
     end
 
     ###
@@ -126,7 +126,7 @@ module Jamf
     ### @return [Array<String>] the member mac addresses
     ###
     def member_mac_addresses
-      @members.map{|m| m[:mac_address]} + @members.map{|m| m[:alt_mac_address]}
+      @members.map { |m| m[:mac_address] } + @members.map { |m| m[:alt_mac_address] }
     end
 
     #####################################

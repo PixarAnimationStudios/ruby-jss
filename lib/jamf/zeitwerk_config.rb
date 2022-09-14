@@ -130,6 +130,7 @@ module JamfZeitwerkConfig
     loader.inflector.inflect 'md_prestage_names' => 'MobileDevicePrestageNames'
     loader.inflector.inflect 'md_prestage_skip_setup_items' => 'MobileDevicePrestageSkipSetupItems'
     loader.inflector.inflect 'macos_managed_updates' => 'MacOSManagedUpdates'
+    loader.inflector.inflect 'macos_redeploy_mgmt_framework' => 'MacOSRedeployMgmtFramework'
 
     # deprecations, separated so they load only when used.
     # When its time to get rid of them, delete the files from the 
