@@ -32,6 +32,7 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
 ### Fixed
 
   - A few internal rescues of a deprecated exception class
+  - Removed auto-loading of deprecation files; now explicitly loaded.
 
 ## \[2.0.0] - 2022-09-12
 
