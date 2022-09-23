@@ -23,9 +23,7 @@
 ###    KIND, either express or implied. See the Apache License for the specific
 ###    language governing permissions and limitations under the Apache License.
 
-
 # Create or change the membership of a computer group in the JSS
-
 
 # Load in the JSS library
 require 'jss-api'
@@ -44,9 +42,9 @@ class App
        [-S server] [-U user] [-T timeout] [-V] [--debug]
        group [-f /file/path ] [computer [computer ...]]"
 
-  ACTIONS_NEEDING_GROUP = [ :create_group, :rename_group, :delete_group, :add_members, :remove_members, :remove_all, :list_members]
+  ACTIONS_NEEDING_GROUP = %i[create_group rename_group delete_group add_members remove_members remove_all list_members]
 
-  ACTIONS_FOR_STATIC_GROUPS_ONLY = [:create_group, :add_members, :remove_members, :remove_all]
+  ACTIONS_FOR_STATIC_GROUPS_ONLY = %i[create_group add_members remove_members remove_all]
 
   #####################################
   ### Attributes
@@ -57,31 +55,30 @@ class App
   ###
   ### set up
   ###
-  def initialize(args)
-
+  def initialize(**_args)
     @debug = false
 
     # define the options
     cli_opts = GetoptLong.new(
-      [ '--help', '-h', '-H', GetoptLong::NO_ARGUMENT ],
-      [ '--list-groups', '-L',  GetoptLong::NO_ARGUMENT ],
-      [ '--list-static', '-s',  GetoptLong::NO_ARGUMENT ],
-      [ '--list-smart', '-m',  GetoptLong::NO_ARGUMENT ],
-      [ '--create-group', '--create', '-c', GetoptLong::NO_ARGUMENT ],
-      [ '--rename-group', '--rename', '-n', GetoptLong::REQUIRED_ARGUMENT ],
-      [ '--delete-group', '--delete', '-d', GetoptLong::NO_ARGUMENT ],
-      [ '--list-members', '--list-computers', '-l', GetoptLong::NO_ARGUMENT ],
-      [ '--add-members', '--add', '-a', GetoptLong::NO_ARGUMENT ],
-      [ '--remove-members', '--remove', '-r', GetoptLong::NO_ARGUMENT ],
-      [ '--remove-all-members', '-R', GetoptLong::NO_ARGUMENT ],
-      [ '--file', '-f', GetoptLong::REQUIRED_ARGUMENT ],
-      [ '--server', '-S', GetoptLong::OPTIONAL_ARGUMENT],
-      [ '--port', '-P', GetoptLong::OPTIONAL_ARGUMENT],
-      [ '--user', '-U', GetoptLong::OPTIONAL_ARGUMENT],
-      [ '--no-verify-cert', '-V', GetoptLong::NO_ARGUMENT],
-      [ '--timeout', '-T', GetoptLong::OPTIONAL_ARGUMENT],
-      [ '--no-confirm', '-C', GetoptLong::NO_ARGUMENT],
-      [ '--debug', GetoptLong::NO_ARGUMENT]
+      ['--help', '-h', '-H', GetoptLong::NO_ARGUMENT],
+      ['--list-groups', '-L',  GetoptLong::NO_ARGUMENT],
+      ['--list-static', '-s',  GetoptLong::NO_ARGUMENT],
+      ['--list-smart', '-m', GetoptLong::NO_ARGUMENT],
+      ['--create-group', '--create', '-c', GetoptLong::NO_ARGUMENT],
+      ['--rename-group', '--rename', '-n', GetoptLong::REQUIRED_ARGUMENT],
+      ['--delete-group', '--delete', '-d', GetoptLong::NO_ARGUMENT],
+      ['--list-members', '--list-computers', '-l', GetoptLong::NO_ARGUMENT],
+      ['--add-members', '--add', '-a', GetoptLong::NO_ARGUMENT],
+      ['--remove-members', '--remove', '-r', GetoptLong::NO_ARGUMENT],
+      ['--remove-all-members', '-R', GetoptLong::NO_ARGUMENT],
+      ['--file', '-f', GetoptLong::REQUIRED_ARGUMENT],
+      ['--server', '-S', GetoptLong::OPTIONAL_ARGUMENT],
+      ['--port', '-P', GetoptLong::OPTIONAL_ARGUMENT],
+      ['--user', '-U', GetoptLong::OPTIONAL_ARGUMENT],
+      ['--no-verify-cert', '-V', GetoptLong::NO_ARGUMENT],
+      ['--timeout', '-T', GetoptLong::OPTIONAL_ARGUMENT],
+      ['--no-confirm', '-C', GetoptLong::NO_ARGUMENT],
+      ['--debug', GetoptLong::NO_ARGUMENT]
     )
 
     # here's where we hold cmdline args and other user options
@@ -92,68 +89,68 @@ class App
 
     # if stdin is not a tty, then we must assume
     # we're being passed a password
-    @options.getpass =  $stdin.tty? ? :prompt : :stdin
+    @options.getpass = $stdin.tty? ? :prompt : :stdin
 
     # parse the options
     cli_opts.each do |opt, arg|
       case opt
-        when '--help'
-          show_help
+      when '--help'
+        show_help
 
-        when '--list-groups'
-          @options.action = :list_groups
+      when '--list-groups'
+        @options.action = :list_groups
 
-        when '--list-static'
-          @options.action = :list_static
+      when '--list-static'
+        @options.action = :list_static
 
-        when '--list-smart'
-          @options.action = :list_smart
+      when '--list-smart'
+        @options.action = :list_smart
 
-        when '--list-members'
-          @options.action = :list_members
+      when '--list-members'
+        @options.action = :list_members
 
-        when '--create-group'
-          @options.action = :create_group
+      when '--create-group'
+        @options.action = :create_group
 
-        when '--rename-group'
-          @options.action = :rename_group
-          @options.new_name = arg
+      when '--rename-group'
+        @options.action = :rename_group
+        @options.new_name = arg
 
-        when '--delete-group'
-          @options.action = :delete_group
+      when '--delete-group'
+        @options.action = :delete_group
 
-        when '--add-members'
-          @options.action = :add_members
+      when '--add-members'
+        @options.action = :add_members
 
-        when '--remove-members'
-          @options.action = :remove_members
+      when '--remove-members'
+        @options.action = :remove_members
 
-        when '--remove-all-members'
-          @options.action = :remove_all
+      when '--remove-all-members'
+        @options.action = :remove_all
 
-        when '--file'
-          @options.input_file = Pathname.new arg
+      when '--file'
+        @options.input_file = Pathname.new arg
 
-        when '--server'
-          @options.server = arg
+      when '--server'
+        @options.server = arg
 
-        when '--port'
-          @options.port = arg
+      when '--port'
+        @options.port = arg
 
-        when '--user'
-          @options.user = arg
+      when '--user'
+        @options.user = arg
 
-        when '--no-verify-cert'
-          @options.verify_cert = false
+      when '--no-verify-cert'
+        @options.verify_cert = false
 
-        when '--timeout'
-          @options.timeout = arg
+      when '--timeout'
+        @options.timeout = arg
 
-        when '--no-confirm'
-          @options.no_confirm = true
+      when '--no-confirm'
+        @options.no_confirm = true
 
-        when '--debug'
-          @debug = true
+      when '--debug'
+        @debug = true
 
       end # case
     end # opts.each
@@ -168,17 +165,13 @@ class App
 
     # will we say anything when finished?
     @done_msg = nil
-
   end # init
-
-
 
   #####################################
   ###
   ### Do It
   ###
   def run
-
     if @options.action == :none
       puts USAGE
       return
@@ -188,74 +181,72 @@ class App
     @options.user ||= JSS::CONFIG.api_username
     @options.server ||= JSS::CONFIG.api_server_name
 
-    raise JSS::MissingDataError, "No JSS Username provided or found in the JSS gem config." unless @options.user
-    raise JSS::MissingDataError, "No JSS Server provided or found in the JSS gem config." unless @options.server
+    raise JSS::MissingDataError, 'No JSS Username provided or found in the JSS gem config.' unless @options.user
+    raise JSS::MissingDataError, 'No JSS Server provided or found in the JSS gem config.' unless @options.server
 
-    Jamf.cnx.connect( :server => @options.server,
-      :port => @options.port,
-      :verify_cert => @options.verify_cert,
-      :user => @options.user,
-      :pw => @options.getpass,
-      :stdin_line => 1,
-      :timeout => @options.timeout
-    )
-
+    Jamf.cnx.connect(server: @options.server,
+                     port: @options.port,
+                     verify_cert: @options.verify_cert,
+                     user: @options.user,
+                     pw: @options.getpass,
+                     stdin_line: 1,
+                     timeout: @options.timeout)
 
     if ACTIONS_NEEDING_GROUP.include? @options.action
 
-      raise JSS::MissingDataError, "Please specify a group name" unless @options.group
+      raise JSS::MissingDataError, 'Please specify a group name' unless @options.group
 
-     # get the group from the API
-      if @options.action == :create_group
-        @group = JSS::ComputerGroup.make :name => @options.group, :type => :static
-      else
-        @group = JSS::ComputerGroup.fetch :name => @options.group
-      end
+      # get the group from the API
+      @group = if @options.action == :create_group
+                 JSS::ComputerGroup.make name: @options.group, type: :static
+               else
+                 JSS::ComputerGroup.fetch name: @options.group
+               end
 
     end # if ACTIONS_NEEDING_GROUP
 
     # smart groups can't have some things done to them
-    raise InvalidTypeError, "You can't do that to a smart group. Use the JSS WebApp if needed." if ACTIONS_FOR_STATIC_GROUPS_ONLY.include? @options.action and @group.smart?
-
+    if ACTIONS_FOR_STATIC_GROUPS_ONLY.include? @options.action and @group.smart?
+      raise InvalidTypeError, 
+            "You can't do that to a smart group. Use the JSS WebApp if needed."
+    end
 
     case @options.action
 
-      when :list_groups
-        list_groups
+    when :list_groups
+      list_groups
 
-      when :list_static
-        list_groups :static
+    when :list_static
+      list_groups :static
 
-      when :list_smart
-        list_groups :smart
+    when :list_smart
+      list_groups :smart
 
-      when :list_members
-        list_members
+    when :list_members
+      list_members
 
-      when :create_group
-        create_group
+    when :create_group
+      create_group
 
-      when :rename_group
-        rename_group
+    when :rename_group
+      rename_group
 
-      when :delete_group
-        delete_group
+    when :delete_group
+      delete_group
 
-      when :add_members
-        add_members
+    when :add_members
+      add_members
 
-      when :remove_members
-        remove_members
+    when :remove_members
+      remove_members
 
-      when :remove_all
-        remove_all
+    when :remove_all
+      remove_all
 
     end # case @options.action
 
     puts "Done! #{@done_msg}" if @done_msg
-
   end # run
-
 
   #####################################
   ###
@@ -307,7 +298,6 @@ Notes:
    (spaces, tabs, & returns in any number or combination)
 
     FULLHELP
-
   end
 
   #####################################
@@ -316,21 +306,21 @@ Notes:
   ###
   def list_groups(show = :all)
     case show
-      when :all
-        label = "All"
-        groups_to_show = JSS::ComputerGroup.all
-      when :static
-        label = "Static"
-        groups_to_show = JSS::ComputerGroup.all_static
-      when :smart
-        label = "Smart"
-        groups_to_show = JSS::ComputerGroup.all_smart
-    end #case
+    when :all
+      label = 'All'
+      groups_to_show = JSS::ComputerGroup.all
+    when :static
+      label = 'Static'
+      groups_to_show = JSS::ComputerGroup.all_static
+    when :smart
+      label = 'Smart'
+      groups_to_show = JSS::ComputerGroup.all_smart
+    end # case
 
     puts "# #{label} computer groups in the JSS"
-    puts "#---------------------------------------------"
+    puts '#---------------------------------------------'
 
-    groups_to_show.sort{|a,b| a[:name].downcase <=> b[:name].downcase}.each do |grp|
+    groups_to_show.sort { |a, b| a[:name].downcase <=> b[:name].downcase }.each do |grp|
       puts grp[:name]
     end
   end
@@ -341,30 +331,26 @@ Notes:
   ###
   def list_members
     puts "# All members of JSS #{@group.smart? ? 'smart' : 'static'} computer group '#{@options.group}'"
-    puts "#--- name (id) ---------------------------------"
+    puts '#--- name (id) ---------------------------------'
 
     # put them into a tmp array, so that
     # we can sort by computer name, remembering that
     # there can be duplicate names.
     list = []
-    @group.members.each{|mem| list << "#{mem[:name]} (#{mem[:id]})" }
-    puts list.sort #.join("\n")
+    @group.members.each { |mem| list << "#{mem[:name]} (#{mem[:id]})" }
+    puts list.sort # .join("\n")
   end
-
 
   #####################################
   ###
   ### Create a new group
   ###
   def create_group
-
     return unless confirm "create a new static group named '#{@options.group}'"
+
     @group.create
 
-    unless @options.computers.empty?
-      add_members
-    end
-
+    add_members unless @options.computers.empty?
   end
 
   #####################################
@@ -373,10 +359,10 @@ Notes:
   ###
   def rename_group
     return unless confirm "rename group '#{@group.name}' to '#{@options.new_name}'"
+
     @group.name = @options.new_name
     @group.update
   end
-
 
   #####################################
   ###
@@ -384,25 +370,25 @@ Notes:
   ###
   def delete_group
     return unless confirm "DELETE group '#{@group.name}'"
+
     @group.delete
   end
-
 
   #####################################
   ###
   ### add members to a group
   ###
   def add_members
-    raise JSS::MissingDataError, "No computer names provided" if @options.computers.empty?
+    raise JSS::MissingDataError, 'No computer names provided' if @options.computers.empty?
     raise JSS::UnsupportedError, "Smart group members can't be changed." if @group.smart?
     return unless @options.action == :create_group or confirm "add computers to group '#{@group.name}'"
 
     @options.computers.each do |c|
-      begin
-        @group.add_member c
-      rescue JSS::NoSuchItemError
-        puts "#{$!} - skipping"
-      end # begin
+      
+      @group.add_member c
+    rescue JSS::NoSuchItemError
+      puts "#{$!} - skipping"
+      # begin
     end # each
 
     @group.update
@@ -413,15 +399,16 @@ Notes:
   ### remove members from a group
   ###
   def remove_members
-    raise JSS::MissingDataError, "No computer names provided" if @options.computers.empty?
+    raise JSS::MissingDataError, 'No computer names provided' if @options.computers.empty?
     raise JSS::UnsupportedError, "Smart group members can't be changed." if @group.smart?
     return unless confirm "remove computers from group '#{@group.name}'"
+
     @options.computers.each do |c|
-      begin
-        @group.remove_member c
-      rescue JSS::NoSuchItemError
-        puts "#{$!} - skipping"
-      end
+      
+      @group.remove_member c
+    rescue JSS::NoSuchItemError
+      puts "#{$!} - skipping"
+      
     end
     @group.update
   end
@@ -433,10 +420,10 @@ Notes:
   def remove_all
     raise JSS::UnsupportedError, "Smart group members can't be changed." if @group.smart?
     return unless confirm "remove ALL computers from group '#{@group.name}'"
+
     @group.clear
     @group.update
   end
-
 
   #####################################
   ###
@@ -448,6 +435,7 @@ Notes:
   def get_computers_from_file
     raise JSS::NoSuchItemError "File #{@options.input_file} isn't a file or isn't readable." unless \
       @options.input_file.file? and @options.input_file.readable?
+
     @options.input_file.read.split(/\s+/)
   end
 
@@ -456,17 +444,16 @@ Notes:
   ### Get confirmation before doing something
   ### Returns true or false
   ###
-  def confirm (action)
-      return true if @options.no_confirm
+  def confirm(action)
+    return true if @options.no_confirm
 
-      print "Really #{action}? (y/n): "
-      $stdin.reopen '/dev/tty'
-      reply = $stdin.gets.strip
-      return true if reply =~ /^y/i
-      return false
+    print "Really #{action}? (y/n): "
+    $stdin.reopen '/dev/tty'
+    reply = $stdin.gets.strip
+    return true if reply =~ /^y/i
 
+    false
   end # confirm
-
 
 end # class App
 
@@ -474,13 +461,9 @@ end # class App
 begin
   app = App.new(ARGV)
   app.run
-
 rescue
   # handle exceptions not handled elsewhere
   puts "An error occurred: #{$!}"
-  puts "Backtrace:" if app.debug
+  puts 'Backtrace:' if app.debug
   puts $@ if app.debug
-
-ensure
-
 end

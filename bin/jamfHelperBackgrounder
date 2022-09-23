@@ -53,7 +53,7 @@ class App
 
   # Set up
   #
-  def initialize(args)
+  def initialize(**args)
     if args.include? '-help'
       @help = true
       return
@@ -66,6 +66,7 @@ class App
 
       wintype_idx = args.index { |a| a == WIN_TYPE_PARAM }
       raise 'missing option: -windowType' unless wintype_idx
+
       args.delete_at wintype_idx
       @window_type = args.delete_at(wintype_idx).to_sym
 
@@ -93,6 +94,7 @@ class App
 
     if @as_user
       raise 'Only root can do things as another user' unless JSS.superuser?
+
       cmd = ['su', '-l', @as_user, '-c', "#{Shellwords.escape __FILE__} #{@arg_string}"]
       exec(*cmd)
     end
@@ -134,7 +136,7 @@ This command takes all the same commandline options as jamfHelper, plus these:
 WARNING: You shouldn't run this command directly as a launchd job. Rather
 you should write a small script that runs this command, and use launchd
 to run that.
-ENDHELP
+    ENDHELP
   end # show help
 
 end # app

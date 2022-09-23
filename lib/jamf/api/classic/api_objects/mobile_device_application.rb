@@ -194,7 +194,7 @@ module Jamf
     #
     # See Jamf::APIObject#initialize
     #
-    def initialize(args)
+    def initialize(**args)
       super
       general = @init_data[:general]
       @display_name = general[:display_name]
