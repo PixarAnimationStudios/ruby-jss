@@ -18,21 +18,22 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
 
 ### Added
 
-  - Support for the `/v1/jamf-management-framework/redeploy/{id}` Jamf Pro API endpoint in `Jamf::Computer` and 
+  - Support for the `/v1/jamf-management-framework/redeploy/{id}` Jamf Pro API endpoint in `Jamf::Computer` and
   `Jamf::ComputerGroup`. The method `redeploy_mgmt_framework` is both a Class and an Instance method for those classes
     - The instance method sends the redeployment to the single computer or all the members of the single computer group.
-    - The class method accepts a single id, or an array of ids.  
+    - The class method accepts a single id, or an array of ids.
       - When using `Jamf::Computer.redeploy_mgmt_framework` provide computer ids
       - When using `Jamf::ComputerGroup.redeploy_mgmt_framework` provide group ids, and all members of all groups will get
         the redeployment
-  - In all cases the result is a Hash of target computer ids (keys) and result value for each (Strings).
-    -  The result is either the UUID of the sent MDM command, or an error message if the MDM command couldn't be sent.
-  - All the code is in the `Jamf::MacOSRedeployMgmtFramework` module, q.v. in the [rubydoc documentation](https://www.rubydoc.info/gems/ruby-jss/Jamf/MacOSRedeployMgmtFramework)
+    - In all cases the result is a Hash of target computer ids (keys) and result value for each (Strings).
+      -  The result is either the UUID of the sent MDM command, or an error message if the MDM command couldn't be sent.
+    - All the code is in the `Jamf::MacOSRedeployMgmtFramework` module, q.v. in the [rubydoc documentation](https://www.rubydoc.info/gems/ruby-jss/Jamf/MacOSRedeployMgmtFramework)
 
 ### Fixed
 
   - A few internal rescues of a deprecated exception class
   - Removed auto-loading of deprecation files; now explicitly loaded.
+  - A few Ruby 2 => Ruby 3 bugs - method params needing double-splats (Thanks to @Timelost for reporting this one)
 
 ## \[2.0.0] - 2022-09-12
 
