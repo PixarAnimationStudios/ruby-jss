@@ -14,7 +14,7 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
-## \[2.1.0] - unreleased
+## \[2.1.0] - 2022-10-01
 
 ### Added
 
