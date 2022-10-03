@@ -55,7 +55,7 @@ class App
   ###
   ### set up
   ###
-  def initialize(**_args)
+  def initialize
     @debug = false
 
     # define the options
@@ -207,7 +207,7 @@ class App
 
     # smart groups can't have some things done to them
     if ACTIONS_FOR_STATIC_GROUPS_ONLY.include? @options.action and @group.smart?
-      raise InvalidTypeError, 
+      raise InvalidTypeError,
             "You can't do that to a smart group. Use the JSS WebApp if needed."
     end
 
@@ -384,7 +384,6 @@ Notes:
     return unless @options.action == :create_group or confirm "add computers to group '#{@group.name}'"
 
     @options.computers.each do |c|
-      
       @group.add_member c
     rescue JSS::NoSuchItemError
       puts "#{$!} - skipping"
@@ -404,11 +403,9 @@ Notes:
     return unless confirm "remove computers from group '#{@group.name}'"
 
     @options.computers.each do |c|
-      
       @group.remove_member c
     rescue JSS::NoSuchItemError
       puts "#{$!} - skipping"
-      
     end
     @group.update
   end
@@ -459,7 +456,7 @@ end # class App
 
 #######################################
 begin
-  app = App.new(ARGV)
+  app = App.new
   app.run
 rescue
   # handle exceptions not handled elsewhere

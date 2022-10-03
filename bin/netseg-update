@@ -55,13 +55,13 @@ class App
 
   USAGE = "Usage: #{PROG_NAME} [options] [--help] /path/to/file".freeze
 
-  POTENTIAL_COLUMNS = %i(name starting ending cidr mask).freeze
+  POTENTIAL_COLUMNS = %i[name starting ending cidr mask].freeze
 
   DEFAULT_CACHE_FILE = Pathname.new('~/.last_subnet_update').expand_path
 
   DEFAULT_DELIMITER = "\t".freeze
 
-  DEFAULT_COLUMNS = [:name, :starting, :ending].freeze
+  DEFAULT_COLUMNS = %i[name starting ending].freeze
 
   DEFAULT_MANUAL_PREFIX = 'Manual-'.freeze
 
@@ -84,7 +84,7 @@ class App
 
   attr_reader :debug
 
-  def initialize(_args)
+  def initialize
     @getpass = $stdin.tty? ? :prompt : :stdin
     set_defaults
     parse_cli
@@ -183,7 +183,7 @@ Options:
  -V, --no-verify-cert   - Allow self-signed, unverified SSL certificate
  -T, --timeout secs     - specify the JSS API timeout
  -N, --no-op            - Don't make any changes in the JSS, just report what would
-                          have be changed.
+                          have been changed.
  -H, --help             - show this help
  --debug                - show the ruby backtrace when errors occur
 
@@ -254,6 +254,7 @@ Notes:
     lines.each do |line|
       parsed_line = parse_a_data_line line
       next unless parsed_line
+
       name = parsed_line.delete :name
       parsed_data[name] = parsed_line
     end
@@ -273,6 +274,7 @@ Notes:
       @columns.include?(:ending) || \
       @columns.include?(:cidr) || \
       @columns.include?(:mask)
+
     @use_cidr = (@columns.include?(:cidr) || @columns.include?(:mask))
   end
 
@@ -296,11 +298,13 @@ Notes:
     # read in the file
     @raw_data = @file.read
     return true unless @cache_file.exist?
+
     @raw_data != @cache_file.read
   end
 
   def cache_latest_data
     return if @noop
+
     @cache_file.jss_save @raw_data
   end
 
@@ -375,7 +379,7 @@ end # app
 # create the app and go
 begin
   debug = ARGV.include? '--debug'
-  app = App.new(ARGV)
+  app = App.new
   app.run
 rescue
   # handle exceptions not handled elsewhere
