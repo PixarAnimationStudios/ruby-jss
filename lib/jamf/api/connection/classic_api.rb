@@ -59,7 +59,7 @@ module Jamf
       # @return [Hash,String] the result of the get
       #
       def c_get(rsrc, format = :json, raw_json: false)
-        rsrc.delete_prefix! Jamf::Connection::SLASH
+        rsrc = rsrc.delete_prefix Jamf::Connection::SLASH
 
         validate_connected @c_cnx
         raise Jamf::InvalidDataError, 'format must be :json or :xml' unless Jamf::Connection::GET_FORMATS.include?(format)
@@ -94,7 +94,7 @@ module Jamf
       def c_post(rsrc, xml)
         validate_connected @c_cnx
 
-        rsrc.delete_prefix! Jamf::Connection::SLASH
+        rsrc = rsrc.delete_prefix Jamf::Connection::SLASH
 
         # convert CRs & to &#13;
         xml&.gsub!(/\r/, '&#13;')
@@ -129,7 +129,7 @@ module Jamf
       def c_put(rsrc, xml)
         validate_connected @c_cnx
 
-        rsrc.delete_prefix! Jamf::Connection::SLASH
+        rsrc = rsrc.delete_prefix Jamf::Connection::SLASH
 
         # convert CRs & to &#13;
         xml.gsub!(/\r/, '&#13;')
@@ -163,7 +163,7 @@ module Jamf
         validate_connected @c_cnx
         raise MissingDataError, 'Missing :rsrc' if rsrc.nil?
 
-        rsrc.delete_prefix! Jamf::Connection::SLASH
+        rsrc = rsrc.delete_prefix Jamf::Connection::SLASH
 
         # delete the resource
         resp =
@@ -196,7 +196,7 @@ module Jamf
       #
       def upload(rsrc, local_file)
         validate_connected @c_cnx
-        rsrc.delete_prefix! Jamf::Connection::SLASH
+        rsrc = rsrc.delete_prefix Jamf::Connection::SLASH
 
         # the upload file object for faraday
         local_file = Pathname.new local_file
