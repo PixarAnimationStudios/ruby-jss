@@ -150,7 +150,8 @@ module Jamf
         element ? element.text.to_f : model
       when nil
         return nil unless element
-        element.text.downcase == TRUE_STRING ? true : false
+
+        element.text.downcase == TRUE_STRING
       when Array
         element ? elem_as_array(model.first, element) : []
       when Hash
@@ -176,6 +177,7 @@ module Jamf
       return unless size_elems.count == 1
       return if size_elem.has_elements?
       return unless size_elem.text.jss_integer?
+
       elem.delete_element size_elem
     end
 
