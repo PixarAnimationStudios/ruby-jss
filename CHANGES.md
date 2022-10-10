@@ -14,7 +14,7 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
-## \[2.1.0] - 2022-10-01
+## \[2.1.0] - 2022-10-10
 
 ### Added
 
@@ -34,6 +34,8 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
   - A few internal rescues of a deprecated exception class
   - Removed auto-loading of deprecation files; now explicitly loaded.
   - A few Ruby 2 => Ruby 3 bugs - method params needing double-splats (Thanks to @Timelost for reporting this one)
+  - Ensure resource paths don't start with a slash
+  - Setting the timeouts on an existing API connection object now works.
 
 ## \[2.0.0] - 2022-09-12
 
