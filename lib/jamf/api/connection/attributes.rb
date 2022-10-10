@@ -74,15 +74,15 @@ module Jamf
       attr_reader :sticky_session
       alias sticky_session? sticky_session
       alias sticky? sticky_session
-      
+
       # @return [String, nil] The current sticky_session cookie. nil unless
       #   sticky_session is set to true, either as a param to 'connect' or via
       #   #sticky_session=
       #
-      #   When set via .connect, the cookie is gleaned from the token creation 
+      #   When set via .connect, the cookie is gleaned from the token creation
       #   reponse. When set via #sticky_session=, a HEAD request is made, and the
       #   cookie will be in the response.
-      #   
+      #
       #    Only valid when the connection is to a Jamf Cloud server.
       attr_reader :sticky_session_cookie
 
@@ -100,7 +100,7 @@ module Jamf
 
         # convert boolean-y to boolean
         value = value ? true : false
-        
+
         return if @sticky_session == value
 
         if value
@@ -125,8 +125,8 @@ module Jamf
       #
       def timeout=(new_timeout)
         @timeout = new_timeout.to_i
-        @c_cnx&.options[:timeout] = @timeout 
-        @jp_cnx&.options[:timeout] = @timeout 
+        @c_cnx.options.timeout = @timeout if @c_cnx
+        @jp_cnx.options.timeout = @timeout if @jp_cnx
       end
 
       # Reset the open-connection timeout for the rest connection
@@ -137,8 +137,8 @@ module Jamf
       #
       def open_timeout=(new_timeout)
         @open_timeout = new_timeout.to_i
-        @c_cnx&.options[:open_timeout] = @open_timeout
-        @jp_cnx&.options[:open_timeout] = @open_timeout 
+        @c_cnx.options.open_timeout = @open_timeout if @c_cnx
+        @jp_cnx.options.open_timeout = @open_timeout if @jp_cnx
       end
 
       # @return [URI::HTTPS] the base URL to the server
