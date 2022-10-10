@@ -440,7 +440,7 @@ module Jamf
       cnx = api if api
 
       id = valid_id ident, cnx: cnx
-      raise "No computer matches identifier: #{ident}" unless id
+      raise Jamf::NoSuchItemError, "No computer matches identifier: #{ident}" unless id
 
       end_date ||= start_date
       start_date = Jamf.parse_time start_date
