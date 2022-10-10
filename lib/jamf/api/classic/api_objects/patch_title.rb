@@ -154,7 +154,7 @@ module Jamf
     # when fetching a specific version, this is a valid version
     UNKNOWN_VERSION_ID = 'Unknown'.freeze
 
-    REPORTS_RSRC_BASE = '/patchreports/patchsoftwaretitleid'.freeze
+    REPORTS_RSRC_BASE = 'patchreports/patchsoftwaretitleid'.freeze
 
     # Class Methods
     #######################################
@@ -233,7 +233,7 @@ module Jamf
       all(refresh, cnx: cnx).map { |i| i[:source_name_id] }
     end
 
-    # Get a patch report for a softwaretitle, withouth fetching an instance.
+    # Get a patch report for a softwaretitle, without fetching an instance.
     # Defaults to reporting all versions. Specifiying a version will be faster.
     #
     # The Hash returned has 3 keys:
@@ -269,6 +269,7 @@ module Jamf
 
       # TODO: remove this and adjust parsing when jamf fixes the JSON
       raw_report = XMLWorkaround.data_via_xml(rsrc, PATCH_REPORT_DATA_MAP, cnx)[:patch_report]
+
       report = {}
       report[:total_computers] = raw_report[:total_computers]
       report[:total_versions] = raw_report[:total_versions]
@@ -312,7 +313,7 @@ module Jamf
     # so all other lookup values have to be converted to ID before
     # the call to super
     #
-    def self.fetch(identifier = nil, **params)      
+    def self.fetch(identifier = nil, **params)
       # default connection if unspecified
       cnx = params.delete :cnx
       cnx ||= params.delete :api # backward compatibility, deprecated
@@ -472,7 +473,6 @@ module Jamf
     # wrapper to fetch versions after creating
     def create
       super
-      
     end
 
     # wrapper to clear @changed_pkgs after updating

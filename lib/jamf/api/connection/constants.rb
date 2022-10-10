@@ -87,6 +87,8 @@ module Jamf
       MIME_JSON = 'application/json'.freeze
       MIME_XML = 'application/xml'.freeze
 
+      SLASH = '/'
+
       # Only these variables are displayed with PrettyPrint
       # This avoids, especially, the caches, which are available
       # as attr_readers

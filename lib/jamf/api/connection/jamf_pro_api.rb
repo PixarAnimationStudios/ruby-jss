@@ -53,11 +53,12 @@ module Jamf
 
       # @param rsrc[String] the resource to get
       #   (the part of the API url after the '/api/' )
-  
+
       # @return [Hash] the result of the get
       #######################################################
       def jp_get(rsrc)
         validate_connected @jp_cnx
+        rsrc.delete_prefix! Jamf::Connection::SLASH
         resp = @jp_cnx.get(rsrc) do |req|
           # Modify the request here if needed.
           # puts "JPAPI Cookie is: #{req.headers['Cookie']}"
@@ -82,6 +83,7 @@ module Jamf
       #######################################################
       def jp_post(rsrc, data)
         validate_connected @jp_cnx
+        rsrc.delete_prefix! Jamf::Connection::SLASH
         resp = @jp_cnx.post(rsrc) do |req|
           req.body = data
         end
@@ -104,6 +106,7 @@ module Jamf
       #######################################################
       def jp_put(rsrc, data)
         validate_connected @jp_cnx
+        rsrc.delete_prefix! Jamf::Connection::SLASH
         resp = @jp_cnx.put(rsrc) do |req|
           req.body = data
         end
@@ -126,6 +129,7 @@ module Jamf
       #######################################################
       def jp_patch(rsrc, data)
         validate_connected @jp_cnx
+        rsrc.delete_prefix! Jamf::Connection::SLASH
         resp = @jp_cnx.patch(rsrc) do |req|
           req.body = data
         end
@@ -146,6 +150,7 @@ module Jamf
       #######################################################
       def jp_delete(rsrc)
         validate_connected @jp_cnx
+        rsrc.delete_prefix! Jamf::Connection::SLASH
         resp = @jp_cnx.delete rsrc
         @last_http_response = resp
         return resp.body if resp.success?
@@ -159,6 +164,7 @@ module Jamf
       # a temporary Faraday connection object
       #######################################################
       def jp_download(rsrc)
+        rsrc.delete_prefix! Jamf::Connection::SLASH
         temp_cnx = create_jp_connection(parse_json: false)
         resp = temp_cnx.get rsrc
         @last_http_response = resp
