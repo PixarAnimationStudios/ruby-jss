@@ -259,8 +259,8 @@ module Jamf
     attr_reader :ssh_password_sha256
 
     def initialize(**args)
-      super 
-      
+      super
+
       @ip_address = @init_data[:ip_address]
       @local_path = @init_data[:local_path]
       @enable_load_balancing = @init_data[:enable_load_balancing]
@@ -294,45 +294,9 @@ module Jamf
 
       @port = @init_data[:ssh_password]
 
-      # Note, as of Casper 9.3:
-      # :management_password_md5=>"xxxxx"
-      # and
-      # :management_password_sha256=> "xxxxxxxxxx"
-      # Are the read/write password
-      #
-      # An empty passwd is
-      # MD5 = d41d8cd98f00b204e9800998ecf8427e
-      # SHA256 = e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-      #
-      # Seemms the read-only pw isn't available in the API
-
       # if we mount for fileservice, where's the mountpoint?
       @mountpoint = DEFAULT_MOUNTPOINT_DIR + "#{DEFAULT_MOUNTPOINT_PREFIX}#{@id}"
     end # init
-
-    # Check the validity of a password.
-    #
-    # @param user[Symbol] one of :ro, :rw, :ssh, :http
-    #
-    # @param pw[String] the password to check for the given user
-    #
-    # @return [Boolean,Nil] was the password correct?
-    #   nil is returned if there is no password set in the JSS.
-    #
-    def check_pw(user, pw)
-      raise Jamf::InvalidDataError, 'The first parameter must be one of :ro, :rw, :ssh, :http' unless %i[ro rw ssh http].include? user
-
-      sha256 = case user
-               when :rw then @read_write_password_sha256
-               when :ro then @read_only_password_sha256
-               when :http then @http_password_sha256
-               when :ssh then @ssh_password_sha256
-               end # case
-
-      return nil if sha256 == EMPTY_PW_256
-
-      sha256 == Digest::SHA2.new(256).update(pw).to_s
-    end
 
     # Check to see if this dist point is reachable for downloads (read-only)
     # via either http, if available, or filesharing.
@@ -350,7 +314,6 @@ module Jamf
     def reachable_for_download?(pw = '', check_http = true)
       return :http if check_http && http_reachable?(pw)
       return :mountable if mounted?
-      return false unless check_pw :ro, pw
 
       begin
         mount pw, :ro
@@ -371,7 +334,6 @@ module Jamf
     #
     def reachable_for_upload?(pw)
       return :mountable if mounted?
-      return false unless check_pw :rw, pw
 
       begin
         mount pw, :rw
@@ -412,12 +374,6 @@ module Jamf
                  else
                    pw
                  end
-
-      pwok = check_pw(access, password)
-      unless pwok
-        msg = pwok.nil? ? "No #{access} password set in the JSS" : "Incorrect password for #{access} account"
-        raise Jamf::InvalidDataError, msg
-      end
 
       username = access == :ro ? @read_only_username : @read_write_username
 
@@ -481,7 +437,7 @@ module Jamf
     private
 
     # can the dp be reached for http downloads?
-    def http_reachable?(pw)
+    def http_reachable?(pw = nil)
       return false unless http_downloads_enabled
 
       url =
