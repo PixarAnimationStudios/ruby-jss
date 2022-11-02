@@ -1800,21 +1800,6 @@ module Jamf
       @need_to_update = true
 
       @management_account
-
-    end
-
-    # Check if management password matches provided password
-    #
-    # @param password[String] the password that is SHA256'ed to compare to the one from the API.
-    #
-    # @return [Boolean] The result of the comparison of the management password and provided text.
-    #
-    def verify_management_password(password)
-      raise Jamf::InvalidDataError, "Management password must be a string." unless password.is_a? String
-
-      raise Jamf::UnsupportedError, "'#{@management_account[:action].to_s}' does not support management passwords." unless @management_account[:action] == MGMT_ACCOUNT_ACTIONS[:change_pw] || @management_account[:action] == MGMT_ACCOUNT_ACTIONS[:reset_pw]
-
-      return Digest::SHA256.hexdigest(password).to_s == @management_account[:managed_password_sha256].to_s
     end
 
     ###### Actions
@@ -1829,8 +1814,10 @@ module Jamf
     #
     def run(show_output = false)
       return nil unless enabled?
+
       output = Jamf::Client.run_jamf('policy', "-id #{id}", show_output)
       return nil if output.include? 'No policies were found for the ID'
+
       $CHILD_STATUS.exitstatus.zero? ? true : false
     end
     alias execute run
