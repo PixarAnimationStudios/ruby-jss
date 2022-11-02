@@ -298,6 +298,26 @@ module Jamf
       @mountpoint = DEFAULT_MOUNTPOINT_DIR + "#{DEFAULT_MOUNTPOINT_PREFIX}#{@id}"
     end # init
 
+    # @deprecated The API no longer sends SHA256 hashed password data, and instead
+    #   only has a string of asterisks, meaning we can no longer use it to validate
+    #   passwords before attempting to use them. Instead, the processes that use
+    #   them, e.g. mounting a Dist. Point, will fail on their own if the pw is not
+    #   valid.
+    #
+    #   This method remains defined for backward-compatibility with any existing
+    #   code that calls it. but it will always return true. It will be removed in
+    #   a future version
+    #
+    # @param user[Symbol] ignored
+    #
+    # @param pw[String] ignored
+    #
+    # @return [TrueClass] Allow the process calling this to continue.
+    #
+    def check_pw(_user = nil, _pw = nil)
+      true
+    end
+
     # Check to see if this dist point is reachable for downloads (read-only)
     # via either http, if available, or filesharing.
     #

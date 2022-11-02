@@ -1700,20 +1700,16 @@ module Jamf
 
     # @return [Array] the id's of the printers handled by the policy
     def printer_ids
-      
       @printers.map { |p| p[:id] }
     rescue TypeError
       []
-      
     end
 
     # @return [Array] the names of the printers handled by the policy
     def printer_names
-      
       @printers.map { |p| p[:name] }
     rescue TypeError
       []
-      
     end
 
     ###### Disk Encryption
@@ -1817,6 +1813,23 @@ module Jamf
       @need_to_update = true
 
       @management_account
+    end
+
+    # @deprecated The API no longer sends SHA256 hashed password data, and instead
+    #   only has a string of asterisks, meaning we can no longer use it to validate
+    #   passwords before attempting to use them. Instead, the processes that use
+    #   the password will fail on their own if the pw is not valid.
+    #
+    #   This method remains defined for backward-compatibility with any existing
+    #   code that calls it. but it will always return true. Itwill be removed in
+    #   a future version
+    #
+    # @param password[String] ignored
+    #
+    # @return [TrueClass] Allow the process calling this to continue.
+    #
+    def verify_management_password(_password = nil)
+      true
     end
 
     ###### Actions
@@ -2002,7 +2015,7 @@ module Jamf
 
       # Checks if the make_default option is valid, and sets the default if needed.
       unless opts[:make_default].is_a?(TrueClass) || opts[:make_default].is_a?(FalseClass) || opts[:make_default].nil?
-        raise Jamf::InvalidDataError, 
+        raise Jamf::InvalidDataError,
               'make_default must be either true or false.'
       end
 
