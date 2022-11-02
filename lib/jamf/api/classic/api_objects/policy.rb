@@ -166,7 +166,7 @@ module Jamf
       selected: 'Currently Selected Startup Disk (No Bless)',
       netboot: 'NetBoot',
       os_installer: 'inPlaceOSUpgradeDirectory'
-    }.freeze # Note: any other value in :specify_startup is a path to some other drive to boot from, e.g. /Volumes/Foo
+    }.freeze # NOTE: any other value in :specify_startup is a path to some other drive to boot from, e.g. /Volumes/Foo
 
     ACCOUNT_ACTIONS = {
       create: 'Create',
@@ -200,9 +200,9 @@ module Jamf
     }.freeze
 
     DISK_ENCRYPTION_ACTIONS = {
-      apply: "apply",
-      remediate: "remediate",
-      none: "none"
+      apply: 'apply',
+      remediate: 'remediate',
+      none: 'none'
     }
 
     PRINTER_ACTIONS = {
@@ -751,7 +751,7 @@ module Jamf
         @management_account = amaint[:management_account]
         @accounts = amaint[:accounts]
 
-        @packages = @init_data[:package_configuration][:packages] ? @init_data[:package_configuration][:packages] : []
+        @packages = @init_data[:package_configuration][:packages] || []
 
         @scripts = @init_data[:scripts]
 
@@ -815,6 +815,7 @@ module Jamf
     #
     def enabled=(new_val)
       return if @enabled == new_val
+
       @enabled = Jamf::Validate.boolean new_val
       @need_to_update = true
     end
@@ -868,9 +869,7 @@ module Jamf
 
       # if the event is not 'none' and attempts is <= 0,
       # set events to 1, or the API won't accept it
-      unless evt == RETRY_EVENTS[:none]
-        @retry_attempts = 1 unless @retry_attempts.positive?
-      end
+      @retry_attempts = 1 if !(evt == RETRY_EVENTS[:none]) && !@retry_attempts.positive?
 
       @retry_event = evt
       @need_to_update = true
@@ -934,6 +933,7 @@ module Jamf
     #
     def target_drive=(path_to_drive)
       raise Jamf::InvalidDataError, 'Path to target drive must be absolute' unless path_to_drive.to_s.start_with? '/'
+
       @target_drive = path_to_drive.to_s
       @need_to_update = true
     end
@@ -946,6 +946,7 @@ module Jamf
     #
     def offline=(new_val)
       raise Jamf::InvalidDataError, 'New value must be boolean true or false' unless Jamf::TRUE_FALSE.include? new_val
+
       @offline = new_val
       @need_to_update = true
     end
@@ -960,6 +961,7 @@ module Jamf
     #
     def set_trigger_event(type, new_val)
       raise Jamf::InvalidDataError, "Trigger type must be one of #{TRIGGER_EVENTS.keys.join(', ')}" unless TRIGGER_EVENTS.key?(type)
+
       if type == :custom
         raise Jamf::InvalidDataError, 'Custom triggers must be Strings' unless new_val.is_a? String
       else
@@ -977,6 +979,7 @@ module Jamf
     #
     def server_side_activation=(activation)
       raise Jamf::InvalidDataError, 'Activation must be a Time' unless activation.is_a? Time
+
       @server_side_limitations[:activation] = activation
       @need_to_update = true
     end
@@ -989,6 +992,7 @@ module Jamf
     #
     def server_side_expiration=(expiration)
       raise Jamf::InvalidDataError, 'Expiration must be a Time' unless expiration.is_a? Time
+
       @server_side_limitations[:expiration] = expiration
       @need_to_update = true
     end
@@ -999,6 +1003,7 @@ module Jamf
     #
     def verify_startup_disk=(bool)
       return if @verify_startup_disk == bool
+
       @verify_startup_disk = Jamf::Validate.boolean bool
       @need_to_update = true
     end
@@ -1007,6 +1012,7 @@ module Jamf
     #
     def permissions_repair=(bool)
       return if @permissions_repair == bool
+
       @permissions_repair = Jamf::Validate.boolean bool
       @need_to_update = true
     end
@@ -1015,6 +1021,7 @@ module Jamf
     #
     def recon=(bool)
       return if @recon == bool
+
       @recon = Jamf::Validate.boolean bool
       @need_to_update = true
     end
@@ -1024,6 +1031,7 @@ module Jamf
     #
     def fix_byhost=(bool)
       return if @fix_byhost == bool
+
       @fix_byhost = Jamf::Validate.boolean bool
       @need_to_update = true
     end
@@ -1032,6 +1040,7 @@ module Jamf
     #
     def reset_name=(bool)
       return if @reset_name == bool
+
       @reset_name = Jamf::Validate.boolean bool
       @need_to_update = true
     end
@@ -1040,6 +1049,7 @@ module Jamf
     #
     def flush_system_cache=(bool)
       return if @flush_system_cache == bool
+
       @flush_system_cache = Jamf::Validate.boolean bool
       @need_to_update = true
     end # see attr_reader :recon
@@ -1048,6 +1058,7 @@ module Jamf
     #
     def install_cached_pkgs=(bool)
       return if @install_cached_pkgs == bool
+
       @install_cached_pkgs = Jamf::Validate.boolean bool
       @need_to_update = true
     end
@@ -1056,6 +1067,7 @@ module Jamf
     #
     def flush_user_cache=(bool)
       return if @flush_user_cache == bool
+
       @flush_user_cache = Jamf::Validate.boolean bool
       @need_to_update = true
     end
@@ -1071,6 +1083,7 @@ module Jamf
     #
     def no_user_logged_in=(no_user_option)
       raise Jamf::InvalidDataError, "no_user_logged_in options: #{NO_USER_LOGGED_IN.join(', ')}" unless NO_USER_LOGGED_IN.include? no_user_option
+
       @reboot_options[:no_user_logged_in] = no_user_option
       @need_to_update = true
     end
@@ -1083,6 +1096,7 @@ module Jamf
     #
     def user_logged_in=(logged_in_option)
       raise Jamf::InvalidDataError, "user_logged_in options: #{USER_LOGGED_IN.join(', ')}" unless USER_LOGGED_IN.include? logged_in_option
+
       @reboot_options[:user_logged_in] = logged_in_option
       @need_to_update = true
     end
@@ -1095,6 +1109,7 @@ module Jamf
     #
     def reboot_message=(message)
       raise Jamf::InvalidDataError, 'Reboot message must be a String' unless message.is_a? String
+
       @reboot_options[:message] = message
       @need_to_update = true
     end
@@ -1107,6 +1122,7 @@ module Jamf
     # @return [void] description of returned object
     def user_message_start=(message)
       raise Jamf::InvalidDataError, 'User message must be a String' unless message.is_a? String
+
       @user_message_start = message
       @need_to_update = true
     end
@@ -1118,6 +1134,7 @@ module Jamf
     # @return [void] description of returned object
     def user_message_end=(message)
       raise Jamf::InvalidDataError, 'User message must be a String' unless message.is_a? String
+
       @user_message_finish = message
       @need_to_update = true
     end
@@ -1133,6 +1150,7 @@ module Jamf
     #
     def startup_disk=(startup_disk_option)
       raise Jamf::InvalidDataError, "#{startup_disk_option} is not a valid Startup Disk" unless startup_disk_option.is_a? String
+
       @reboot_options[:startup_disk] = 'Specify Local Startup Disk'
       self.specify_startup = startup_disk_option
       @need_to_update = true
@@ -1147,6 +1165,7 @@ module Jamf
     #
     def specify_startup=(startup_volume)
       raise Jamf::InvalidDataError, "#{startup_volume} is not a valid Startup Disk" unless startup_volume.is_a? String
+
       @reboot_options[:specify_startup] = startup_volume
       @need_to_update = true
     end
@@ -1172,6 +1191,7 @@ module Jamf
     #
     def minutes_until_reboot=(minutes)
       raise Jamf::InvalidDataError, 'Minutes until reboot must be an Integer' unless minutes.is_a? Integer
+
       @reboot_options[:minutes_until_reboot] = minutes
       @need_to_update = true
     end
@@ -1185,6 +1205,7 @@ module Jamf
     #
     def file_vault_2_reboot=(fv_bool)
       raise Jamf::InvalidDataError, 'FileVault 2 Reboot must be a Boolean' unless fv_bool.jss_boolean?
+
       @reboot_options[:file_vault_2_reboot] = fv_bool
       @need_to_update = true
     end
@@ -1206,6 +1227,7 @@ module Jamf
     #
     def run_command=(command)
       raise Jamf::InvalidDataError, 'Command to run must be a String' unless command.is_a? String
+
       @files_processes[:run_command] = command
       @need_to_update = true
     end
@@ -1262,7 +1284,7 @@ module Jamf
     #
     def search_by_path
       if @files_processes[:search_by_path].nil?
-        return nil
+        nil
       else
         Pathname.new @files_processes[:search_by_path]
       end
@@ -1289,6 +1311,7 @@ module Jamf
     #
     def set_search_by_path(path, delete = false)
       raise Jamf::InvalidDataError, 'Path to search for must be a String or a Pathname' unless path.is_a?(String) || path.is_a?(Pathname)
+
       @files_processes[:search_by_path] = path.to_s
       @files_processes[:delete_file] = delete ? true : false
       @need_to_update = true
@@ -1308,6 +1331,7 @@ module Jamf
     #
     def spotlight_search=(term)
       raise Jamf::InvalidDataError, 'Spotlight search term must be a String' unless term.is_a? String
+
       @files_processes[:spotlight_search] = term
       @need_to_update = true
     end
@@ -1326,6 +1350,7 @@ module Jamf
     #
     def locate_file=(term)
       raise Jamf::InvalidDataError, 'Term to locate must be a String' unless term.is_a? String
+
       @files_processes[:locate_file] = term
       @need_to_update = true
     end
@@ -1571,7 +1596,6 @@ module Jamf
       @directory_bindings
     end
 
-
     # Remove a directory binding from this policy by name or id
     #
     # @param identifier [String,Integer] the name or id of the directory binding to remove
@@ -1595,7 +1619,6 @@ module Jamf
     def dock_item_names
       @dock_items.map { |p| p[:name] }
     end
-
 
     ###### Printers
 
@@ -1661,7 +1684,7 @@ module Jamf
 
       name = Jamf::DockItem.map_all_ids_to(:name, cnx: @cnx)[id]
 
-      @dock_items << {id: id, name: name, action: DOCK_ITEM_ACTIONS[action]}
+      @dock_items << { id: id, name: name, action: DOCK_ITEM_ACTIONS[action] }
 
       @need_to_update = true
       @dock_items
@@ -1677,23 +1700,21 @@ module Jamf
 
     # @return [Array] the id's of the printers handled by the policy
     def printer_ids
-        begin
-            @printers.map { |p| p[:id] }
-            rescue TypeError
-            return []
-        end
+      
+      @printers.map { |p| p[:id] }
+    rescue TypeError
+      []
+      
     end
 
     # @return [Array] the names of the printers handled by the policy
     def printer_names
-        begin
-            @printers.map { |p| p[:name] }
-            rescue TypeError
-            return []
-        end
+      
+      @printers.map { |p| p[:name] }
+    rescue TypeError
+      []
+      
     end
-
-
 
     ###### Disk Encryption
 
@@ -1703,12 +1724,12 @@ module Jamf
     #
     # @return [Void]
     #
-    def reissue_key()
+    def reissue_key
       if @disk_encryption[:action] != DISK_ENCRYPTION_ACTIONS[:remediate]
         # Setting New Action
         hash = {
           action: DISK_ENCRYPTION_ACTIONS[:remediate],
-          remediate_key_type: "Individual"
+          remediate_key_type: 'Individual'
         }
 
         @disk_encryption = hash
@@ -1716,11 +1737,9 @@ module Jamf
 
       else
         # Update
-        return
+        nil
       end
-
     end
-
 
     # Sets the Disk Encryption application to "Apply" and sets the correct disk encryption configuration ID using either the name or id.
     #
@@ -1729,7 +1748,6 @@ module Jamf
     # @return [Void]
     #
     def apply_encryption_configuration(identifier)
-
       id = Jamf::DiskEncryptionConfiguration.valid_id identifier
 
       return if id.nil?
@@ -1744,14 +1762,13 @@ module Jamf
       @need_to_update = true
     end
 
-
     # Removes the Disk Encryption settings associated with this specific policy.
     #
     # @author Tyler Morgan
     #
     # @return [Void]
     #
-    def remove_encryption_configuration()
+    def remove_encryption_configuration
       hash = {
         action: DISK_ENCRYPTION_ACTIONS[:none]
       }
@@ -1774,16 +1791,16 @@ module Jamf
 
       management_data = {}
 
-      if action == :change_pw || action == :reset_pw
-        raise Jamf::MissingDataError, ":password must be provided when changing management account password" if opts[:password].nil?
+      if %i[change_pw reset_pw].include?(action)
+        raise Jamf::MissingDataError, ':password must be provided when changing management account password' if opts[:password].nil?
 
         management_data = {
           action: MGMT_ACCOUNT_ACTIONS[action],
           managed_password: opts[:password]
         }
-      elsif action == :reset_random || action == :generate_pw
-        raise Jamf::MissingDataError, ":password_length must be provided when setting a random password" if opts[:password_length].nil?
-        raise Jamf::InvalidDataError, ":password_length must be an Integer" unless opts[:password_length].is_a? Integer
+      elsif %i[reset_random generate_pw].include?(action)
+        raise Jamf::MissingDataError, ':password_length must be provided when setting a random password' if opts[:password_length].nil?
+        raise Jamf::InvalidDataError, ':password_length must be an Integer' unless opts[:password_length].is_a? Integer
 
         management_data = {
           action: MGMT_ACCOUNT_ACTIONS[action],
@@ -1931,6 +1948,7 @@ module Jamf
 
       id = Jamf::Script.valid_id identifier, cnx: @cnx
       raise Jamf::NoSuchItemError, "No script matches '#{identifier}'" unless id
+
       id
     end
 
@@ -1950,12 +1968,13 @@ module Jamf
         else Jamf::Validate.integer(opts[:position])
         end
 
-        # if the given position is past the end, set it to -1 (the end)
-        opts[:position] = -1 if opts[:position] > @directory_bindings.size
+      # if the given position is past the end, set it to -1 (the end)
+      opts[:position] = -1 if opts[:position] > @directory_bindings.size
 
-        id = Jamf::DirectoryBinding.valid_id identifier, cnx: @cnx
-        raise Jamf::NoSuchItemError, "No directory binding matches '#{identifier}'" unless id
-        id
+      id = Jamf::DirectoryBinding.valid_id identifier, cnx: @cnx
+      raise Jamf::NoSuchItemError, "No directory binding matches '#{identifier}'" unless id
+
+      id
     end
 
     # Raises an error if the printer being added isn't valid, additionally checks the options and sets defaults where possible.
@@ -1981,14 +2000,17 @@ module Jamf
       raise Jamf::MissingDataError, "action must be provided, must be one of :#{PRINTER_ACTIONS.keys.join(':,')}." if opts[:action].nil?
       raise Jamf::InvalidDataError, "action must be one of :#{PRINTER_ACTIONS.keys.join(',:')}." unless PRINTER_ACTIONS.keys.include? opts[:action]
 
-
       # Checks if the make_default option is valid, and sets the default if needed.
-      raise Jamf::InvalidDataError, "make_default must be either true or false." unless opts[:make_default].is_a?(TrueClass) || opts[:make_default].is_a?(FalseClass) || opts[:make_default].nil?
+      unless opts[:make_default].is_a?(TrueClass) || opts[:make_default].is_a?(FalseClass) || opts[:make_default].nil?
+        raise Jamf::InvalidDataError, 
+              'make_default must be either true or false.'
+      end
 
       opts[:make_default] = false if opts[:make_default].nil?
 
       id = Jamf::Printer.valid_id identifier, cnx: @cnx
       raise Jamf::NoSuchItemError, "No printer matches '#{identifier}'" unless id
+
       id
     end
 
@@ -2068,7 +2090,7 @@ module Jamf
 
       disk_encryption = obj.add_element 'disk_encryption'
 
-      @disk_encryption.each do |k,v|
+      @disk_encryption.each do |k, v|
         disk_encryption.add_element(k.to_s).text = v.to_s
       end
 
