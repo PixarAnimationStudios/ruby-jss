@@ -14,6 +14,18 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
+--------
+
+## \[2.1.1] - 2022-11-07
+
+### Deprecated
+
+  - The classic API no longer includes SHA256 hashes of various passwords - the data value is there, but only contains a string of asterisks. As such, ruby-jss can no longer use those to validate some passwords before trying to use them. The methods doing so are still present, but only return `true`. If an incorrect password is given, the underlying process that uses it will fail on its own.
+  These methods will be removed in a future version of ruby-jss:
+    - `Jamf::DistributionPoint#check_pw`  Used mostly by the `Jamf::DistributionPoint#mount` method
+    - `Jamf::Policy.verify_management_password`
+
+
 ## \[2.1.0] - 2022-10-10
 
 ### Added
