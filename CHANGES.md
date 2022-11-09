@@ -18,7 +18,7 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
 
 ## \[2.1.1] - 2022-11-07
 
-### Deprecated
+### Fixed & Deprecated
 
   - The classic API no longer includes SHA256 hashes of various passwords - the data value is there, but only contains a string of asterisks. As such, ruby-jss can no longer use those to validate some passwords before trying to use them. The methods doing so are still present, but only return `true`. If an incorrect password is given, the underlying process that uses it will fail on its own.
   These methods will be removed in a future version of ruby-jss:
