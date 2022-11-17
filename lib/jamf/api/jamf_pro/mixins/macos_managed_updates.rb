@@ -19,14 +19,14 @@
 #    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
-#
-#
+
+# frozen_string_literal: true
 
 module Jamf
 
   # This module should be mixed in to Jamf::Computer and Jamf::ComputerGroup
   #
-  # It provides access to the macos-managed-software-updates JPAPI resource for 
+  # It provides access to the macos-managed-software-updates JPAPI resource for
   # managed OS update commands to managed macs running Big Sur or higher.
   #
   module MacOSManagedUpdates
@@ -37,7 +37,7 @@ module Jamf
       includer.extend(ClassMethods)
     end
 
-    # These resources in the Jamf Pro API can be used to send Managed macOS 
+    # These resources in the Jamf Pro API can be used to send Managed macOS
     # updates to clients running Big Sur or higher
     MANAGED_SW_UPDATES_RSRC = 'v1/macos-managed-software-updates'
 
@@ -45,13 +45,19 @@ module Jamf
     MANAGED_SW_UPDATES_AVAILABLE_VERSIONS_RSRC = "#{MANAGED_SW_UPDATES_RSRC}/available-updates"
 
     # POSTing JSON data to this resource will send the MDM commands to install os updates
-    # For details about the data to send, see 
+    # For details about the data to send, see
     # https://developer.jamf.com/jamf-pro/reference/post_v1-macos-managed-software-updates-send-updates
     MANAGED_SW_UPDATES_SEND_UPDATES_RSRC = "#{MANAGED_SW_UPDATES_RSRC}/send-updates"
 
     # These are the options available in Jamf::OAPISchemas::MacOsManagedSoftwareUpdate::UPDATE_ACTION_OPTIONS
     DOWNLOAD_AND_INSTALL = 'DOWNLOAD_AND_INSTALL'
     DOWNLOAD_ONLY = 'DOWNLOAD_ONLY'
+
+    # for easier use of these values as the updateAction
+    UPDATE_ACTIONS = {
+      install: DOWNLOAD_AND_INSTALL,
+      download: DOWNLOAD_ONLY
+    }
 
     # Class Methods
     #####################################
@@ -73,48 +79,52 @@ module Jamf
 
       # Send the os update command to target Computers or a ComputerGroup
       #
-      # @param updateAction [String] Required. 'DOWNLOAD_AND_INSTALL' or 'DOWNLOAD_ONLY'
+      # @param updateAction [Symbol] Required. Use :install to send the
+      #   DOWNLOAD_AND_INSTALL action, or :download to send  DOWNLOAD_ONLY
       #
-      # @param deviceIds [String, Integer, Array<String, Integer>] Identifiers for the 
+      # @param deviceIds [String, Integer, Array<String, Integer>] Identifiers for the
       #   computer targets. Required if no groupId is given.
       #
       # @param groupId [String, Integer] Identifier for the computer group target.
       #   Requied if no deviceIDs are given.
       #
-      # @param maxDeferrals [Integer] Allow users to defer the update the provided number 
-      #   of times before macOS forces the update. If a value is provided, the Software 
-      #   Update will use the InstallLater install action. MaxDeferral is ignored if using the 
-      #   DOWNLOAD_ONLY updateAction.
+      # @param maxDeferrals [Integer] Allow users to defer the update the provided number
+      #   of times before macOS forces the update. If a value is provided, the Software
+      #   Update will use the InstallLater install action. MaxDeferral is ignored if using the
+      #   :download updateAction.
       #
-      # @param version [String] The OS version to install. If no value is provided, the 
+      # @param version [String] The OS version to install. If no value is provided, the
       #   version will default to latest version based on device eligibility.
       #
       # @param skipVersionVerification [Boolean] Should the specified version be installed
       #   even it it isn't applicable to this machine? If no value is provided, will default to false.
-      #   If true, the specified version will be forced to complete DownloadAndInstall
-      #   install action.
+      #   If true, the specified version will be forced to complete the :install updateAction.
       #
       # @param applyMajorUpdate [Boolean] Available only when updating to the latest version
       #   based on device eligibility. Defaults to false. If false the calculated latest version
       #   will only include minor version updates. If a value is provided, the calculated latest
       #   version will include minor and major version updates.
       #
-      # @param forceRestart [Boolean]  Will default to false. Can only be true if updateAction 
-      #   is DOWNLOAD_AND_INSTALLn and the devices the command is sent to are on macOs 11 or higher. 
-      #   If true, the DownloadAndInstall action is performed, a restart will be forced. 
-      #   MaxDeferral will be ignored if true. 
+      # @param forceRestart [Boolean]  Will default to false. Can only be true if updateAction
+      #   is :install and the target devices are on macOs 11 or higher.
+      #   If true, the DownloadAndInstall action is performed, a restart will be forced.
+      #   MaxDeferral will be ignored if true.
       #
-      # @param cnx [Jamf::Connection] The API connection to use. Defaults to Jamf.cnx 
+      # @param cnx [Jamf::Connection] The API connection to use. Defaults to Jamf.cnx
       #
-      # @return [Jamf::OAPISchemas::MacOsManagedSoftwareUpdateResponse] 
+      # @return [Jamf::OAPISchemas::MacOsManagedSoftwareUpdateResponse]
       ########################
       def send_managed_os_update(updateAction:, deviceIds: nil, groupId: nil, maxDeferrals: nil, version: nil, skipVersionVerification: false, applyMajorUpdate: false, forceRestart: false, cnx: Jamf.cnx)
-        if self == Jamf::Computer 
+        action_to_send = UPDATE_ACTIONS.value?(updateAction) ? updateAction : UPDATE_ACTIONS[updateAction]
+
+        raise ArgumentError, "Unknown updateAction, must be one of: #{UPDATE_ACTIONS.keys.join ', '}" unless action_to_send
+
+        if self == Jamf::Computer
           raise ArgumentError, 'Must provide one or more deviceIds' unless deviceIds
         elsif self == Jamf::ComputerGroup
           raise ArgumentError, 'Must provide a groupId' unless groupId
         else
-          raise Jamf::UnsupportedError, 'This method is only available for Jamf::Computer and Jamf::ComputerGroup' 
+          raise Jamf::UnsupportedError, 'This method is only available for Jamf::Computer and Jamf::ComputerGroup'
         end
 
         if version
@@ -137,11 +147,11 @@ module Jamf
         data[:version] = version if version
         data[:skipVersionVerification] = skipVersionVerification if skipVersionVerification
         data[:applyMajorUpdate] = applyMajorUpdate if applyMajorUpdate
-        data[:updateAction] = updateAction if updateAction
-        data[:forceRestart] = forceRestart if forceRestart  
-        
+        data[:updateAction] = action_to_send
+        data[:forceRestart] = forceRestart if forceRestart
+
         payload = Jamf::OAPISchemas::MacOsManagedSoftwareUpdate.new(data).to_json
-        
+
         result = cnx.jp_post MANAGED_SW_UPDATES_SEND_UPDATES_RSRC, payload
         Jamf::OAPISchemas::MacOsManagedSoftwareUpdateResponse.new result
       end
@@ -161,14 +171,14 @@ module Jamf
       groupId = is_a?(Jamf::Computer) ? nil : @id
 
       self.class.send_managed_os_update(
-        deviceIds: deviceIds, 
-        groupId: groupId, 
-        maxDeferrals: maxDeferrals, 
-        version: version, 
-        skipVersionVerification: skipVersionVerification, 
-        applyMajorUpdate: applyMajorUpdate, 
-        forceRestart: forceRestart, 
-        updateAction: updateAction, 
+        deviceIds: deviceIds,
+        groupId: groupId,
+        maxDeferrals: maxDeferrals,
+        version: version,
+        skipVersionVerification: skipVersionVerification,
+        applyMajorUpdate: applyMajorUpdate,
+        forceRestart: forceRestart,
+        updateAction: updateAction,
         cnx: @cnx
       )
     end
