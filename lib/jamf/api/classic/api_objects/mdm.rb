@@ -476,7 +476,7 @@ module Jamf
             raise Jamf::UnmanagedError, "#{self} with id #{target_id} is not managed. Cannot send command." unless all_mgd.include? target_id
           end
         end # unles
-        
+
         targets
       end
 
@@ -860,7 +860,7 @@ module Jamf
         cnx = api if api
 
         unless WALLPAPER_LOCATIONS.keys.include? wallpaper_setting
-          raise ArgumentError, 
+          raise ArgumentError,
                 "wallpaper_setting must be one of: :#{WALLPAPER_LOCATIONS.keys.join ', :'}"
         end
 
@@ -999,7 +999,7 @@ module Jamf
       #
       # @param play_sound[Boolean] Play a sound when entering lost mode
       #
-      # @param enforce_lost_mode[Boolean] Re-enabled lost mode when re-enrolled after wipe.
+      # @param enforce_lost_mode[Boolean] Re-enable lost mode when re-enrolled after wipe. Default is false
       #
       # @param cnx [Jamf::Connection] the API thru which to send the command
       #
@@ -1011,7 +1011,7 @@ module Jamf
         phone: nil,
         footnote: nil,
         play_sound: false,
-        enforce_lost_mode: true,
+        enforce_lost_mode: false,
         api: nil,
         cnx: Jamf.cnx
       )
@@ -1081,7 +1081,7 @@ module Jamf
 
         status = FLUSHABLE_STATUSES[status]
 
-        # TODO: add 'unmanaged_ok:' param to raw_targets_to_ids method, so that we can 
+        # TODO: add 'unmanaged_ok:' param to raw_targets_to_ids method, so that we can
         # use this to flush commands for unmanaged machines.
         target_ids = raw_targets_to_ids targets, cnx: cnx, expand_groups: false, unmanaged_ok: true
 
@@ -1378,21 +1378,21 @@ module Jamf
     #
     # @param play_sound[Boolean] Play a sound when entering lost mode
     #
-    # @param enforce_lost_mode[Boolean] Re-enabled lost mode when re-enrolled after wipe.
+    # @param enforce_lost_mode[Boolean] Re-enable lost mode when re-enrolled after wipe. Default is false
     #
     # @return (see .send_mdm_command)
     #
     def enable_lost_mode(
       message: nil,
-      phone_number: nil,
+      phone: nil,
       footnote: nil,
-      enforce_lost_mode: true,
+      enforce_lost_mode: false,
       play_sound: false
     )
       self.class.enable_lost_mode(
         @id,
         message: message,
-        phone_number: phone_number,
+        phone: phone,
         footnote: footnote,
         play_sound: play_sound,
         enforce_lost_mode: enforce_lost_mode, cnx: @cnx
