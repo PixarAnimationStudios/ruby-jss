@@ -98,7 +98,9 @@ module Jamf
     #
     # @return [Object] the validated unique value
     #
-    def self.doesnt_already_exist(klass, identifier, val, msg: nil, api: Jamf.cnx)
+    def self.doesnt_already_exist(klass, identifier, val, msg: nil, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
       return val unless klass.all(:refresh, cnx: cnx).map { |i| i[identifier] }.include? val
 
       key = klass.real_lookup_key identifier
