@@ -476,7 +476,10 @@ module Jamf
         item_id = validate_item(:target, key, item)
         return if @targets[key]&.include?(item_id)
 
-        raise Jamf::AlreadyExistsError, "Can't set #{key} target to '#{item}' because it's already an explicit exclusion." if @exclusions[key]&.include?(item_id)
+        if @exclusions[key]&.include?(item_id)
+          raise Jamf::AlreadyExistsError,
+                "Can't set #{key} target to '#{item}' because it's already an explicit exclusion."
+        end
 
         @targets[key] << item_id
         @all_targets = false
