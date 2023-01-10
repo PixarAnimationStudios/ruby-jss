@@ -134,9 +134,9 @@ module Jamf
 
         if deviceIds
           deviceIds = [deviceIds] unless deviceIds.is_a?(Array)
-          deviceIds.map! { |id| valid_id id }
+          deviceIds.map! { |id| valid_id id, cnx: cnx }
         end
-        groupId = valid_id groupId if groupId
+        groupId = valid_id(groupId, cnx: cnx) if groupId
 
         data = {}
         # ids in the JPAPI are string containing integers
