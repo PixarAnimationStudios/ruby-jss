@@ -778,7 +778,7 @@ module Jamf
       ################
       def scoped_machines
         scoped_machines = {}
-        @target_class.all_objects(cnx: container.cnx).each do |machine|
+        @target_class.all_objects(:refresh, cnx: container.cnx).each do |machine|
           scoped_machines[machine.id] = machine.name if in_scope? machine
         end
         scoped_machines
