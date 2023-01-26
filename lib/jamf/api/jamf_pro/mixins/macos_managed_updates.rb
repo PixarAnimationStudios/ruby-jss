@@ -86,7 +86,7 @@ module Jamf
       #   computer targets. Required if no groupId is given.
       #
       # @param groupId [String, Integer] Identifier for the computer group target.
-      #   Requied if no deviceIDs are given.
+      #   Requied if no deviceIds are given.
       #
       # @param maxDeferrals [Integer] Allow users to defer the update the provided number
       #   of times before macOS forces the update. If a value is provided, the Software
