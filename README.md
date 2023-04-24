@@ -6,7 +6,7 @@
 Version 2.0.0 has major changes! While we've strived for _mostly_ being backward compatible, and have done lots of testing, YMMV.  Please report any issues.
 
 _NOTE_: ruby-jss 2.0 is not completely backward compatible, please see  [README-2.0.0.md](README-2.0.0.md) for more info
- 
+
 ### Highlights
 
 - Support for Ruby 3.x
@@ -57,7 +57,6 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
 - [BEYOND THE API](#beyond-the-api)
 - [INSTALL](#install)
 - [REQUIREMENTS](#requirements)
-  - [Contact](#contact)
 - [HELP & CONTACT INFO](#help--contact-info)
 - [LICENSE](#license)
 
@@ -65,13 +64,13 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
 
 ## DESCRIPTION
 
-ruby-jss defines a Ruby module called `Jamf`, which is used for accessing the 'Classic' and 
+ruby-jss defines a Ruby module called `Jamf`, which is used for accessing the 'Classic' and
 'Jamf Pro' APIs of a Jamf Pro server. Jamf Pro is an enterprise-level management tool for Apple
 devices from [Jamf.com](http://www.jamf.com/).  It is available as a[ruby gem](https://rubygems.org/gems/ruby-jss), and the
 [source is on github](https://github.com/PixarAnimationStudios/ruby-jss).
 
 The Jamf module maintains connections to both APIs simultaneously, and uses which ever is appropriate as needed.
-Details like authentication tokens, token refreshing, JSON and XML parsing, and even knowing which resources use 
+Details like authentication tokens, token refreshing, JSON and XML parsing, and even knowing which resources use
 which API are all handled under-the-hood.
 
 The Jamf module abstracts many API resources as Ruby objects, and provides methods for interacting with those
@@ -79,8 +78,8 @@ resources. It also provides some features that aren't a part of the API itself, 
 Jamf-related tools, such as uploading {Jamf::Package} files to the master distribution
 point, and the installation of those objects on client machines. (See [BEYOND THE API](#beyond-the-api))
 
-The Jamf module is not a complete implementation of the Jamf Pro APIs. Only some objects are modeled, 
-some only minimally. Of those, some are read-only, some partially writable, some fully read-write. 
+The Jamf module is not a complete implementation of the Jamf Pro APIs. Only some objects are modeled,
+some only minimally. Of those, some are read-only, some partially writable, some fully read-write.
 We've implemented the things we need in our environment, and as our needs grow, we'll add more.
 Hopefully others will find it useful, and add more to it as well.
 
@@ -138,14 +137,14 @@ ns.save
 
 Before you can work with Jamf Pros Objects via the APIs, you have to connect to the server.
 
-The method `Jamf.cnx` returns the 'default' connection object (an instance of a {Jamf::APIConnection}, q.v.). 
+The method `Jamf.cnx` returns the 'default' connection object (an instance of a {Jamf::APIConnection}, q.v.).
 A connection object holds all the data needed to communicate with the server to which it's connected, as well as
-any data cached from that server. 
+any data cached from that server.
 The default connection object is used for all communication unless a different one is explicitly passed to methods
 that can accept one. See 'Using multiple connections' below.
 
 When the Jamf Module is first loaded, the default connection isn't connected a server. To remedy that, use `Jamf.cnx.connect`,
-passing it parameters for the connection. In this example, those parameters are stored in the local variables jss_user, 
+passing it parameters for the connection. In this example, those parameters are stored in the local variables jss_user,
 jss_user_pw, and jss_server_hostname, and others are left as default.
 
 ```ruby
@@ -170,8 +169,8 @@ server connection parameters in a simple config file.
 
 #### Using multiple connections
 
-Most of the time, you'll only need a single connection to a single server, and the default connection will be sufficient. However 
-you can also create multiple Connection objects, to different servers, or perhaps the same server with different credentials and 
+Most of the time, you'll only need a single connection to a single server, and the default connection will be sufficient. However
+you can also create multiple Connection objects, to different servers, or perhaps the same server with different credentials and
 access, and pass those connection objects into methods using the `cnx:` parameter as appropriate.
 
 ```ruby
@@ -194,13 +193,13 @@ common_ipr_sns = ipr_sns_1 & ipr_sns_2
 
 ### Working with Jamf Objects
 
-All of the ruby classes representing objects in Jamf Pro have common methods for creating, listing, retrieving, updating, and deleting via the API. 
+All of the ruby classes representing objects in Jamf Pro have common methods for creating, listing, retrieving, updating, and deleting via the API.
 All supported objects can be listed, retrieved and deleted, but only some can be updated or created, mostly becase we haven't needed to do that ourselves
 yet and haven't implemented that functionality.  If you need additional features implemented, please get in touch (see 'Contact' above) or feel free to
 try implementing it yourself and send us a merge request.
 
-Some of the implemented objects also provide access to more 'functional' API resources. For example, the API resources for 
-sending MDM commands to computers and mobile devices are available as class and instance methods of Jamf::Computer and Jamf::MobileDevice, 
+Some of the implemented objects also provide access to more 'functional' API resources. For example, the API resources for
+sending MDM commands to computers and mobile devices are available as class and instance methods of Jamf::Computer and Jamf::MobileDevice,
 as are the API resources for accessing management history.
 
 --------
@@ -474,21 +473,13 @@ It also requires other ruby gems, which will be installed automatically if you i
 See the .gemspec file for details
 
 
-### Contact
-
-If you have questions or feedback about ruby-jss, please reach out  to us via:
-- The [#ruby-jss channel of Macadmins Slack](https://macadmins.slack.com/archives/C03C7F563MK)
-- Open an issue on GitHub
-- Email ruby-jss@pixar.com
-
-
 ## HELP & CONTACT INFO
 
 Full documentation is available at [rubydoc.info](http://www.rubydoc.info/gems/ruby-jss/).
 
 There's a [wiki on the github page](https://github.com/PixarAnimationStudios/ruby-jss/wiki), feel free to contribute examples and tidbits.
 
-You can report issues in several ways:
+If you have questions or feedback about ruby-jss, please reach out  to us via:
 - [Open an issue on github](https://github.com/PixarAnimationStudios/ruby-jss/issues)
 - [Email the developers at ruby-jss@pixar.com](mailto:ruby-jss@pixar.com)
 - Join the conversation in the [#ruby-jss Macadmins Slack Channel](https://macadmins.slack.com/archives/C03C7F563MK)
