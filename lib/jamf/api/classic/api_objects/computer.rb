@@ -1158,15 +1158,29 @@ module Jamf
       @need_to_update = true
     end
 
-    # flush the logs for this computer in a given policy
-    # @see Jamf::Policy.flush_logs
+    # Flush all policy logs for this computer older than a given time period.
     #
-    def flush_policy_logs(policy, older_than: 0, period: :days)
-      Jamf::Policy.flush_logs(
-        policy,
+    # IMPORTANT: from the Jamf Developer Site:
+    #   The ability to flush logs is currently only supported for flushing all logs
+    #   for a given policy or all logs for a given computer. There is no support for
+    #   flushing logs for a given policy and computer combination.
+    #
+    # With no parameters, will flush all logs for the computer
+    #
+    # NOTE: Currently the API doesn't have a way to flush only failed policies.
+    #
+    # @param older_than[Integer] 0, 1, 2, 3, or 6
+    #
+    # @param period[Symbol] :days, :weeks, :months, or :years
+    #
+    # @see Jamf::Policy.flush_logs_for_computers
+    #
+    def flush_policy_logs(older_than: 0, period: :days)
+      Jamf::Policy.flush_logs_for_computers(
+        [@id],
         older_than: older_than,
         period: period,
-        computers: [@id], cnx: @cnx
+        cnx: @cnx
       )
     end
 

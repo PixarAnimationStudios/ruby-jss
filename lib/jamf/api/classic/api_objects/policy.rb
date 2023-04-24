@@ -293,10 +293,19 @@ module Jamf
     # Class Methods
     ######################
 
-    # Flush logs for a given policy older than some number of days, weeks,
-    # months or years, possibly limited to one or more computers.
+    # Flush logs for a given policy older than a given time period.
+    # This flushes the logs of the given policy for all computers.
     #
-    # With no parameters, flushes all logs for the policy for all computers.
+    # IMPORTANT: from the Jamf Developer Site:
+    #   The ability to flush logs is currently only supported for flushing all logs
+    #   for a given policy or all logs for a given computer. There is no support for
+    #   flushing logs for a given policy and computer combination.
+    #
+    # (See .flush_logs_for_computers to to flush all logs for given computers)
+    #
+    # With no parameters, flushes all logs for the policy.
+    #
+    # Without older_than: and period:, will flush all logs for the policy
     #
     # NOTE: Currently the API doesn't have a way to flush only failed policies.
     #
@@ -306,52 +315,74 @@ module Jamf
     #
     # @param policy[Integer,String] The id or name of the policy to flush
     #
-    # @param older_than[Integer] 0, 1, 2, 3, or 6
+    # @param older_than[Integer] 0, 1, 2, 3, or 6, defaults to 0
     #
-    # @param period[Symbol] :days, :weeks, :months, or :years
-    #
-    # @param computers[Array<Integer,String>] Identifiers of the target computers
-    #   either ids, names, SNs, macaddrs, or UDIDs. If omitted, flushes logs for
-    #   all computers
+    # @param period[Symbol] :days, :weeks, :months, or :years, defaults to :days
     #
     # @param cnx [Jamf::Connection] the API  connection to use.
     #
     # @return [void]
     #
-    def self.flush_logs(policy, older_than: 0, period: :days, computers: [], api: nil, cnx: Jamf.cnx)
+    def self.flush_logs(policy, older_than: 0, period: :days, api: nil, cnx: Jamf.cnx)
       cnx = api if api
 
-      orig_timeout = cnx.timeout
       pol_id = valid_id policy, cnx: cnx
       raise Jamf::NoSuchItemError, "No Policy identified by '#{policy}'." unless pol_id
 
-      older_than = LOG_FLUSH_INTERVAL_INTEGERS[older_than]
-      raise Jamf::InvalidDataError, "older_than must be one of these integers: #{LOG_FLUSH_INTERVAL_INTEGERS.keys.join ', '}" unless older_than
-
-      period = LOG_FLUSH_INTERVAL_PERIODS[period]
-      raise Jamf::InvalidDataError, "period must be one of these symbols: :#{LOG_FLUSH_INTERVAL_PERIODS.keys.join ', :'}" unless period
-
-      computers = [computers] unless computers.is_a? Array
+      older_than, period = validate_log_flush_params(older_than, period)
 
       # log flushes can be really slow
+      orig_timeout = cnx.timeout
       cnx.timeout = 1800 unless orig_timeout && orig_timeout > 1800
 
-      return cnx.c_delete "#{LOG_FLUSH_RSRC}/policy/id/#{pol_id}/interval/#{older_than}+#{period}" if computers.empty?
-
-      flush_logs_for_specific_computers pol_id, older_than, period, computers, cnx
+      cnx.c_delete "#{LOG_FLUSH_RSRC}/policy/id/#{pol_id}/interval/#{older_than}+#{period}"
     ensure
       cnx.timeout = orig_timeout
     end
 
-    # use an XML body in a DELETE request to flush logs for
-    # a list of computers - used by the flush_logs class method
-    def self.flush_logs_for_specific_computers(pol_id, older_than, period, computers, cnx)
+    # Flush policy logs for specific computers older than  a given time period.
+    # This flushes the logs for all policies for these computers.
+    #
+    # IMPORTANT: from the Jamf Developer Site:
+    #   The ability to flush logs is currently only supported for flushing all logs
+    #   for a given policy or all logs for a given computer. There is no support for
+    #   flushing logs for a given policy and computer combination.
+    #
+    # (See .flush_logs to to flush all logs for a given policy)
+    #
+    # Without older_than: and period:, will flush all logs for the computers
+    #
+    # NOTE: Currently the API doesn't have a way to flush only failed policies.
+    #
+    # WARNING: Log flushing can take a long time, and the API call doesnt return
+    # until its finished. The connection timeout will be temporarily raised to
+    # 30 minutes, unless it's already higher.
+    #
+    # @param computers[Array<Integer,String>] Identifiers of the target computers
+    #   either ids, names, SNs, macaddrs, or UDIDs.
+    #
+    # @param older_than[Integer] 0, 1, 2, 3, or 6, defaults to 0
+    #
+    # @param period[Symbol] :days, :weeks, :months, or :years, defaults to :days
+    #
+    # @param cnx [Jamf::Connection] the API  connection to use.
+    #
+    # @return [void]
+    #
+    def self.flush_logs_for_computers(computers = [], older_than: 0, period: :days, api: nil, cnx: Jamf.cnx)
+      cnx = api if api
+
+      computers = [computers] unless computers.is_a? Array
+      raise JSS::InvalidDataError, 'One or more computers must be specified' if computers.empty?
+
+      older_than, period = validate_log_flush_params(older_than, period)
+
       # build the xml body for a DELETE request
       xml_doc = REXML::Document.new Jamf::Connection::XML_HEADER
       lf = xml_doc.add_element 'logflush'
       lf.add_element('log').text = 'policy'
-      lf.add_element('log_id').text = pol_id.to_s
       lf.add_element('interval').text = "#{older_than} #{period}"
+
       comps_elem = lf.add_element 'computers'
       computers.each do |c|
         id = Jamf::Computer.valid_id c, cnx: cnx
@@ -361,13 +392,41 @@ module Jamf
         ce.add_element('id').text = id.to_s
       end
 
+      # for debugging the xml...
+      #
+      # formatter = REXML::Formatters::Pretty.new(2)
+      # formatter.compact = true
+      # formatter.write(xml_doc, $stdout)
+      # puts
+      # return
+
+      # log flushes can be really slow
+      orig_timeout = cnx.timeout
+      cnx.timeout = 1800 unless orig_timeout && orig_timeout > 1800
+
       # Do a DELETE request with a body.
-      cnx.delete(LOG_FLUSH_RSRC) do |req|
+      resp = cnx.c_cnx.delete(LOG_FLUSH_RSRC) do |req|
         req.headers[Jamf::Connection::HTTP_CONTENT_TYPE_HEADER] = Jamf::Connection::MIME_XML
         req.body = xml_doc.to_s
       end
+
+      resp.body
+    ensure
+      cnx.timeout = orig_timeout
     end
-    private_class_method :flush_logs_for_specific_computers
+
+    # validate the logflush params
+    # @return [Array<String>]
+    def self.validate_log_flush_params(older_than, period)
+      older_than = LOG_FLUSH_INTERVAL_INTEGERS[older_than]
+      raise Jamf::InvalidDataError, "older_than must be one of these integers: #{LOG_FLUSH_INTERVAL_INTEGERS.keys.join ', '}" unless older_than
+
+      period = LOG_FLUSH_INTERVAL_PERIODS[period]
+      raise Jamf::InvalidDataError, "period must be one of these symbols: :#{LOG_FLUSH_INTERVAL_PERIODS.keys.join ', :'}" unless period
+
+      [older_than, period]
+    end
+    private_class_method :validate_log_flush_params
 
     # Attributes
     ######################
@@ -1852,11 +1911,14 @@ module Jamf
     end
     alias execute run
 
-    # Flush logs for this policy older than
-    # some number of days, weeks, months or years, possibly limited to
-    # one or more computers
+    # Flush logs for this policy older than a given time period.
     #
-    # With no parameters, flushes all logs for all computers
+    # IMPORTANT: from the Jamf Developer Site:
+    #   The ability to flush logs is currently only supported for flushing all logs
+    #   for a given policy or all logs for a given computer. There is no support for
+    #   flushing logs for a given policy and computer combination.
+    #
+    # With no parameters, will flush all logs for the policy
     #
     # NOTE: Currently the API doesn't have a way to flush only failed policies.
     #
@@ -1868,19 +1930,16 @@ module Jamf
     #
     # @param period[Symbol] :days, :weeks, :months, or :years
     #
-    # @param computers[Array<Integer,String>] Identifiers of the target computers
-    #   either ids, names, SNs, macaddrs, or UDIDs
-    #
     # @return [void]
     #
-    def flush_logs(older_than: 0, period: :days, computers: [])
-      raise Jamf::NoSuchItemError, "Policy doesn't exist in the JSS. Use #create first." unless @in_jss
+    def flush_logs(older_than: 0, period: :days)
+      raise Jamf::NoSuchItemError, "Policy doesn't exist in the JSS. Use #save first." unless @in_jss
 
       Jamf::Policy.flush_logs(
         @id,
         older_than: older_than,
         period: period,
-        computers: computers, cnx: @cnx
+        cnx: @cnx
       )
     end
 
