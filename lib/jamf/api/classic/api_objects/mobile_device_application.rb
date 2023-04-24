@@ -544,6 +544,7 @@ module Jamf
       doc = REXML::Document.new Jamf::Connection::XML_HEADER
       obj = doc.add_element self.class::RSRC_OBJECT_KEY.to_s
       gen = obj.add_element 'general'
+      gen.add_element('name').text = @display_name
       gen.add_element('display_name').text = @display_name
       gen.add_element('description').text = @description
       gen.add_element('os_type').text = @os_type
