@@ -16,6 +16,21 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
 
 --------
 
+## \[UNRELEASED]
+
+### Added
+  - Jamf::Policy.flush_logs_for_computers: formerly private class method, now public and used for flushing policy logs for specific computers.
+
+### Fixed
+  - Fix bug in MDM enable_lost_mode instance method, and make the default behavior match the API
+  - Specify the connection instance when validating ids in MacOSManagedUpdates
+  - Send mandatory field 'name' with a MobileDeviceApplication request (Thanks @yanniks!)
+  - Policy Log Flushing now reflects API limitation: You can flush logs for a policy for all computers, or for a computer for all policies, but not specific policies for specific computers. See Jamf::Policy.flush_logs and Jamf::Policy.flush_logs_for_computers
+  - A validation method wasn't passing cnx param correctly.
+
+### Changed
+  - MacOSManagedUpdates.send_managed_os_update takes symbols as the updateAction
+
 ## \[2.1.1] - 2022-11-07
 
 ### Fixed & Deprecated
