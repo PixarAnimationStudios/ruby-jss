@@ -16,7 +16,8 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
 
 --------
 
-## \[UNRELEASED]
+## \[3.0.0] - 2023-05-22
+Major version bump because changes to policy log flushing are not backward compatible.
 
 ### Added
   - Jamf::Policy.flush_logs_for_computers: formerly private class method, now public and used for flushing policy logs for specific computers.
@@ -29,7 +30,7 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
   - A validation method wasn't passing cnx param correctly.
 
 ### Changed
-  - MacOSManagedUpdates.send_managed_os_update takes symbols as the updateAction
+  - MacOSManagedUpdates.send_managed_os_update takes symbols or strings as the updateAction, a key or a value from the UPDATE_ACTIONS constant
 
 ## \[2.1.1] - 2022-11-07
 
