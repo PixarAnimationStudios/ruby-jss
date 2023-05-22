@@ -30,12 +30,12 @@ module Jamf
   module OAPISchemas
 
 
-    # OAPI Object Model and Enums for: SoftwareTitleConfiguration
+    # OAPI Object Model and Enums for: PatchSoftwareTitleConfiguration
     #
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.40.0-t1657115323
+    # URL path on a Jamf Pro server version 10.46.0-t1681398190
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -48,7 +48,7 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #
+    #  
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
@@ -57,32 +57,37 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/patch/obj/softwareTitleConfiguration/{id}:GET' needs permissions:
+    #  - '/v2/patch-software-title-configurations:GET' needs permissions:
     #    - Read Patch Management Software Titles
+    #  - '/v2/patch-software-title-configurations/{id}:GET' needs permissions:
+    #    - Read Patch Management Software Titles
+    #  - '/v2/patch-software-title-configurations/{id}:PATCH' needs permissions:
+    #    - Update Patch Management Software Titles
     #
     #
-    class SoftwareTitleConfiguration < Jamf::OAPIObject
+    class PatchSoftwareTitleConfiguration < Jamf::OAPIObject
 
-
+      
 
       OAPI_PROPERTIES = {
 
         # @!attribute id
-        #   @return [Integer]
+        #   @return [String]
         id: {
           class: :j_id,
           identifier: :primary
         },
 
-        # @!attribute displayName
-        #   @return [String]
-        displayName: {
-          class: :string
+        # @!attribute packages
+        #   @return [Array<Jamf::OAPISchemas::PatchSoftwareTitlePackages>]
+        packages: {
+          class: Jamf::OAPISchemas::PatchSoftwareTitlePackages,
+          multi: true
         }
 
-      } # end OAPI_PROPERTIES
+      }.merge(Jamf::OAPISchemas::PatchSoftwareTitleConfigurationBase::OAPI_PROPERTIES) # end OAPI_PROPERTIES
 
-    end # class SoftwareTitleConfiguration
+    end # class PatchSoftwareTitleConfiguration
 
   end # module OAPISchemas
 

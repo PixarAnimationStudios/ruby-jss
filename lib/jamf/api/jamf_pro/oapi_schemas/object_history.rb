@@ -35,7 +35,7 @@ module Jamf
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.40.0-t1657115323
+    # URL path on a Jamf Pro server version 10.46.0-t1681398190
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -52,7 +52,7 @@ module Jamf
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #
+    #  
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
@@ -83,13 +83,17 @@ module Jamf
     #    - Update Re-enrollment
     #  - '/v1/scripts/{id}/history:POST' needs permissions:
     #    - Update Scripts
+    #  - '/v1/volume-purchasing-locations/{id}/history:POST' needs permissions:
+    #    - Update Volume Purchasing Locations
+    #  - '/v2/engage/history:POST' needs permissions:
+    #    - Update Engage Settings
     #  - '/v2/enrollment-customizations/{id}/history:POST' needs permissions:
     #    - Update Enrollment Customizations
     #
     #
     class ObjectHistory < Jamf::OAPIObject
 
-
+      
 
       OAPI_PROPERTIES = {
 
@@ -97,7 +101,8 @@ module Jamf
         #   @return [Integer]
         id: {
           class: :j_id,
-          identifier: :primary
+          identifier: :primary,
+          minimum: 1
         },
 
         # @!attribute username
@@ -121,7 +126,8 @@ module Jamf
         # @!attribute details
         #   @return [String]
         details: {
-          class: :string
+          class: :string,
+          nil_ok: true
         }
 
       } # end OAPI_PROPERTIES

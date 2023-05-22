@@ -35,7 +35,7 @@ module Jamf
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.40.0-t1657115323
+    # URL path on a Jamf Pro server version 10.46.0-t1681398190
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -48,7 +48,7 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #
+    #  
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
@@ -98,7 +98,9 @@ module Jamf
     #  - '/v1/teacher-app/history:GET' needs permissions:
     #    - Read Teacher App Settings
     #  - '/v1/volume-purchasing-locations/{id}/history:GET' needs permissions:
-    #    - Read Volume Purchasing Administrator Accounts
+    #    - Read Volume Purchasing Locations
+    #  - '/v2/engage/history:GET' needs permissions:
+    #    - Read Engage Settings
     #  - '/v2/enrollment-customizations/{id}/history:GET' needs permissions:
     #    - Read Enrollment Customizations
     #  - '/v2/enrollment/history:GET' needs permissions:
@@ -107,25 +109,29 @@ module Jamf
     #    - Read Inventory Preload Records
     #  - '/v2/mobile-device-prestages/{id}/history:GET' needs permissions:
     #    - Read Mobile Device PreStage Enrollments
+    #  - '/v2/patch-software-title-configurations/{id}/history:GET' needs permissions:
+    #    - Read Patch Management Software Titles
     #
     #
     class HistorySearchResults < Jamf::OAPIObject
 
-
+      
 
       OAPI_PROPERTIES = {
 
         # @!attribute totalCount
         #   @return [Integer]
         totalCount: {
-          class: :integer
+          class: :integer,
+          minimum: 0
         },
 
         # @!attribute results
         #   @return [Array<Jamf::OAPISchemas::ObjectHistory>]
         results: {
           class: Jamf::OAPISchemas::ObjectHistory,
-          multi: true
+          multi: true,
+          min_items: 0
         }
 
       } # end OAPI_PROPERTIES

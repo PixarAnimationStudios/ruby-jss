@@ -21,6 +21,7 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
+
 module Jamf
 
   # This module is the namespace for all objects defined
@@ -28,12 +29,13 @@ module Jamf
   #
   module OAPISchemas
 
+
     # OAPI Object Model and Enums for: AppRequestFormInputFieldSearchResults
     #
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.40.0-t1657115323
+    # URL path on a Jamf Pro server version 10.46.0-t1681398190
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -46,7 +48,7 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #
+    #  
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
@@ -61,19 +63,23 @@ module Jamf
     #
     class AppRequestFormInputFieldSearchResults < Jamf::OAPIObject
 
+      
+
       OAPI_PROPERTIES = {
 
         # @!attribute totalCount
         #   @return [Integer]
         totalCount: {
-          class: :integer
+          class: :integer,
+          minimum: 0
         },
 
         # @!attribute results
         #   @return [Array<Jamf::OAPISchemas::AppRequestFormInputField>]
         results: {
           class: Jamf::OAPISchemas::AppRequestFormInputField,
-          multi: true
+          multi: true,
+          min_items: 0
         }
 
       } # end OAPI_PROPERTIES

@@ -30,12 +30,12 @@ module Jamf
   module OAPISchemas
 
 
-    # OAPI Object Model and Enums for: SearchPatchPolicyLogParams
+    # OAPI Object Model and Enums for: PatchPolicyLogRetry
     #
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.40.0-t1657115323
+    # URL path on a Jamf Pro server version 10.46.0-t1681398190
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -48,73 +48,35 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #
+    #  
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #  - Jamf::OAPISchemas::OrderBy
-    #  - Jamf::OAPISchemas::Filter
+    #  
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/patch/searchPatchPolicyLogs:POST' needs permissions:
-    #    - Read Patch Policies
+    #  - '/v2/patch-policies/{id}/logs/retry:POST' needs permissions:
+    #    - Update Patch Policies
     #
     #
-    class SearchPatchPolicyLogParams < Jamf::OAPIObject
+    class PatchPolicyLogRetry < Jamf::OAPIObject
 
-
+      
 
       OAPI_PROPERTIES = {
 
-        # @!attribute pageNumber
-        #   @return [Integer]
-        pageNumber: {
-          class: :integer
-        },
-
-        # @!attribute pageSize
-        #   @return [Integer]
-        pageSize: {
-          class: :integer
-        },
-
-        # @!attribute orderBy
-        #   @return [Array<Jamf::OAPISchemas::OrderBy>]
-        orderBy: {
-          class: Jamf::OAPISchemas::OrderBy,
+        # @!attribute deviceIds
+        #   @return [Array<String>]
+        deviceIds: {
+          class: :string,
           multi: true
-        },
-
-        # @!attribute filter
-        #   @return [Array<Jamf::OAPISchemas::Filter>]
-        filter: {
-          class: Jamf::OAPISchemas::Filter,
-          multi: true
-        },
-
-        # @!attribute isLoadToEnd
-        #   @return [Boolean]
-        isLoadToEnd: {
-          class: :boolean
-        },
-
-        # @!attribute patchPolicyId
-        #   @return [Integer]
-        patchPolicyId: {
-          class: :integer
-        },
-
-        # @!attribute isLatest
-        #   @return [Boolean]
-        isLatest: {
-          class: :boolean
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class SearchPatchPolicyLogParams
+    end # class PatchPolicyLogRetry
 
   end # module OAPISchemas
 

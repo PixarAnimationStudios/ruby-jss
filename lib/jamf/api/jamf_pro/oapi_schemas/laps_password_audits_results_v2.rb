@@ -30,12 +30,12 @@ module Jamf
   module OAPISchemas
 
 
-    # OAPI Object Model and Enums for: RetryPatchPolicyParams
+    # OAPI Object Model and Enums for: LapsPasswordAuditsResultsV2
     #
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.40.0-t1657115323
+    # URL path on a Jamf Pro server version 10.46.0-t1681398190
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -48,49 +48,42 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #
+    #  
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #
+    #  - Jamf::OAPISchemas::LapsPasswordAndAuditsV2
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/patch/retryPolicy:POST' needs permissions:
-    #    - Update Patch Policies
-    #  - '/patch/svc/retryPolicy:POST' needs permissions:
-    #    - Update Patch Policies
+    #  - '/v2/local-admin-password/{clientManagementId}/account/{username}/audit:GET' needs permissions:
+    #    - View Local Admin Password Audit History
     #
     #
-    class RetryPatchPolicyParams < Jamf::OAPIObject
+    class LapsPasswordAuditsResultsV2 < Jamf::OAPIObject
 
-
+      
 
       OAPI_PROPERTIES = {
 
-        # @!attribute patchPolicyId
+        # @!attribute totalCount
         #   @return [Integer]
-        patchPolicyId: {
+        totalCount: {
           class: :integer
         },
 
-        # @!attribute deviceIds
-        #   @return [Array<Integer>]
-        deviceIds: {
-          class: :integer,
-          multi: true
-        },
-
-        # @!attribute isRetryAllFailed
-        #   @return [Boolean]
-        isRetryAllFailed: {
-          class: :boolean
+        # @!attribute results
+        #   @return [Array<Jamf::OAPISchemas::LapsPasswordAndAuditsV2>]
+        results: {
+          class: Jamf::OAPISchemas::LapsPasswordAndAuditsV2,
+          multi: true,
+          min_length: 0
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class RetryPatchPolicyParams
+    end # class LapsPasswordAuditsResultsV2
 
   end # module OAPISchemas
 

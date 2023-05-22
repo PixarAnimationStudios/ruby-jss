@@ -36,7 +36,7 @@ module Jamf
     #   Azure Cloud Identity Provider configuration request
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.40.0-t1657115323
+    # URL path on a Jamf Pro server version 10.46.0-t1681398190
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -63,7 +63,7 @@ module Jamf
     #
     class AzureServerConfigurationRequest < Jamf::OAPIObject
 
-
+      
 
       OAPI_PROPERTIES = {
 
@@ -127,6 +127,13 @@ module Jamf
         transitiveDirectoryMembershipEnabled: {
           class: :boolean,
           required: true
+        },
+
+        # Use this field to enable membership calculation optimization. This setting would not apply to Single Sign On
+        # @!attribute membershipCalculationOptimizationEnabled
+        #   @return [Boolean]
+        membershipCalculationOptimizationEnabled: {
+          class: :boolean
         },
 
         # @!attribute code

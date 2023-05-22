@@ -30,12 +30,12 @@ module Jamf
   module OAPISchemas
 
 
-    # OAPI Object Model and Enums for: SoftwareTitlePatchPolicySummaries
+    # OAPI Object Model and Enums for: LapsPasswordAndAudits
     #
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.40.0-t1657115323
+    # URL path on a Jamf Pro server version 10.46.0-t1681398190
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -48,41 +48,59 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #
+    #  - Jamf::OAPISchemas::LapsPasswordAuditsResults
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #  - Jamf::OAPISchemas::PatchPolicySummary
+    #  - Jamf::OAPISchemas::LapsAudit
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/patch/obj/softwareTitle/{id}/policies:GET' needs permissions:
-    #    - Read Patch Policies
     #
     #
-    class SoftwareTitlePatchPolicySummaries < Jamf::OAPIObject
+    #
+    class LapsPasswordAndAudits < Jamf::OAPIObject
 
-
+      
 
       OAPI_PROPERTIES = {
 
-        # @!attribute totalCount
-        #   @return [Integer]
-        totalCount: {
-          class: :integer
+        # @!attribute [r] password
+        #   @return [String]
+        password: {
+          class: :string,
+          format: 'password',
+          readonly: true
         },
 
-        # @!attribute results
-        #   @return [Array<Jamf::OAPISchemas::PatchPolicySummary>]
-        results: {
-          class: Jamf::OAPISchemas::PatchPolicySummary,
-          multi: true
+        # @!attribute dateLastSeen
+        #   @return [Jamf::Timestamp]
+        dateLastSeen: {
+          class: Jamf::Timestamp,
+          nil_ok: true,
+          format: 'date-time'
+        },
+
+        # @!attribute expirationTime
+        #   @return [Jamf::Timestamp]
+        expirationTime: {
+          class: Jamf::Timestamp,
+          nil_ok: true,
+          format: 'date-time'
+        },
+
+        # @!attribute audits
+        #   @return [Array<Jamf::OAPISchemas::LapsAudit>]
+        audits: {
+          class: Jamf::OAPISchemas::LapsAudit,
+          multi: true,
+          min_length: 0
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class SoftwareTitlePatchPolicySummaries
+    end # class LapsPasswordAndAudits
 
   end # module OAPISchemas
 

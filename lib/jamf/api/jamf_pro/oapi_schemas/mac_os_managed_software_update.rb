@@ -35,7 +35,7 @@ module Jamf
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.40.0-t1657115323
+    # URL path on a Jamf Pro server version 10.46.0-t1681398190
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -48,11 +48,11 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #
+    #  
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #
+    #  
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
@@ -68,6 +68,11 @@ module Jamf
       UPDATE_ACTION_OPTIONS = [
         'DOWNLOAD_AND_INSTALL',
         'DOWNLOAD_ONLY'
+      ]
+
+      PRIORITY_OPTIONS = [
+        'HIGH',
+        'LOW'
       ]
 
       OAPI_PROPERTIES = {
@@ -122,11 +127,19 @@ module Jamf
           enum: UPDATE_ACTION_OPTIONS
         },
 
-        # If not set, forceRestart will default to false. Can only be true if using the DownloadAndInstall install action and the devices the command is sent to are on macOs 11 or higher. If true, the DownloadAndInstall action is performed, a restart will be forced. MaxDeferral will be ignored if defined.
+        # If not set, forceRestart will default to false. Can only be true if using the DownloadAndInstall install action and the devices the command is sent to are on macOs 11 or higher. If true, the DownloadAndInstall action is performed, a restart will be forced. MaxDeferral will be ignored if defined. 
         # @!attribute forceRestart
         #   @return [Boolean]
         forceRestart: {
           class: :boolean
+        },
+
+        # Priority can only be configured on macOS 12.3 and above, for minor updates only. Any version below 12.3 is always Low and cannot be changed until prerequisites are met. When qualified, if not explicitly set, priority will default to High
+        # @!attribute priority
+        #   @return [String]
+        priority: {
+          class: :string,
+          enum: PRIORITY_OPTIONS
         }
 
       } # end OAPI_PROPERTIES

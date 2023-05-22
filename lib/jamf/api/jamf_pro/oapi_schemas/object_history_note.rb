@@ -35,7 +35,7 @@ module Jamf
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.40.0-t1657115323
+    # URL path on a Jamf Pro server version 10.46.0-t1681398190
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -48,11 +48,11 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #
+    #  
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #
+    #  
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
@@ -97,8 +97,12 @@ module Jamf
     #    - Update SSO Settings
     #  - '/v1/teacher-app/history:POST' needs permissions:
     #    - Update Teacher App Settings
+    #  - '/v1/volume-purchasing-locations/{id}/history:POST' needs permissions:
+    #    - Update Volume Purchasing Locations
     #  - '/v2/check-in/history:POST' needs permissions:
     #    - Update Computer Check-In
+    #  - '/v2/engage/history:POST' needs permissions:
+    #    - Update Engage Settings
     #  - '/v2/enrollment-customizations/{id}/history:POST' needs permissions:
     #    - Update Enrollment Customizations
     #  - '/v2/enrollment/history:POST' needs permissions:
@@ -107,13 +111,15 @@ module Jamf
     #    - Update Inventory Preload Records
     #  - '/v2/mobile-device-prestages/{id}/history:POST' needs permissions:
     #    - Update Mobile Device PreStage Enrollments
+    #  - '/v2/patch-software-title-configurations/{id}/history:POST' needs permissions:
+    #    - Update Patch Management Software Titles
     #  - '/v3/check-in/history:POST' needs permissions:
     #    - Update Computer Check-In
     #
     #
     class ObjectHistoryNote < Jamf::OAPIObject
 
-
+      
 
       OAPI_PROPERTIES = {
 

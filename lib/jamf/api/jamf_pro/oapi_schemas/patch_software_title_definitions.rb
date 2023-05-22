@@ -30,12 +30,12 @@ module Jamf
   module OAPISchemas
 
 
-    # OAPI Object Model and Enums for: ActivePatchHistory
+    # OAPI Object Model and Enums for: PatchSoftwareTitleDefinitions
     #
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.40.0-t1657115323
+    # URL path on a Jamf Pro server version 10.46.0-t1681398190
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -48,112 +48,41 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #  - Jamf::OAPISchemas::ActivePatchHistorySearchResults
+    #  
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #
+    #  - Jamf::OAPISchemas::PatchSoftwareTitleDefinition
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
+    #  - '/v2/patch-software-title-configurations/{id}/definitions:GET' needs permissions:
+    #    - Read Patch Management Software Titles
     #
     #
-    #
-    class ActivePatchHistory < Jamf::OAPIObject
+    class PatchSoftwareTitleDefinitions < Jamf::OAPIObject
 
-
+      
 
       OAPI_PROPERTIES = {
 
-        # @!attribute patchId
+        # @!attribute totalCount
         #   @return [Integer]
-        patchId: {
+        totalCount: {
           class: :integer
         },
 
-        # @!attribute patchHistoryId
-        #   @return [Integer]
-        patchHistoryId: {
-          class: :integer
-        },
-
-        # @!attribute deviceId
-        #   @return [Integer]
-        deviceId: {
-          class: :integer
-        },
-
-        # @!attribute deviceName
-        #   @return [String]
-        deviceName: {
-          class: :string
-        },
-
-        # @!attribute buildingId
-        #   @return [Integer]
-        buildingId: {
-          class: :integer
-        },
-
-        # @!attribute buildingName
-        #   @return [String]
-        buildingName: {
-          class: :string
-        },
-
-        # @!attribute departmentId
-        #   @return [Integer]
-        departmentId: {
-          class: :integer
-        },
-
-        # @!attribute departmentName
-        #   @return [String]
-        departmentName: {
-          class: :string
-        },
-
-        # @!attribute siteId
-        #   @return [Integer]
-        siteId: {
-          class: :integer
-        },
-
-        # @!attribute siteName
-        #   @return [String]
-        siteName: {
-          class: :string
-        },
-
-        # @!attribute username
-        #   @return [String]
-        username: {
-          class: :string
-        },
-
-        # @!attribute osVersion
-        #   @return [String]
-        osVersion: {
-          class: :string
-        },
-
-        # @!attribute lastCheckIn
-        #   @return [Jamf::Timestamp]
-        lastCheckIn: {
-          class: Jamf::Timestamp,
-          format: 'date-time'
-        },
-
-        # @!attribute installedVersion
-        #   @return [String]
-        installedVersion: {
-          class: :string
+        # @!attribute results
+        #   @return [Array<Jamf::OAPISchemas::PatchSoftwareTitleDefinition>]
+        results: {
+          class: Jamf::OAPISchemas::PatchSoftwareTitleDefinition,
+          multi: true
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class ActivePatchHistory
+    end # class PatchSoftwareTitleDefinitions
 
   end # module OAPISchemas
 

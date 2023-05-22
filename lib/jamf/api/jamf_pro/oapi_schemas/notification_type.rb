@@ -35,7 +35,7 @@ module Jamf
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.40.0-t1657115323
+    # URL path on a Jamf Pro server version 10.46.0-t1681398190
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -74,7 +74,6 @@ module Jamf
         'BUILT_IN_CA_RENEWAL_SUCCESS',
         'CLOUD_LDAP_CERT_EXPIRED',
         'CLOUD_LDAP_CERT_WILL_EXPIRE',
-        'COMPUTER_SECURITY_SSL_DISABLED',
         'DEP_INSTANCE_EXPIRED',
         'DEP_INSTANCE_WILL_EXPIRE',
         'DEVICE_ENROLLMENT_PROGRAM_T_C_NOT_SIGNED',
@@ -107,7 +106,9 @@ module Jamf
         'PUSH_CERT_WILL_EXPIRE',
         'PUSH_PROXY_CERT_EXPIRED',
         'SSO_CERT_EXPIRED',
+        'SSO_IDP_CERT_EXPIRED',
         'SSO_CERT_WILL_EXPIRE',
+        'SSO_IDP_CERT_WILL_EXPIRE',
         'TOMCAT_SSL_CERT_EXPIRED',
         'TOMCAT_SSL_CERT_WILL_EXPIRE',
         'USER_INITIATED_ENROLLMENT_MANAGEMENT_ACCOUNT_SECURITY_ISSUE',

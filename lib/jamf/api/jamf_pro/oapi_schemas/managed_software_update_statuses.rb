@@ -30,12 +30,12 @@ module Jamf
   module OAPISchemas
 
 
-    # OAPI Object Model and Enums for: PatchPolicySummary
+    # OAPI Object Model and Enums for: ManagedSoftwareUpdateStatuses
     #
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.40.0-t1657115323
+    # URL path on a Jamf Pro server version 10.46.0-t1681398190
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -48,98 +48,54 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #  - Jamf::OAPISchemas::SoftwareTitlePatchPolicySummaries
+    #  
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #
+    #  - Jamf::OAPISchemas::ManagedSoftwareUpdateStatus
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/patch/obj/policy/{id}:GET' needs permissions:
-    #    - Read Patch Policies
-    #  - '/patch/objs/policy/{id}:GET' needs permissions:
-    #    - Read Patch Policies
-    #  - '/patch/patch-policies:GET' needs permissions:
-    #    - Read Patch Policies
+    #  - '/v1/managed-software-updates/update-statuses:GET' needs permissions:
+    #    - Read Computers
+    #    - Read Mobile Devices
+    #  - '/v1/managed-software-updates/update-statuses/computer-groups/{id}:GET' needs permissions:
+    #    - Read Computers
+    #    - Read Smart Computer Groups
+    #    - Read Static Computer Groups
+    #  - '/v1/managed-software-updates/update-statuses/computers/{id}:GET' needs permissions:
+    #    - Read Computers
+    #  - '/v1/managed-software-updates/update-statuses/mobile-device-groups/{id}:GET' needs permissions:
+    #    - Read Mobile Devices
+    #    - Read Smart Mobile Device Groups
+    #    - Read Static Mobile Device Groups
+    #  - '/v1/managed-software-updates/update-statuses/mobile-devices/{id}:GET' needs permissions:
+    #    - Read Mobile Devices
     #
     #
-    class PatchPolicySummary < Jamf::OAPIObject
+    class ManagedSoftwareUpdateStatuses < Jamf::OAPIObject
 
-
+      
 
       OAPI_PROPERTIES = {
 
-        # @!attribute policyId
+        # @!attribute totalCount
         #   @return [Integer]
-        policyId: {
+        totalCount: {
           class: :integer
         },
 
-        # @!attribute policyName
-        #   @return [String]
-        policyName: {
-          class: :string
-        },
-
-        # @!attribute isPolicyEnabled
-        #   @return [Boolean]
-        isPolicyEnabled: {
-          class: :boolean
-        },
-
-        # @!attribute policyTargetVersion
-        #   @return [String]
-        policyTargetVersion: {
-          class: :string
-        },
-
-        # @!attribute policyDeploymentMethod
-        #   @return [String]
-        policyDeploymentMethod: {
-          class: :string
-        },
-
-        # @!attribute softwareTitle
-        #   @return [String]
-        softwareTitle: {
-          class: :string
-        },
-
-        # @!attribute softwareTitleConfigurationId
-        #   @return [Integer]
-        softwareTitleConfigurationId: {
-          class: :integer
-        },
-
-        # @!attribute pending
-        #   @return [Integer]
-        pending: {
-          class: :integer
-        },
-
-        # @!attribute completed
-        #   @return [Integer]
-        completed: {
-          class: :integer
-        },
-
-        # @!attribute deferred
-        #   @return [Integer]
-        deferred: {
-          class: :integer
-        },
-
-        # @!attribute failed
-        #   @return [Integer]
-        failed: {
-          class: :integer
+        # @!attribute results
+        #   @return [Array<Jamf::OAPISchemas::ManagedSoftwareUpdateStatus>]
+        results: {
+          class: Jamf::OAPISchemas::ManagedSoftwareUpdateStatus,
+          multi: true
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class PatchPolicySummary
+    end # class ManagedSoftwareUpdateStatuses
 
   end # module OAPISchemas
 

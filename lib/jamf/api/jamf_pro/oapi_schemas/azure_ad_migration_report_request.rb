@@ -36,7 +36,7 @@ module Jamf
     #   Request that start report generation
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.40.0-t1657115323
+    # URL path on a Jamf Pro server version 10.46.0-t1681398190
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -49,11 +49,12 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #
+    #  
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
     #  - Jamf::OAPISchemas::AzureMappings
+    #  - Jamf::OAPISchemas::ExtensionAttributeMigrationMappingChange
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
@@ -64,7 +65,7 @@ module Jamf
     #
     class AzureAdMigrationReportRequest < Jamf::OAPIObject
 
-
+      
 
       OAPI_PROPERTIES = {
 
@@ -91,6 +92,13 @@ module Jamf
         azureMappings: {
           class: Jamf::OAPISchemas::AzureMappings,
           required: true
+        },
+
+        # @!attribute extensionAttributeMappingChanges
+        #   @return [Array<Jamf::OAPISchemas::ExtensionAttributeMigrationMappingChange>]
+        extensionAttributeMappingChanges: {
+          class: Jamf::OAPISchemas::ExtensionAttributeMigrationMappingChange,
+          multi: true
         }
 
       } # end OAPI_PROPERTIES

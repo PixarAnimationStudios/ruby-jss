@@ -35,7 +35,7 @@ module Jamf
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.40.0-t1657115323
+    # URL path on a Jamf Pro server version 10.46.0-t1681398190
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -66,14 +66,15 @@ module Jamf
     #
     class ComputerGeneral < Jamf::OAPIObject
 
-
+      
 
       OAPI_PROPERTIES = {
 
         # @!attribute name
         #   @return [String]
         name: {
-          class: :string
+          class: :string,
+          min_length: 1
         },
 
         # @!attribute lastIpAddress
@@ -214,11 +215,24 @@ module Jamf
           class: :boolean
         },
 
+        # @!attribute declarativeDeviceManagementEnabled
+        #   @return [Boolean]
+        declarativeDeviceManagementEnabled: {
+          class: :boolean
+        },
+
         # @!attribute extensionAttributes
         #   @return [Array<Jamf::OAPISchemas::ComputerExtensionAttribute>]
         extensionAttributes: {
           class: Jamf::OAPISchemas::ComputerExtensionAttribute,
           multi: true
+        },
+
+        # @!attribute [r] managementId
+        #   @return [String]
+        managementId: {
+          class: :string,
+          readonly: true
         }
 
       } # end OAPI_PROPERTIES

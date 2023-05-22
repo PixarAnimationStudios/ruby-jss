@@ -30,12 +30,12 @@ module Jamf
   module OAPISchemas
 
 
-    # OAPI Object Model and Enums for: UserAttributes
+    # OAPI Object Model and Enums for: ComputerInventoryFileVault
     #
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.40.0-t1657115323
+    # URL path on a Jamf Pro server version 10.46.0-t1681398190
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -48,69 +48,79 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #  - Jamf::OAPISchemas::UserTestSearch
+    #  - Jamf::OAPISchemas::ComputerInventoryFileVaultSearchResults
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #
+    #  - Jamf::OAPISchemas::ComputerPartitionEncryption
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
+    #  - '/v1/computers-inventory/{id}/filevault:GET' needs permissions:
+    #    - View Disk Encryption Recovery Key
     #
     #
-    #
-    class UserAttributes < Jamf::OAPIObject
+    class ComputerInventoryFileVault < Jamf::OAPIObject
 
+      # Enums used by this class or others
 
+      INDIVIDUAL_RECOVERY_KEY_VALIDITY_STATUS_OPTIONS = [
+        'VALID',
+        'INVALID',
+        'UNKNOWN',
+        'NOT_APPLICABLE'
+      ]
 
       OAPI_PROPERTIES = {
 
-        # @!attribute fullName
+        # @!attribute [r] computerId
         #   @return [String]
-        fullName: {
+        computerId: {
+          class: :string,
+          readonly: true
+        },
+
+        # @!attribute name
+        #   @return [String]
+        name: {
           class: :string
         },
 
-        # @!attribute emailAddress
+        # @!attribute personalRecoveryKey
         #   @return [String]
-        emailAddress: {
+        personalRecoveryKey: {
           class: :string
         },
 
-        # @!attribute phoneNumber
-        #   @return [String]
-        phoneNumber: {
-          class: :string
+        # @!attribute bootPartitionEncryptionDetails
+        #   @return [Jamf::OAPISchemas::ComputerPartitionEncryption]
+        bootPartitionEncryptionDetails: {
+          class: Jamf::OAPISchemas::ComputerPartitionEncryption
         },
 
-        # @!attribute position
+        # @!attribute individualRecoveryKeyValidityStatus
         #   @return [String]
-        position: {
-          class: :string
+        individualRecoveryKeyValidityStatus: {
+          class: :string,
+          enum: INDIVIDUAL_RECOVERY_KEY_VALIDITY_STATUS_OPTIONS
         },
 
-        # @!attribute room
-        #   @return [String]
-        room: {
-          class: :string
+        # @!attribute institutionalRecoveryKeyPresent
+        #   @return [Boolean]
+        institutionalRecoveryKeyPresent: {
+          class: :boolean
         },
 
-        # @!attribute buildingId
+        # @!attribute diskEncryptionConfigurationName
         #   @return [String]
-        buildingId: {
-          class: :string
-        },
-
-        # @!attribute departmentId
-        #   @return [String]
-        departmentId: {
+        diskEncryptionConfigurationName: {
           class: :string
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class UserAttributes
+    end # class ComputerInventoryFileVault
 
   end # module OAPISchemas
 

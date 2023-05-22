@@ -35,7 +35,7 @@ module Jamf
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.40.0-t1657115323
+    # URL path on a Jamf Pro server version 10.46.0-t1681398190
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -48,11 +48,11 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #  - Jamf::OAPISchemas::MacOsManagedSoftwareUpdateResponse
+    #  
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #
+    #  
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
@@ -91,6 +91,8 @@ module Jamf
     #    - Update Jamf Connect Settings
     #  - '/v1/jamf-protect/history:POST' needs permissions:
     #    - Update Jamf Protect Settings
+    #  - '/v1/mobile-device-groups/static-groups:POST' needs permissions:
+    #    - Create Static Mobile Device Groups
     #  - '/v1/pki/venafi:POST' needs permissions:
     #    - Update PKI
     #  - '/v1/pki/venafi/{id}/history:POST' needs permissions:
@@ -106,9 +108,9 @@ module Jamf
     #  - '/v1/teacher-app/history:POST' needs permissions:
     #    - Update Teacher App Settings
     #  - '/v1/volume-purchasing-locations:POST' needs permissions:
-    #    - Create Volume Purchasing Administrator Accounts
+    #    - Create Volume Purchasing Locations
     #  - '/v1/volume-purchasing-subscriptions:POST' needs permissions:
-    #    - Create Volume Purchasing Administrator Accounts
+    #    - Create Volume Purchasing Locations
     #  - '/v2/check-in/history:POST' needs permissions:
     #    - Update Computer Check-In
     #  - '/v2/cloud-ldaps:POST' needs permissions:
@@ -134,6 +136,10 @@ module Jamf
     #    - Create Mobile Device PreStage Enrollments
     #  - '/v2/mobile-device-prestages/{id}/history:POST' needs permissions:
     #    - Update Mobile Device PreStage Enrollments
+    #  - '/v2/patch-software-title-configurations:POST' needs permissions:
+    #    - Create Patch Management Software Titles
+    #  - '/v2/patch-software-title-configurations/{id}/history:POST' needs permissions:
+    #    - Update Patch Management Software Titles
     #  - '/v3/check-in/history:POST' needs permissions:
     #    - Update Computer Check-In
     #  - '/v3/enrollment/access-groups:POST' needs permissions:
@@ -142,7 +148,7 @@ module Jamf
     #
     class HrefResponse < Jamf::OAPIObject
 
-
+      
 
       OAPI_PROPERTIES = {
 
@@ -150,7 +156,8 @@ module Jamf
         #   @return [String]
         id: {
           class: :j_id,
-          identifier: :primary
+          identifier: :primary,
+          min_length: 1
         },
 
         # @!attribute href

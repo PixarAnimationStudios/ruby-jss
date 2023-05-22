@@ -35,7 +35,7 @@ module Jamf
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.40.0-t1657115323
+    # URL path on a Jamf Pro server version 10.46.0-t1681398190
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -48,12 +48,13 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #
+    #  
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
     #  - Jamf::OAPISchemas::CurrentAccount
     #  - Jamf::OAPISchemas::Site
+    #  - Jamf::OAPISchemas::AuthenticationType
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
@@ -64,18 +65,7 @@ module Jamf
     #
     class CurrentAuthorization < Jamf::OAPIObject
 
-      # Enums used by this class or others
-
-      AUTHENTICATION_TYPE_OPTIONS = [
-        'JSS',
-        'LDAP',
-        'SAML',
-        'INVITE',
-        'OAUTH',
-        'DEVICE_SIGNATURE',
-        'CLOUD_CONNECTOR',
-        'SYSTEM_ACCOUNT'
-      ]
+      
 
       OAPI_PROPERTIES = {
 
@@ -93,10 +83,9 @@ module Jamf
         },
 
         # @!attribute authenticationType
-        #   @return [String]
+        #   @return [Jamf::OAPISchemas::AuthenticationType]
         authenticationType: {
-          class: :string,
-          enum: AUTHENTICATION_TYPE_OPTIONS
+          class: Jamf::OAPISchemas::AuthenticationType
         }
 
       } # end OAPI_PROPERTIES

@@ -36,7 +36,7 @@ module Jamf
     #   will be populated if the type is ios.
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.40.0-t1657115323
+    # URL path on a Jamf Pro server version 10.46.0-t1681398190
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -57,6 +57,7 @@ module Jamf
     #  - Jamf::OAPISchemas::PurchasingV2
     #  - Jamf::OAPISchemas::SecurityV2
     #  - Jamf::OAPISchemas::NetworkV2
+    #  - Jamf::OAPISchemas::MobileDeviceServiceSubscription
     #  - Jamf::OAPISchemas::MobileDeviceApplication
     #  - Jamf::OAPISchemas::MobileDeviceCertificateV2
     #  - Jamf::OAPISchemas::MobileDeviceEbook
@@ -72,7 +73,7 @@ module Jamf
     #
     class IosDetailsV2 < Jamf::OAPIObject
 
-
+      
 
       OAPI_PROPERTIES = {
 
@@ -202,6 +203,13 @@ module Jamf
         #   @return [Jamf::OAPISchemas::NetworkV2]
         network: {
           class: Jamf::OAPISchemas::NetworkV2
+        },
+
+        # @!attribute serviceSubscriptions
+        #   @return [Array<Jamf::OAPISchemas::MobileDeviceServiceSubscription>]
+        serviceSubscriptions: {
+          class: Jamf::OAPISchemas::MobileDeviceServiceSubscription,
+          multi: true
         },
 
         # @!attribute applications

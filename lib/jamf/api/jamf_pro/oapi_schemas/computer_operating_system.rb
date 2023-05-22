@@ -35,7 +35,7 @@ module Jamf
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.40.0-t1657115323
+    # URL path on a Jamf Pro server version 10.46.0-t1681398190
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -91,6 +91,22 @@ module Jamf
         # @!attribute [r] build
         #   @return [String]
         build: {
+          class: :string,
+          readonly: true
+        },
+
+        # Collected for macOS 13.0 or later
+        # @!attribute [r] supplementalBuildVersion
+        #   @return [String]
+        supplementalBuildVersion: {
+          class: :string,
+          readonly: true
+        },
+
+        # Collected for macOS 13.0 or later
+        # @!attribute [r] rapidSecurityResponse
+        #   @return [String]
+        rapidSecurityResponse: {
           class: :string,
           readonly: true
         },

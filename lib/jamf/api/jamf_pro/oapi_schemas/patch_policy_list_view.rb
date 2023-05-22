@@ -30,12 +30,12 @@ module Jamf
   module OAPISchemas
 
 
-    # OAPI Object Model and Enums for: PatchVersion
+    # OAPI Object Model and Enums for: PatchPolicyListView
     #
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.40.0-t1657115323
+    # URL path on a Jamf Pro server version 10.46.0-t1681398190
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -48,48 +48,94 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #
+    #  - Jamf::OAPISchemas::PatchPolicies
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #
+    #  
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/patch/obj/{id}/versions:GET' needs permissions:
-    #    - Read Patch Management Software Titles
-    #  - '/patch/{id}/versions:GET' needs permissions:
-    #    - Read Patch Management Software Titles
     #
     #
-    class PatchVersion < Jamf::OAPIObject
+    #
+    class PatchPolicyListView < Jamf::OAPIObject
 
-
+      
 
       OAPI_PROPERTIES = {
 
-        # @!attribute absoluteOrderId
-        #   @return [Integer]
-        absoluteOrderId: {
-          class: :integer
+        # @!attribute id
+        #   @return [String]
+        id: {
+          class: :j_id,
+          identifier: :primary
         },
 
-        # @!attribute version
+        # @!attribute policyName
         #   @return [String]
-        version: {
+        policyName: {
           class: :string
         },
 
-        # @!attribute onVersion
+        # @!attribute policyEnabled
+        #   @return [Boolean]
+        policyEnabled: {
+          class: :boolean
+        },
+
+        # @!attribute policyTargetVersion
+        #   @return [String]
+        policyTargetVersion: {
+          class: :string
+        },
+
+        # @!attribute policyDeploymentMethod
+        #   @return [String]
+        policyDeploymentMethod: {
+          class: :string
+        },
+
+        # @!attribute softwareTitle
+        #   @return [String]
+        softwareTitle: {
+          class: :string
+        },
+
+        # @!attribute softwareTitleConfigurationId
+        #   @return [String]
+        softwareTitleConfigurationId: {
+          class: :string
+        },
+
+        # @!attribute pending
         #   @return [Integer]
-        onVersion: {
+        pending: {
+          class: :integer
+        },
+
+        # @!attribute completed
+        #   @return [Integer]
+        completed: {
+          class: :integer
+        },
+
+        # @!attribute deferred
+        #   @return [Integer]
+        deferred: {
+          class: :integer
+        },
+
+        # @!attribute failed
+        #   @return [Integer]
+        failed: {
           class: :integer
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class PatchVersion
+    end # class PatchPolicyListView
 
   end # module OAPISchemas
 

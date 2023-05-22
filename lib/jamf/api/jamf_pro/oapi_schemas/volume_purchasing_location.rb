@@ -35,7 +35,7 @@ module Jamf
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.40.0-t1657115323
+    # URL path on a Jamf Pro server version 10.46.0-t1681398190
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -48,7 +48,7 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #
+    #  
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
@@ -58,14 +58,14 @@ module Jamf
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
     #  - '/v1/volume-purchasing-locations/{id}:GET' needs permissions:
-    #    - Read Volume Purchasing Administrator Accounts
+    #    - Read Volume Purchasing Locations
     #  - '/v1/volume-purchasing-locations/{id}:PATCH' needs permissions:
-    #    - Update Volume Purchasing Administrator Accounts
+    #    - Update Volume Purchasing Locations
     #
     #
     class VolumePurchasingLocation < Jamf::OAPIObject
 
-
+      
 
       OAPI_PROPERTIES = {
 

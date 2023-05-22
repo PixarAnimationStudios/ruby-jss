@@ -30,12 +30,12 @@ module Jamf
   module OAPISchemas
 
 
-    # OAPI Object Model and Enums for: PatchPolicyLog
+    # OAPI Object Model and Enums for: LapsAuditV2
     #
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.40.0-t1657115323
+    # URL path on a Jamf Pro server version 10.46.0-t1681398190
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -48,11 +48,11 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #  - Jamf::OAPISchemas::PatchPolicyLogSearchResults
+    #  - Jamf::OAPISchemas::LapsPasswordAndAuditsV2
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #
+    #  
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
@@ -60,64 +60,30 @@ module Jamf
     #
     #
     #
-    class PatchPolicyLog < Jamf::OAPIObject
+    class LapsAuditV2 < Jamf::OAPIObject
 
-
+      
 
       OAPI_PROPERTIES = {
 
-        # @!attribute patchPolicyId
-        #   @return [Integer]
-        patchPolicyId: {
-          class: :integer
-        },
-
-        # @!attribute deviceId
-        #   @return [Integer]
-        deviceId: {
-          class: :integer
-        },
-
-        # @!attribute deviceName
+        # @!attribute viewedBy
         #   @return [String]
-        deviceName: {
-          class: :string
+        viewedBy: {
+          class: :string,
+          nil_ok: true
         },
 
-        # @!attribute statusCode
-        #   @return [Integer]
-        statusCode: {
-          class: :integer
-        },
-
-        # @!attribute statusMessage
-        #   @return [String]
-        statusMessage: {
-          class: :string
-        },
-
-        # @!attribute statusDate
+        # @!attribute dateSeen
         #   @return [Jamf::Timestamp]
-        statusDate: {
+        dateSeen: {
           class: Jamf::Timestamp,
+          nil_ok: true,
           format: 'date-time'
-        },
-
-        # @!attribute attempt
-        #   @return [Integer]
-        attempt: {
-          class: :integer
-        },
-
-        # @!attribute ignored
-        #   @return [Integer]
-        ignored: {
-          class: :integer
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class PatchPolicyLog
+    end # class LapsAuditV2
 
   end # module OAPISchemas
 

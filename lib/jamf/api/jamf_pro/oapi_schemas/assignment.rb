@@ -30,13 +30,12 @@ module Jamf
   module OAPISchemas
 
 
-    # OAPI Object Model and Enums for: AppDynamicsConfig
+    # OAPI Object Model and Enums for: Assignment
     #
-    # Description of this class from the OAPI Schema:
-    #   Configuration parameters needed for AppDynamics script initialization.
+    #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.40.0-t1657115323
+    # URL path on a Jamf Pro server version 10.46.0-t1681398190
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -49,84 +48,40 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #
+    #  - Jamf::OAPISchemas::StaticGroupAssignment
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #
+    #  
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/app-dynamics/script-configuration:GET' needs permissions:
-    #    - Unknown
     #
     #
-    class AppDynamicsConfig < Jamf::OAPIObject
+    #
+    class Assignment < Jamf::OAPIObject
 
-
+      
 
       OAPI_PROPERTIES = {
 
-        # @!attribute enableEum
+        # @!attribute mobileDeviceId
+        #   @return [String]
+        mobileDeviceId: {
+          class: :string
+        },
+
+        # If true the device should be added to the group, if false should be removed from the group.
+        # @!attribute selected
         #   @return [Boolean]
-        enableEum: {
-          class: :boolean,
-          required: true
-        },
-
-        # @!attribute appKey
-        #   @return [String]
-        appKey: {
-          class: :string,
-          required: true
-        },
-
-        # @!attribute adrumExtUrlHttp
-        #   @return [String]
-        adrumExtUrlHttp: {
-          class: :string,
-          required: true
-        },
-
-        # @!attribute adrumExtUrlHttps
-        #   @return [String]
-        adrumExtUrlHttps: {
-          class: :string,
-          required: true
-        },
-
-        # @!attribute adrumScriptHttp
-        #   @return [String]
-        adrumScriptHttp: {
-          class: :string,
-          required: true
-        },
-
-        # @!attribute adrumScriptHttps
-        #   @return [String]
-        adrumScriptHttps: {
-          class: :string,
-          required: true
-        },
-
-        # @!attribute beaconUrlHttp
-        #   @return [String]
-        beaconUrlHttp: {
-          class: :string,
-          required: true
-        },
-
-        # @!attribute beaconUrlHttps
-        #   @return [String]
-        beaconUrlHttps: {
-          class: :string,
-          required: true
+        selected: {
+          class: :boolean
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class AppDynamicsConfig
+    end # class Assignment
 
   end # module OAPISchemas
 

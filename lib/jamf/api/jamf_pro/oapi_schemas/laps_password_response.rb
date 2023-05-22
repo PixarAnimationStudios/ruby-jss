@@ -30,12 +30,12 @@ module Jamf
   module OAPISchemas
 
 
-    # OAPI Object Model and Enums for: Filter
+    # OAPI Object Model and Enums for: LapsPasswordResponse
     #
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.40.0-t1657115323
+    # URL path on a Jamf Pro server version 10.46.0-t1681398190
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -48,56 +48,36 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #  - Jamf::OAPISchemas::SearchActivePatchHistoryParams
-    #  - Jamf::OAPISchemas::SearchPatchPolicyLogParams
+    #  
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #
+    #  
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
+    #  - '/v1/local-admin-password/{clientManagementId}/account/{username}/password:GET' needs permissions:
+    #    - View Local Admin Password
     #
     #
-    #
-    class Filter < Jamf::OAPIObject
+    class LapsPasswordResponse < Jamf::OAPIObject
 
-      # Enums used by this class or others
-
-      OPERATOR_OPTIONS = [
-        'EQUALS',
-        'NOT_EQUALS',
-        'GREATER_THAN',
-        'LESS_THAN',
-        'GREATER_THAN_EQUAL',
-        'LESS_THAN_EQUAL'
-      ]
+      
 
       OAPI_PROPERTIES = {
 
-        # @!attribute field
+        # @!attribute [r] password
         #   @return [String]
-        field: {
-          class: :string
-        },
-
-        # @!attribute operator
-        #   @return [String]
-        operator: {
+        password: {
           class: :string,
-          enum: OPERATOR_OPTIONS
-        },
-
-        # @!attribute value
-        #   @return [String]
-        value: {
-          class: :string
+          format: 'password',
+          readonly: true
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class Filter
+    end # class LapsPasswordResponse
 
   end # module OAPISchemas
 
