@@ -1,4 +1,4 @@
-### Copyright 2022 Pixar
+### Copyright 2023 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -70,7 +70,6 @@ module Jamf
     ###  Variables
     #####################################
 
-
     #####################################
     ###  Attribtues
     #####################################
@@ -104,7 +103,6 @@ module Jamf
     ### @return [String]
     attr_reader :username
 
-
     #####################################
     ###  Mixed-in Instance Methods
     #####################################
@@ -129,7 +127,6 @@ module Jamf
       @username = @init_data[:location][:username]
     end
 
-
     ###
     ### All the location data in a Hash, as it comes from the API.
     ###
@@ -139,17 +136,16 @@ module Jamf
     ###
     def location
       {
-        :building => @building,
-        :department => @department,
-        :email_address => @email_address,
-        :phone => @phone,
-        :position => @position,
-        :real_name => @real_name,
-        :room => @room,
-        :username => @username
+        building: @building,
+        department: @department,
+        email_address: @email_address,
+        phone: @phone,
+        position: @position,
+        real_name: @real_name,
+        room: @room,
+        username: @username
       }
     end
-
 
     ###
     ###
@@ -157,67 +153,84 @@ module Jamf
     ###
 
     ###
-    def building= (new_val)
+    def building=(new_val)
       return nil if @building == new_val
+
       new_val = new_val.to_s.strip
-      raise Jamf::NoSuchItemError, "No building named #{new_val} exists in the JSS" unless new_val.empty? or Jamf::Building.all_names(cnx: @cnx).include? new_val
+      unless new_val.empty? or Jamf::Building.all_names(cnx: @cnx).include? new_val
+        raise Jamf::NoSuchItemError, 
+              "No building named #{new_val} exists in the JSS"
+      end
+
       @building = new_val
       @need_to_update = true
     end
 
     ###
-    def department= (new_val)
+    def department=(new_val)
       return nil if @department == new_val
+
       new_val = new_val.to_s.strip
-      raise Jamf::NoSuchItemError, "No department named #{new_val} exists in the JSS" unless new_val.empty? or Jamf::Department.all_names(cnx: @cnx).include? new_val
+      unless new_val.empty? or Jamf::Department.all_names(cnx: @cnx).include? new_val
+        raise Jamf::NoSuchItemError, 
+              "No department named #{new_val} exists in the JSS"
+      end
+
       @department = new_val
       @need_to_update = true
     end
 
     ###
-    def email_address= (new_val)
+    def email_address=(new_val)
       return nil if @email_address == new_val
+
       new_val = new_val.to_s.strip
-      raise Jamf::InvalidDataError, "Invalid Email Address" unless new_val.empty? or  new_val =~ /^[^\s@]+@[^\s@]+$/
+      raise Jamf::InvalidDataError, 'Invalid Email Address' unless new_val.empty? or new_val =~ /^[^\s@]+@[^\s@]+$/
+
       @email_address = new_val
       @need_to_update = true
     end
 
     ###
-    def position= (new_val)
+    def position=(new_val)
       return nil if @position == new_val
+
       new_val = new_val.to_s.strip
       @position = new_val
       @need_to_update = true
     end
 
     ###
-    def phone= (new_val)
+    def phone=(new_val)
       return nil if @phone == new_val
+
       new_val = new_val.to_s.strip
       @phone = new_val
       @need_to_update = true
     end
 
     ###
-    def real_name= (new_val)
+    def real_name=(new_val)
       return nil if @real_name == new_val
+
       new_val = new_val.to_s.strip
       @real_name = new_val
       @need_to_update = true
     end
 
     ###
-    def room= (new_val)
+    def room=(new_val)
       return nil if @room == new_val
+
       new_val = new_val.to_s.strip
       @room = new_val
       @need_to_update = true
     end
 
     ###
-    def username= (new_val)
+    def username=(new_val)
       return nil if @username == new_val
+
       new_val = new_val.to_s.strip
       @username = new_val
       @need_to_update = true
@@ -228,13 +241,13 @@ module Jamf
     ###
     def has_location?
       @username or \
-      @real_name or \
-      @email_address or \
-      @position or \
-      @phone or \
-      @department or \
-      @building or \
-      @room
+        @real_name or \
+        @email_address or \
+        @position or \
+        @phone or \
+        @department or \
+        @building or \
+        @room
     end
 
     ###
@@ -248,16 +261,14 @@ module Jamf
       @email_address = ''
       @position = ''
       @phone = ''
-      @department  = ''
+      @department = ''
       @building = ''
       @room = ''
       @need_to_update = true
     end
 
-
     ### aliases
     alias user username
-
 
     ###
     ### @api private
@@ -278,7 +289,7 @@ module Jamf
       location.add_element('real_name').text = @real_name
       location.add_element('room').text = @room
       location.add_element('username').text = @username
-      return location
+      location
     end
 
   end # module Locatable

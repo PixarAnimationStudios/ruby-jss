@@ -1,4 +1,4 @@
-# Copyright 2022 Pixar
+# Copyright 2023 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -114,7 +114,7 @@ module Jamf
       alias pw_fallback? pw_fallback
 
       # @return [Faraday::Response] The response object from instantiating
-      #   a new Token object by creating a new token or validating a token 
+      #   a new Token object by creating a new token or validating a token
       #   string. This is not updated when refreshing a token, only when
       #   calling Token.new
       attr_reader :creation_http_response
@@ -170,7 +170,7 @@ module Jamf
       #################################
       def init_from_pw
         resp = token_connection(NEW_TOKEN_RSRC).post
-        
+
         if resp.success?
           parse_token_from_response resp
           @last_refresh = Time.now

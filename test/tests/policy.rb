@@ -1,4 +1,4 @@
-### Copyright 2022 Pixar
+### Copyright 2023 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -36,7 +36,7 @@ module JamfTest
 
     # The main test method for this class
     def run_class_tests
-      # policies are special so we define all the object tests here 
+      # policies are special so we define all the object tests here
       run_collection_tests do_object_tests: false
 
       create_new

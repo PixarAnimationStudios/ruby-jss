@@ -1,4 +1,4 @@
-# Copyright 2022 Pixar
+# Copyright 2023 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -67,7 +67,7 @@ module Jamf
   # Use the load_msg method defined for Zeitwerk
   def self.load_msg(msg)
     JamfZeitwerkConfig.load_msg msg
-  end  
+  end
 
   # the single instance of our configuration object
   def self.config
@@ -88,8 +88,8 @@ end # module Jamf
 JSS = Jamf
 
 # testing zeitwerk loading, the the desired file is present
-JamfZeitwerkConfig.eager_load_for_testing 
+JamfZeitwerkConfig.eager_load_for_testing
 
-# Load more non-autoloaded stuff, but this stuff needs 
+# Load more non-autoloaded stuff, but this stuff needs
 # to happen after zeitwerk loading is active.
 require 'jamf/deprecations'

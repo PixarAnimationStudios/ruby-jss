@@ -1,4 +1,4 @@
-### Copyright 2022 Pixar
+### Copyright 2023 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -24,12 +24,9 @@
 
 # This is just a stub for now.
 
-#
 module Jamf
 
-  #
   class MobileDeviceConfigurationProfile < Jamf::ConfigurationProfile
-
 
     ### The base for REST resources of this class
     RSRC_BASE = 'mobiledeviceconfigurationprofiles'.freeze
@@ -76,9 +73,10 @@ module Jamf
     def redeploy_days_before_certificate_expires=(new_val)
       return nil if redeploy_days_before_certificate_expires == new_val
       raise Jamf::InvalidDataError, 'New value must be an integer >= 0' unless new_val.is_a?(Integer) && new_val >= 0
+
       @redeploy_days_before_certificate_expires = new_val
       @need_to_update = true
-    end #
+    end
 
     # Private Instance Methods
     ###################################

@@ -1,4 +1,4 @@
-# Copyright 2022 Pixar
+# Copyright 2023 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -24,6 +24,7 @@
 #
 
 module Jamf
+
   # a mix-in module for Jamf::Resource subclasses.
   #
   # Many Jamf resources maintain an 'object history', available in the WebUI via
@@ -88,7 +89,6 @@ module Jamf
     HISTORY_ENTRY_OBJECT = Jamf::ChangeLogEntry
     POST_NOTE_OBJECT = Jamf::OAPISchemas::ObjectHistoryNote
 
-
     # when this module is included, also extend our Class Methods
     def self.included(includer)
       Jamf.load_msg "--> #{includer} is including Jamf::ChangeLog"
@@ -142,7 +142,7 @@ module Jamf
       #
       # @return [Array<Jamf::ChangeLogEntry>] The change log entries requested
       #
-      def change_log(id: nil, sort: nil, filter: nil,  cnx: Jamf.cnx)
+      def change_log(id: nil, sort: nil, filter: nil, cnx: Jamf.cnx)
         sort &&= Jamf::Sortable.parse_url_sort_param(sort)
         filter &&= Jamf::Filterable.parse_url_filter_param(filter)
 

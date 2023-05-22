@@ -1,4 +1,4 @@
-### Copyright 2022 Pixar
+### Copyright 2023 Pixar
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
@@ -145,7 +145,7 @@ module Jamf
       # @option params :sticky_session [Boolean] Use a 'sticky session'? Default is false.
       #   The hostname of Jamf Cloud urls does not point to a single https server,
       #   but any node of a cluster. Those nodes often take time to see changes
-      #   made in other node. Sometimes, its important to perform a series of API 
+      #   made in other node. Sometimes, its important to perform a series of API
       #   actions to the same node, to avoid sync-timing problems between node. Setting
       #   sticky_session to true will cause all communication for this Connection to go
       #   through the one specific node it first connected ith.
@@ -208,11 +208,11 @@ module Jamf
       alias login connect
 
       # If a sticky_session was requested when the connection was made, and
-      # we are connected to a jamf cloud server, the token's http response 
-      # contains the cookie we need to send with every request to ensure a 
+      # we are connected to a jamf cloud server, the token's http response
+      # contains the cookie we need to send with every request to ensure a
       # stickey session.
       #################################
-      def enable_sticky_session(headers) 
+      def enable_sticky_session(headers)
         # commas separate the cookies
         raw_cookies = headers[Jamf::Connection::SET_COOKIE_HEADER].split(/\s*,\s*/)
 
@@ -227,7 +227,7 @@ module Jamf
 
           @sticky_session_cookie = "#{Jamf::Connection::STICKY_SESSION_COOKIE_NAME}=#{cookie_value}"
           jp_cnx.headers[Jamf::Connection::COOKIE_HEADER] = @sticky_session_cookie
-          c_cnx.headers[Jamf::Connection::COOKIE_HEADER] = @sticky_session_cookie 
+          c_cnx.headers[Jamf::Connection::COOKIE_HEADER] = @sticky_session_cookie
           return @sticky_session_cookie
         end
         # be sure to return nil if there was no appropriate cookie,

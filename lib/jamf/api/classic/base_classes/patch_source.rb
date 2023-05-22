@@ -1,4 +1,4 @@
-### Copyright 2022 Pixar
+### Copyright 2023 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -327,7 +327,7 @@ module Jamf
     # Init
     def initialize(**args)
       if instance_of?(Jamf::PatchSource)
-        raise Jamf::UnsupportedError, 
+        raise Jamf::UnsupportedError,
               'PatchSource is an abstract metaclass. Please use PatchInternalSource or PatchExternalSource'
       end
 

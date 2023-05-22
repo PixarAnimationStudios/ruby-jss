@@ -1,4 +1,4 @@
-# Copyright 2022 Pixar
+# Copyright 2023 Pixar
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -26,7 +26,7 @@ module Jamf
 
   # This module should be mixed in to Jamf::Computer and Jamf::ComputerGroup
   #
-  # It provides access to the macos-managed-software-updates JPAPI resource for 
+  # It provides access to the macos-managed-software-updates JPAPI resource for
   # managed OS update commands to managed macs running Big Sur or higher.
   #
   module MacOSRedeployMgmtFramework
@@ -56,20 +56,20 @@ module Jamf
       # must be functioning. The target computer(s) will not re-install the framework if they
       # never recieve the MDM command.
       #
-      # @param target_ids [String, Integer, Array<String, Integer>] Jamf IDs for the 
+      # @param target_ids [String, Integer, Array<String, Integer>] Jamf IDs for the
       #   Computer or ComputerGroup targets.
       #
-      # @param cnx [Jamf::Connection] The API connection to use. Defaults to Jamf.cnx 
+      # @param cnx [Jamf::Connection] The API connection to use. Defaults to Jamf.cnx
       #
-      # @return [Hash{Integer => String}] The result for each computer, either the 
+      # @return [Hash{Integer => String}] The result for each computer, either the
       #   uuid of the sent MDM command, or an error message.
       ########################
       def redeploy_mgmt_framework(target_ids, cnx: Jamf.cnx)
         target_ids = target_ids.is_a?(Array) ? target_ids : [target_ids]
-        target_comp_ids = 
-          if self == Jamf::Computer 
+        target_comp_ids =
+          if self == Jamf::Computer
             target_ids
-            
+
           elsif self == Jamf::ComputerGroup
             group_ids = target_ids.is_a?(Array) ? target_ids : [target_ids]
             comp_ids = []
@@ -77,7 +77,7 @@ module Jamf
             comp_ids
 
           else
-            raise Jamf::UnsupportedError, 'This method is only available for Jamf::Computer and Jamf::ComputerGroup' 
+            raise Jamf::UnsupportedError, 'This method is only available for Jamf::Computer and Jamf::ComputerGroup'
           end
 
         results = {}
@@ -88,7 +88,7 @@ module Jamf
           result = Jamf::OAPISchemas::RedeployJamfManagementFrameworkResponse.new result
           results[comp_id] = result.commandUuid
         rescue Jamf::Connection::JamfProAPIError => e
-          results[comp_id] = "ERROR: #{e}"          
+          results[comp_id] = "ERROR: #{e}"
         end
 
         results

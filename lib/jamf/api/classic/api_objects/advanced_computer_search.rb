@@ -1,4 +1,4 @@
-### Copyright 2022 Pixar
+### Copyright 2023 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -26,18 +26,14 @@
 ###
 module Jamf
 
-
   # Module Variables
   #####################################
-
 
   # Module Methods
   #####################################
 
-
   # Classes
   #####################################
-
 
   # An AdvancedComputerSearch in the JSS
   #
@@ -47,10 +43,8 @@ module Jamf
   #
   class AdvancedComputerSearch < Jamf::AdvancedSearch
 
-
     # Mix-Ins
     #####################################
-
 
     # Class Constants
     #####################################
@@ -70,7 +64,7 @@ module Jamf
 
     # what data fields come back along with the display fields
     # for each computer?
-    RESULT_ID_FIELDS = [:id, :name, :udid].freeze
+    RESULT_ID_FIELDS = %i[id name udid].freeze
 
     # the object type for this object in
     # the object history table.
@@ -80,14 +74,11 @@ module Jamf
     # Attributes
     #####################################
 
-
     # Constructor
     #####################################
 
-
     # Public Instance Methods
     #####################################
-
 
     # Private Instance Methods
     #####################################

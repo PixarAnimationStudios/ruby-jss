@@ -1,4 +1,4 @@
-# Copyright 2022 Pixar
+# Copyright 2023 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -351,7 +351,7 @@ module Jamf
     end
     # backward compatility
     alias set_static make_static
-        
+
     # How many members of the group?
     #
     # @return [Integer] the number of members of the group
@@ -439,7 +439,7 @@ module Jamf
       return unless id_to_remove && member_ids.include?(id_to_remove)
 
       @members.delete_if { |k, v| k == :id && v == id_to_remove }
-      @need_to_update = true 
+      @need_to_update = true
     end
 
     # Remove all members
@@ -482,7 +482,7 @@ module Jamf
     def refresh_members
       @members = @cnx.c_get(@rest_rsrc)[self.class::RSRC_OBJECT_KEY][self.class::MEMBER_CLASS::RSRC_LIST_KEY]
     end
-  
+
 
     # Public Instance Methods
     #####################################
@@ -500,7 +500,7 @@ module Jamf
 
       desired_name = self.class::MEMBER_CLASS.map_all(:id, to: :name, cnx: @cnx)[desired_id]
 
-      { name: desired_name, id: desired_id }      
+      { name: desired_name, id: desired_id }
     end
 
     # the xml formated data for adding or updating this in the JSS,

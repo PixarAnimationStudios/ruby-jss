@@ -1,4 +1,4 @@
-# Copyright 2022 Pixar
+# Copyright 2023 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -47,18 +47,18 @@ module JamfZeitwerkConfig
     @verbose_loading ||= ENV.include? VERBOSE_LOADING_ENV
     @verbose_loading
   end
-  
+
   # rubocop: disable Style/StderrPuts
   def self.load_msg(msg)
-    $stderr.puts msg if verbose_loading?    
+    $stderr.puts msg if verbose_loading?
   end
   # rubocop: enable Style/StderrPuts
-        
+
   # The loader object for Xolo
   def self.loader
     @loader
   end
-    
+
   # Configure the Zeitwerk loader, See https://github.com/fxn/zeitwerk
   def self.setup_zeitwerk_loader(zloader)
     @loader = zloader
@@ -67,7 +67,7 @@ module JamfZeitwerkConfig
     loader.ignore __FILE__
 
     ##### Collaped Paths
-    
+
     # these paths all define classes & modules directly below 'Jamf'
     # If we didn't collapse them, then e.g.
     #   /jamf/api/base_classes/classic/group.rb
@@ -90,7 +90,7 @@ module JamfZeitwerkConfig
     loader.collapse("#{__dir__}/api/jamf_pro/other_classes")
 
     ##### Inflected Paths
-    
+
     # filenames => Constants, which don't adhere to zeitwerk's parsing standards.
     #
     # Mostly because the a filename like 'oapi_object' would be
@@ -131,14 +131,14 @@ module JamfZeitwerkConfig
     loader.inflector.inflect 'macos_redeploy_mgmt_framework' => 'MacOSRedeployMgmtFramework'
 
     # deprecations, separated so they load only when used.
-    # When its time to get rid of them, delete the files from the 
+    # When its time to get rid of them, delete the files from the
     # 'deprecations' directory, and the matching line here.
     loader.inflector.inflect('deprecated_api_constant' => 'API')
     loader.inflector.inflect('deprecated_config_constant' => 'CONFIG')
     loader.inflector.inflect('deprecated_api_connection_class' => 'APIConnection')
 
     ##### Ingored Paths
-    
+
     # These should be ignored, some will be required directly
     #####################################
 
@@ -150,15 +150,15 @@ module JamfZeitwerkConfig
     loader.ignore "#{__dir__}/deprecations.rb"
 
     lib_dir = Pathname.new(__dir__).parent.to_s
-    loader.ignore "#{lib_dir}/ruby-jss.rb" 
-    loader.ignore "#{lib_dir}/jss.rb" 
-    loader.ignore "#{lib_dir}/jss-api.rb" 
-    
+    loader.ignore "#{lib_dir}/ruby-jss.rb"
+    loader.ignore "#{lib_dir}/jss.rb"
+    loader.ignore "#{lib_dir}/jss-api.rb"
+
     ##### Callbacks
 
     # callback for when a specific file/constant loads
-    # duplicate and uncomment this if desired to react to 
-    # specific things loading 
+    # duplicate and uncomment this if desired to react to
+    # specific things loading
     #####################################
     # loader.on_load('Jamf::SomeClass') do |klass, abspath|
     #   Jamf.load_msg "I just loaded #{klass} from #{abspath}"

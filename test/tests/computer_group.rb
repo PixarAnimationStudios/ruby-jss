@@ -1,4 +1,4 @@
-### Copyright 2022 Pixar
+### Copyright 2023 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -95,14 +95,14 @@ module JamfTest
         comp_to_remove = @comps_added_to_static_group.shift
         @fetched_new_object.remove_member comp_to_remove
         say "Removed member with identifier '#{comp_to_remove}'"
-      end      
+      end
 
       @modified_member_ids = @fetched_new_object.member_ids
     end
 
     ################
     def validate_changes
-      
+
       unless @fetched_new_object.member_ids.sort == @fetched_edited_object.member_ids.sort
         raise 'Modified ruby object saved after editing does not have the same member ids as the one originally saved!'
       end
@@ -116,7 +116,7 @@ module JamfTest
       adds << @all_comps_shuffled.shift[:udid]
       removes = @fetched_edited_object.member_ids.sample
 
-      collection_class.change_membership @fetched_edited_object.id, add_members: adds, remove_members: removes 
+      collection_class.change_membership @fetched_edited_object.id, add_members: adds, remove_members: removes
       say "Successfully used #{collection_class}.change_membership to immediately add and remove members."
     end
 

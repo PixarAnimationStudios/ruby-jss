@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-### Copyright 2022 Pixar
+### Copyright 2023 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -43,7 +43,7 @@ $save_trace = false
 # the file to hold the traces
 $trace_out = open('/tmp/ruby-jss-tests-trace.txt', 'w')
 
-# the max call-stack depth - adjust this to help catch and 
+# the max call-stack depth - adjust this to help catch and
 # debug SystemStackError exceptions
 $trace_max_call_stack_depth = 1000
 
@@ -52,7 +52,7 @@ set_trace_func proc { |event, file, line, id, _binding, classname|
   if $do_tracing
     begin
       if event == 'call'
-        $trace_out.puts "#{file}:#{line} #{classname}##{id}" if $save_trace 
+        $trace_out.puts "#{file}:#{line} #{classname}##{id}" if $save_trace
         raise 'MaxCallStackReached' if caller_locations.length > $trace_max_call_stack_depth
       end
     rescue => e

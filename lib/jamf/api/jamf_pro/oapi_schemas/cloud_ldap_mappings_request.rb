@@ -1,4 +1,4 @@
-# Copyright 2022 Pixar
+# Copyright 2023 Pixar
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -67,7 +67,7 @@ module Jamf
     #
     class CloudLdapMappingsRequest < Jamf::OAPIObject
 
-      
+
 
       OAPI_PROPERTIES = {
 

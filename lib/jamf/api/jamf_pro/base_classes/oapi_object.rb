@@ -1,4 +1,4 @@
-# Copyright 2022 Pixar
+# Copyright 2023 Pixar
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -567,7 +567,7 @@ module Jamf
     # @return (see parse_single_init_value)
     #
     def parse_enum_value(api_value, attr_name, attr_def)
-      Jamf::Validate.in_enum  api_value, enum: attr_def[:enum], 
+      Jamf::Validate.in_enum  api_value, enum: attr_def[:enum],
                                          msg: "#{api_value} is not in the allowed values for attribute #{attr_name}. Must be one of: #{attr_def[:enum].join ', '}"
     end
 

@@ -1,4 +1,4 @@
-# Copyright 2022 Pixar
+# Copyright 2023 Pixar
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -48,11 +48,11 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #  
+    #
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #  
+    #
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
@@ -85,7 +85,7 @@ module Jamf
     #
     class PrestageScopeUpdate < Jamf::OAPIObject
 
-      
+
 
       OAPI_PROPERTIES = {
 

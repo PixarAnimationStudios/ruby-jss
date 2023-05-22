@@ -1,4 +1,4 @@
-### Copyright 2022 Pixar
+### Copyright 2023 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -315,7 +315,7 @@ module Jamf
           als_name = als.to_s.end_with?('s') ? "all_#{als}es" : "all_#{als}s"
 
           next if singleton_methods.include? als_name.to_sym
-          
+
           define_singleton_method als_name do |refresh = false, api: nil, cnx: Jamf.cnx|
             cnx = api if api
             send meth_name, refresh, cnx: cnx
@@ -324,7 +324,7 @@ module Jamf
 
         end # if
       end # lookup_keys.each
-      
+
       true
     end # self.define_identifier_list_methods
 
@@ -674,16 +674,16 @@ module Jamf
     # is undefined. In short - dont' use names here unless you know they are
     # unique.
     #
-    # NOTE: Integers passed in as strings, e.g. '12345' will be converted to 
+    # NOTE: Integers passed in as strings, e.g. '12345' will be converted to
     # integers and return the matching integer id if it exists.
     #
     # This means that if you have names that might match '12345' and you use
-    #    valid_id '12345' 
+    #    valid_id '12345'
     # you will get back the id 12345, if such an id exists, even if it is not
     # the object with the name '12345'
     #
     # To explicitly look for '12345' as a name, use:
-    #      valid_id name: '12345' 
+    #      valid_id name: '12345'
     #   See the ident_and_val param below.
     #
     # @param identfier [String,Integer] An identifier for an object, a value for
@@ -697,7 +697,7 @@ module Jamf
     #
     # @param ident_and_val [Hash] Do not pass in Hash.
     #   This Hash internally holds the arbitrary identifier key
-    #   and desired value when you call ".valid_id ident: 'value'", e.g. 
+    #   and desired value when you call ".valid_id ident: 'value'", e.g.
     #   ".valid_id name: 'somename'" or ".valid_id udid: some_udid"
     #   Using explicit identifier keys like this will speed things up, since
     #   the method doesn't have to search through all available identifiers
@@ -746,7 +746,7 @@ module Jamf
       if identifier.is_a?(String) && identifier.j_integer?
         int_id = identifier.to_i
         return int_id if all_ids(cnx: cnx).include? int_id
-      end 
+      end
 
       # Now go through all the other identifier keys
       keys_to_check = lookup_keys(no_aliases: true)
@@ -1142,7 +1142,7 @@ module Jamf
         raise Jamf::UnsupportedError, "Creating #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows."
       end
       raise ArgumentError, "Use '#{self.class}.fetch id: xx' to retrieve existing JSS objects" if args[:id]
-      
+
       args[:cnx] ||= args[:api] # deprecated
       args[:cnx] ||= Jamf.cnx
       args[:id] = :new
@@ -1568,7 +1568,7 @@ module Jamf
       raise Jamf::InvalidConnectionError, 'Not connected to MySQL' unless Jamf::DB_CNX.connected?
 
       unless defined? self.class::OBJECT_HISTORY_OBJECT_TYPE
-        raise Jamf::UnsupportedError, 
+        raise Jamf::UnsupportedError,
               "Object History access is not supported for #{self.class} objects at this time"
       end
     end
