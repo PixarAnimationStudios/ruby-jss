@@ -79,8 +79,7 @@ module Jamf
 
       # Send the os update command to target Computers or a ComputerGroup
       #
-      # @param updateAction [Symbol] Required. Use :install to send the
-      #   DOWNLOAD_AND_INSTALL action, or :download to send  DOWNLOAD_ONLY
+      # @param updateAction [Symbol, Symbol] Required. One of the keys or values from UPDATE_ACTIONS
       #
       # @param deviceIds [String, Integer, Array<String, Integer>] Identifiers for the
       #   computer targets. Required if no groupId is given.
