@@ -350,8 +350,8 @@ module Jamf
     def initialize(data)
       @init_data = data
 
-      # creating a new one, not fetching from the API
-      creating = data.delete :creating_from_create
+      # creating a new one via ruby-jss, not fetching one from the API
+      creating = data.delete :creating_from_create if data.is_a?(Hash)
 
       if creating
         self.class::OAPI_PROPERTIES.each_key do |attr_name|
@@ -512,19 +512,24 @@ module Jamf
     #
     def parse_init_data(data)
       self.class::OAPI_PROPERTIES.each do |attr_name, attr_def|
-        unless data.key? attr_name
-          raise Jamf::InvalidDataError, "Initialization must include the key '#{attr_name}:'" if attr_def[:required]
+        if data.is_a? Hash
+          unless data.key? attr_name
+            raise Jamf::InvalidDataError, "Initialization must include the key '#{attr_name}:'" if attr_def[:required]
 
-          next
+            next
+          end
+
+          value =
+            if attr_def[:multi]
+              raw_array = data[attr_name] || []
+              raw_array.map { |v| parse_single_init_value v, attr_name, attr_def }
+            else
+              parse_single_init_value data[attr_name], attr_name, attr_def
+            end
+        else # not a Hash, this is a single-value object, so the data is the value
+          value = data
         end
 
-        value =
-          if attr_def[:multi]
-            raw_array = data[attr_name] || []
-            raw_array.map { |v| parse_single_init_value v, attr_name, attr_def }
-          else
-            parse_single_init_value data[attr_name], attr_name, attr_def
-          end
         instance_variable_set "@#{attr_name}", value
       end # OAPI_PROPERTIES.each
     end # parse_init_data(data)
