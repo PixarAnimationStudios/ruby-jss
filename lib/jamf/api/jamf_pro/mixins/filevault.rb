@@ -39,6 +39,7 @@ module Jamf
     end
 
     # The base resource for computers in the JPAPI
+    #
     # TODO: When we migrate Jamf::Computer from the classic to the JPAPI,
     # this constant will be defined there, and this module should use
     # that one.
@@ -60,51 +61,60 @@ module Jamf
         Jamf.load_msg "--> #{extender} is extending #{self}"
       end
 
-      # Get the filevault info for one or all computers
+      # Get the filevault info for one or all computers, or Jamf::Pager for getting all of them
+      # paged in groups.
       #
-      # IMPORTANT: This data will include the plaintext FileVault personal recovery keys. The
+      # WARNING: This data will include the plaintext FileVault personal recovery keys. The
       #   'View Disk Encryption Recovery Key' privilege is required.
       #
       # @param computer [Symbol, String, Integer, Array<String, Integer>] Identifier for the desired
-      #   Computer, or :all to get an array of data for all computers, or :paged, to get a Jamf::Pager
-      #   object to return all computers in paged chunks on request.
+      #   Computer, or :all to get data for all computers, as an Array or via a Jamf::Pager
       #
-      # @param page_size [Integer] when computer is :paged, how many results to return in each page.
+      # @param paged [Boolean] when computer is :all, should we return a Jamf::Pager to get paged results?
+      #
+      # @param page_size [Integer] when computer is :all and paged: is true, how many results to return in each page.
       #
       # @param cnx [Jamf::Connection] The API connection to use. Defaults to Jamf.cnx
       #
       # @return [Jamf::OAPISchemas::ComputerInventoryFileVault, Array<Jamf::OAPISchemas::ComputerInventoryFileVault>, Jamf::Pager]
       #   The filevault info for a computer, all computers, or a Jamf::Pager to get all computers in pages.
       ########################
-      def filevault_info(computer, page_size: nil, cnx: Jamf.cnx)
-        if computer == :all
-          Jamf::Pager.all_pages(
-            list_path: ALL_COMPUTERS_FILEVAULT_RSRC,
-            instantiate: Jamf::OAPISchemas::ComputerInventoryFileVault,
-            cnx: cnx
-          )
+      def filevault_info(computer, paged: false, page_size: Jamf::Pager::DEFAULT_PAGE_SIZE, cnx: Jamf.cnx)
+        return all_computers(paged: paged, page_size: page_size, cnx: cnx) if computer == :all
 
-        elsif computer == :paged
-          page_size ||= Jamf::Pager::DEFAULT_PAGE_SIZE
+        id = Jamf::Computer.valid_id computer
+        raise Jamf::NoSuchItemError, "No computer matches identifier '#{computer}'" unless id
 
+        data = cnx.jp_get "#{COMPUTERS_INVENTORY_RSRC}/#{id}/#{FILEVAULT_RSRC_SUFFIX}"
+        Jamf::OAPISchemas::ComputerInventoryFileVault.new data
+
+      # if we get a 404 NOT FOUND error, this given computer has no FV data, so just return nil
+      rescue Jamf::Connection::JamfProAPIError => e
+        raise unless e.http_status == 404
+
+        nil
+      end # def
+
+      # return info for all computers, possibly as a Pager
+      # @see .filevault_info
+      ########################
+      def all_computers(paged: false, page_size: nil, cnx: Jamf.cnx)
+        if paged
           Jamf::Pager.new(
             page_size: page_size,
             list_path: ALL_COMPUTERS_FILEVAULT_RSRC,
             instantiate: Jamf::OAPISchemas::ComputerInventoryFileVault,
             cnx: cnx
           )
-
         else
-          begin
-            data = cnx.jp_get "#{COMPUTERS_INVENTORY_RSRC}/#{Jamf::Computer.valid_id computer}/#{FILEVAULT_RSRC_SUFFIX}"
-            Jamf::OAPISchemas::ComputerInventoryFileVault.new data
-          rescue Jamf::Connection::JamfProAPIError
-            raise unless Jamf.cnx.last_http_response.status == 404
-
-            nil
-          end # begin
-        end # if
-      end # def
+          Jamf::Pager.all_pages(
+            list_path: ALL_COMPUTERS_FILEVAULT_RSRC,
+            instantiate: Jamf::OAPISchemas::ComputerInventoryFileVault,
+            cnx: cnx
+          )
+        end
+      end
+      private :all_computers
 
     end # module ClassMethods
 
