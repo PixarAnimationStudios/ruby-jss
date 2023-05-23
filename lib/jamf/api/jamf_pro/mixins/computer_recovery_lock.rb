@@ -20,7 +20,8 @@
 #    KIND, either express or implied. See the Apache License for the specific
 #    language governing permissions and limitations under the Apache License.
 #
-#
+
+# frozen_string_literal: true
 
 module Jamf
 
@@ -37,9 +38,9 @@ module Jamf
       includer.extend(ClassMethods)
     end
 
-    # The JP API resource for redeploying the management framework
-    # to a computer. The id will be appended when used.
-    REDEPLOY_RSRC = 'v1/jamf-management-framework/redeploy'
+    # The JPAPI resource for a single computer's RecoveryLock password is
+    # Jamf::Computer::JPAPI_INVENTORY_RSRC then the computer's ID then this
+    RECOVERY_LOCK_PW_RSRC_SUFFIX = 'view-recovery-lock-password'
 
     # Class Methods
     #####################################
@@ -50,10 +51,40 @@ module Jamf
         Jamf.load_msg "--> #{extender} is extending #{self}"
       end
 
+      # Retrieve the recovery lock password for a given computer, if one has been set.
+      #
+      # @param computer [Symbol, String, Integer, Array<String, Integer>] Identifier for the desired
+      #   Computer
+      #
+      # @param cnx [Jamf::Connection] The API connection to use. Defaults to Jamf.cnx
+      #
+      # @return [String, nil] The recovery lock password, or nil if none has been set.
+      #######################
+      def recovery_lock_password(computer, cnx: Jamf.cnx)
+        id = Jamf::Computer.valid_id computer
+        raise Jamf::NoSuchItemError, "No computer matches identifier '#{computer}'" unless id
+
+        cnx.jp_get("#{Jamf::Computer::JPAPI_INVENTORY_RSRC}/#{id}/#{RECOVERY_LOCK_PW_RSRC_SUFFIX}").dig :recoveryLockPassword
+
+      # if we get a 404 NOT FOUND error, this given computer has no passwd set, so just return nil
+      rescue Jamf::Connection::JamfProAPIError => e
+        raise unless e.http_status == 404
+
+        nil
+      end # def
+
     end # module ClassMethods
 
     # Instance Methods
     ######################################
+
+    # Get the recovery lock password  for this Computer instance
+    #
+    # @see ComputerRecoveryLock::ClassMethods.recovery_lock_password
+    #
+    def recovery_lock_password
+      self.class.recovery_lock_password @id, cnx: @cnx
+    end
 
   end # module MacOSRedeployMgmtFramework
 
