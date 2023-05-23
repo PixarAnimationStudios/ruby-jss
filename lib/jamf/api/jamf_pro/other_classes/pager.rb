@@ -169,7 +169,7 @@ module Jamf
       @query_path = "#{@list_path}?page-size=#{@page_size}#{@sort}#{@filter}"
 
       # get one item which will contain the total count
-      @total_count = cnx.jp_get("#{@query_path}?page-size=1&page=0#{@filter}")[:totalCount]
+      @total_count = cnx.jp_get("#{@list_path}?page-size=1&page=0#{@filter}")[:totalCount]
       # can't know total pages of filtered query
       @total_pages = @filter ? nil : (@total_count / @page_size.to_f).ceil
     end
