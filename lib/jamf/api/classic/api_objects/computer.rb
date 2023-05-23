@@ -161,6 +161,7 @@ module Jamf
     include Jamf::MacOSManagedUpdates
     include Jamf::MacOSRedeployMgmtFramework
     include Jamf::FileVault
+    include Jamf::ComputerRecoveryLock
 
     extend Jamf::Matchable
 
@@ -265,6 +266,13 @@ module Jamf
     INV_COLLECTION_KEY = :computer_inventory_collection
 
     COMPUTER_APPLICATIONS_RSRC = 'computerapplications/application'.freeze
+
+    # The base resource for computers in the JPAPI
+    #
+    # TODO: When we migrate Jamf::Computer from the classic to the JPAPI,
+    # this value will be in a different constant. Be sure to update
+    # other files where it is referenced.
+    JPAPI_INVENTORY_RSRC = 'v1/computers-inventory'
 
     # the object type for this object in
     # the object history table.

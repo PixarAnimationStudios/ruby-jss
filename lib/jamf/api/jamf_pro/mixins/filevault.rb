@@ -38,19 +38,9 @@ module Jamf
       includer.extend(ClassMethods)
     end
 
-    # The base resource for computers in the JPAPI
-    #
-    # TODO: When we migrate Jamf::Computer from the classic to the JPAPI,
-    # this constant will be defined there, and this module should use
-    # that one.
-    COMPUTERS_INVENTORY_RSRC = 'v1/computers-inventory'
-
     # The JPAPI resource for a single computer's FV info is
-    # COMPUTERS_INVENTORY_RSRC then the computers ID then this
+    # Jamf::Computer::JPAPI_INVENTORY_RSRC then the computer's ID then this
     FILEVAULT_RSRC_SUFFIX = 'filevault'
-
-    # The JPAPI resource for paginated FV info for all computers
-    ALL_COMPUTERS_FILEVAULT_RSRC = "#{COMPUTERS_INVENTORY_RSRC}/#{FILEVAULT_RSRC_SUFFIX}"
 
     # Class Methods
     #####################################
@@ -85,7 +75,7 @@ module Jamf
         id = Jamf::Computer.valid_id computer
         raise Jamf::NoSuchItemError, "No computer matches identifier '#{computer}'" unless id
 
-        data = cnx.jp_get "#{COMPUTERS_INVENTORY_RSRC}/#{id}/#{FILEVAULT_RSRC_SUFFIX}"
+        data = cnx.jp_get "#{Jamf::Computer::JPAPI_INVENTORY_RSRC}/#{id}/#{FILEVAULT_RSRC_SUFFIX}"
         Jamf::OAPISchemas::ComputerInventoryFileVault.new data
 
       # if we get a 404 NOT FOUND error, this given computer has no FV data, so just return nil
@@ -99,16 +89,17 @@ module Jamf
       # @see .filevault_info
       ########################
       def all_computers(paged: false, page_size: nil, cnx: Jamf.cnx)
+        list_path = "#{Jamf::Computer::JPAPI_INVENTORY_RSRC}/#{FILEVAULT_RSRC_SUFFIX}"
         if paged
           Jamf::Pager.new(
             page_size: page_size,
-            list_path: ALL_COMPUTERS_FILEVAULT_RSRC,
+            list_path: list_path,
             instantiate: Jamf::OAPISchemas::ComputerInventoryFileVault,
             cnx: cnx
           )
         else
           Jamf::Pager.all_pages(
-            list_path: ALL_COMPUTERS_FILEVAULT_RSRC,
+            list_path: list_path,
             instantiate: Jamf::OAPISchemas::ComputerInventoryFileVault,
             cnx: cnx
           )
@@ -123,7 +114,7 @@ module Jamf
 
     # Get the filevault info for this Computer instance
     #
-    # @see FileVault.filevault_info
+    # @see FileVault::ClassMethods.filevault_info
     #
     def filevault_info
       self.class.filevault_info @id, cnx: @cnx
