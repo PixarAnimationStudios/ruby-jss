@@ -33,6 +33,7 @@ module Jamf
   # TODO: When POSTing to api/preview/mdm/commands is no longer in Preview,
   # implement that endpoing and then add the setting of the recovery lock
   # to this module.
+  # See https://learn.jamf.com/bundle/technical-articles/page/Recovery_Lock_Enablement_in_macOS_Using_the_Jamf_Pro_API.html
   #
   module ComputerRecoveryLock
 
