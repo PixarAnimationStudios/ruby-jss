@@ -47,9 +47,14 @@ module Jamf
 
     # Return all results from a pageable list path.
     #
-    # Since the JPAPI always returns results in pages of 2000, if there are more
-    # than that many in the collection we must loop through the pages to get
-    # them all.
+    # Pageable resources are always returned in pages, usually defaulting to
+    # 100 items per page, but the max allowed page size is 2000. If there are more
+    # than 2000 items, we must loop through the pages to get them all.
+    #
+    # This method is used to get all pages of data from a giving path, automatically
+    # looping through the pages and collecting the data to be returned in a
+    # single Array. It uses a Pager object to do that, but the Pager itself
+    # is transient, only the resulting Array is returned.
     #
     # @param list_path [String] The Resource URL path that provides the paged
     #   query results
@@ -58,15 +63,16 @@ module Jamf
     #
     # @param filter [String] The optional RSQL filter parameter for the query
     #
-    # @param instantiate [Boolean] Defaults to false. Should the items in the
-    #   returned Array(s) be ruby instances of the CollectionObject subclass, or
-    #   plain Hashes of data as returned by the API?
+    # @param instantiate [Class] Instantiate the results as the given class by
+    #   passing the raw JSON data to the class' .new method. WARNING: Be sure the
+    #   data returned from the API is appropriate for instantiating this class.
     #
     # @param cnx [Jamf::Connection] The API connection to use, default: Jamf.cnx
     #
-    # @return [Type] description_of_returned_object
+    # @return [Array<Hash,Jamf::OAPIObject>] All of the pages of data, returned as one array,
+    #   optionally instantiated into a subclass of Jamf::OAPIObject.
     #
-    def self.all_pages(list_path:, sort: nil, filter: nil, instantiate: false, cnx: Jamf.cnx)
+    def self.all_pages(list_path:, sort: nil, filter: nil, instantiate: nil, cnx: Jamf.cnx)
       sort &&= Jamf::Sortable.parse_url_sort_param(sort)
       filter &&= Jamf::Filterable.parse_url_filter_param(filter)
 
