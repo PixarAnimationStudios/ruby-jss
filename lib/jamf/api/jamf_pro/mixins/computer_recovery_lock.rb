@@ -30,6 +30,10 @@ module Jamf
   # It provides access to the macos-managed-software-updates JPAPI resource for
   # managed OS update commands to managed macs running Big Sur or higher.
   #
+  # TODO: When POSTing to api/preview/mdm/commands is no longer in Preview,
+  # implement that endpoing and then add the setting of the recovery lock
+  # to this module.
+  #
   module ComputerRecoveryLock
 
     # when this module is included, also extend our Class Methods
