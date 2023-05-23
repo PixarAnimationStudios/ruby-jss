@@ -112,7 +112,11 @@ module Jamf
     # @return [Integer] How many items to return per page
     attr_reader :page_size
 
-    # @return [Integer] The page which will be returned when next_page is called
+    # @return [nil, Integer] The most recent page number fetched by fetch_next_page,
+    #   or nil if it hasn't been called yet.
+    attr_reader :last_fetched_page
+
+    # @return [Integer] The page which will be returned when fetch_next_page is called
     attr_reader :next_page
 
     # @return [] The full r#source URL, with page_size, sort, and filter, but
@@ -192,7 +196,7 @@ module Jamf
     # is 0, the second is 1, and so on. Asking for page 27 will give you the
     # 28th page of results
     #
-    # If increment_next is true, then subsequent calls to #next_page will
+    # If increment_next is true, then subsequent calls to #fetch_next_page will
     # continue from whatever page number was requested.
     #
     # When increment_next is false (the default), the sequence of pages returned
