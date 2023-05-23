@@ -144,8 +144,8 @@ module Jamf
     #
     # @param filter [String] The optional RSQL filter parameter for the query
     #
-    # @param instantiate [Class] Should the results be instantiated as
-    #   the given class?
+    # @param instantiate [Class] Instantiate the results as the given class by
+    #   passing the raw JSON data to the class' .new method
     #
     # @param cnx [Jamf::Connection]  The Connection object used for the query.
     #   Defaults to the Default connection
@@ -158,7 +158,7 @@ module Jamf
       @list_path = list_path
       @sort = Jamf::Sortable.parse_url_sort_param(sort)
       @filter = Jamf::Filterable.parse_url_filter_param(filter)
-      @page_size = page_size
+      @page_size ||= DEFAULT_PAGE_SIZE
       @instantiate = instantiate
 
       # start with page 0, the first page
@@ -225,14 +225,14 @@ module Jamf
       validate_page_number page_number
 
       data = @cnx.jp_get "#{@query_path}&page=#{page_number}"
-      data =
-        if @instantiate
-          data[:results].map { |r| @instantiate.new r }
-        else
-          data[:results]
-        end
+      data = data[:results]
+      data.map! { |r| @instantiate.new r } if @instantiate
 
-      @next_page = (page_number + 1) if increment_next
+      if increment_next
+        @last_fetched_page = page_number
+        @next_page = (page_number + 1)
+      end
+
       data
     end
 
