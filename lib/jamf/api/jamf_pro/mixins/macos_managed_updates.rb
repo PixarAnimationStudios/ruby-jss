@@ -33,7 +33,7 @@ module Jamf
 
     # when this module is included, also extend our Class Methods
     def self.included(includer)
-      Jamf.load_msg "--> #{includer} is including Jamf::MacOSManagedUpdates"
+      Jamf.load_msg "--> #{includer} is including #{self}"
       includer.extend(ClassMethods)
     end
 
@@ -65,7 +65,7 @@ module Jamf
 
       # when this module is included, also extend our Class Methods
       def self.extended(extender)
-        Jamf.load_msg "--> #{extender} is extending Jamf::MacOSManagedUpdates::ClassMethods"
+        Jamf.load_msg "--> #{extender} is extending #{self}"
       end
 
       # get the list of available OS versions
@@ -113,7 +113,8 @@ module Jamf
       #
       # @return [Jamf::OAPISchemas::MacOsManagedSoftwareUpdateResponse]
       ########################
-      def send_managed_os_update(updateAction:, deviceIds: nil, groupId: nil, maxDeferrals: nil, version: nil, skipVersionVerification: false, applyMajorUpdate: false, forceRestart: false, cnx: Jamf.cnx)
+      def send_managed_os_update(updateAction:, deviceIds: nil, groupId: nil, maxDeferrals: nil, version: nil, skipVersionVerification: false,
+                                 applyMajorUpdate: false, forceRestart: false, cnx: Jamf.cnx)
         action_to_send = UPDATE_ACTIONS.value?(updateAction) ? updateAction : UPDATE_ACTIONS[updateAction]
 
         raise ArgumentError, "Unknown updateAction, must be one of: #{UPDATE_ACTIONS.keys.join ', '}" unless action_to_send
