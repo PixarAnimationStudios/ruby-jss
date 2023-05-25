@@ -267,12 +267,11 @@ module Jamf
 
     COMPUTER_APPLICATIONS_RSRC = 'computerapplications/application'.freeze
 
-    # The base resource for computers in the JPAPI
-    #
-    # TODO: When we migrate Jamf::Computer from the classic to the JPAPI,
-    # this value will be in a different constant. Be sure to update
-    # other files where it is referenced.
+    # The base resource for computer data in the JPAPI
     JPAPI_INVENTORY_RSRC = 'v1/computers-inventory'
+
+    # The resource for getting all inventory data for a computer at once
+    JPAPI_INVENTORY_DETAIL_RSRC = 'v1/computers-inventory-detail'
 
     # the object type for this object in
     # the object history table.
