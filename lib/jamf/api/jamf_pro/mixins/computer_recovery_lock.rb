@@ -31,8 +31,9 @@ module Jamf
   # managed OS update commands to managed macs running Big Sur or higher.
   #
   # TODO: When POSTing to api/preview/mdm/commands is no longer in Preview,
-  # implement that endpoing and then add the setting of the recovery lock
+  # implement that endpoint and then add the setting of the recovery lock
   # to this module.
+  #
   # See https://learn.jamf.com/bundle/technical-articles/page/Recovery_Lock_Enablement_in_macOS_Using_the_Jamf_Pro_API.html
   #
   module ComputerRecoveryLock
@@ -78,17 +79,85 @@ module Jamf
         nil
       end # def
 
+      # TODO: When Jamf::Computer is based on the JPAPI, these methods
+      # and the matching instance methods, will be moved into
+      # a more appropriate file - probably another mixin for
+      # the Computer class.
+      #############################################
+      #############################################
+
+      # Get the JPAPI inventory data for a single computer, either by section or all sections.
+      #
+      # @param computer [Symbol, String, Integer, Array<String, Integer>] Identifier for the desired
+      #   Computer
+      #
+      # @param section [String] One of the data sections listed in Jamf::OAPISchemas::ComputerSection::VALUE_OPTIONS
+      #   or 'all'. Default is 'GENERAL'
+      #
+      # @param cnx [Jamf::Connection] The API connection to use. Defaults to Jamf.cnx
+      #
+      # @return [Jamf::OAPISchemas::ComputerInventory] The inventory data, with the requested sections populated
+      #########
+      def inventory_data(computer, section: 'GENERAL', cnx: Jamf.cnx)
+        # TODO: get this into a constant
+        all = 'ALL'
+
+        section = section.to_s.upcase
+        id = Jamf::Computer.valid_id computer
+        raise Jamf::NoSuchItemError, "No computer matches identifier '#{computer}'" unless id
+
+        data =
+          if section == all
+            cnx.jp_get "#{Jamf::Computer::JPAPI_INVENTORY_DETAIL_RSRC}/#{id}"
+          else
+            raise ArgumentError, "Unknown inventory data section '#{section}'" unless Jamf::OAPISchemas::ComputerSection::VALUE_OPTIONS.include?(section)
+
+            cnx.jp_get("#{Jamf::Computer::JPAPI_INVENTORY_RSRC}?section=#{section}&page=0&page-size=1&filter=id%3D%3D#{id}")[:results].first
+          end
+
+        Jamf::OAPISchemas::ComputerInventory.new data
+      end
+
+      # Get the MDM 'managementID' of a given computer.
+      #
+      # @param computer [Symbol, String, Integer, Array<String, Integer>] Identifier for the desired
+      #   Computer
+      #
+      # @param cnx [Jamf::Connection] The API connection to use. Defaults to Jamf.cnx
+      #
+      # @return [String, nil] The managementID or nil if not available
+      #########
+      def management_id(computer, cnx: Jamf.cnx)
+        inventory_data(computer, cnx: cnx).general.managementId
+      end
+
     end # module ClassMethods
 
     # Instance Methods
     ######################################
 
-    # Get the recovery lock password  for this Computer instance
+    # Get the recovery lock password for this Computer instance
     #
     # @see ComputerRecoveryLock::ClassMethods.recovery_lock_password
-    #
+    #########
     def recovery_lock_password
       self.class.recovery_lock_password @id, cnx: @cnx
+    end
+
+    # Get the JPAPI inventory data for this computer, either by section or all sections.
+    #
+    # @see ComputerRecoveryLock::ClassMethods.inventory_data
+    #########
+    def inventory_data(section: 'GENERAL')
+      self.class.inventory_data @id, section: section, cnx: @cnx
+    end
+
+    # Get the MDM 'managementID' of this computer.
+    #
+    # @see ComputerRecoveryLock::ClassMethods.management_id
+    #########
+    def management_id
+      inventory_data.general.managementId
     end
 
   end # module MacOSRedeployMgmtFramework
