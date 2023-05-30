@@ -15,6 +15,21 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
+## \[UNRELEASED]
+
+### Added
+  - Jamf::Computer.filevault_info and Jamf::Computer#filevault_info can retrieve FileVault info from v1/computer-inventory/filevault and related endpoints
+  - Jamf::Computer.recovery_lock_password and Jamf::Computer#recovery_lock_password can retrieve stored recovery lock passwords
+
+### Fixed
+  - Fixed a bug in Jamf::Pager#initialize when constructing the query-path of the paged resource URL
+  - Fixed a bug in Jamf::Pager#initialize: The instantiate: parameter takes a class, not a boolean
+  - Fixed a bug in Jamf::CollectionResource.pager: The instantiate: parameter takes a boolean, but must pass a class to Jamf::Pager#initialize
+  - Jamf::OAPIObject base-class: can now instantiate objects that hold a single value
+
+### Changed
+  - Auto-generated OAPISchemas have been refreshed from Jamf Pro 10.46.0
+
 
 ## \[3.0.0] - 2023-05-22
 Major version bump because changes to policy log flushing are not backward compatible.
