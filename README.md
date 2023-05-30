@@ -486,6 +486,6 @@ If you have questions or feedback about ruby-jss, please reach out  to us via:
 
 ## LICENSE
 
-Copyright 2022 Pixar
+Copyright 2023 Pixar
 
 Licensed under a modified Apache License, Version 2.0. See LICENSE.txt for details
