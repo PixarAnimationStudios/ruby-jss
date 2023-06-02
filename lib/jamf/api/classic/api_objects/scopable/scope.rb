@@ -430,7 +430,7 @@ module Jamf
       #
       # @return [void]
       #
-      def set_targets(key, list)
+      def set_targets(key, list = nil)
         if key == :all
           set_all_targets
           return
@@ -494,7 +494,7 @@ module Jamf
       #
       # @return [void]
       #
-      def add_target(key, item)
+      def add_target(key, item = nil)
         if key == :all
           set_all_targets
           return

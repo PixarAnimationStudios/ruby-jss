@@ -24,6 +24,12 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
     - The original #include_all has been renamed #set_all_targets, and #include_all is an alias to it
     - The symbol :all can be passed to the #set_targets, and #add_target methods as they 'key' parameter, and they will just call #set_all_targets
     - There is now a setter #all_targets=(bool) which calls #set_all_targets, or sets @all_targets to false
+    - So All of these are identical:
+      - `some_scope.set_all_targets`
+      - `some_scope.include_all`
+      - `some_scope.set_targets :all`
+      - `some_scope.add_target :all`
+      - `some_scope.all_targets = true`
 
 ### Fixed
   - Fixed a bug in Jamf::Pager#initialize when constructing the query-path of the paged resource URL
