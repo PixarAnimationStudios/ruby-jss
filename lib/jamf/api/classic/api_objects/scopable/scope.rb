@@ -397,7 +397,7 @@ module Jamf
       #
       # @return [void]
       #
-      def include_all(clear = false)
+      def set_all_targets(clear = false)
         @targets = {}
         @target_keys.each { |k| @targets[k] = [] }
         @all_targets = true
@@ -410,6 +410,7 @@ module Jamf
         end
         @container&.should_update
       end
+      alias include_all set_all_targets
 
       # Replace a list of item names for as targets in this scope.
       #
@@ -419,7 +420,8 @@ module Jamf
       # if the item doesn't exist.
       #
       # @param key[Symbol] the key from #{SCOPING_CLASSES} for the kind of items
-      # being included, :computer, :building, etc...
+      # being included, :computer, :building, etc... Use :all to scope to all targets
+      # (the same as calling #set_all_targets)
       #
       # @param list[Array]  identifiers of the items being added
       #
@@ -429,6 +431,11 @@ module Jamf
       # @return [void]
       #
       def set_targets(key, list)
+        if key == :all
+          set_all_targets
+          return
+        end
+
         key = pluralize_key(key)
         raise Jamf::InvalidDataError, "List must be an Array of #{key} identifiers, it may be empty." unless list.is_a? Array
 
@@ -454,12 +461,28 @@ module Jamf
       alias set_inclusion set_targets
       alias set_inclusions set_targets
 
+      # to match the all_targets and all_targets? methods
+      # Just calls #set_all_targets
+      #
+      # @param bool [Boolean] shou\d this scope include all targets?
+      #
+      # @return [void]
+      def all_targets=(bool)
+        if Jamf::Validate.boolean bool
+          set_all_targets
+        else
+          @all_targets = false
+          @container&.should_update
+        end
+      end
+
       # Add a single item as a target in this scope.
       #
       # The item name will be checked for existence in the JSS, and an exception
       #  raised if the item doesn't exist.
       #
       # @param key[Symbol] the key from #{SCOPING_CLASSES} for the kind of item being added, :computer, :building, etc...
+      #   Use :all to scope to all targets (the same as calling #set_all_targets)
       #
       # @param item[String,integer] a valid identifier of the item being added
       #
@@ -472,6 +495,11 @@ module Jamf
       # @return [void]
       #
       def add_target(key, item)
+        if key == :all
+          set_all_targets
+          return
+        end
+
         key = pluralize_key(key)
         item_id = validate_item(:target, key, item)
         return if @targets[key]&.include?(item_id)
