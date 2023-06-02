@@ -96,13 +96,38 @@ Version 2.0.0 is a major refactoring of ruby-jss. While attempting to provide as
 
 Here are the high-level changes and there are many many others. For more details, see [CHANGES-2.0.0.md](CHANGES-2.0.0.md)
 
-- Support for Ruby 3.x
-  - tested in 3.0 and 3.1
-- Combined access to both the Classic and Jamf Pro APIs
-  - A single namespace module
+### Added
+
+  - Support for Ruby 3.x
+    - tested in 3.0 and 3.1
+  - Combined access to both the Classic and Jamf Pro APIs
+    - A single namespace module
   - Connection objects talk to both APIs & automatically handle details like bearer tokens
-- Auto-generated code for Jamf Pro API objects
-- Autoloading of code using [Zeitwerk](https://github.com/fxn/zeitwerk)
+  - Auto-generated code for Jamf Pro API objects
+  - Autoloading of code using [Zeitwerk](https://github.com/fxn/zeitwerk)
+
+### Changed
+
+These things are notably different in v2.0.0
+  - Paged queries to the Jamf Pro API
+  - API data are no longer cached for the JP API, possibly eventually for the classic
+  - No Attribute aliases for Jamf Pro API objects
+  - Class/Mixin hierarchy for Jamf Pro API objects
+  - Support for 'Sticky Sessions' in Jamf Cloud
+  - The valid_id method for Classic API collection classes
+
+### Deprecated
+
+These things will go away in some future version of ruby-jss, please update your code sooner than later.
+
+  - Use of the term 'api'
+  - .map_all_ids_to method for Classic API collection classes
+  - Using .make, #create, and #update for Classic API objects
+  - JSS::CONFIG
+  - Jamf::Connection instance methods #next_refresh, #secs_to_refresh, &  #time_to_refresh
+  - Cross-object validation in setters
+  - fetch :random
+
 
 ## \[1.6.7] - 2022-02-22
 
@@ -170,10 +195,6 @@ Here are the high-level changes and there are many many others. For more details
 
 ### Changed
 
-  - ruby-jss no longer uses the 'plist' gem due to a remote code execution security issue when using `Plist.parse_xml`. Plists are now handled by the CFPropertyList gem.  The existing wrapper method `JSS.parse_plist` bas been updated to use the new gem, and a new wrapper method has been added to convert ruby data to XML plist: `JSS.xml_plist_from(data)`. All internal references to methods from the insecure 'plist' gem have been replaced with calls to those wrapper methods.
-
-  Many many thanks to actae0n of Blacksun Hackers Club for reporting this security issue and providing examples of how it could be exploited.
-
   - In preparation for the removal of the 'runScript' command in the jamf binary, JSS::Script no longer uses it within the 'run' instance method. Instead, it just does what the jamf binary did: It creates a private temp folder, writes the script to disk in that temp folder, executes the script with any given params, then deletes the folder, returning the exit status and output from the script.
 
   - Jamf::Script#run now takes parameters in the named params `p4:` through `p11:` for consistency with other parts of ruby-jss.
@@ -184,6 +205,11 @@ Here are the high-level changes and there are many many others. For more details
 
   - JSS.expand_min_os has been updated to handle Apple's new version numbers for macOS. This method takes a string like '>=10.14.3' and expands it into a large array of greater OS versions and is used by the 'os_limitations' method of Packages and Scripts.  For any range of versions that includes Big Sur, both '11.x.x' and '10.16' as included in the output, to catch machines that may have SYSTEM_VERSION_COMPAT set in their env.
 
+### Security
+
+  - ruby-jss no longer uses the 'plist' gem due to a remote code execution security issue when using `Plist.parse_xml`. Plists are now handled by the CFPropertyList gem.  The existing wrapper method `JSS.parse_plist` bas been updated to use the new gem, and a new wrapper method has been added to convert ruby data to XML plist: `JSS.xml_plist_from(data)`. All internal references to methods from the insecure 'plist' gem have been replaced with calls to those wrapper methods.
+
+  Many many thanks to actae0n of Blacksun Hackers Club for reporting this security issue and providing examples of how it could be exploited.
 
 ## \[1.5.3] - 2020-12-28
 
