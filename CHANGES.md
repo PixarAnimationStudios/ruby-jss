@@ -15,11 +15,15 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
-## \[UNRELEASED]
+## \[3.1.0] 2023-06-05
 
 ### Added
   - Jamf::Computer.filevault_info and Jamf::Computer#filevault_info can retrieve FileVault info from v1/computer-inventory/filevault and related endpoints
   - Jamf::Computer.recovery_lock_password and Jamf::Computer#recovery_lock_password can retrieve stored recovery lock passwords
+  - There are now several ways to set scopes to all targets.
+    - The original #include_all has been renamed #set_all_targets, and #include_all is an alias to it
+    - The symbol :all can be passed to the #set_targets, and #add_target methods as they 'key' parameter, and they will just call #set_all_targets
+    - There is now a setter #all_targets=(bool) which calls #set_all_targets, or sets @all_targets to false
 
 ### Fixed
   - Fixed a bug in Jamf::Pager#initialize when constructing the query-path of the paged resource URL
