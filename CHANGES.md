@@ -20,6 +20,7 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
 ### Added
   - Jamf::Computer.filevault_info and Jamf::Computer#filevault_info can retrieve FileVault info from v1/computer-inventory/filevault and related endpoints
   - Jamf::Computer.recovery_lock_password and Jamf::Computer#recovery_lock_password can retrieve stored recovery lock passwords
+  - Jamf::Pager#last_fetched_page - Integer, the last page returned by #fetch_next_page
   - There are now several ways to set scopes to all targets.
     - The original #include_all has been renamed #set_all_targets, and #include_all is an alias to it
     - The symbol :all can be passed to the #set_targets, and #add_target methods as they 'key' parameter, and they will just call #set_all_targets
