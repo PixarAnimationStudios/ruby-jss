@@ -15,7 +15,7 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
-## \[3.1.0] 2023-06-05
+## \[3.1.0] 2023-06-06
 
 ### Added
   - Jamf::Computer.filevault_info and Jamf::Computer#filevault_info can retrieve FileVault info from v1/computer-inventory/filevault and related endpoints
@@ -35,7 +35,7 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
   - Fixed a bug in Jamf::Pager#initialize when constructing the query-path of the paged resource URL
   - Fixed a bug in Jamf::Pager#initialize: The instantiate: parameter takes a class, not a boolean
   - Fixed a bug in Jamf::CollectionResource.pager: The instantiate: parameter takes a boolean, but must pass a class to Jamf::Pager#initialize
-  - Jamf::OAPIObject base-class: can now instantiate objects that hold a single value
+  - Jamf::OAPIObject (base-class) can now instantiate objects that hold a single value
 
 ### Changed
   - Auto-generated OAPISchemas have been refreshed from Jamf Pro 10.46.0
