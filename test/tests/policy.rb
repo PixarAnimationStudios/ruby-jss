@@ -38,20 +38,6 @@ module JamfTest
     def run_class_tests
       # policies are special so we define all the object tests here
       run_collection_tests do_object_tests: false
-
-      create_new
-
-      add_data_to_new
-
-      # save_new
-      # fetch_new
-      # validate_fetched
-      # modify_fetched
-      # re_save_fetched
-      # re_fetch
-      # validate_changes
-      # delete
-      # confirm_deleted
     end
 
     #################
