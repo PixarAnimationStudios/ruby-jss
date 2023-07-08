@@ -44,21 +44,21 @@ module Jamf
     # This class also provides a way to see if a machine will be included in
     # this scope.
     #
-    # - Discussion: Users & User Groups in Scopes:
+    # = Discussion: Users & User Groups in Scopes:
     #######################################
     # The Classic API has bugs, as well as non-obvious/historical oddness,
     # regarding the use of Users, UserGroups, Directory Service/Local Users,
     # and Directory Service User Groups in scopes.
     # Here's a discussion of those issues, and how ruby-jss handles them.
     #
-    # -- Historical Oddness
+    # == Historical Oddness
     #
     # Because the concept of 'scope' existed before Jamf Pro had 'Users'
     # and 'User Groups' (Jamf::User and Jamf::UserGroup classes in ruby-jss)
     # there is non-obvious inconsistency between the labels for API data, and
     # the labels for that data in the web UI:
     #
-    # -- Users
+    # === Users
     #
     # What appears in the UI as 'Users' are User objects in Jamf pro, which in ruby-jss
     # are Jamf::User instances.
@@ -68,7 +68,7 @@ module Jamf
     #
     # In this class, they are also referred to as 'jss_users'
     #
-    # -- Directory Service/Local Users
+    # === Directory Service/Local Users
     #
     # When editing a scope in the UI, in Limitations and Exclusions, you can
     # add arbitrary strings that will be matched to the users assigned to machines,
@@ -85,7 +85,7 @@ module Jamf
     # these synonyms, plural or singular:
     #     ldap_users, jamf_ldap_users, directory_service_local_users
     #
-    # - User Groups
+    # === User Groups
     #
     # What appears in the UI as 'User Groups' are User Group objects in Jamf Pro, both
     # static and smart. In ruby-jss, these are Jamf::UserGroup instances.
@@ -96,7 +96,7 @@ module Jamf
     #
     # In this class they are also referred to as 'jss_user_groups'
     #
-    # -- Directory Service User Groups
+    # === Directory Service User Groups
     #
     # When editing a scope in the UI, in Limitations and Exclusions, you can
     # look up and add groups from any of the defined LDAP servers.
@@ -113,7 +113,7 @@ module Jamf
     #     ldap_user_groups, directory_service_user_groups
     #
     ###################################
-    # - IMPORTANT: BUG IN POLICY AND PATCH POLICY SCOPES - CAN CAUSE DATA LOSS
+    # = IMPORTANT: BUG IN POLICY AND PATCH POLICY SCOPES - CAN CAUSE DATA LOSS
     ###################################
     #
     # When you GET the data for policies and patch policies from the Classic API
