@@ -63,7 +63,7 @@ module Jamf
     # What appears in the UI as 'Users' are User objects in Jamf pro, which in ruby-jss
     # are Jamf::User instances.
     #
-    # These will appear in the API data as <jss_users> element with <user> sub-elements (XML)
+    # These will appear in the API data as \<jss_users> element with \<user> sub-elements (XML)
     # or the 'jss_users' array (JSON). These are available as Targets or Exclusions.
     #
     # In this class, they are also referred to as 'jss_users'
@@ -76,8 +76,8 @@ module Jamf
     # These scope items are called 'Directory Service/Local Users' but
     # used to be called 'LDAP/Local Users'
     #
-    # In the API data for scopes, these items appear in the <users> element
-    # with <user> sub-elements (XML) or 'users' array (JSON) of the limitations
+    # In the API data for scopes, these items appear in the \<users> element
+    # with \<user> sub-elements (XML) or 'users' array (JSON) of the limitations
     # and exclusions data
     #
     # In this class, these items ultimately use the same names they have in the API data:
@@ -90,7 +90,7 @@ module Jamf
     # What appears in the UI as 'User Groups' are User Group objects in Jamf Pro, both
     # static and smart. In ruby-jss, these are Jamf::UserGroup instances.
     #
-    # They will appear in the API data as <jss_user_groups> element with <user_group>
+    # They will appear in the API data as \<jss_user_groups> element with \<user_group>
     # sub-elements (XML) or the 'jss_user_groups' array (JSON). These are available as
     # Targets or Exclusions.
     #
@@ -103,8 +103,8 @@ module Jamf
     # These scope items are called 'Directory Service User Groups' but
     # used to be called 'LDAP User Groups'
     #
-    # In the API data for scopes, these items appear in the <user_groups> element
-    # with <user_group> sub-elements (XML) or 'user_groups' array (JSON) of the limitations
+    # In the API data for scopes, these items appear in the \<user_groups> element
+    # with \<user_group> sub-elements (XML) or 'user_groups' array (JSON) of the limitations
     # and exclusions data
     #
     # In this class, these items ultimately use the same names they have in the API data:
