@@ -75,8 +75,8 @@ module Jamf
     ### @return [void]
     ###
     def parse_scope
-      @scope = Jamf::Scopable::Scope.new self.class::SCOPE_TARGET_KEY, @init_data[:scope]
-      @scope.container = self
+      @scope = Jamf::Scopable::Scope.new self.class::SCOPE_TARGET_KEY, @init_data[:scope], container: self
+      @scope.container ||= self
     end
 
     ### Change the scope

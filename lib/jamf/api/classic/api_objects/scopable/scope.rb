@@ -35,7 +35,7 @@ module Jamf
     #
     # Scope data comes from the API as a hash within the overall object data.
     # The main keys of the hash define the included targets of the scope. A
-    # sub-hash defines limitations on those inclusions, and another sub-hash
+    # sub-hash defines limitations on those targets, and another sub-hash
     # defines explicit exclusions.
     #
     # This class provides methods for adding, removing, or fully replacing the
@@ -44,85 +44,101 @@ module Jamf
     # This class also provides a way to see if a machine will be included in
     # this scope.
     #
-    # IMPORTANT - Users & User Groups in Targets and Exclusions:
+    # - Discussion: Users & User Groups in Scopes:
+    #######################################
+    # The classic API has bugs, as well as non-obvious/historical oddness,
+    # regarding the use of Users, UserGroups, Directory Service/Local Users,
+    # and Directory Service User Groups in scopes.
+    # Here's a discussion of those issues, and how ruby-jss handles them.
     #
-    # The classic API has bugs regarding the use of Users, UserGroups,
-    # LDAP/Local Users, & LDAP User Groups in scopes. Here's a discussion
-    # of those bugs and how ruby-jss handles them.
+    # -- Historical Oddness
     #
-    # Targets/Inclusions
-    #  - 'Users' in the Scope UI can only be Jamf::Users - No LDAP
-    #    - BUG: They do not appear in API data (XML or JSON) and are
-    #      NOT SUPPORTED in ruby-jss.
-    #    - You must use the Web UI to work with them in a Scope.
-    #  - 'User Groups' in the Scope UI can only be Jamf::UserGroups - No LDAP
-    #    - BUG: They do not appear in API data (XML or JSON) and are
-    #      NOT SUPPORTED in ruby-jss.
-    #    - You must use the Web UI to work with them in a Scope.
+    # Because the concept of 'scope' existed before Jamf Pro had 'Users'
+    # and 'User Groups' (Jamf::User and Jamf::UserGroup classes in ruby-jss)
+    # there is non-obvious inconsistency between the labels for API data, and
+    # the labels for that data in the web UI:
     #
-    # Limitations
-    #  - 'LDAP/Local Users' can be any string
-    #    - The Web UI accepts any string, even if no matching Local or LDAP user.
-    #    - The data shows up in API data in scope=>limitations=>users
-    #      by name only (the string provided), no IDs
-    #  - 'LDAP User Groups' can only be LDAP groups that actually exist
-    #    - The Web UI won't let you add a group that doesn't exist in ldap
-    #    - The data shows up in API data in scope=>limitations=>user_groups
-    #      by name and LDAP ID (which may be empty)
-    #    - The data ALSO shows up in API data in scope=>limit_to_users=>user_groups
-    #      by name only, no LDAP IDs. ruby-jss ignores this and looks at
-    #      scope=>limitations=>user_groups
+    # -- Directory Service/Local Users
     #
-    # Exclusions, combines the behavior of Inclusions & Limitations
-    #  - 'Users' in the Scope UI can only be Jamf::Users - No LDAP
-    #    - BUG: They do not appear in API data (XML or JSON) and are
-    #      NOT SUPPORTED in ruby-jss.
-    #    - You must use the Web UI to work with them in a Scope.
-    #  - 'User Groups' in the Scope UI can only be Jamf::UserGroups - No LDAP
-    #    - BUG: They do not appear in API data (XML or JSON) and are
-    #      NOT SUPPORTED in ruby-jss.
-    #    - You must use the Web UI to work with them in a Scope.
-    #  - 'LDAP/Local Users' can be any string
-    #    - The Web UI accepts any string, even if no matching Local or LDAP user.
-    #    - The data shows up in API data in scope=>exclusions=>users
-    #      by name only (the string provided), no IDs
-    #  - 'LDAP User Groups' can only be LDAP groups that actually exist
-    #    - The Web UI won't let you add a group that doesn't exist in ldap
-    #    - The data shows up in API data in scope=>exclusions=>user_groups
-    #      by name and LDAP ID (which may be empty)
+    # When editing a scope in the UI, in Limitations and Exclusions, you can
+    # add arbitrary strings that will be matched to the users assigned to machines,
+    # or that appear in any of the defined LDAP servers.
+    # These scope items are called 'Directory Service/Local Users' but
+    # used to be called 'LDAP/Local Users'
     #
+    # In the API data for scopes, these items appear in the <users> element
+    # with <user> sub-elements (XML) or 'users' array (JSON) of the limitations
+    # and exclusions data
     #
-    # How ruby-jss handles this:
+    # In this class, these items ultimately use the same names they have in the API data:
+    # 'users' but when specifying that you are setting that value, you can use any of
+    # these synonyms, singular or plural:
+    #     ldap_users, jamf_ldap_users, directory_service_local_users
     #
-    #   - Methods #set_targets and #add_target will not accept the keys
-    #     :user, :users, :user_group, :user_groups.
+    # What appears in the UI as 'Users' are thought of as Jamf::User instances in ruby-jss, and
+    # will appear in the API data as <jss_users> element with <user> sub-elements (XML) or
+    # the 'jss_users' array (JSON). These are available as Targets or Exclusions.
+    # In this class, they are also referred to as 'jss_users'
     #
-    #   - Method #remove_target will ignore them.
+    # -- Directory Service User Groups
     #
-    #   - Methods #set_limitations, #add_limitation & #remove_limitation will accept:
-    #     - :user, :ldap_user, or :jamf_ldap_user (and their plurals) for working
-    #       with 'LDAP/Local Users'. When setting or adding, the provided
-    #       string(s) must exist as either a Jamf::User or an LDAP user
-    #     - :user_group or :ldap_user_group (and their plurals) for working with
-    #       'LDAP User Groups'. When setting or adding, the provided string
-    #       must exist as a group in LDAP.
+    # When editing a scope in the UI, in Limitations and Exclusions, you can
+    # look up and add groups from any of the defined LDAP servers.
+    # These scope items are called 'Directory Service User Groups' but
+    # used to be called 'LDAP User Groups'
     #
-    #   - Methods #set_exclusions, #add_exclusion & #remove_exclusion will accept:
-    #     - :user, :ldap_user, or :jamf_ldap_user (and their plurals) for working
-    #       with 'LDAP/Local Users'. When setting or adding, the provided string(s)
-    #       must exist as either a Jamf::User or an LDAP user.
-    #     - :user_group or :ldap_user_group (and their plurals) for working with
-    #       'LDAP User Groups''. When setting or adding, the provided string
-    #       must exist as a group in LDAP.
+    # In the API data for scopes, these items appear in the <user_groups> element
+    # with <user_group> sub-elements (XML) or 'user_groups' array (JSON) of the limitations
+    # and exclusions data
     #
-    #  Internally in the Scope instance:
+    # In this class, these items ultimately use the same names they have in the API data:
+    # 'user_groups' but when specifying that you are setting that value, you can use any of
+    # these synonyms, singular or plural:
+    #     ldap_user_groups, directory_service_user_groups
     #
-    #  - The limitations and exclusions that match the WebUI's 'LDAP/Local Users'
-    #    are in @limitations[:jamf_ldap_users]  and @exclusions[:jamf_ldap_users]
+    # What appears in the UI as 'User Groups' are thought of as Jamf::UserGroup instances in
+    # ruby-jss, and will appear in the API data as <jss_user_groups> element with <user_group>
+    # sub-elements (XML) or the 'jss_user_groups' array (JSON). These are available as
+    # Targets or Exclusions. In this class they are also referred to as 'jss_user_groups'
     #
-    #  - The  limitations and exclusions that match the WebUI's 'LDAP User Groups'
-    #    are in @limitations[:ldap_user_groups]  and @exclusions[:ldap_user_groups]
+    ###################################
+    # - IMPORTANT: BUG IN POLICY AND PATCH POLICY SCOPES - CAN CAUSE DATA LOSS
+    ###################################
     #
+    # When you GET the data for policies and patch policies from the Classic API
+    # the scope data returned will NOT include the 'jss_users' and 'jss_user_groups'
+    # data in the targets or the exclusions, even if they are defined in the web UI.
+    #
+    # More importanly, if you try to include those in the XML when you PUT a policy
+    # back to make a change via the API, you'll get an error because the API endpoint
+    # doesn't know what <jss_users> or <jss_user_groups> elements are.
+    #
+    # Even more importanly, since you cannot include those elements in your PUT body,
+    # if they actually exist in the scope, THEY WILL BE ERASED from the actual scope,
+    # because they weren't in the PUT data.
+    # This will always happen if you include the <scope> element in your
+    # PUT data, even if you didn't change the scope.
+    #
+    # - How ruby-jss handles this bug:
+    #####
+    # Fortunately the Classic API, or at least this part of it, doesn't fully adhere
+    # to the REST standards for PUT, and if you don't include the <scope> element in
+    # the XML, the server will just ignore the scope entirely, and nothing will change.
+    #
+    # We make use of that here to allow for editing Policies without fear of erasing
+    # those parts of the scope. As long as you don't change anything about the scope,
+    # there will be no <scope> element in the XML sent with a PUT, and the scope is
+    # safe from harm.
+    #
+    # If you DO change the scope of a policy, this bug cannot be avoided, and you'll
+    # delete any "User"/jss_user and "User Groups/jss_user_groups" defined in the
+    # targets or exclusions.
+    #
+    # By default, if you try to change the scope of a Policy of PatchPolicy, you'll
+    # get a warning about the possibility of losing data when you save.
+    #
+    # You can supress those warnings either by supressing all ruby warnings, or
+    # by calling Jamf::Scopable.do_not_warn_about_policy_scope_bugs
     #
     # @see Jamf::Scopable
     #
@@ -133,38 +149,93 @@ module Jamf
 
       # These are the classes that Scopes can use for defining a scope,
       # keyed by appropriate symbols.
-      # NOTE: All the user and group ones don't actually refer to
-      # Jamf::User or Jamf::UserGroup. See IMPORTANT discussion above.
+      #
+      # synonyms, including singular/plural forms, are used to allow for
+      # more natural language when specifying these scope entities. The
+      # key used in the actual API data is usually the plural.
+      #
+      # NOTE: user[s] and user_group[s] in Scope data refer to
+      # 'Directory Service/Local User' and 'Directory Service User Group'
+      # as labeled in the web-ui. These were formerly labeled
+      # as 'LDAP/Local User' and 'LDAP User Group'.
+      #
       SCOPING_CLASSES = {
         computers: Jamf::Computer,
         computer: Jamf::Computer,
+
         computer_groups: Jamf::ComputerGroup,
         computer_group: Jamf::ComputerGroup,
+
         mobile_devices: Jamf::MobileDevice,
         mobile_device: Jamf::MobileDevice,
+
         mobile_device_groups: Jamf::MobileDeviceGroup,
         mobile_device_group: Jamf::MobileDeviceGroup,
+
         buildings: Jamf::Building,
         building: Jamf::Building,
+
         departments: Jamf::Department,
         department: Jamf::Department,
+
         network_segments: Jamf::NetworkSegment,
         network_segment: Jamf::NetworkSegment,
-        ibeacon: Jamf::IBeacon,
+
         ibeacons: Jamf::IBeacon,
-        user: nil,
+        ibeacon: Jamf::IBeacon,
+
+        jss_users: Jamf::User,
+        jss_user: Jamf::User,
+
+        jss_user_groups: Jamf::UserGroup,
+        jss_user_group: Jamf::UserGroup,
+
         users: nil,
-        ldap_user: nil,
+        user: nil,
         ldap_users: nil,
-        jamf_ldap_user: nil,
+        ldap_user: nil,
         jamf_ldap_users: nil,
-        user_group: nil,
+        jamf_ldap_user: nil,
+        directory_service_local_users: nil,
+        directory_service_local_user: nil,
+
         user_groups: nil,
+        user_group: nil,
+        ldap_user_groups: nil,
         ldap_user_group: nil,
-        ldap_user_groups: nil
+        directory_service_user_groups: nil,
+        directory_service_user_group: nil
       }.freeze
 
-      # These keys always mean :jamf_ldap_users
+      # These classes are affected by the jss_users/jss_user_groups bug.
+      #
+      # They do not accept jss_users or jss_user_groups in their targets or
+      # exclusions, and editing them via the API will always delete those
+      # items from the scope if they exist. This is true regardless of how
+      # you interact with the API - its a Jamf bug, not a ruby-jss bug.
+      #
+      # See discussion in the Scope class comments.
+      JAMF_DATA_LOSS_BUG_CLASSES = [
+        Jamf::Policy,
+        Jamf::PatchPolicy
+      ].freeze
+
+      # The classes affected by the jss_usersß/jss_user_groups bug do not
+      # include these items in their Target or Exclusion API data, even if
+      # the scope has such items defined in the JSS
+      #
+      JAMF_DATA_LOSS_BUG_KEYS = %i[jss_users jss_user_groups].freeze
+
+      # In the API data for limitations and exclusions
+      # 'users' is what appears as Directory Service/Local Users in the web UI
+      # and 'user_groups' appears as 'Directory Service User Groups'.
+      #
+      # Contrasted with 'jss_users' and 'jss_user_groups' in the API data for
+      # targets and exlcusions, which are Jamf::User and Jamf::UserGroup objects.
+      #
+      LDAP_BASED_KEYS = %i[users user_groups].freeze
+
+      # These keys always mean :users
       LDAP_JAMF_USER_KEYS = %i[
         user
         users
@@ -172,14 +243,18 @@ module Jamf
         ldap_users
         jamf_ldap_user
         jamf_ldap_users
+        directory_service_local_user
+        directory_service_local_users
       ].freeze
 
-      # These keys always mean :ldap_user_groups
+      # These keys always mean :user_groups
       LDAP_GROUP_KEYS = %i[
         user_group
         user_groups
         ldap_user_group
         ldap_user_groups
+        directory_service_user_group
+        directory_service_user_groups
       ].freeze
 
       # This hash maps the availble Scope Target keys from SCOPING_CLASSES to
@@ -189,9 +264,12 @@ module Jamf
       # added to the ends of singular key names if needed, e.g. computer_group => computer_groups
       ESS = 's'.freeze
 
-      # These can be part of the base inclusion list of the scope,
+      # These can be part of the base target list of the scope,
       # along with the appropriate target and target group keys
-      INCLUSIONS = %i[buildings departments].freeze
+      TARGETS = %i[buildings departments jss_users jss_user_groups].freeze
+
+      # Backward Compatibility
+      INCLUSIONS = TARGETS
 
       # These can limit the inclusion list
       # These are the keys that come from the API
@@ -201,17 +279,17 @@ module Jamf
       LIMITATIONS = %i[
         ibeacons
         network_segments
-        jamf_ldap_users
-        ldap_user_groups
+        users
+        user_groups
       ].freeze
 
       # any of them can be excluded
-      EXCLUSIONS = INCLUSIONS + LIMITATIONS
+      EXCLUSIONS = TARGETS + LIMITATIONS
 
       # Here's a default scope as it might come from the API.
       DEFAULT_SCOPE = {
-        all_computers: true,
-        all_mobile_devices: true,
+        all_computers: false,
+        all_mobile_devices: false,
         limitations: {},
         exclusions: {}
       }.freeze
@@ -293,26 +371,37 @@ module Jamf
       # Public Instance Methods
       #####################################
 
-      # If raw_scope is empty, a default scope, scoped to all targets, is created, and can be modified
+      # If raw_scope is empty, a default scope, scoped to no targets, is created, and can be modified
       # as needed.
       #
-      # @param target_key[Symbol] the kind of thing we're scoping, one of {TARGETS_AND_GROUPS}
+      # @param target_key[Symbol] the kind of thing we're scoping, a key from {TARGETS_AND_GROUPS}
       #
       # @param raw_scope[Hash] the JSON :scope data from an API query that is scopable, e.g. a Policy.
       #
-      def initialize(target_key, raw_scope = nil)
+      # @param container[Jamf::APIObject] The scopable object to which this scope belongs, e,g, an
+      #   instance of Jamf::Policy, Jamf::MobileDeviceApplication, etc.. If not provided, will be
+      #   set automatically after initialization
+      #
+      def initialize(target_key, raw_scope = nil, container: nil)
         raw_scope ||= DEFAULT_SCOPE.dup
         unless TARGETS_AND_GROUPS.key?(target_key)
           raise Jamf::InvalidDataError, "The target class of a Scope must be one of the symbols :#{TARGETS_AND_GROUPS.keys.join(', :')}"
         end
+
+        @container = container
 
         @target_key = target_key
         @target_class = SCOPING_CLASSES[@target_key]
         @group_key = TARGETS_AND_GROUPS[@target_key]
         @group_class = SCOPING_CLASSES[@group_key]
 
-        @target_keys = [@target_key, @group_key] + INCLUSIONS
+        @target_keys = [@target_key, @group_key] + TARGETS
         @exclusion_keys = [@target_key, @group_key] + EXCLUSIONS
+
+        if JAMF_DATA_LOSS_BUG_CLASSES.include?(@container.class)
+          @target_keys -= JAMF_DATA_LOSS_BUG_KEYS
+          @exclusion_keys -= JAMF_DATA_LOSS_BUG_KEYS
+        end
 
         @all_key = "all_#{target_key}".to_sym
         @all_targets = raw_scope[@all_key]
@@ -327,68 +416,34 @@ module Jamf
           @targets[:group_targets] = @targets[k] if k == @group_key
         end # @target_keys.each do |k|
 
-        # the  :users key from the API is what we call :jamf_ldap_users
-        # and the :user_groups key from the API we call :ldap_user_groups
-        # See the IMPORTANT discussion above.
         @limitations = {}
         if raw_scope[:limitations]
-
           LIMITATIONS.each do |k|
-            # :jamf_ldap_users comes from :users in the API data
-            if k == :jamf_ldap_users
-              api_data = raw_scope[:limitations][:users]
-              api_data ||= []
-              @limitations[k] = api_data.compact.map { |n| n[:name].to_s }
-
-            # :ldap_user_groups comes from :user_groups in the API data
-            elsif k == :ldap_user_groups
-              api_data = raw_scope[:limitations][:user_groups]
-              api_data ||= []
-              @limitations[k] = api_data.compact.map { |n| n[:name].to_s }
-
-            # others handled normally.
-            else
-              api_data = raw_scope[:limitations][k]
-              api_data ||= []
-              @limitations[k] = api_data.compact.map { |n| n[:id].to_i }
+            api_data = raw_scope[:limitations][k]
+            api_data ||= []
+            @limitations[k] = api_data.compact.map do |n|
+              LDAP_BASED_KEYS.include?(k) ? n[:name].to_s : n[:id].to_i
             end
           end # LIMITATIONS.each do |k|
         end # if raw_scope[:limitations]
 
-        # the  :users key from the API is what we call :jamf_ldap_users
-        # and the :user_groups key from the API we call :ldap_user_groups
-        # See the IMPORTANT discussion above.
         @exclusions = {}
-        if raw_scope[:exclusions]
+        return unless raw_scope[:exclusions]
 
-          @exclusion_keys.each do |k|
-            # :jamf_ldap_users comes from :users in the API data
-            if k == :jamf_ldap_users
-              api_data = raw_scope[:exclusions][:users]
-              api_data ||= []
-              @exclusions[k] = api_data.compact.map { |n| n[:name].to_s }
+        @exclusion_keys.each do |k|
+          api_data = raw_scope[:exclusions][k]
+          api_data ||= []
+          @exclusions[k] = api_data.compact.map do |n|
+            LDAP_BASED_KEYS.include?(k) ? n[:name].to_s : n[:id].to_i
+          end
 
-            # :ldap_user_groups comes from :user_groups in the API data
-            elsif k == :ldap_user_groups
-              api_data = raw_scope[:exclusions][:user_groups]
-              api_data ||= []
-              @exclusions[k] = api_data.compact.map { |n| n[:name].to_s }
-
-            # others handled normally.
-            else
-              api_data = raw_scope[:exclusions][k]
-              api_data ||= []
-              @exclusions[k] = api_data.compact.map { |n| n[:id].to_i }
-              @exclusions[:direct_exclusions] = @exclusions[k] if k == @target_key
-              @exclusions[:group_exclusions] = @exclusions[k] if k == @group_key
-            end # if ...elsif... else
-          end # @exclusion_keys.each
-        end # if raw_scope[:exclusions]
-
-        @container = nil
+          @exclusions[:direct_exclusions] = @exclusions[k] if k == @target_key
+          @exclusions[:group_exclusions] = @exclusions[k] if k == @group_key
+        end # @exclusion_keys.each
+        # if raw_scope[:exclusions]
       end # init
 
-      # Set the scope's inclusions to all targets.
+      # Set the scope's targets to all.
       #
       # By default, the limitations and exclusions remain.
       # If a non-false parameter is provided, they will be removed also.
@@ -726,20 +781,23 @@ module Jamf
           list.compact!
           list.delete 0
           list_as_hashes = list.map { |i| { id: i } }
-          scope << SCOPING_CLASSES[klass].xml_list(list_as_hashes, :id)
+          xml_list = SCOPING_CLASSES[klass].xml_list(list_as_hashes, :id)
+          xml_list.name = 'jss_users' if SCOPING_CLASSES[klass] == Jamf::User
+          xml_list.name = 'jss_user_groups' if SCOPING_CLASSES[klass] == Jamf::UserGroup
+          scope << xml_list
         end
 
         limitations = scope.add_element('limitations')
         @limitations.each do |klass, list|
           list.compact!
           list.delete 0
-          if klass == :jamf_ldap_users
+          if klass == :users
             users_xml = limitations.add_element 'users'
             list.each do |name|
               user_xml = users_xml.add_element 'user'
               user_xml.add_element('name').text = name
             end
-          elsif klass == :ldap_user_groups
+          elsif klass == :user_groups
             user_groups_xml = limitations.add_element 'user_groups'
             list.each do |name|
               user_group_xml = user_groups_xml.add_element 'user_group'
@@ -756,13 +814,13 @@ module Jamf
           list = @exclusions[klass]
           list.compact!
           list.delete 0
-          if klass == :jamf_ldap_users
+          if klass == :users
             users_xml = exclusions.add_element 'users'
             list.each do |name|
               user_xml = users_xml.add_element 'user'
               user_xml.add_element('name').text = name
             end
-          elsif klass == :ldap_user_groups
+          elsif klass == :user_groups
             user_groups_xml = exclusions.add_element 'user_groups'
             list.each do |name|
               user_group_xml = user_groups_xml.add_element 'user_group'
@@ -770,7 +828,12 @@ module Jamf
             end
           else
             list_as_hashes = list.map { |i| { id: i } }
-            exclusions << SCOPING_CLASSES[klass].xml_list(list_as_hashes, :id)
+
+            xml_list = SCOPING_CLASSES[klass].xml_list(list_as_hashes, :id)
+            xml_list.name = 'jss_users' if SCOPING_CLASSES[klass] == Jamf::User
+            xml_list.name = 'jss_user_groups' if SCOPING_CLASSES[klass] == Jamf::UserGroup
+            exclusions << xml_list
+
           end
         end
         scope
@@ -869,28 +932,41 @@ module Jamf
       #
       def validate_item(realm, key, ident, error_if_not_found: true)
         # which keys allowed depends on how the item is used...
+        # Classes susceptible to the Data Loss Bug have JAMF_DATA_LOSS_BUG_KEYS
+        # removed from the possible keys.
         possible_keys =
           case realm
-          when :target then @target_keys
-          when :limitation then LIMITATIONS
-          when :exclusion then @exclusion_keys
+          when :target
+            JAMF_DATA_LOSS_BUG_CLASSES.include?(@container.class) ? (@target_keys - JAMF_DATA_LOSS_BUG_KEYS) : @target_keys
+          when :limitation
+            LIMITATIONS
+          when :exclusion
+            JAMF_DATA_LOSS_BUG_CLASSES.include?(@container.class) ? (@exclusion_keys - JAMF_DATA_LOSS_BUG_KEYS) : @exclusion_keys
           else
             raise ArgumentError, 'Unknown realm, must be :target, :limitation, or :exclusion'
           end
 
         key = pluralize_key(key)
 
-        raise Jamf::InvalidDataError, "#{realm} key must be one of :#{possible_keys.join(', :')}" \
-          unless possible_keys.include? key
+        unless possible_keys.include? key
+          msg = "#{realm} key must be one of :#{possible_keys.join(', :')}."
+          if JAMF_DATA_LOSS_BUG_CLASSES.include?(@container.class) && JAMF_DATA_LOSS_BUG_KEYS.include?(key)
+            msg = "#{msg}\nJAMF BUG WARNING: The API cannot handle :jss_users or :jss_user_groups in scope targets or exclusions of Policies or Patch Policies. If any exist in the scope they will be deleted when you save any changes to the policy via the API."
+          end
+          raise Jamf::InvalidDataError, msg
+        end
 
         id = nil
 
         # id will be a string
-        if key == :jamf_ldap_users
-          id = ident if Jamf::User.all_names(:refresh, cnx: container.cnx).include?(ident) || Jamf::LdapServer.user_in_ldap?(ident)
+        if key == :users
+          id = ident
+        # the web UI doesn't validate this data, it accepts any string, so we do too
+        # id = ident if Jamf::User.all_names(:refresh, cnx: container.cnx).include?(ident) || Jamf::LdapServer.user_in_ldap?(ident)
 
         # id will be a string
-        elsif key == :ldap_user_groups
+        elsif key == :user_groups
+          # The web UI does validate that the group exists in LDAP
           id = ident if Jamf::LdapServer.group_in_ldap? ident, cnx: container.cnx
 
         # id will be an integer
@@ -905,11 +981,12 @@ module Jamf
 
       # the symbols used in the API data are plural, e.g. 'network_segments'
       # this will pluralize them, allowing us to use singulars as well.
+      # This also handles the synonyms for users and user_groups
       def pluralize_key(key)
         if LDAP_JAMF_USER_KEYS.include? key
-          :jamf_ldap_users
+          :users
         elsif LDAP_GROUP_KEYS.include? key
-          :ldap_user_groups
+          :user_groups
         else
           key.to_s.end_with?(ESS) ? key : "#{key}s".to_sym
         end
