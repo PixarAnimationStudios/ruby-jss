@@ -15,16 +15,16 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
-## \[Unreleased] 2023-07-08
+## \[3.2.0] 2023-07-08
 
 ### Changed
-  - Improved handling of known API bug in Jamf::Scopable::Scope.
+  - Improved handling of known API bug in Jamf::Scopable::Scope.  
 
-    There is a long-standing bug in working with 'scope' via the Classic API, which can cause data-loss when you have 'Users' and 'User Groups' (known in the api data as jss_users and jss_user_groups) defined in the targets or exclusions. Thanks to @yanniks on GitHub, I recently learned that the bug only affects a few API objects, namely Policies and PatchPolicies.
+    There is a long-standing bug in working with 'scope' via the Classic API, which can cause data-loss when you have 'Users' and 'User Groups' (known in the api data as jss_users and jss_user_groups) defined in the targets or exclusions. Thanks to @yanniks on GitHub, I recently learned that the bug only affects a few API objects, namely Policies and PatchPolicies.  
 
-    This release of ruby-jss will properly handle jss_users and jss_user_groups in all scopes where the API can handle them. In Policy and PatchPolicy objects, those values aren't allowed, since the API can't deal with them. If you edit any other aspect of the scope of one of those obects in ruby-jss, you'll get a warning that saving your changes may cause data-loss - deleting any defined Users and User Groups in the targets or exclusions. If the scope really doesn't use any Users or User Groups, you should be OK saving your changes. To prevent the warnings, call `Jamf::Scopable::Scope.do_not_warn_about_policy_scope_bugs` before changing any scopes.
+    This release of ruby-jss will properly handle jss_users and jss_user_groups in all scopes where the API can handle them. In Policy and PatchPolicy objects, those values aren't allowed, since the API can't deal with them. If you edit any other aspect of the scope of one of those obects in ruby-jss, you'll get a warning that saving your changes may cause data-loss - deleting any defined Users and User Groups in the targets or exclusions. If the scope really doesn't use any Users or User Groups, you should be OK saving your changes. To prevent the warnings, call `Jamf::Scopable::Scope.do_not_warn_about_policy_scope_bugs` before changing any scopes.  
 
-    For more details, see the discussion in the comments/docs for the Jamf::Scopeable::Scope class in lib/jamf/api/classic/api_objects/scopable/scope.rb or in the [rubydocs page for the Scope class](https://www.rubydoc.info/gems/ruby-jss/Jamf/Scopable/Scope).
+    For more details, see the discussion in the comments/docs for the Jamf::Scopeable::Scope class in lib/jamf/api/classic/api_objects/scopable/scope.rb or in the [rubydocs page for the Scope class](https://www.rubydoc.info/gems/ruby-jss/Jamf/Scopable/Scope).  
 
     Many thanks to @yanniks for bringing to my attention that the bug doesn't occur in all scopes.
 
