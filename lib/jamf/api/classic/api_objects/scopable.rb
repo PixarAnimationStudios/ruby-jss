@@ -85,9 +85,14 @@ module Jamf
     ###
     ### @return [void]
     ###
-    def scope= (new_scope)
-      raise Jamf::InvalidDataError, "Jamf::Scopable::Scope instance required" unless new_criteria.kind_of?(Jamf::Scopable::Scope)
-      raise Jamf::InvalidDataError, "Scope object must have target_key of :#{self.class::SCOPE_TARGET_KEY}" unless self.class::SCOPE_TARGET_KEY == new_scope.target_key
+    def scope=(new_scope)
+      raise Jamf::InvalidDataError, 'Jamf::Scopable::Scope instance required' unless new_criteria.is_a?(Jamf::Scopable::Scope)
+
+      unless self.class::SCOPE_TARGET_KEY == new_scope.target_key
+        raise Jamf::InvalidDataError,
+              "Scope object must have target_key of :#{self.class::SCOPE_TARGET_KEY}"
+      end
+
       @scope = new_scope
       @need_to_update = true
     end
@@ -105,13 +110,13 @@ module Jamf
     #
     def update
       super
-    rescue Jamf::ConflictError => conflict
-      if scope.unable_to_verify_ldap_entries == true
-        raise Jamf::InvalidDataError, "Potentially non-existant LDAP user or group in new scope values."
-      else
-        raise conflict
-      end
+      @scope.should_update = false
+    rescue Jamf::ConflictError => e
+      raise Jamf::InvalidDataError, 'Potentially non-existant LDAP user or group in new scope values.' if scope.unable_to_verify_ldap_entries == true
+
+      raise e
     end # update
 
   end # module Scopable
+
 end # module Jamf

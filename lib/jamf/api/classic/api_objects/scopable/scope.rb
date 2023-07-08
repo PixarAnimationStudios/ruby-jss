@@ -335,6 +335,9 @@ module Jamf
       # - :group_targets - a synonym for :computer_groups or :mobile_device_groups
       # - :departments
       # - :buildings
+      # - :jss_users
+      # - :jss_user_groups
+      #
       # and the values are Arrays of names of those things.
       #
       # @return [Hash{Symbol: Array<Integer>}]
@@ -346,8 +349,9 @@ module Jamf
       #
       # The arrays of ids are:
       # - :network_segments
-      # - :jamf_ldap_users
+      # - :users
       # - :user_groups
+      # - :ibeacons
       #
       # @return [Hash{Symbol: Array<Integer, String>}]
       attr_reader :limitations
@@ -362,11 +366,16 @@ module Jamf
       # - :departments
       # - :buildings
       # - :network_segments
+      # - :jss_users
+      # - :jss_user_groups
       # - :users
-      # - :user_groups
-      #
+      # - :user_groups      #
       # @return [Hash{Symbol: Array<Integer, String>}]
       attr_reader :exclusions
+
+      # @return [Boolean] Have changes been made to the scope, that need
+      #   to be sent to the server?
+      attr_accessor :should_update
 
       # Public Instance Methods
       #####################################
@@ -388,6 +397,7 @@ module Jamf
           raise Jamf::InvalidDataError, "The target class of a Scope must be one of the symbols :#{TARGETS_AND_GROUPS.keys.join(', :')}"
         end
 
+        @should_update = false
         @container = container
 
         @target_key = target_key
@@ -463,7 +473,7 @@ module Jamf
           @exclusions = {}
           @exclusion_keys.each { |k| @exclusions[k] = [] }
         end
-        @container&.should_update
+        note_pending_changes
       end
       alias include_all set_all_targets
 
@@ -510,7 +520,7 @@ module Jamf
 
         @targets[key] = list
         @all_targets = false
-        @container&.should_update
+        note_pending_changes
       end # sinclude_in_scope
       alias set_target set_targets
       alias set_inclusion set_targets
@@ -527,7 +537,7 @@ module Jamf
           set_all_targets
         else
           @all_targets = false
-          @container&.should_update
+          note_pending_changes
         end
       end
 
@@ -566,7 +576,7 @@ module Jamf
 
         @targets[key] << item_id
         @all_targets = false
-        @container&.should_update
+        note_pending_changes
       end
       alias add_inclusion add_target
 
@@ -588,7 +598,7 @@ module Jamf
         return unless @targets[key]&.include?(item_id)
 
         @targets[key].delete item_id
-        @container&.should_update
+        note_pending_changes
       end
       alias remove_inclusion remove_target
 
@@ -625,7 +635,7 @@ module Jamf
         return nil if list.sort == @limitations[key].sort
 
         @limitations[key] = list
-        @container&.should_update
+        note_pending_changes
       end # set_limitation
       alias set_limitations set_limitation
 
@@ -654,7 +664,7 @@ module Jamf
         end
 
         @limitations[key] << item_id
-        @container&.should_update
+        note_pending_changes
       end
 
       # Remove a single item for limiting this scope.
@@ -677,7 +687,7 @@ module Jamf
         return unless @limitations[key]&.include?(item_id)
 
         @limitations[key].delete item_id
-        @container&.should_update
+        note_pending_changes
       end ###
 
       # Replace an exclusion list for this scope
@@ -717,7 +727,7 @@ module Jamf
         return nil if list.sort == @exclusions[key].sort
 
         @exclusions[key] = list
-        @container&.should_update
+        note_pending_changes
       end # limit scope
 
       # Add a single item for exclusions of this scope.
@@ -743,7 +753,7 @@ module Jamf
         raise Jamf::AlreadyExistsError, "Can't exclude #{key} '#{item}' because it's already an explicit limitation." if @limitations[key]&.include?(item)
 
         @exclusions[key] << item_id
-        @container&.should_update
+        note_pending_changes
       end
 
       # Remove a single item for exclusions of this scope
@@ -763,7 +773,7 @@ module Jamf
         return unless @exclusions[key]&.include?(item_id)
 
         @exclusions[key].delete item_id
-        @container&.should_update
+        note_pending_changes
       end
 
       # @api private
@@ -1236,6 +1246,13 @@ module Jamf
 
         # if we're here, not in any group
         false
+      end
+
+      # make a note both in this instance and in our container
+      # that a change has been made and an update is needed
+      def note_pending_changes
+        @should_update = true
+        @container&.should_update
       end
 
     end # class Scope
