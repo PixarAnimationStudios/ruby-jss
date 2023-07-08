@@ -408,7 +408,6 @@ module Jamf
       @grace_period_message = grace[:message]
       @grace_period_message = DFT_GRACE_PERIOD_MESSAGE if @grace_period_message.to_s.empty?
 
-
       # read-only values, they come from the version.
       @release_date = JSS.epoch_to_time gen[:release_date]
       @incremental_update = gen[:incremental_update]
@@ -432,6 +431,7 @@ module Jamf
     #
     def patch_title_name
       return @patch_title.name if @patch_title
+
       Jamf::PatchTitle.map_all_ids_to(:name)[software_title_configuration_id]
     end
 
@@ -439,6 +439,7 @@ module Jamf
     #
     def target_version=(new_tgt_vers)
       return if new_tgt_vers == target_version
+
       @target_version = validate_target_version new_tgt_vers
       @need_to_update = true
       @refetch_for_new_version = true
@@ -450,6 +451,7 @@ module Jamf
     #
     def enable
       return if enabled
+
       @enabled = true
       @need_to_update = true
     end
@@ -460,6 +462,7 @@ module Jamf
     #
     def disable
       return unless enabled
+
       @enabled = false
       @need_to_update = true
     end
@@ -468,6 +471,7 @@ module Jamf
     #
     def allow_downgrade=(new_val)
       return if new_val == allow_downgrade
+
       @allow_downgrade = Jamf::Validate.boolean new_val
       @need_to_update = true
     end
@@ -476,6 +480,7 @@ module Jamf
     #
     def patch_unknown=(new_val)
       return if new_val == patch_unknown
+
       @patch_unknown = Jamf::Validate.boolean new_val
       @need_to_update = true
     end
@@ -488,6 +493,7 @@ module Jamf
         days = NO_DEADLINE unless days.positive?
       end
       return if days == deadline
+
       @deadline = days
       @need_to_update = true
     end
@@ -498,6 +504,7 @@ module Jamf
       mins = Jamf::Validate.integer(mins)
       mins = 0 if mins.negative?
       return if mins == grace_period
+
       @grace_period = mins
       @need_to_update = true
     end
@@ -506,6 +513,7 @@ module Jamf
     #
     def grace_period_subject=(subj)
       return if grace_period_subject == subj.to_s
+
       @grace_period_subject = subj.to_s
       @need_to_update = true
     end
@@ -514,6 +522,7 @@ module Jamf
     #
     def grace_period_message=(msg)
       return if grace_period_message == msg
+
       @grace_period_message = msg
       @need_to_update = true
     end
@@ -563,8 +572,10 @@ module Jamf
         return a_title.id
       end
       raise Jamf::MissingDataError, ':patch_title is required' unless a_title
+
       title_id = Jamf::PatchTitle.valid_id a_title
       return title_id if title_id
+
       raise Jamf::NoSuchItemError, "No Patch Title matches '#{a_title}'"
     end
 
@@ -613,7 +624,7 @@ module Jamf
       general.add_element('allow_downgrade').text = allow_downgrade
       general.add_element('patch_unknown').text = patch_unknown
 
-      obj << scope.scope_xml
+      obj << scope.scope_xml if scope.should_update?
 
       add_self_service_xml doc
 

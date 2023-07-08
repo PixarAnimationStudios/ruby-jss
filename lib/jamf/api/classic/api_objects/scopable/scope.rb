@@ -46,7 +46,7 @@ module Jamf
     #
     # - Discussion: Users & User Groups in Scopes:
     #######################################
-    # The classic API has bugs, as well as non-obvious/historical oddness,
+    # The Classic API has bugs, as well as non-obvious/historical oddness,
     # regarding the use of Users, UserGroups, Directory Service/Local Users,
     # and Directory Service User Groups in scopes.
     # Here's a discussion of those issues, and how ruby-jss handles them.
@@ -57,6 +57,16 @@ module Jamf
     # and 'User Groups' (Jamf::User and Jamf::UserGroup classes in ruby-jss)
     # there is non-obvious inconsistency between the labels for API data, and
     # the labels for that data in the web UI:
+    #
+    # -- Users
+    #
+    # What appears in the UI as 'Users' are User objects in Jamf pro, which in ruby-jss
+    # are Jamf::User instances.
+    #
+    # These will appear in the API data as <jss_users> element with <user> sub-elements (XML)
+    # or the 'jss_users' array (JSON). These are available as Targets or Exclusions.
+    #
+    # In this class, they are also referred to as 'jss_users'
     #
     # -- Directory Service/Local Users
     #
@@ -72,13 +82,19 @@ module Jamf
     #
     # In this class, these items ultimately use the same names they have in the API data:
     # 'users' but when specifying that you are setting that value, you can use any of
-    # these synonyms, singular or plural:
+    # these synonyms, plural or singular:
     #     ldap_users, jamf_ldap_users, directory_service_local_users
     #
-    # What appears in the UI as 'Users' are thought of as Jamf::User instances in ruby-jss, and
-    # will appear in the API data as <jss_users> element with <user> sub-elements (XML) or
-    # the 'jss_users' array (JSON). These are available as Targets or Exclusions.
-    # In this class, they are also referred to as 'jss_users'
+    # - User Groups
+    #
+    # What appears in the UI as 'User Groups' are User Group objects in Jamf Pro, both
+    # static and smart. In ruby-jss, these are Jamf::UserGroup instances.
+    #
+    # They will appear in the API data as <jss_user_groups> element with <user_group>
+    # sub-elements (XML) or the 'jss_user_groups' array (JSON). These are available as
+    # Targets or Exclusions.
+    #
+    # In this class they are also referred to as 'jss_user_groups'
     #
     # -- Directory Service User Groups
     #
@@ -96,11 +112,6 @@ module Jamf
     # these synonyms, singular or plural:
     #     ldap_user_groups, directory_service_user_groups
     #
-    # What appears in the UI as 'User Groups' are thought of as Jamf::UserGroup instances in
-    # ruby-jss, and will appear in the API data as <jss_user_groups> element with <user_group>
-    # sub-elements (XML) or the 'jss_user_groups' array (JSON). These are available as
-    # Targets or Exclusions. In this class they are also referred to as 'jss_user_groups'
-    #
     ###################################
     # - IMPORTANT: BUG IN POLICY AND PATCH POLICY SCOPES - CAN CAUSE DATA LOSS
     ###################################
@@ -109,7 +120,7 @@ module Jamf
     # the scope data returned will NOT include the 'jss_users' and 'jss_user_groups'
     # data in the targets or the exclusions, even if they are defined in the web UI.
     #
-    # More importanly, if you try to include those in the XML when you PUT a policy
+    # More importantly, if you try to include those in the XML when you PUT a policy
     # back to make a change via the API, you'll get an error because the API endpoint
     # doesn't know what <jss_users> or <jss_user_groups> elements are.
     #
@@ -120,7 +131,7 @@ module Jamf
     # PUT data, even if you didn't change the scope.
     #
     # - How ruby-jss handles this bug:
-    #####
+    #
     # Fortunately the Classic API, or at least this part of it, doesn't fully adhere
     # to the REST standards for PUT, and if you don't include the <scope> element in
     # the XML, the server will just ignore the scope entirely, and nothing will change.
@@ -138,7 +149,7 @@ module Jamf
     # get a warning about the possibility of losing data when you save.
     #
     # You can supress those warnings either by supressing all ruby warnings, or
-    # by calling Jamf::Scopable.do_not_warn_about_policy_scope_bugs
+    # by calling Jamf::Scopable::Scope.do_not_warn_about_policy_scope_bugs
     #
     # @see Jamf::Scopable
     #
@@ -294,6 +305,20 @@ module Jamf
         exclusions: {}
       }.freeze
 
+      # Class Methods
+      ######################
+
+      # call this to suppress warnings about data loss bug in
+      # Policy and Patch Policy scopes
+      def self.do_not_warn_about_policy_scope_bugs
+        @do_not_warn_about_policy_scope_bugs = true
+      end
+
+      # Has do_not_warn_about_policy_scope_bugs been set?
+      def self.do_not_warn_about_policy_scope_bugs?
+        @do_not_warn_about_policy_scope_bugs
+      end
+
       # Attributes
       ######################
 
@@ -376,6 +401,7 @@ module Jamf
       # @return [Boolean] Have changes been made to the scope, that need
       #   to be sent to the server?
       attr_accessor :should_update
+      alias should_update? should_update
 
       # Public Instance Methods
       #####################################
@@ -618,7 +644,7 @@ module Jamf
       #
       # @todo  handle ldap user group lookups
       #
-      def set_limitation(key, list)
+      def set_limitations(key, list)
         key = pluralize_key(key)
         raise Jamf::InvalidDataError, "List must be an Array of #{key} identifiers, it may be empty." unless list.is_a? Array
 
@@ -637,7 +663,7 @@ module Jamf
         @limitations[key] = list
         note_pending_changes
       end # set_limitation
-      alias set_limitations set_limitation
+      alias set_limitation set_limitations
 
       # Add a single item for limiting this scope.
       #
@@ -704,7 +730,7 @@ module Jamf
       #
       # @return [void]
       #
-      def set_exclusion(key, list)
+      def set_exclusions(key, list)
         key = pluralize_key(key)
         raise Jamf::InvalidDataError, "List must be an Array of #{key} identifiers, it may be empty." unless list.is_a? Array
 
@@ -728,7 +754,8 @@ module Jamf
 
         @exclusions[key] = list
         note_pending_changes
-      end # limit scope
+      end # set_exclusion
+      alias set_exclusion set_exclusions
 
       # Add a single item for exclusions of this scope.
       #
@@ -1251,12 +1278,24 @@ module Jamf
       # make a note both in this instance and in our container
       # that a change has been made and an update is needed
       def note_pending_changes
+        warn_about_data_loss_bug
         @should_update = true
         @container&.should_update
+      end
+
+      # display data loss warning.
+      def warn_about_data_loss_bug
+        return unless JAMF_DATA_LOSS_BUG_CLASSES.include?(@container.class)
+        return if Jamf::Scopable::Scope.do_not_warn_about_policy_scope_bugs?
+        return if @warn_about_data_loss_bug_has_run
+
+        warn "WARNING: Saving changes to this scope may cause data loss!\nDue to a bug in the Classic API, if the scope uses Jamf Users or User Groups in the Targets or Exclusions, they will be deleted from the scope when you save!"
+
+        @warn_about_data_loss_bug_has_run = true
       end
 
     end # class Scope
 
   end # module Scopable
 
-end # module
+end # moduleß
