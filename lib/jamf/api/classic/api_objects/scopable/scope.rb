@@ -221,9 +221,8 @@ module Jamf
       # These classes are affected by the jss_users/jss_user_groups bug.
       #
       # They do not accept jss_users or jss_user_groups in their targets or
-      # exclusions, and editing them via the API will always delete those
-      # items from the scope if they exist. This is true regardless of how
-      # you interact with the API - its a Jamf bug, not a ruby-jss bug.
+      # exclusions, and editing their scope via the API will always delete those
+      # items from the scope if they exist.
       #
       # See discussion in the Scope class comments.
       JAMF_DATA_LOSS_BUG_CLASSES = [
@@ -231,10 +230,11 @@ module Jamf
         Jamf::PatchPolicy
       ].freeze
 
-      # The classes affected by the jss_usersß/jss_user_groups bug do not
+      # The classes affected by the jss_users/jss_user_groups bug do not
       # include these items in their Target or Exclusion API data, even if
       # the scope has such items defined in the JSS
       #
+      # See discussion in the Scope class comments.
       JAMF_DATA_LOSS_BUG_KEYS = %i[jss_users jss_user_groups].freeze
 
       # In the API data for limitations and exclusions
@@ -818,6 +818,7 @@ module Jamf
           list.compact!
           list.delete 0
           list_as_hashes = list.map { |i| { id: i } }
+
           xml_list = SCOPING_CLASSES[klass].xml_list(list_as_hashes, :id)
           xml_list.name = 'jss_users' if SCOPING_CLASSES[klass] == Jamf::User
           xml_list.name = 'jss_user_groups' if SCOPING_CLASSES[klass] == Jamf::UserGroup
@@ -876,7 +877,7 @@ module Jamf
         scope
       end # scope_xml
 
-      # Remove the init_data and api object from
+      # Remove large or redundant data structures from
       # the instance_variables used to create
       # pretty-print (pp) output.
       #
