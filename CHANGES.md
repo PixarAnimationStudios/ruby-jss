@@ -28,6 +28,9 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
 
     Many thanks to @yanniks for bringing to my attention that the bug doesn't occur in all scopes.
 
+### Fixed
+  - Jamf::DeviceEnrollment.device no longer uses String#upcase!, which fails on frozen strings. Instead just use String#casecmp?
+
 ## \[3.1.0] 2023-06-06
 
 ### Added

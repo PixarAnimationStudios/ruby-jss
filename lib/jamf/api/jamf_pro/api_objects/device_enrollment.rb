@@ -222,9 +222,8 @@ module Jamf
     # @return [Jamf::DeviceEnrollmentDevice, nil] the device as known to DEP
     #
     def self.device(sn, instance = nil, refresh: false, cnx: Jamf.cnx)
-      sn.upcase! # SNs from apple are always uppercase
       devs = devices(instance, refresh: refresh, cnx: cnx)
-      devs.select { |d| d.serialNumber == sn }.first
+      devs.select { |d| d.serialNumber.casecmp? sn }.first
     end
 
     # The history of sync operations between Apple and a given DeviceEnrollment
