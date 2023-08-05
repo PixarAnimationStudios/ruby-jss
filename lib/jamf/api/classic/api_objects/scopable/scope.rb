@@ -113,7 +113,7 @@ module Jamf
     #     ldap_user_groups, directory_service_user_groups
     #
     ###################################
-    # = IMPORTANT: BUG IN POLICY AND PATCH POLICY SCOPES - CAN CAUSE DATA LOSS
+    # = IMPORTANT: API BUG IN POLICY AND PATCH POLICY SCOPES - CAN CAUSE DATA LOSS
     ###################################
     #
     # When you GET the data for policies and patch policies from the Classic API
@@ -152,23 +152,33 @@ module Jamf
     # by calling Jamf::Scopable::Scope.do_not_warn_about_policy_scope_bugs
     #
     ###################################
-    # = IMPORTANT: BUG IN OSX CONFIG PROFILES - CAN CAUSE DATA LOSS
+    # = IMPORTANT: API BUG IN OSX CONFIG PROFILE SCOPES - CAN CAUSE DATA LOSS
     ###################################
     #
     # When fetching the data for OSX Configuration Profiles using JSON (which ruby-jss does)
     # and the scope of the profile contains more than one `jss_user_groups` as a target, then
     # only the last one will be returned. If you have more than one such group as a target, and
-    # use ruby-jss to make changes to the profile, all other jss_user_groups used as targets will
-    # be removed.  This only appears to affect the targets, not the exclusions, and only for
-    # OSX Config Profiles.
+    # use ruby-jss to make changes to the scope, all but the last jss_user_groups used as targets will
+    # be removed.
     #
-    # This is due to a long-standing API bug regarding how Arrays in XML data are incorrectly
-    # translated into Hashes of Hashes (rather than Arrays of Hashes) when returning the data as JSON.
+    # This only appears to affect scope targets, not exclusions, and only for
+    # OSX Config Profiles. Other scopable objects that use jss_user_groups in their API data
+    # seem to be OK.
+    #
+    # This is due to a long-standing API bug regarding how Arrays in XML are incorrectly
+    # translated into Hashes of a single Hash when returning the data as JSON - they shoud be
+    # Arrays of Hashes in JSON - one hash for each item.
     #
     # Even though this bug was first reported to jamf in 2009, it still appears in many places throughout
-    # the Classic API.  ruby-jss works around some of the worse instances, but such workarounds are complex
-    # requiring re-fetching the data in XML and parsing it manually. At the moment there are no
+    # the Classic API.  ruby-jss works around some of the worst instances of the bug, but such workarounds
+    # are complex requiring re-fetching the data in XML and parsing it manually. At the moment there are no
     # plans to do that for this specific scope bug.
+    #
+    # By default, if you try to change the scope of an object affected by this bug, you'll
+    # get a warning about the possibility of losing data when you save.
+    #
+    # You can supress those warnings either by supressing all ruby warnings, or
+    # by calling Jamf::Scopable::Scope.do_not_warn_about_array_hash_scope_bugs
     #
     ########################
     #
