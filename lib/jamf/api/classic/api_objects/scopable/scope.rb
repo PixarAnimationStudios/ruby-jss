@@ -340,6 +340,18 @@ module Jamf
         @do_not_warn_about_policy_scope_bugs
       end
 
+      # call this to suppress warnings about data loss bug in
+      # OSXConfigurationProfile scopes when there are jss_user_groups
+      # used as targets
+      def self.do_not_warn_about_array_hash_scope_bugs
+        @do_not_warn_about_array_hash_scope_bugs = true
+      end
+
+      # Has do_not_warn_about_policy_scope_bugs been set?
+      def self.do_not_warn_about_array_hash_scope_bugs?
+        @do_not_warn_about_array_hash_scope_bugs
+      end
+
       # Attributes
       ######################
 
@@ -488,6 +500,7 @@ module Jamf
               # We know this to be the case for OSXConfigProfiles using
               # jss_user_groups as targets. When used as exclusions, they are
               # the correct array of hashes
+              @array_hash_bug_target_key = k unless raw_scope[k].empty?
               raw_scope[k].values.compact.map { |n| n[:id].to_i }
             else
               []
@@ -1334,6 +1347,7 @@ module Jamf
       # that a change has been made and an update is needed
       def note_pending_changes
         warn_about_data_loss_bug
+        warn_about_array_hash_bug
         @should_update = true
         @container&.should_update
       end
@@ -1347,6 +1361,17 @@ module Jamf
         warn "WARNING: Saving changes to this scope may cause data loss!\nDue to a bug in the Classic API, if the scope uses Jamf Users or User Groups in the Targets or Exclusions, they will be deleted from the scope when you save!"
 
         @warn_about_data_loss_bug_has_run = true
+      end
+
+      # display warning about array-hash bug data loss
+      def warn_about_array_hash_bug
+        return unless @array_hash_bug_target_key
+        return if Jamf::Scopable::Scope.do_not_warn_about_array_hash_scope_bugs?
+        return if @warn_about_array_hash_bug_has_run
+
+        warn "WARNING: At least one #{@array_hash_bug_target_key} is used as a scope target.\nDue to a bug in the Classic API, if you save changes to this scope, all but the last #{@array_hash_bug_target_key} will be deleted from the scope targets when you save!"
+
+        @warn_about_array_hash_bug_has_run = true
       end
 
     end # class Scope
