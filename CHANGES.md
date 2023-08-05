@@ -15,7 +15,7 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
-## \[3.2.0] 2023-07-08
+## \[3.2.0] 2023-08-??
 
 ### Changed
   - Improved handling of known API bug in Jamf::Scopable::Scope.  
@@ -28,7 +28,7 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
 
     Many thanks to @yanniks for bringing to my attention that the bug doesn't occur in all scopes.
 
-  - Work around API bug when using jss_user_groups as scope targets of OSXConfigurationProfiles
+  - Warn of API bug when using jss_user_groups as scope targets of OSXConfigurationProfiles
 
     We discovered a new (to us) isolated occurrance of the long-standing XML Array => JSON Hash bug
     (which can cause data loss). If you have more that one jss_user_groups defined as scope targets
@@ -39,7 +39,7 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
     This seems to only affect scope targets of OSXConfigurationProfiles - groups used in exclusions
     seem to be fine, as do other scopable objects that uses jss_user_groups anywhere in their scope.
 
-    When you edit the scope of a scopable object and ruby-jss notices this API bug might happen, you'll see a warning that changing the scope may cause data loss. To disable these warnings, call `Jamf::Scopable::Scope.do_not_warn_about_array_hash_scope_bugs` before changing any scopes.  
+    When you edit the scope of a scopable object and ruby-jss notices this API bug applies, you'll see a warning that saving changes to the scope may cause data loss. To disable these warnings, call `Jamf::Scopable::Scope.do_not_warn_about_array_hash_scope_bugs` before changing any scopes.  
 
     For more details, see the discussion in the comments/docs for the Jamf::Scopeable::Scope class in lib/jamf/api/classic/api_objects/scopable/scope.rb or in the [rubydocs page for the Scope class](https://www.rubydoc.info/gems/ruby-jss/Jamf/Scopable/Scope).  
 
