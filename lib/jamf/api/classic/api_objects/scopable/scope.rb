@@ -151,6 +151,27 @@ module Jamf
     # You can supress those warnings either by supressing all ruby warnings, or
     # by calling Jamf::Scopable::Scope.do_not_warn_about_policy_scope_bugs
     #
+    ###################################
+    # = IMPORTANT: BUG IN OSX CONFIG PROFILES - CAN CAUSE DATA LOSS
+    ###################################
+    #
+    # When fetching the data for OSX Configuration Profiles using JSON (which ruby-jss does)
+    # and the scope of the profile contains more than one `jss_user_groups` as a target, then
+    # only the last one will be returned. If you have more than one such group as a target, and
+    # use ruby-jss to make changes to the profile, all other jss_user_groups used as targets will
+    # be removed.  This only appears to affect the targets, not the exclusions, and only for
+    # OSX Config Profiles.
+    #
+    # This is due to a long-standing API bug regarding how Arrays in XML data are incorrectly
+    # translated into Hashes of Hashes (rather than Arrays of Hashes) when returning the data as JSON.
+    #
+    # Even though this bug was first reported to jamf in 2009, it still appears in many places throughout
+    # the Classic API.  ruby-jss works around some of the worse instances, but such workarounds are complex
+    # requiring re-fetching the data in XML and parsing it manually. At the moment there are no
+    # plans to do that for this specific scope bug.
+    #
+    ########################
+    #
     # @see Jamf::Scopable
     #
     class Scope
@@ -417,6 +438,7 @@ module Jamf
       #   instance of Jamf::Policy, Jamf::MobileDeviceApplication, etc.. If not provided, will be
       #   set automatically after initialization
       #
+      ###########################
       def initialize(target_key, raw_scope = nil, container: nil)
         raw_scope ||= DEFAULT_SCOPE.dup
         unless TARGETS_AND_GROUPS.key?(target_key)
@@ -439,7 +461,15 @@ module Jamf
           @exclusion_keys -= JAMF_DATA_LOSS_BUG_KEYS
         end
 
-        @all_key = "all_#{target_key}".to_sym
+        parse_targets(raw_scope)
+        parse_limitations(raw_scope)
+        parse_exclusions(raw_scope)
+      end # init
+
+      # parse the targets from the init data
+      ###########################
+      def parse_targets(raw_scope)
+        @all_key = "all_#{@target_key}".to_sym
         @all_targets = raw_scope[@all_key]
 
         # Everything gets mapped from an Array of Hashes to
@@ -447,22 +477,46 @@ module Jamf
         @targets = {}
         @target_keys.each do |k|
           raw_scope[k] ||= []
-          @targets[k] = raw_scope[k].compact.map { |n| n[:id].to_i }
+          @targets[k] =
+            if raw_scope[k].is_a? Array
+              # the data should be an array of hashes with :id and :name
+              raw_scope[k].compact.map { |n| n[:id].to_i }
+
+            elsif raw_scope[k].is_a? Hash
+              # its a hash of hashes, it suffers the 2009 XML->JSON Array bug and
+              # there will be data loss of any more than one item.
+              # We know this to be the case for OSXConfigProfiles using
+              # jss_user_groups as targets. When used as exclusions, they are
+              # the correct array of hashes
+              raw_scope[k].values.compact.map { |n| n[:id].to_i }
+            else
+              []
+            end
           @targets[:direct_targets] = @targets[k] if k == @target_key
           @targets[:group_targets] = @targets[k] if k == @group_key
         end # @target_keys.each do |k|
+      end
+      private :parse_targets
 
+      # parse the limitations from the init data
+      ###########################
+      def parse_limitations(raw_scope)
         @limitations = {}
-        if raw_scope[:limitations]
-          LIMITATIONS.each do |k|
-            api_data = raw_scope[:limitations][k]
-            api_data ||= []
-            @limitations[k] = api_data.compact.map do |n|
-              LDAP_BASED_KEYS.include?(k) ? n[:name].to_s : n[:id].to_i
-            end
-          end # LIMITATIONS.each do |k|
-        end # if raw_scope[:limitations]
+        return unless raw_scope[:limitations]
 
+        LIMITATIONS.each do |k|
+          api_data = raw_scope[:limitations][k]
+          api_data ||= []
+          @limitations[k] = api_data.compact.map do |n|
+            LDAP_BASED_KEYS.include?(k) ? n[:name].to_s : n[:id].to_i
+          end
+        end # LIMITATIONS.each do |k|
+      end
+      private :parse_limitations
+
+      # parse the limitations from the init data
+      ###########################
+      def parse_exclusions(raw_scope)
         @exclusions = {}
         return unless raw_scope[:exclusions]
 
@@ -476,8 +530,8 @@ module Jamf
           @exclusions[:direct_exclusions] = @exclusions[k] if k == @target_key
           @exclusions[:group_exclusions] = @exclusions[k] if k == @group_key
         end # @exclusion_keys.each
-        # if raw_scope[:exclusions]
-      end # init
+      end
+      private :parse_exclusions
 
       # Set the scope's targets to all.
       #
