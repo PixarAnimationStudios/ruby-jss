@@ -15,7 +15,7 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
-## \[3.2.0] 2023-08-??
+## \[UNRELEASED] 
 
 ### Changed
   - Improved handling of known API bug in Jamf::Scopable::Scope.  
