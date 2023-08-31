@@ -1139,7 +1139,7 @@ module Jamf
     def self.create(**args)
       validate_not_metaclass(self)
       unless constants.include?(:CREATABLE)
-        raise Jamf::UnsupportedError, "Creating #{self.class::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows."
+        raise Jamf::UnsupportedError, "Creating #{self::RSRC_LIST_KEY} isn't yet supported. Please use other Casper workflows."
       end
       raise ArgumentError, "Use '#{self.class}.fetch id: xx' to retrieve existing JSS objects" if args[:id]
 
