@@ -653,6 +653,12 @@ module Jamf
     # @return [Time] the last time this machine was enrolled
     attr_reader :last_enrolled
 
+    # @return [Boolean] was the last enrollment via ADE/DEP
+    attr_reader :enrolled_via_dep
+    alias enrolled_via_dep? enrolled_via_dep
+    alias enrolled_via_ade enrolled_via_dep
+    alias enrolled_via_ade? enrolled_via_dep
+
     # @return [String] the primary macaddress
     attr_reader :mac_address
 
@@ -664,6 +670,22 @@ module Jamf
 
     # @return [Boolean] doesit support MDM?
     attr_reader :mdm_capable
+    alias mdm_capable? mdm_capable
+
+    # @return [Boolean] Is it supervised?
+    attr_reader :supervised
+    alias supervised? supervised
+
+    # @return [Boolean] was enrollment user-approved
+    attr_reader :user_approved_enrollment
+    alias user_approved_enrollment? user_approved_enrollment
+
+    # @return [Boolean] was MDM user-approved (meaning the User authorized the MDM profile)
+    attr_reader :user_approved_mdm
+    alias user_approved_mdm? user_approved_mdm
+
+    # @return [Time] when does the mdm profile expire
+    attr_reader :mdm_profile_expiration
 
     # @return [Hash] some MDM status details in general
     attr_reader :management_status
@@ -901,13 +923,20 @@ module Jamf
         @distribution_point = @init_data[:general][:distribution_point]
         @initial_entry_date = JSS.epoch_to_time @init_data[:general][:initial_entry_date_epoch]
         @last_enrolled = JSS.epoch_to_time @init_data[:general][:last_enrolled_date_epoch]
+        @enrolled_via_dep = @init_data[:general][:management_status][:enrolled_via_dep]
         @ip_address = @init_data[:general][:ip_address]
         @reported_ip_address = @init_data[:general][:last_reported_ip]
         @itunes_store_account_is_active = @init_data[:general][:itunes_store_account_is_active]
         @jamf_version = @init_data[:general][:jamf_version]
         @last_contact_time = JSS.epoch_to_time @init_data[:general][:last_contact_time_epoch]
+
         @mdm_capable = @init_data[:general][:mdm_capable]
         @mdm_capable_users = @init_data[:general][:mdm_capable_users].values
+        @supervised = @init_data[:general][:supervised]
+        @user_approved_enrollment = @init_data[:general][:management_status][:user_approved_enrollment]
+        @user_approved_mdm = @init_data[:general][:management_status][:user_approved_mdm]
+        @mdm_profile_expiration = JSS.epoch_to_time @init_data[:general][:mdm_profile_expiration_epoch]
+
         @netboot_server = @init_data[:general][:netboot_server]
         @platform = @init_data[:general][:platform]
         @report_date = JSS.epoch_to_time @init_data[:general][:report_date_epoch]
