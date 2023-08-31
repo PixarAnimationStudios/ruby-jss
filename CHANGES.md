@@ -17,6 +17,16 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
 --------
 ## \[UNRELEASED] 
 
+### Added 
+  - Several new attributes to Jamf::Computer instances: 
+    - `#enrolled_via_ade?` Boolean
+    - `#mdm_capable?` Boolean
+    - `#supervised?` Boolean
+    - `#user_approved_enrollment?` Boolean
+    - `#user_approved_mdm?` Boolean
+    - `#mdm_profile_expiration` Time
+
+
 ### Changed
   - Improved handling of known API bug in Jamf::Scopable::Scope.  
 
@@ -45,7 +55,8 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
 
 
 ### Fixed
-  - Jamf::DeviceEnrollment.device no longer uses String#upcase!, which fails on frozen strings. Instead just use String#casecmp?
+  - `Jamf::DeviceEnrollment.device` no longer uses String#upcase!, which fails on frozen strings. Instead just use String#casecmp?
+  - `Jamf::APIConnection::Token#account` now returns an instance of `Jamf::OAPISchemas::AuthorizationV1` 
 
 ## \[3.1.0] 2023-06-06
 
