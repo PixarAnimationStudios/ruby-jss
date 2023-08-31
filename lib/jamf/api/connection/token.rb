@@ -306,7 +306,10 @@ module Jamf
         REFRESH_RESULTS[@last_refresh_result]
       end
 
-      # the Jamf::Account object assciated with this token
+      # the Jamf account assciated with this token, which contains info about
+      # privileges and Jamf acct group memberships and Jamf Acct settings
+      #
+      # @return [Jamf::OAPISchemas::AuthorizationV1] the Authorization object
       #################################
       def account
         return @account if @account
@@ -314,7 +317,7 @@ module Jamf
         resp = token_connection(AUTH_RSRC, token: @token).get
         return unless resp.success?
 
-        @account = Jamf::APIAccount.new resp.body
+        @account = Jamf::OAPISchemas::AuthorizationV1.new resp.body
       end
 
       # Use this token to get a fresh one. If a pw is provided
