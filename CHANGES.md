@@ -15,7 +15,7 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
-## \[UNRELEASED] 
+## \[3.12.0] 2023-09-05
 
 ### Added 
   - Several new attributes to Jamf::Computer instances: 
