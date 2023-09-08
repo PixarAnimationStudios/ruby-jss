@@ -624,7 +624,9 @@ module Jamf
       general.add_element('allow_downgrade').text = allow_downgrade
       general.add_element('patch_unknown').text = patch_unknown
 
-      obj << scope.scope_xml if scope.should_update?
+      # always include the scope if we have no id yet - we could be
+      # a clone of an existing object
+      obj << scope.scope_xml if scope.should_update? || @id.nil?
 
       add_self_service_xml doc
 

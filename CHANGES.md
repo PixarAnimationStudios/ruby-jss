@@ -15,6 +15,13 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
+## \[3.2.1] 2023-09-08
+
+### Fixed
+  - Scopes are properly maintained when using #clone on Policy and PatchPolicy instances.  
+    Note: the data loss issue in addressed is in the previous version still applies. If the original policy being cloned has any `jss_users` or `jss_user_groups` defined in the targets or exclusions. they will be lost when saving the clone.
+    
+--------
 ## \[3.2.0] 2023-09-05
 
 ### Added 

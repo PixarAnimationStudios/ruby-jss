@@ -2111,7 +2111,9 @@ module Jamf
       activation = @server_side_limitations[:activation]
       date_time_limitations.add_element('activation_date_epoch').text = activation.to_jss_epoch if activation
 
-      obj << @scope.scope_xml if @scope.should_update?
+      # always include the scope if we have no id yet - we could be
+      # a clone of an existing object
+      obj << @scope.scope_xml if @scope.should_update? || @id.nil?
 
       reboot = obj.add_element 'reboot'
       JSS.hash_to_rexml_array(@reboot_options).each { |elem| reboot << elem }
