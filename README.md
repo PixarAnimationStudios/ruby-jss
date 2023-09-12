@@ -66,7 +66,7 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
 
 ruby-jss defines a Ruby module called `Jamf`, which is used for accessing the 'Classic' and
 'Jamf Pro' APIs of a Jamf Pro server. Jamf Pro is an enterprise-level management tool for Apple
-devices from [Jamf.com](http://www.jamf.com/).  It is available as a[ruby gem](https://rubygems.org/gems/ruby-jss), and the
+devices from [Jamf.com](http://www.jamf.com/). ruby-jss is available as a [ruby gem](https://rubygems.org/gems/ruby-jss), and the
 [source is on github](https://github.com/PixarAnimationStudios/ruby-jss).
 
 The Jamf module maintains connections to both APIs simultaneously, and uses which ever is appropriate as needed.
@@ -75,7 +75,7 @@ which API are all handled under-the-hood.
 
 The Jamf module abstracts many API resources as Ruby objects, and provides methods for interacting with those
 resources. It also provides some features that aren't a part of the API itself, but come with other
-Jamf-related tools, such as uploading {Jamf::Package} files to the master distribution
+Jamf-related tools, such as uploading {Jamf::Package} files to the primary fileshare distribution
 point, and the installation of those objects on client machines. (See [BEYOND THE API](#beyond-the-api))
 
 The Jamf module is not a complete implementation of the Jamf Pro APIs. Only some objects are modeled,
