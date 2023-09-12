@@ -15,6 +15,13 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
+## \[3.2.1] 2023-09-12
+
+### Fixed
+  - Don't look at the management_status of unmanaged computers, it doesn't exist.
+    
+
+--------
 ## \[3.2.1] 2023-09-08
 
 ### Fixed

@@ -923,7 +923,14 @@ module Jamf
         @distribution_point = @init_data[:general][:distribution_point]
         @initial_entry_date = JSS.epoch_to_time @init_data[:general][:initial_entry_date_epoch]
         @last_enrolled = JSS.epoch_to_time @init_data[:general][:last_enrolled_date_epoch]
-        @enrolled_via_dep = @init_data[:general][:management_status][:enrolled_via_dep]
+
+        @management_status = @init_data[:general][:management_status]
+        if @management_status
+          @enrolled_via_dep = @management_status[:enrolled_via_dep]
+          @user_approved_enrollment = @management_status[:user_approved_enrollment]
+          @user_approved_mdm = @management_status[:user_approved_mdm]
+        end
+
         @ip_address = @init_data[:general][:ip_address]
         @reported_ip_address = @init_data[:general][:last_reported_ip]
         @itunes_store_account_is_active = @init_data[:general][:itunes_store_account_is_active]
@@ -933,8 +940,6 @@ module Jamf
         @mdm_capable = @init_data[:general][:mdm_capable]
         @mdm_capable_users = @init_data[:general][:mdm_capable_users].values
         @supervised = @init_data[:general][:supervised]
-        @user_approved_enrollment = @init_data[:general][:management_status][:user_approved_enrollment]
-        @user_approved_mdm = @init_data[:general][:management_status][:user_approved_mdm]
         @mdm_profile_expiration = JSS.epoch_to_time @init_data[:general][:mdm_profile_expiration_epoch]
 
         @netboot_server = @init_data[:general][:netboot_server]
@@ -945,8 +950,6 @@ module Jamf
         @security = @init_data[:security] || {}
 
         @configuration_profiles = @init_data[:configuration_profiles]
-
-        @management_status = @init_data[:general][:management_status]
 
         @groups_accounts = @init_data[:groups_accounts]
         @hardware = @init_data[:hardware]
