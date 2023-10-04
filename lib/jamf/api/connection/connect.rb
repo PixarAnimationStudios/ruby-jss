@@ -88,6 +88,22 @@ module Jamf
       # in the parameters. See {Jamf::Configuration}. If there are no config values
       # then a built-in default is used if available.
       #
+      # ### API Clients
+      #
+      # As of Jamf Pro 10.49, API connections can be made using "API Clients" which are
+      # assigned to various "API Roles", as well  as regular Jamf Pro accounts.
+      #
+      # Connections made with API Client credentials are different from regular connections:
+      #   - Their expiration period can vary based on the Client definition
+      #   - The expirations are usually quite short, less than the default 30 min. session timeout
+      #   - They cannot be kept alive, they will become invalid when the expiration time arrives.
+      #   - The API endpoints and data exchange used for making API Client connections are
+      #     different from those used by normal connections.
+      #
+      # To make a connection using an API Client, pass in the client_id: and client_secret: instead
+      # of user: and pw:
+      #
+      #####################
       #
       # @param url[String] The URL to use for the connection. Must be 'https'.
       #   The host, port, and (if provided), user and spassword will be extracted.
@@ -108,13 +124,23 @@ module Jamf
       #     server_path: 'dev_mgmt/jssweb'
       #
       # @option params :user[String] a JSS user who has API privs, required if not
-      #   defined in Jamf::CONFIG
+      #   defined in Jamf::CONFIG.
+      #   NOTE: To use an API Client (Jamf pro 10.49 and up),
+      #   provide client_id: instead of user:
+      #
+      # @option params :client_id[String] The Client ID of an "API Client"
+      #   available in Jamf Pro 10.49 and up. Use this instead of user:
+      #
+      # @option params :client_secret[String] The Client Secret of an "API Client"
+      #   available in Jamf Pro 10.49 and up. Use this instead of pw:
       #
       # @option params :pw[String, Symbol] The user's password, :prompt, or :stdin
       #   If :prompt, the user is promted on the commandline to enter the password
       #   If :stdin#, the password is read from a line of std in represented by
       #   the digit at #, so :stdin3 reads the passwd from the third line of
       #   standard input. Defaults to line 1, if no digit is supplied. see {JSS.stdin}
+      #   NOTE: To use an API Client (Jamf pro 10.49 and up),
+      #   provide client_secret: instead of pw:
       #
       # @option params :port[Integer] the port number to connect with, defaults
       #   to 443 for Jamf Cloud hosts, 8443 for on-prem hosts
@@ -287,7 +313,6 @@ module Jamf
       private
 
       # Get host, port, & user from a Token object
-      # or just the user from a token string.
       #######################################################
       def parse_token(params)
         return unless params[:token].is_a? Jamf::Connection::Token
@@ -348,6 +373,10 @@ module Jamf
         # if host is a cloud host. But leave port nil for other hosts
         # (will be set via client defaults or module defaults)
         params[:port] ||= Jamf::Connection::JAMFCLOUD_PORT if params[:host].to_s.end_with?(Jamf::Connection::JAMFCLOUD_DOMAIN)
+
+        # if we're using an API client, the id and secret are synonyms of the user and pw
+        params[:user] ||= params[:client_id]
+        params[:pw] ||= params[:client_secret]
 
         apply_defaults_from_config(params)
 
@@ -466,6 +495,8 @@ module Jamf
         token_params = {
           base_url: build_base_url(params),
           user: params[:user],
+          client_id: params[:client_id],
+          client_secret: params[:client_secret],
           timeout: params[:timeout],
           keep_alive: params[:keep_alive],
           refresh_buffer: params[:token_refresh_buffer],
