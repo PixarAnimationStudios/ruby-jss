@@ -93,7 +93,7 @@ module Jamf
       #
       # @return [Hash {String => Integer}] The Serials and prestage IDs
       ######################
-      def all_scopes(refresh: false, cnx: Jamf.cnx)
+      def all_scopes(refresh = false, cnx: Jamf.cnx)
         @all_scopes = nil if refresh
         return @all_scopes if @all_scopes
 
@@ -114,12 +114,12 @@ module Jamf
       #
       # @return [Array<String>] the SN's assigned to the prestage
       ######################
-      def serials_for_prestage(prestage_ident, refresh: false, cnx: Jamf.cnx)
+      def serials_for_prestage(prestage_ident, refresh = false, cnx: Jamf.cnx)
         id = valid_id prestage_ident, cnx: cnx
 
         raise Jamf::NoSuchItemError, "No #{self} matching '#{prestage_ident}'" unless id
 
-        serials_by_prestage_id(refresh: refresh, cnx: cnx).select { |_sn, psid| id == psid }.keys
+        serials_by_prestage_id(refresh, cnx: cnx).select { |_sn, psid| id == psid }.keys
       end
 
       # The id of the prestage to which the given serialNumber is assigned.
@@ -136,7 +136,7 @@ module Jamf
       # @return [String, nil] The id of prestage to which the SN is assigned
       #
       def assigned_prestage_id(sn, cnx: Jamf.cnx)
-        serials_by_prestage_id(refresh: true, cnx: cnx)[sn]
+        serials_by_prestage_id(:refresh, cnx: cnx)[sn]
       end
 
       # Is the given serialNumber assigned to any prestage, or to the
@@ -263,7 +263,7 @@ module Jamf
     #
     # @return [PrestageScope]
     #
-    def scope(refresh: false)
+    def scope(refresh = false)
       @scope = nil if refresh
       return @scope if @scope
 
@@ -279,8 +279,8 @@ module Jamf
     end
 
     # @return [Array<String>] the serialnumbers assigned to this prestage
-    def assigned_sns(refresh: false)
-      scope(refresh: refresh).assignments.map(&:serialNumber)
+    def assigned_sns(refresh = false)
+      scope(refresh).assignments.map(&:serialNumber)
     end
 
     # Is this SN assigned to this prestage?
@@ -293,7 +293,7 @@ module Jamf
     # @return [Boolean]
     #
     def assigned?(sn)
-      assigned_sns(refresh: true).include? sn
+      assigned_sns(:refresh).include? sn
     end
     alias include? assigned?
 
