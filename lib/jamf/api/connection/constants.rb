@@ -34,6 +34,11 @@ module Jamf
 
       # This version of ruby-jss only works with this version of the server
       # and higher
+      #
+      # NOTE: Some objects and features may require newer versions of Jamf Pro than this.
+      # However this is the minimum required for even making an API connection using this
+      # version of ruby-jss.
+      #
       MIN_JAMF_VERSION = Gem::Version.new('10.35.0')
 
       # The base of the Classic API resources
