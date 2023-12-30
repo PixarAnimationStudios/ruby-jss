@@ -36,7 +36,7 @@ module Jamf
     #   All package receipts are listed by their package name
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.46.0-t1681398190
+    # URL path on a Jamf Pro server version 10.50.0-t1693149930
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.

@@ -35,7 +35,7 @@ module Jamf
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.46.0-t1681398190
+    # URL path on a Jamf Pro server version 10.50.0-t1693149930
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -157,6 +157,7 @@ module Jamf
           required: true
         },
 
+        # managementPassword is no longer in use. Input value for managementPassword will be ignored.
         # @!attribute managementPassword
         #   @return [String]
         managementPassword: {
@@ -165,6 +166,7 @@ module Jamf
           writeonly: true
         },
 
+        # managementPasswordSet is no longer in use. Input value for managementPasswordSet will be ignored.
         # @!attribute [r] managementPasswordSet
         #   @return [Boolean]
         managementPasswordSet: {
@@ -172,6 +174,7 @@ module Jamf
           readonly: true
         },
 
+        # passwordType is no longer in use. Input value for passwordType will be ignored.
         # @!attribute passwordType
         #   @return [String]
         passwordType: {
@@ -179,6 +182,7 @@ module Jamf
           enum: PASSWORD_TYPE_OPTIONS
         },
 
+        # randomPasswordLength is no longer in use. Input value for randomPasswordLength will be ignored.
         # @!attribute randomPasswordLength
         #   @return [Integer]
         randomPasswordLength: {

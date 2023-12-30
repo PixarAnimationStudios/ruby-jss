@@ -35,7 +35,7 @@ module Jamf
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.46.0-t1681398190
+    # URL path on a Jamf Pro server version 10.50.0-t1693149930
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -67,8 +67,6 @@ module Jamf
     #    - Create Advanced Mobile Device Searches
     #  - '/v1/advanced-user-content-searches:POST' needs permissions:
     #    - Create Advanced User Content Searches
-    #  - '/v1/azure-ad-migration/reports:POST' needs permissions:
-    #    - Create LDAP Servers
     #  - '/v1/buildings:POST' needs permissions:
     #    - Create Buildings
     #  - '/v1/categories:POST' needs permissions:
@@ -142,6 +140,8 @@ module Jamf
     #    - Update Patch Management Software Titles
     #  - '/v3/check-in/history:POST' needs permissions:
     #    - Update Computer Check-In
+    #  - '/v3/computer-prestages:POST' needs permissions:
+    #    - Create Computer PreStage Enrollments
     #  - '/v3/enrollment/access-groups:POST' needs permissions:
     #    - Update User-Initiated Enrollment
     #

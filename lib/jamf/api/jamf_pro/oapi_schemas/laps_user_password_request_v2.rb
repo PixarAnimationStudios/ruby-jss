@@ -35,7 +35,7 @@ module Jamf
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.46.0-t1681398190
+    # URL path on a Jamf Pro server version 10.50.0-t1693149930
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -58,7 +58,7 @@ module Jamf
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
     #  - '/v2/local-admin-password/{clientManagementId}/set-password:PUT' needs permissions:
-    #    - View Local Admin Password
+    #    - Send Local Admin Password Command
     #
     #
     class LapsUserPasswordRequestV2 < Jamf::OAPIObject

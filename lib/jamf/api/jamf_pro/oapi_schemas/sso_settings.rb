@@ -35,7 +35,7 @@ module Jamf
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.46.0-t1681398190
+    # URL path on a Jamf Pro server version 10.50.0-t1693149930
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -52,7 +52,7 @@ module Jamf
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #  
+    #  - Jamf::OAPISchemas::EnrollmentSsoConfig
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
@@ -146,6 +146,19 @@ module Jamf
           class: :string,
           required: true,
           enum: USER_MAPPING_OPTIONS
+        },
+
+        # @!attribute enrollmentSsoForAdueEnabled
+        #   @return [Boolean]
+        enrollmentSsoForAdueEnabled: {
+          class: :boolean,
+          required: true
+        },
+
+        # @!attribute enrollmentSsoConfig
+        #   @return [Jamf::OAPISchemas::EnrollmentSsoConfig]
+        enrollmentSsoConfig: {
+          class: Jamf::OAPISchemas::EnrollmentSsoConfig
         },
 
         # @!attribute groupEnrollmentAccessEnabled

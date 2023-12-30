@@ -35,7 +35,7 @@ module Jamf
     #
     #
     # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.46.0-t1681398190
+    # URL path on a Jamf Pro server version 10.50.0-t1693149930
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -48,6 +48,7 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
+    #  - Jamf::OAPISchemas::LapsPendingRotation
     #  - Jamf::OAPISchemas::LapsUserResultsV2
     #
     # Sub Objects:
@@ -62,9 +63,20 @@ module Jamf
     #
     class LapsUserV2 < Jamf::OAPIObject
 
-      
+      # Enums used by this class or others
+
+      USER_SOURCE_OPTIONS = [
+        'MDM',
+        'JMF'
+      ]
 
       OAPI_PROPERTIES = {
+
+        # @!attribute clientManagementId
+        #   @return [String]
+        clientManagementId: {
+          class: :string
+        },
 
         # @!attribute guid
         #   @return [String]
@@ -76,6 +88,13 @@ module Jamf
         #   @return [String]
         username: {
           class: :string
+        },
+
+        # @!attribute userSource
+        #   @return [String]
+        userSource: {
+          class: :string,
+          enum: USER_SOURCE_OPTIONS
         }
 
       } # end OAPI_PROPERTIES
