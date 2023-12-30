@@ -1,5 +1,8 @@
 # Copyright 2023 Pixar
+#
+# frozen_string_literal: true
 
+#
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -50,16 +53,16 @@ module Jamf
     # The OAPI object class we get back from a 'list' query to get the
     # whole collection, or a subset of it. It contains a :results key
     # which is an array of data for objects of the parent class.
-    SEARCH_RESULT_OBJECT = Jamf::OAPISchemas::ComputerPrestageSearchResultsV2
+    SEARCH_RESULT_OBJECT = Jamf::OAPISchemas::ComputerPrestageSearchResultsV3
 
     # The OAPI object class we send with a POST request to make a new member of
     # the collection in Jamf. This is usually the same as the parent class.
-    POST_OBJECT = Jamf::OAPISchemas::PostComputerPrestageV2
+    POST_OBJECT = Jamf::OAPISchemas::PostComputerPrestageV3
 
     # The OAPI object class we send with a PUT request to change an object in
     # Jamf by specifying all its values. Most updates happen this way,
     # and this is usually the same as the parent class
-    PUT_OBJECT = Jamf::OAPISchemas::PutComputerPrestageV2
+    PUT_OBJECT = Jamf::OAPISchemas::PutComputerPrestageV3
 
     ############# API PATHS
     # TODO: See if these paths can be auto-generated from the
@@ -70,10 +73,16 @@ module Jamf
     #
     # REQUIRED for all collection resources
     #
-    # GET_, PUT_, PATCH_, POST_, and DELETE_ paths don't need to be
+    # GET_, PUT_, PATCH_, POST_, and DELETE_ paths for instances don't need to be
     # defined if they are the same as LIST_PATH (followed by an id if needed)
     #
-    LIST_PATH = 'v2/computer-prestages'.freeze
+    # See the methods get_path, put_path, etc, in  Jamf::CollectionResource::ClassMethods
+    #
+    LIST_PATH = 'v3/computer-prestages'
+
+    # As of Jamf Pro 10.50, the scope-related endpoints for computer prestages
+    # are still in v2
+    SCOPE_PATH_PREFIX = 'v2/computer-prestages'
 
     # alt and non-unique idents are defined in the prestage module
 

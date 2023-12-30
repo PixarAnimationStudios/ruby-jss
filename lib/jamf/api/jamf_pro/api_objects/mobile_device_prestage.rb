@@ -75,10 +75,11 @@ module Jamf
     # GET_, PUT_, PATCH_, POST_, and DELETE_ paths don't need to be
     # defined if they are the same as LIST_PATH (followed by an id if needed)
     #
+    # See the methods get_path, put_path, etc, in  Jamf::CollectionResource::ClassMethods
+    #
     LIST_PATH = 'v2/mobile-device-prestages'.freeze
 
     # alt and non-unique idents are defined in the prestage module
-
 
     # TODO:  Implement the 'syncs' stuff
 

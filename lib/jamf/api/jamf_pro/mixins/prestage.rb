@@ -93,11 +93,14 @@ module Jamf
       #
       # @return [Hash {String => Integer}] The Serials and prestage IDs
       ######################
-      def serials_by_prestage_id(_refresh = nil, cnx: Jamf.cnx)
-        scope_path ||= "#{self::LIST_PATH}/#{SCOPE_PATH}"
+      def all_scopes(refresh: false, cnx: Jamf.cnx)
+        @all_scopes = nil if refresh
+        return @all_scopes if @all_scopes
+
         api_reponse = ALL_SCOPES_OBJECT.new cnx.jp_get(scope_path)
-        api_reponse.serialsByPrestageId.transform_keys!(&:to_s)
+        @all_scopes = api_reponse.serialsByPrestageId.transform_keys(&:to_s)
       end
+      alias serials_by_prestage_id all_scopes
 
       # Get the assigned serialnumbers for a given prestage, without
       # having to instantiate it
@@ -111,12 +114,12 @@ module Jamf
       #
       # @return [Array<String>] the SN's assigned to the prestage
       ######################
-      def serials_for_prestage(prestage_ident, _refresh = nil, cnx: Jamf.cnx)
+      def serials_for_prestage(prestage_ident, refresh: false, cnx: Jamf.cnx)
         id = valid_id prestage_ident, cnx: cnx
 
         raise Jamf::NoSuchItemError, "No #{self} matching '#{prestage_ident}'" unless id
 
-        serials_by_prestage_id(cnx: cnx).select { |_sn, psid| id == psid }.keys
+        serials_by_prestage_id(refresh: refresh, cnx: cnx).select { |_sn, psid| id == psid }.keys
       end
 
       # The id of the prestage to which the given serialNumber is assigned.
@@ -127,13 +130,13 @@ module Jamf
       # of your Device Enrollment instances, use Jamf::DeviceEnrollment.include?
       #
       # @param sn [String] the serial number to look for
-      #      #
+      #
       # @param cnx[Jamf::Connection] the API connection to use
       #
-      # @return [Integer, nil] The id of prestage to which the SN is assigned
+      # @return [String, nil] The id of prestage to which the SN is assigned
       #
-      def assigned_prestage_id(sn, _refresh = nil, cnx: Jamf.cnx)
-        serials_by_prestage_id(cnx: cnx)[sn]
+      def assigned_prestage_id(sn, cnx: Jamf.cnx)
+        serials_by_prestage_id(refresh: true, cnx: cnx)[sn]
       end
 
       # Is the given serialNumber assigned to any prestage, or to the
@@ -150,8 +153,6 @@ module Jamf
       #
       # @param sn [String] the serial number to look for
       #
-      # @param refresh[Boolean] re-read the list from the API?
-      #
       # @param prestage [Integer, String] If provided, the id or name of
       #   an existing prestage in which to look for the sn. if omitted, all
       #   prestages are searched.
@@ -160,8 +161,9 @@ module Jamf
       #
       # @return [Boolean] Is the sn assigned, at all or to the given prestage?
       #
-      def assigned?(sn, prestage: nil, cnx: Jamf.cnx, refresh: nil)
+      def assigned?(sn, prestage: nil, cnx: Jamf.cnx)
         assigned_id = assigned_prestage_id(sn, cnx: cnx)
+
         # it isn't assigned at all
         return false unless assigned_id
 
@@ -175,47 +177,17 @@ module Jamf
         psid == assigned_id
       end
 
-      # We subtract the serials_by_prestage_id.keys from all known ADE SNs
-      # rather than just looking for Jamf::DeviceEnrollment.devices  with status
-      # REMOVED, because of the delay in updating the status for
-      # Jamf::DeviceEnrollment::Devices, which must come from apple.
-      #
-      # @return [Array<String>] The serial numbers of devices that are in ADE but
-      #    not assigned to any prestage
-      #
-      def unassigned_sns(cnx: Jamf.cnx)
-        type = self == Jamf::MobileDevicePrestage ? :mobiledevices : :computers
-        Jamf::DeviceEnrollment.device_sns(type: type, cnx: cnx) - serials_by_prestage_id(:refresh, cnx: cnx).keys
-      end
-
-      # @return [Array<String>] The serial numbers of known hardware not in ADE
-      #   at all
-      # TODO: move this to Jamf::DeviceEnrollment
-      # def sns_not_in_device_enrollment
-      #   # type = self == Jamf::MobileDevicePrestage ? :mobiledevices : :computers
-      #   nil # TODO: this, once MobileDevice  & Computer classes are implemented
-      # end
-
       # Assign one or more serialNumbers to a prestage
       # @return [Jamf::OAPISchemas::PrestageScopeResponseV2] the new scope for the prestage
       def assign(*sns_to_assign, to_prestage:, cnx: Jamf.cnx)
         prestage_id = valid_id to_prestage
         raise Jamf::NoSuchItemError, "No #{self} matching '#{to_prestage}'" unless prestage_id
 
-        # all sns_to_assign must be in ADE
-        not_in_dep = sns_to_assign - Jamf::DeviceEnrollment.device_sns
-        raise Jamf::UnsupportedError, "These SNs are not in any Device Enrollment instance: #{not_in_dep.join ', '}" unless not_in_dep.empty?
-
-        # all sns_to_assign must currently be unassigned.
-        already_assigned = sns_to_assign - unassigned_sns
-        raise Jamf::UnsupportedError, "These SNs are already assigned to a prestage: #{already_assigned.join ', '}" unless already_assigned.empty?
-
         # upcase all sns
         sns_to_assign.map!(&:to_s)
         sns_to_assign.map!(&:upcase)
 
-        # get the prestage name
-        prestage_name = map_all(:id, to: :displayName)[prestage_id]
+        # get the current scope of the prestage
         spath = scope_path(prestage_id)
         scope = INSTANCE_SCOPE_OBJECT.new cnx.get(spath)
 
@@ -224,7 +196,7 @@ module Jamf
         new_scope_sns += sns_to_assign
         new_scope_sns.uniq!
 
-        update_scope(prestage_name, spath, new_scope_sns, scope.versionLock, cnx)
+        update_scope(spath, new_scope_sns, scope.versionLock, cnx)
       end # self.assign
 
       # Unassign one or more serialNumber from a prestage
@@ -237,28 +209,29 @@ module Jamf
         sns_to_unassign.map!(&:to_s)
         sns_to_unassign.map!(&:upcase)
 
-        # get the prestage name
-        prestage_name = map_all(:id, to: :displayName)[prestage_id]
+        # get the current scope of the prestage
         spath = scope_path(prestage_id)
         scope = INSTANCE_SCOPE_OBJECT.new cnx.get(spath)
 
         new_scope_sns = scope.assignments.map(&:serialNumber)
         new_scope_sns -= sns_to_unassign
 
-        update_scope(prestage_name, spath, new_scope_sns, scope.versionLock, cnx)
+        update_scope(spath, new_scope_sns, scope.versionLock, cnx)
       end # self.unassign
+
+      # the endpoint path for the scope of a given prestage id
+      #
+      def scope_path(prestage_id = nil)
+        pfx = defined?(self::SCOPE_PATH_PREFIX) ? self::SCOPE_PATH_PREFIX : get_path
+
+        prestage_id ? "#{pfx}/#{prestage_id}/#{SCOPE_PATH}" : "#{pfx}/#{SCOPE_PATH}"
+      end
 
       # Private Class Methods
       #####################################
 
-      # the class level scope path for a given prestage id
-      def scope_path(prestage_id)
-        "#{self::LIST_PATH}/#{prestage_id}/#{SCOPE_PATH}"
-      end
-      private :scope_path
-
       # used by assign and unassign
-      def update_scope(prestage_name, spath, new_scope_sns, vlock, cnx)
+      def update_scope(spath, new_scope_sns, vlock, cnx)
         assignment_data = {
           serialNumbers: new_scope_sns,
           versionLock: vlock
@@ -271,6 +244,16 @@ module Jamf
 
     # Instance Methods
     #####################################
+
+    # getter alias for the 'standard' name attribute - Thanks for the consistency, Jamf
+    def name
+      displayName
+    end
+
+    # setter alias for the 'standard' name attribute - Thanks for the consistency, Jamf
+    def name=(newname)
+      displayName = newname
+    end
 
     # The scope data for this prestage
     #
@@ -285,10 +268,11 @@ module Jamf
       return @scope if @scope
 
       @scope = INSTANCE_SCOPE_OBJECT.new @cnx.get(scope_path)
+
       # TODO: is this the best way to deal with fetching a scope that
       # is more updated than the rest of the object?
       unless @scope.versionLock == @versionLock
-        raise Jamf::VersionLockError, "The #{self.class} '#{name}' has been modified since it was fetched. Please refetch and try again"
+        raise Jamf::VersionLockError, "The #{self.class} '#{displayName}' has been modified since it was fetched. Please refetch and try again"
       end
 
       @scope
@@ -296,10 +280,7 @@ module Jamf
 
     # @return [Array<String>] the serialnumbers assigned to this prestage
     def assigned_sns(refresh: false)
-      return @assigned_sns if @assigned_sns
-
-      @assigned_sns = nil if refresh
-      @assigned_sns = scope.assignments.map(&:serialNumber)
+      scope(refresh: refresh).assignments.map(&:serialNumber)
     end
 
     # Is this SN assigned to this prestage?
@@ -312,30 +293,20 @@ module Jamf
     # @return [Boolean]
     #
     def assigned?(sn)
-      assigned_sns.include? sn
+      assigned_sns(refresh: true).include? sn
     end
     alias include? assigned?
 
     # Assign
     def assign(*sns_to_assign)
-      @scope = self.class.assign(sns_to_assign, to_prestage: @id, cnx: @cnx)
+      @scope = self.class.assign(*sns_to_assign, to_prestage: @id, cnx: @cnx)
       @versionLock = @scope.versionLock
-
-      # sns_to_assign.map!(&:to_s)
-      # new_scope_sns = assigned_sns
-      # new_scope_sns += sns_to_assign
-      # new_scope_sns.uniq!
-      # update_scope(new_scope_sns)
     end
     alias add assign
 
     def unassign(*sns_to_unassign)
-      @scope = self.class.unassign(sns_to_unassign, from_prestage: @id, cnx: @cnx)
+      @scope = self.class.unassign(*sns_to_unassign, from_prestage: @id, cnx: @cnx)
       @versionLock = @scope.versionLock
-      # sns_to_unassign.map!(&:to_s)
-      # new_scope_sns = assigned_sns
-      # new_scope_sns -= sns_to_unassign
-      # update_scope(new_scope_sns)
     end
     alias remove unassign
 
@@ -348,7 +319,7 @@ module Jamf
 
     # The scope endpoint for this instance
     def scope_path
-      @scope_path ||= "#{get_path}/#{SCOPE_PATH}"
+      @scope_path ||= self.class.scope_path(id)
     end
 
   end # class
