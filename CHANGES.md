@@ -23,6 +23,7 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
   - Jamf::Prestage (ComputerPrestage and MobileDevicePrestage) no longer caches any data from the server. All methods that take a `refresh` parameter (positional or named) will ignore that parameter and always fetch fresh data. This applies to mostly to the current scope (assignments) for the prestages. This is in line with the ['API data are no longer cached' section of the file _README-2.0.0.md](README-2.0.0.md#api-data-are-no-longer-cached-) (and also, the data was being cached in an inappropriate place).  If making many calls at once, consisider capturing the data in your own variable. See also the deprecations listed below.
 
 ### Added
+  - As a convenience for internal consistency (which Jamf seems to value less than me), Jamf::Prestage (ComputerPrestage and MobileDevicePrestage) class method `.all_names` is an alias to `.all_displayNames`  and instances have getters and setters for `#name` and `#name=` which are just aliases for `#displayName` and `#displayName=`
   
 ### Fixed
 

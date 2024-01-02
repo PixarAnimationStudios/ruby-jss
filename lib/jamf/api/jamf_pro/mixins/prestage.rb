@@ -68,6 +68,11 @@ module Jamf
         Jamf.load_msg "--> #{extender} is extending Jamf::Prestage::ClassMethods"
       end
 
+      # alias for the 'standard' all_names - Thanks for the consistency, Jamf
+      def all_names
+        all_displayNames
+      end
+
       # Return the Prestage that is marked as default,
       # i.e. the one that new SNs are assigned to when first added.
       # Nil if no default is defined
@@ -89,8 +94,7 @@ module Jamf
       #
       # @param refresh[Boolean] re-read the list from the API? DEPRECATED:
       #   the data is always read from the API. If making many calls at once,
-      #   consisider capturing serials_by_prestage_id in your own variable and using
-      #   it as this method does
+      #   consider capturing serials_by_prestage_id in your own variable
       #
       # @param cnx[Jamf::Connection] the API connection to use
       #
@@ -100,7 +104,6 @@ module Jamf
         api_reponse = ALL_SCOPES_OBJECT.new cnx.jp_get(scope_path)
         api_reponse.serialsByPrestageId.transform_keys(&:to_s)
       end
-      alias all_scopes serials_by_prestage_id
 
       # Get the assigned serialnumbers for a given prestage, without
       # having to instantiate it
