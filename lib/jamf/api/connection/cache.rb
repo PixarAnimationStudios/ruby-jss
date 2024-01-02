@@ -40,7 +40,7 @@ module Jamf
       # when ruby-jss is required
       EXTENDABLE_CLASSES = %w[Jamf::Computer Jamf::MobileDevice Jamf::User].freeze
 
-      # @return [Concurrent::Map.new] This Hash-like object caches the results of
+      # @return [Concurrent::Map] This Hash-like object caches the results of
       #   C-API queries for an APIObject
       #   subclass's .all summary list, keyed by the subclass's RSRC_LIST_KEY.
       #   See the APIObject.all class method.
@@ -97,7 +97,7 @@ module Jamf
       # won't be removed from memory by garbage collection but all cached data
       # will be recached as needed.
       #
-      # e.g.s
+      # e.g.
       #  my_ref = Jamf::SomeClass.all
       #  # my_ref now points to the same cached hash that Jamf::SomeClass.all does
       #
@@ -122,7 +122,7 @@ module Jamf
       def flushcache(key_or_klass = nil)
         # EA defs for just one extendable class?
         if EXTENDABLE_CLASSES.include? key_or_klass.to_s
-          @c_ext_attr_definition_cache[key_or_klass] = Concurrent::Hash.new
+          @c_ext_attr_definition_cache[key_or_klass] = Concurrent::Map.new
 
         # one API object class?
         elsif key_or_klass
@@ -131,11 +131,10 @@ module Jamf
             cache_key == key_or_klass || cache_key.to_s.start_with?(map_key_pfx)
           end
 
-
         # flush everything
         else
-          @c_object_list_cache = Concurrent::Hash.new
-          @c_ext_attr_definition_cache = Concurrent::Hash.new
+          @c_object_list_cache = Concurrent::Map.new
+          @c_ext_attr_definition_cache = Concurrent::Map.new
         end
 
         GC.start

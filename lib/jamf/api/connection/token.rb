@@ -45,6 +45,12 @@ module Jamf
 
       JAMF_VERSION_RSRC = "#{JAMF_VERSION_RSRC_VERSION}/jamf-pro-version".freeze
 
+      OAUTH_RSRC = 'oauth'.freeze
+
+      API_CLIENT_TOKEN_RSRC = "#{OAUTH_RSRC}/token".freeze
+
+      API_CLIENT_GRANT_TYPE = 'client_credentials'.freeze
+
       # Recognize the tryitout server, cuz its /auth endpoint
       # is disabled, and it needs no tokens
       # TODO: MOVE THIS TO THE CONNECTION CLASS
@@ -155,6 +161,9 @@ module Jamf
           @pw_fallback = false unless @pw
           init_from_token_string params[:token_string]
 
+        elsif @client_id
+          init_for_api_client
+
         elsif @user && @pw
           init_from_pw
 
@@ -165,6 +174,32 @@ module Jamf
         start_keep_alive if @keep_alive
         @creation_time = Time.now
       end # init
+
+      # Initialize for an API client
+      #################################
+      def init_for_api_client
+        data = {
+          client_id: @client_id,
+          client_secret: Base64.decode64(@pw),
+          grant_type: API_CLIENT_GRANT_TYPE
+        }
+
+        resp = api_client_auth_connection(API_CLIENT_TOKEN_RSRC).post { |req| req.body = data }
+
+        if resp.success?
+          parse_token_from_api_client_auth resp
+          @creation_http_response = resp
+          whoami = token_connection(AUTH_RSRC, token: @token).get
+          @user = "#{whoami.body[:account][:username]} (API Client)"
+        elsif resp.status == 401
+          raise Jamf::AuthenticationError, 'Incorrect client_id or client_secret'
+        else
+          # TODO: better error reporting here
+          raise Jamf::AuthenticationError, "An error occurred while authenticating client_id: #{resp.body}"
+        end
+      ensure
+        @pw = nil
+      end
 
       # Initialize from password
       #################################
@@ -430,7 +465,18 @@ module Jamf
 
         @timeout = params[:timeout] || Jamf::Connection::DFT_TIMEOUT
 
-        @user = params[:user]
+        if params[:client_id]
+          @client_id = params[:client_id]
+          params[:keep_alive] = false
+          params[:refresh_buffer] = nil
+          params[:pw_fallback] = false
+        else
+          @user = params[:user]
+        end
+
+        # when using an API client, the client secret can be
+        # given in params[:client_secret] or params[:pw]
+        params[:pw] ||= params[:client_secret]
 
         # @pw will be deleted after use if pw_fallback is false
         # It is stored as base64 merely for visual security in irb sessions
@@ -496,12 +542,35 @@ module Jamf
         end # Faraday.new
       end # token_connection
 
+      # a generic, one-time Faraday connection for API Client token
+      # acquision & manipulation
+      #################################
+      def api_client_auth_connection(rsrc)
+        Faraday.new("#{@base_url}/#{Jamf::Connection::JPAPI_RSRC_BASE}/#{rsrc}", ssl: @ssl_options) do |fcnx|
+          # activates the url_encoded request middleware, which converts a hash in the request body to url-encoded form data
+          fcnx.request :url_encoded
+          # activates the json response middleware, parsing all valid  response bodies with JSON.parse
+          fcnx.response :json, parser_options: { symbolize_names: true }
+          fcnx.adapter Faraday::Adapter::NetHttp
+        end
+      end # token_connection
+
       # Parse the API token data into instance vars.
       #################################
       def parse_token_from_response(resp)
         @token_response_body = resp.body
         @token = @token_response_body[:token]
         @expires = Jamf.parse_time(@token_response_body[:expires]).localtime
+        @valid = true
+      end
+
+      # Parse the API Client token data into instance vars.
+      #################################
+      def parse_token_from_api_client_auth(resp)
+        @token_response_body = resp.body
+        @token = @token_response_body[:access_token]
+        @expires = Time.now + @token_response_body[:expires_in] - 1
+        @api_role_ids = @token_response_body[:scope].split(' ').map { |r| r.split(':').last }
         @valid = true
       end
 

@@ -33,7 +33,7 @@ module Jamf
   #
   # For most cases, a single connection to a single JSS is all you need, and
   # ruby-jss automatically creates and uses a default connection. See
-  # {JSS.connect}
+  # {Jamf.connect}
   #
   # If needed, multiple connection objects can be made and used sequentially or
   # simultaneously.
@@ -61,14 +61,14 @@ module Jamf
   # Example:
   #
   #    require 'ruby-jss'
-  #    JSS.cnx.connect host: 'server.address.edu', user: 'jss-api-user', pw: :prompt
+  #    Jamf.connect host: 'server.address.edu', user: 'jss-api-user', pw: :prompt
   #    # (see {Jamf::Connection#connect} for all the connection options)
   #
   #    a_phone = Jamf::MobileDevice.fetch id: 8743
   #
   #    # the mobile device was fetched through the default connection
   #
-  # If needed, you can re-login to the default connection by calling JSS.connect
+  # If needed, you can re-login to the default connection by calling Jamf.connect
   # with new connection parameters. You can also call JSS.disconnect to close the
   # connection
   #
@@ -91,8 +91,9 @@ module Jamf
   #
   # NOTE:
   # When an obbject is retrieved or created it stores an internal
-  # reference to the Connection object that it usdd, and uses that when making
+  # reference to the Connection object that it was made with, and uses that when making
   # future API calls.
+  #
   # So in the example above, when saving any changes to a_computer, the Connection
   # object 'my_connection' will (and must) be used.
   #
