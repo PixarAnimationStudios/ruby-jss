@@ -85,22 +85,22 @@ module Jamf
       end
 
       # Return all scoped serial numbers and the id of the prestage
-      # they are assigned to. Data is cached, use a truthy first param to refresh.
+      # they are assigned to.
       #
-      # @param refresh[Boolean] re-read the list from the API?
+      # @param refresh[Boolean] re-read the list from the API? DEPRECATED:
+      #   the data is always read from the API. If making many calls at once,
+      #   consisider capturing serials_by_prestage_id in your own variable and using
+      #   it as this method does
       #
       # @param cnx[Jamf::Connection] the API connection to use
       #
       # @return [Hash {String => Integer}] The Serials and prestage IDs
       ######################
-      def all_scopes(refresh = false, cnx: Jamf.cnx)
-        @all_scopes = nil if refresh
-        return @all_scopes if @all_scopes
-
+      def serials_by_prestage_id(refresh = false, cnx: Jamf.cnx) # rubocop:disable Lint/UnusedMethodArgument
         api_reponse = ALL_SCOPES_OBJECT.new cnx.jp_get(scope_path)
-        @all_scopes = api_reponse.serialsByPrestageId.transform_keys(&:to_s)
+        api_reponse.serialsByPrestageId.transform_keys(&:to_s)
       end
-      alias serials_by_prestage_id all_scopes
+      alias all_scopes serials_by_prestage_id
 
       # Get the assigned serialnumbers for a given prestage, without
       # having to instantiate it
@@ -108,18 +108,20 @@ module Jamf
       # @paream prestage_ident [Integer, String] the id or name of
       #   an existing prestage.
       #
-      # @param refresh[Boolean] re-read the list from the API?
+      # @param refresh[Boolean] re-read the list from the API? DEPRECATED:
+      #   the data is always read from the API. If making many calls at once,
+      #   consisider capturing serials_by_prestage_id in your own variable and using
+      #   it as this method does
       #
       # @param cnx[Jamf::Connection] the API connection to use
       #
       # @return [Array<String>] the SN's assigned to the prestage
       ######################
-      def serials_for_prestage(prestage_ident, refresh = false, cnx: Jamf.cnx)
+      def serials_for_prestage(prestage_ident, refresh = false, cnx: Jamf.cnx) # rubocop:disable Lint/UnusedMethodArgument
         id = valid_id prestage_ident, cnx: cnx
-
         raise Jamf::NoSuchItemError, "No #{self} matching '#{prestage_ident}'" unless id
 
-        serials_by_prestage_id(refresh, cnx: cnx).select { |_sn, psid| id == psid }.keys
+        serials_by_prestage_id(cnx: cnx).select { |_sn, psid| id == psid }.keys
       end
 
       # The id of the prestage to which the given serialNumber is assigned.
@@ -136,7 +138,7 @@ module Jamf
       # @return [String, nil] The id of prestage to which the SN is assigned
       #
       def assigned_prestage_id(sn, cnx: Jamf.cnx)
-        serials_by_prestage_id(:refresh, cnx: cnx)[sn]
+        serials_by_prestage_id(cnx: cnx)[sn]
       end
 
       # Is the given serialNumber assigned to any prestage, or to the
@@ -255,32 +257,29 @@ module Jamf
       displayName = newname
     end
 
-    # The scope data for this prestage
+    # The scope data for this prestage -
     #
-    # TODO: retain this caching?
-    #
-    # @param refresh[Boolean] reload fromthe API?
+    # @param refresh[Boolean] reload from the API? DEPRECATED:
+    #   the data is always read from the API. If making many calls at once,
+    #   consisider capturing the data in your own variable
     #
     # @return [PrestageScope]
     #
-    def scope(refresh = false)
-      @scope = nil if refresh
-      return @scope if @scope
-
-      @scope = INSTANCE_SCOPE_OBJECT.new @cnx.get(scope_path)
+    def scope(refresh = false) # rubocop:disable Lint/UnusedMethodArgument
+      scope = INSTANCE_SCOPE_OBJECT.new @cnx.get(scope_path)
 
       # TODO: is this the best way to deal with fetching a scope that
       # is more updated than the rest of the object?
-      unless @scope.versionLock == @versionLock
+      unless scope.versionLock == @versionLock
         raise Jamf::VersionLockError, "The #{self.class} '#{displayName}' has been modified since it was fetched. Please refetch and try again"
       end
 
-      @scope
+      scope
     end
 
     # @return [Array<String>] the serialnumbers assigned to this prestage
-    def assigned_sns(refresh = false)
-      scope(refresh).assignments.map(&:serialNumber)
+    def assigned_sns
+      scope.assignments.map(&:serialNumber)
     end
 
     # Is this SN assigned to this prestage?
@@ -293,29 +292,23 @@ module Jamf
     # @return [Boolean]
     #
     def assigned?(sn)
-      assigned_sns(:refresh).include? sn
+      assigned_sns.include? sn
     end
     alias include? assigned?
+    alias scoped? assigned?
 
     # Assign
     def assign(*sns_to_assign)
-      @scope = self.class.assign(*sns_to_assign, to_prestage: @id, cnx: @cnx)
-      @versionLock = @scope.versionLock
+      scope = self.class.assign(*sns_to_assign, to_prestage: @id, cnx: @cnx)
+      @versionLock = scope.versionLock
     end
     alias add assign
 
     def unassign(*sns_to_unassign)
-      @scope = self.class.unassign(*sns_to_unassign, from_prestage: @id, cnx: @cnx)
-      @versionLock = @scope.versionLock
+      scope = self.class.unassign(*sns_to_unassign, from_prestage: @id, cnx: @cnx)
+      @versionLock = scope.versionLock
     end
     alias remove unassign
-
-    def save
-      super
-      # the scope needs to be refreshed, since its versionLock will need to be
-      # updated
-      @scope = nil
-    end
 
     # The scope endpoint for this instance
     def scope_path
