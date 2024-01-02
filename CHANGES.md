@@ -15,11 +15,25 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
+## \[Unreleased] 
+
+### Changed
+  - Jamf::Prestage (ComputerPrestage and MobileDevicePrestage) no longer accesses Jamf::DeviceEnrollment for pre-validation. The API itself will report these kinds of errors when prestage scope is changed. See the ['Cross-object valildation in setters' section of the file _README-2.0.0.md_](README-2.0.0.md#cross-object-validation-in-setters)
+
+  - Jamf::Prestage (ComputerPrestage and MobileDevicePrestage) no longer caches any data from the server. All methods that take a `refresh` parameter (positional or named) will ignore that parameter and always fetch fresh data. This applies to mostly to the current scope (assignments) for the prestages. This is in line with the ['API data are no longer cached' section of the file _README-2.0.0.md](README-2.0.0.md#api-data-are-no-longer-cached-) (and also, the data was being cached in an inappropriate place).  If making many calls at once, consisider capturing the data in your own variable. See also the deprecations listed below.
+
+### Added
+  
+### Fixed
+
+### Deprecated
+  - Jamf::Prestage (ComputerPrestage and MobileDevicePrestage): the `refresh` parameter will be removed from all class and instance methods in a future version of ruby-jss. It currently is still accepted, but does nothing. See the changes listed above.
+
+--------
 ## \[3.2.1] 2023-09-12
 
 ### Fixed
   - Don't look at the management_status of unmanaged computers, it doesn't exist.
-    
 
 --------
 ## \[3.2.1] 2023-09-08
