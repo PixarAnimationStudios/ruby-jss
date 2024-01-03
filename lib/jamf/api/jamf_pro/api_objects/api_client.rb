@@ -155,6 +155,19 @@ module Jamf
     def rotate_secret
       self.class.rotate_secret(id, cnx: cnx)
     end
+
+    # In the UI these are the 'API Roles', not 'authorization scopes'
+
+    alias roles authorizationScopes
+    alias roles= authorizationScopes=
+    alias roles_append authorizationScopes_append
+    alias roles_delete authorizationScopes_delete
+    alias roles_delete_at authorizationScopes_delete_at
+    alias roles_delete_if authorizationScopes_delete_if
+    alias roles_insert authorizationScopes_insert
+    alias roles_prepend authorizationScopes_prepend
+
+
   end # class
 
 end # module
