@@ -111,6 +111,9 @@ module JamfZeitwerkConfig
     loader.inflector.inflect 'jpapi_resource' => 'JPAPIResource'
 
     loader.inflector.inflect 'api_object' => 'APIObject'
+    loader.inflector.inflect 'api_role' => 'APIRole'
+    loader.inflector.inflect 'api_client' => 'APIClient'
+    loader.inflector.inflect 'api_integration' => 'APIIntegration'
     loader.inflector.inflect 'xml_workaround' => 'XMLWorkaround'
     loader.inflector.inflect 'json_object' => 'JSONObject'
     loader.inflector.inflect 'vppable' => 'VPPable'
@@ -154,6 +157,18 @@ module JamfZeitwerkConfig
     loader.ignore "#{lib_dir}/ruby-jss.rb"
     loader.ignore "#{lib_dir}/jss.rb"
     loader.ignore "#{lib_dir}/jss-api.rb"
+
+    # because our file defining Jamf::APIRole is at
+    #      lib/jamf/api/jamf_pro/api_objects/api_role.rb
+    # has the same filename as the file defining Jamf::OAPISchemas::ApiRole
+    #      lib/jamf/api/jamf_pro/oapi_schemas/api_role.rb
+    # telling zeitwerk to use the file api_role.rb to load Jamf::APIRole
+    # confuses it because it also finds the other one.
+    #
+    # So instead we'll tell zeitwerk to ignore lib/jamf/api/jamf_pro/oapi_schemas/api_role.rb
+    # and we'll load that manually from the other file.
+    #
+    loader.ignore "#{lib_dir}/jamf/api/jamf_pro/oapi_schemas/api_role.rb"
 
     ##### Callbacks
 
