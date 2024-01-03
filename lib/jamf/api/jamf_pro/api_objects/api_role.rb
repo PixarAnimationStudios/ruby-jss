@@ -23,11 +23,13 @@
 #
 #
 
+# Manually require our OAPISchema....
+######################################
 # because this file defining Jamf::APIRole is at
 #      lib/jamf/api/jamf_pro/api_objects/api_role.rb
 # has the same filename as the file defining Jamf::OAPISchemas::ApiRole
 #      lib/jamf/api/jamf_pro/oapi_schemas/api_role.rb
-# telling zeitwerk to use the file api_role.rb to load Jamf::APIRole
+# telling zeitwerk to use the file 'api_role.rb' to load Jamf::APIRole
 # confuses it because it also finds the other one.
 #
 # So instead we'll tell it to ignore lib/jamf/api/jamf_pro/oapi_schemas/api_role.rb

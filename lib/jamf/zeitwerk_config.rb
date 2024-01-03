@@ -158,16 +158,9 @@ module JamfZeitwerkConfig
     loader.ignore "#{lib_dir}/jss.rb"
     loader.ignore "#{lib_dir}/jss-api.rb"
 
-    # because our file defining Jamf::APIRole is at
-    #      lib/jamf/api/jamf_pro/api_objects/api_role.rb
-    # has the same filename as the file defining Jamf::OAPISchemas::ApiRole
-    #      lib/jamf/api/jamf_pro/oapi_schemas/api_role.rb
-    # telling zeitwerk to use the file api_role.rb to load Jamf::APIRole
-    # confuses it because it also finds the other one.
-    #
-    # So instead we'll tell zeitwerk to ignore lib/jamf/api/jamf_pro/oapi_schemas/api_role.rb
-    # and we'll load that manually from the other file.
-    #
+    # See the comments and manual 'require' at the top of
+    # lib/jamf/api/jamf_pro/api_objects/api_role.rb
+    # for why we ignore this file.
     loader.ignore "#{lib_dir}/jamf/api/jamf_pro/oapi_schemas/api_role.rb"
 
     ##### Callbacks
