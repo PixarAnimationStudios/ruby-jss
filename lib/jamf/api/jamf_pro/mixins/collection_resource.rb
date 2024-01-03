@@ -744,7 +744,7 @@ module Jamf
     # make sure that required values are not nil
     ############################################
     def validate_for_create
-      self.class::OAPI_PROPERTIES.each do |attr_name, attr_def|
+      self.class::POST_OBJECT::OAPI_PROPERTIES.each do |attr_name, attr_def|
         next unless attr_def[:required]
         next unless send(attr_name).nil?
 
