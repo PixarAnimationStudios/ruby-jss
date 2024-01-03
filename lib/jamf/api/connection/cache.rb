@@ -127,8 +127,10 @@ module Jamf
         # one API object class?
         elsif key_or_klass
           map_key_pfx = "#{key_or_klass}_map_"
-          @c_object_list_cache.delete_if do |cache_key, _cache|
-            cache_key == key_or_klass || cache_key.to_s.start_with?(map_key_pfx)
+          @c_object_list_cache.each_key do |cache_key|
+            next unless cache_key == key_or_klass || cache_key.to_s.start_with?(map_key_pfx)
+
+            @c_object_list_cache.delete cache_key
           end
 
         # flush everything
