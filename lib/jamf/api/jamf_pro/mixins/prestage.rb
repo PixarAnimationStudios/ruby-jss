@@ -68,11 +68,6 @@ module Jamf
         Jamf.load_msg "--> #{extender} is extending Jamf::Prestage::ClassMethods"
       end
 
-      # alias for the 'standard' all_names - Thanks for the consistency, Jamf
-      def all_names
-        all_displayNames
-      end
-
       # Return the Prestage that is marked as default,
       # i.e. the one that new SNs are assigned to when first added.
       # Nil if no default is defined
@@ -249,16 +244,6 @@ module Jamf
 
     # Instance Methods
     #####################################
-
-    # getter alias for the 'standard' name attribute - Thanks for the consistency, Jamf
-    def name
-      displayName
-    end
-
-    # setter alias for the 'standard' name attribute - Thanks for the consistency, Jamf
-    def name=(newname)
-      displayName = newname
-    end
 
     # The scope data for this prestage -
     #
