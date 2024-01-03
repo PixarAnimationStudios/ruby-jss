@@ -108,18 +108,53 @@ module Jamf
     # Class Methods
     ###############################
 
-    # @return [Array<String>] All available privileges that can be granted via an API Role
+    # For the given API Client, replace the existing clientSecret with a new one, to be
+    # used with the clientID for generating a connection token.
     #
-    def self.new_credentials(client_ident, cnx: Jamf.cnx)
+    # IMPORTANT: When you do this, the previous secret becomes immediately invalid and
+    # can no longer be used for generating connection tokens.
+    # BE SURE to capture the output in a variable, or display it somewhere immediately,
+    # as it will not be available ever again.
+    # See the Jamf Pro docs at
+    # https://learn.jamf.com/bundle/jamf-pro-documentation-current/page/API_Roles_and_Clients.html
+    #
+    # @param client_ident [String, Integer] The displayName or id of the APIClient
+    #   for which to generate a new secret.
+    #
+    # @param cnx [Jamf::APIConnection] The API connection through which to perform
+    #   the operation
+    #
+    # @return [String] The new valid secret for use with the clientId
+    #
+    def self.rotate_secret(client_ident, cnx: Jamf.cnx)
       valid_id = valid_id(client_ident, cnx: cnx)
       raise Jamf::NoSuchItemError, "No APIClient matching '#{client_ident}'" unless valid_id
 
-      NEW_CREDENTIALS_OBJECT.new cnx.jp_post("#{LIST_PATH}/#{valid_id}/#{NEW_CREDENTIALS_PATH_SUFFIX}", nil)
+      creds = NEW_CREDENTIALS_OBJECT.new cnx.jp_post("#{LIST_PATH}/#{valid_id}/#{NEW_CREDENTIALS_PATH_SUFFIX}", nil)
+      creds.clientSecret
     end
 
     # Instance Attributes and Methods
     ###########################
 
+
+
+
+    # For this API Client, replace the existing clientSecret with a new one, to be
+    # used with the clientID for generating a connection token.
+    #
+    # IMPORTANT: When you do this, the previous secret becomes immediately invalid and
+    # can no longer be used for generating connection tokens.
+    # BE SURE to capture the output in a variable, or display it somewhere immediately,
+    # as it will not be available ever again.
+    # See the Jamf Pro docs at
+    # https://learn.jamf.com/bundle/jamf-pro-documentation-current/page/API_Roles_and_Clients.html
+    #
+    # @return [String] The new valid secret for use with the clientId
+    #
+    def rotate_secret
+      self.class.rotate_secret(id, cnx: cnx)
+    end
   end # class
 
 end # module
