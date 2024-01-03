@@ -18,6 +18,8 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
 ## \[4.0.0] 2024-01-22
 
 ### Changed
+  - Jamf::ComputerPrestage now accesses the v3 endpoints as needed - the v1 and some v2 endpoints are deprecated and will be removed from the Jamf Pro API sometime soon
+  
   - Jamf::Prestage (ComputerPrestage and MobileDevicePrestage) no longer accesses Jamf::DeviceEnrollment for pre-validation. The API itself will report these kinds of errors when prestage scope changes are saved. See the ['Cross-object valildation in setters' section of the file _README-2.0.0.md_](README-2.0.0.md#cross-object-validation-in-setters)
 
   - Jamf::Prestage (ComputerPrestage and MobileDevicePrestage) no longer caches any data from the server. All methods that take a `refresh` parameter (positional or named) will ignore that parameter and always fetch fresh data. This applies to mostly to the current scope (assignments) for the prestages. This is in line with the ['API data are no longer cached' section of the file _README-2.0.0.md](README-2.0.0.md#api-data-are-no-longer-cached-) (and also, the data was being cached in an inappropriate place).  If making many calls at once, consisider capturing the data in your own variable. See also the deprecations listed below.
