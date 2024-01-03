@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+and this project attempts to adhere to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## _IMPORTANT_: Known Security Issue in v1.5.3 and below
 
@@ -15,17 +15,26 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
-## \[Unreleased] 
+## \[4.0.0] 2024-01-22
 
 ### Changed
-  - Jamf::Prestage (ComputerPrestage and MobileDevicePrestage) no longer accesses Jamf::DeviceEnrollment for pre-validation. The API itself will report these kinds of errors when prestage scope is changed. See the ['Cross-object valildation in setters' section of the file _README-2.0.0.md_](README-2.0.0.md#cross-object-validation-in-setters)
+  - Jamf::Prestage (ComputerPrestage and MobileDevicePrestage) no longer accesses Jamf::DeviceEnrollment for pre-validation. The API itself will report these kinds of errors when prestage scope changes are saved. See the ['Cross-object valildation in setters' section of the file _README-2.0.0.md_](README-2.0.0.md#cross-object-validation-in-setters)
 
   - Jamf::Prestage (ComputerPrestage and MobileDevicePrestage) no longer caches any data from the server. All methods that take a `refresh` parameter (positional or named) will ignore that parameter and always fetch fresh data. This applies to mostly to the current scope (assignments) for the prestages. This is in line with the ['API data are no longer cached' section of the file _README-2.0.0.md](README-2.0.0.md#api-data-are-no-longer-cached-) (and also, the data was being cached in an inappropriate place).  If making many calls at once, consisider capturing the data in your own variable. See also the deprecations listed below.
 
 ### Added
-  - As a convenience for internal consistency (which Jamf seems to value less than me), Jamf::Prestage (ComputerPrestage and MobileDevicePrestage) class method `.all_names` is an alias to `.all_displayNames`  and instances have getters and setters for `#name` and `#name=` which are just aliases for `#displayName` and `#displayName=`
-  
+  - Support for API Roles and API Clients (requires Jamf Pro 10.49 and up). 
+    - Two new classes: `Jamf::APIRole` and `Jamf::APIClient` provide access to the definitions of these objects via the 'api-roles' and 'api-integrations' endpoints respectively. There are also methods for listing all available privileges for defining roles, and for rotating the clientSecret of clients.
+
+    - Connections can now be made using API clients. When specifying connection parameters, just use `client_id:` instead of `user:` and `client_secret` instead of `pw:`. For example:  
+      
+      `Jamf.cnx.connect  client_id: "a83cb7bc-5a61-4e5f-b894-5d63dca2e355", client_secret: "seCretString", host: 'jamfpro.company.com', port: 8443`  
+
+      NOTE that 'keep_alive' cannot be used with API Clients - the tokens generated with them will expire at the appropriate time, which is usually much shorter than the session timeout for standard connections.
+
 ### Fixed
+  - Bugfix when flushing or refreshing cached data
+  - Bugfix when validating data for saving newly-created objects to the Jamf Pro API
 
 ### Deprecated
   - Jamf::Prestage (ComputerPrestage and MobileDevicePrestage): the `refresh` parameter will be removed from all class and instance methods in a future version of ruby-jss. It currently is still accepted, but does nothing. See the changes listed above.
