@@ -191,11 +191,13 @@ If you want to avoid repeated GET requests to the server when you aren't worried
 
 ### No Attribute aliases for Jamf Pro API objects
 
-Objects from the Jamf Pro API will no longer define aliases for the attribute names that come from the API itself. This means, e.g., to get the name of a ComputerPrestage or MobileDevicePrestage, you have to ask for its `displayName` not its `name`, since the property comes from the API as `displayName`. To see a list  of all the names, you must use `.all_displayNames` not `.all_names`.  For objects with a 'name' property (most of them) then you can use `.name` and `.all_names`.
+In most cases, objects from the Jamf Pro API will no longer define aliases for the attribute names that come from the API itself. This means, e.g., to get the name of a ComputerPrestage or MobileDevicePrestage, you have to ask for its `displayName` not its `name`, since the property comes from the API as `displayName`. To see a list  of all the names, you must use `.all_displayNames` not `.all_names`.  For objects with a 'name' property (most of them) then you can use `.name` and `.all_names`. 
 
 The reason behind this is twofold: 
 1) to simplify ruby-jss's code and automate as much as possible
 2) to reflect what Jamf actually gives us in the APIs
+
+There may be times when exceptions to this are appropriate. For example, in the Jamf Pro Webapp, the API Roles assigned to API Clients are called 'API Roles' or just 'roles'.  However in the API data for APIClients (which themselves are called APIIntegrations), the roles are called 'authorizationScopes'.  In order to agree with the webapp, the various 'authorizationScopes*' methods have matching 'roles*' aliases.
 
 **IMPORTANT** This is a breaking change from earlier ruby-jss versions, for which Jamf Pro API objects had the potential for aliases of their attribute names.
 
