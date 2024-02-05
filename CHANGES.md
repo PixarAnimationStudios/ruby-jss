@@ -15,7 +15,7 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
-## \[4.0.0] 2024-01-22
+## \[4.0.0] 2024-02-05
 
 ### Changed
   - Jamf::ComputerPrestage now accesses the v3 endpoints as needed - the v1 and some v2 endpoints are deprecated and will be removed from the Jamf Pro API sometime soon
