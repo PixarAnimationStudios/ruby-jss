@@ -61,7 +61,7 @@ module Jamf
       def c_get(rsrc, format = :json, raw_json: false)
         rsrc = rsrc.delete_prefix Jamf::Connection::SLASH
 
-        validate_connected @c_cnx
+        validate_connected
         raise Jamf::InvalidDataError, 'format must be :json or :xml' unless Jamf::Connection::GET_FORMATS.include?(format)
 
         resp =
@@ -92,7 +92,7 @@ module Jamf
       # @return [String] the xml response from the server.
       #
       def c_post(rsrc, xml)
-        validate_connected @c_cnx
+        validate_connected
 
         rsrc = rsrc.delete_prefix Jamf::Connection::SLASH
 
@@ -127,7 +127,7 @@ module Jamf
       # @return [String] the xml response from the server.
       #
       def c_put(rsrc, xml)
-        validate_connected @c_cnx
+        validate_connected
 
         rsrc = rsrc.delete_prefix Jamf::Connection::SLASH
 
@@ -160,7 +160,7 @@ module Jamf
       # @return [String] the xml response from the server.
       #
       def c_delete(rsrc)
-        validate_connected @c_cnx
+        validate_connected
         raise MissingDataError, 'Missing :rsrc' if rsrc.nil?
 
         rsrc = rsrc.delete_prefix Jamf::Connection::SLASH
@@ -195,7 +195,7 @@ module Jamf
       # @return [String] the xml response from the server.
       #
       def upload(rsrc, local_file)
-        validate_connected @c_cnx
+        validate_connected
         rsrc = rsrc.delete_prefix Jamf::Connection::SLASH
 
         # the upload file object for faraday
@@ -228,7 +228,10 @@ module Jamf
       # create the faraday CAPI connection object
       def create_classic_connection
         Faraday.new(@c_base_url, ssl: ssl_options) do |cnx|
-          cnx.authorization :Bearer, @token.token
+          # use a proc for the token value, so its looked up on every request
+          # meaning we don't have to validate that the token is still valid before every request
+          # because the Token instance will (usually) refresh it automatically.
+          cnx.request :authorization, 'Bearer', -> { @token.token }
 
           cnx.options[:timeout] = @timeout
           cnx.options[:open_timeout] = @open_timeout
@@ -236,7 +239,7 @@ module Jamf
           cnx.request :multipart
           cnx.request :url_encoded
 
-          cnx.adapter Faraday::Adapter::NetHttp
+          cnx.adapter :net_http
         end
       end
 

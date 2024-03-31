@@ -534,11 +534,11 @@ module Jamf
           con.options[:timeout] = @timeout
           con.options[:open_timeout] = @timeout
           if token
-            con.authorization :Bearer, token
+            con.request :authorization, 'Bearer', token
           else
-            con.basic_auth @user, Base64.decode64(@pw)
+            con.request :authorization, :basic, @user, Base64.decode64(@pw)
           end
-          con.adapter Faraday::Adapter::NetHttp
+          con.adapter :net_http
         end # Faraday.new
       end # token_connection
 
@@ -551,7 +551,7 @@ module Jamf
           fcnx.request :url_encoded
           # activates the json response middleware, parsing all valid  response bodies with JSON.parse
           fcnx.response :json, parser_options: { symbolize_names: true }
-          fcnx.adapter Faraday::Adapter::NetHttp
+          fcnx.adapter  :net_http
         end
       end # token_connection
 

@@ -37,7 +37,10 @@ module Jamf
       #######################################################
       def create_jp_connection(parse_json: true)
         Faraday.new(@jp_base_url, ssl: ssl_options) do |cnx|
-          cnx.authorization :Bearer, @token.token
+          # use a proc for the token value, so its looked up on every request
+          # meaning we don't have to validate that the token is still valid before every request
+          # because the Token instance will (usually) refresh it automatically.
+          cnx.request :authorization, 'Bearer', -> { @token.token }
 
           cnx.options[:timeout] = @timeout
           cnx.options[:open_timeout] = @open_timeout
@@ -47,7 +50,7 @@ module Jamf
             cnx.response :json, parser_options: { symbolize_names: true }
           end
 
-          cnx.adapter Faraday::Adapter::NetHttp
+          cnx.adapter :net_http
         end
       end
 
@@ -57,7 +60,7 @@ module Jamf
       # @return [Hash] the result of the get
       #######################################################
       def jp_get(rsrc)
-        validate_connected @jp_cnx
+        validate_connected
         rsrc = rsrc.delete_prefix Jamf::Connection::SLASH
         resp = @jp_cnx.get(rsrc) do |req|
           # Modify the request here if needed.
@@ -82,7 +85,7 @@ module Jamf
       # @return [String] the response body
       #######################################################
       def jp_post(rsrc, data)
-        validate_connected @jp_cnx
+        validate_connected
         rsrc = rsrc.delete_prefix Jamf::Connection::SLASH
         resp = @jp_cnx.post(rsrc) do |req|
           req.body = data
@@ -105,7 +108,7 @@ module Jamf
       #
       #######################################################
       def jp_put(rsrc, data)
-        validate_connected @jp_cnx
+        validate_connected
         rsrc = rsrc.delete_prefix Jamf::Connection::SLASH
         resp = @jp_cnx.put(rsrc) do |req|
           req.body = data
@@ -128,7 +131,7 @@ module Jamf
       #
       #######################################################
       def jp_patch(rsrc, data)
-        validate_connected @jp_cnx
+        validate_connected
         rsrc = rsrc.delete_prefix Jamf::Connection::SLASH
         resp = @jp_cnx.patch(rsrc) do |req|
           req.body = data
@@ -149,7 +152,7 @@ module Jamf
       #
       #######################################################
       def jp_delete(rsrc)
-        validate_connected @jp_cnx
+        validate_connected
         rsrc = rsrc.delete_prefix Jamf::Connection::SLASH
         resp = @jp_cnx.delete rsrc
         @last_http_response = resp
