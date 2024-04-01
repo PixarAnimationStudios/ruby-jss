@@ -68,10 +68,10 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'ruby-mysql', '~> 2.9', '>= 2.9.12'
 
   # https://github.com/lostisland/faraday: MIT License
-  s.add_runtime_dependency 'faraday', '~> 2.8'
+  s.add_runtime_dependency 'faraday', '~> 2.0'
 
-  # https://github.com/lostisland/faraday-multiparte & dependencies: MIT License
-  s.add_runtime_dependency 'faraday-multipart', '~> 1.0'
+  # https://github.com/lostisland/faraday-multipart & dependencies: MIT License
+  s.add_runtime_dependency 'faraday-multipart', '~> 1.0', '>= 1.0.4'
 
   # https://github.com/ruby-concurrency/concurrent-ruby MIT License (no dependencies)
   s.add_runtime_dependency 'concurrent-ruby', '~> 1.1'
