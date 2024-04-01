@@ -198,20 +198,11 @@ module Jamf
         validate_connected
         rsrc = rsrc.delete_prefix Jamf::Connection::SLASH
 
-        # the upload file object for faraday
-        local_file = Pathname.new local_file
-        upfile = Faraday::UploadIO.new(
-          local_file.to_s,
-          'application/octet-stream',
-          local_file.basename.to_s
-        )
+        payload = {}
+        payload[:name] = Faraday::Multipart::FilePart.new(local_file.to_s, 'application/octet-stream')
 
-        # send it and get the response
-        resp =
-          @c_cnx.post rsrc do |req|
-            req.headers['Content-Type'] = 'multipart/form-data'
-            req.body = { name: upfile }
-          end
+        resp = @c_cnx.post rsrc, payload
+
         @last_http_response = resp
 
         unless resp.success?
