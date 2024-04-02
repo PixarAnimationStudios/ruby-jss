@@ -44,7 +44,7 @@ Gem::Specification.new do |s|
   s.license     = 'Nonstandard'
   s.date        = Time.now.utc.strftime('%Y-%m-%d')
   s.summary     = 'A Ruby interface to the Jamf Pro REST APIs'
-  s.authors     = ['Chris Lasell', 'Aurica Hayes', 'Kristoffer Landes']
+  s.authors     = ['Chris Lasell', 'Aurica Hayes']
   s.email       = 'ruby-jss@pixar.com'
   s.homepage    = 'http://pixaranimationstudios.github.io/ruby-jss/'
 
@@ -89,5 +89,5 @@ Gem::Specification.new do |s|
 
   # Rdoc
   s.extra_rdoc_files = ['README.md', 'LICENSE.txt', 'CHANGES.md', 'THANKS.md', 'README-2.0.0.md']
-  s.rdoc_options << '--title' << 'JSS' << '--line-numbers' << '--main' << 'README.md'
+  s.rdoc_options << '--title' << 'Jamf' << '--line-numbers' << '--main' << 'README.md'
 end
