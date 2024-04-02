@@ -47,6 +47,11 @@ Gem::Specification.new do |s|
   s.authors     = ['Chris Lasell', 'Aurica Hayes']
   s.email       = 'ruby-jss@pixar.com'
   s.homepage    = 'http://pixaranimationstudios.github.io/ruby-jss/'
+  s.metadata    = {
+    'source_code_uri' => 'https://github.com/PixarAnimationStudios/ruby-jss',
+    'changelog_uri' => 'https://github.com/PixarAnimationStudios/ruby-jss/blob/master/CHANGES.md',
+    'wiki_uri' => 'https://github.com/PixarAnimationStudios/ruby-jss/wiki'
+  }
 
   s.files = Dir['lib/**/*.rb']
   s.files << '.yardopts'
