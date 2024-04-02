@@ -15,6 +15,13 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
+## \[4.1.0] 2024-04-04
+
+### Changed
+
+  - ruby-jss now uses version 2.0 or higher of [Faraday](https://lostisland.github.io/faraday/#/). This required minor changes to how https connections are established.
+  
+--------
 ## \[4.0.0] 2024-02-05
 
 ### Changed
