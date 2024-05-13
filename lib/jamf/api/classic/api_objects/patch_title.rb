@@ -322,22 +322,34 @@ module Jamf
       # source: and source_id: are considered the same, source_id: wins
       params[:source_id] ||= params[:source]
 
-      # if given a source name, this converts it to an id
-      params[:source_id] = Jamf::PatchInternalSource.valid_id params[:source_id]
-      params[:source_id] ||= Jamf::PatchExternalSource.valid_id params[:source_id]
+      # split or build a possible source_name_id
+      if params[:source_name_id]
+        params[:source_name_id] =~ /^(\d+)-(.+)$/
+        params[:source_id] = ::Regexp.last_match(1)
+        params[:name_id] = ::Regexp.last_match(2)
+      else
+        params[:source_name_id] ||= "#{params[:source_id]}-#{params[:name_id]}"
+      end
 
-      # build a possible source_name_id
-      params[:source_name_id] ||= "#{params[:source_id]}-#{params[:name_id]}"
+      # if given a source name, this converts it to an id
+      params[:source_id] = Jamf::PatchInternalSource.valid_id(params[:source_id], cnx: cnx)
+      params[:source_id] ||= Jamf::PatchExternalSource.valid_id(params[:source_id], cnx: cnx)
 
       id =
         if identifier
-          valid_id identifier
+          valid_id identifier, cnx: cnx
+
         elsif params[:id]
-          all_ids.include?(params[:id]) ? params[:id] : nil
+          all_ids(cnx: cnx).include?(params[:id]) ? params[:id] : nil
+
         elsif params[:source_name_id]
-          map_all_ids_to(:source_name_id).invert[params[:source_name_id]]
+          # TODO: make 'map_all' work with :source_name_id
+          map_all_ids_to(:source_name_id, cnx: cnx).invert[params[:source_name_id]]
+          # map_all(:source_name_id, to: :id, cnx: cnx)[params[:source_name_id]]
+
         elsif params[:name]
-          map_all_ids_to(:name).invert[params[:name]]
+          # map_all_ids_to(:name, cnx: cnx).invert[params[:name]]
+          map_all(:name, to: :id, cnx: cnx)[params[:name]]
         end
 
       raise Jamf::NoSuchItemError, "No matching #{name} found" unless id
@@ -393,13 +405,10 @@ module Jamf
         raise Jamf::MissingDataError, 'source: and name_id: must be provided' unless @init_data[:name_id] && @init_data[:source_id]
 
         @source_id = Jamf::PatchSource.valid_id(@init_data[:source_id], cnx: @cnx)
-
         raise Jamf::NoSuchItemError, "No Patch Sources match '#{@init_data[:source]}'" unless source_id
 
         @name_id = @init_data[:name_id]
-
         valid_name_id = Jamf::PatchSource.available_name_ids(@source_id, cnx: @cnx).include? @name_id
-
         raise Jamf::NoSuchItemError, "source #{@init_data[:source]} doesn't offer name_id '#{@init_data[:name_id]}'" unless valid_name_id
       end
 
