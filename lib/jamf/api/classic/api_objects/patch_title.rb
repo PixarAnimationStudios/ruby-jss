@@ -392,13 +392,13 @@ module Jamf
 
         raise Jamf::MissingDataError, 'source: and name_id: must be provided' unless @init_data[:name_id] && @init_data[:source_id]
 
-        @source_id = Jamf::PatchSource.valid_id(@init_data[:source_id])
+        @source_id = Jamf::PatchSource.valid_id(@init_data[:source_id], cnx: @cnx)
 
         raise Jamf::NoSuchItemError, "No Patch Sources match '#{@init_data[:source]}'" unless source_id
 
         @name_id = @init_data[:name_id]
 
-        valid_name_id = Jamf::PatchSource.available_name_ids(@source_id).include? @name_id
+        valid_name_id = Jamf::PatchSource.available_name_ids(@source_id, cnx: @cnx).include? @name_id
 
         raise Jamf::NoSuchItemError, "source #{@init_data[:source]} doesn't offer name_id '#{@init_data[:name_id]}'" unless valid_name_id
       end

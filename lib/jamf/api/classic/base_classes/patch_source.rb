@@ -248,7 +248,6 @@ module Jamf
     #
     def self.available_name_ids(source, api: nil, cnx: Jamf.cnx)
       cnx = api if api
-
       available_titles(source, cnx: cnx).map { |t| t[:name_id] }
     end
 
@@ -270,7 +269,6 @@ module Jamf
     #
     def self.valid_patch_source_id(ident, refresh = false, api: nil, cnx: Jamf.cnx)
       cnx = api if api
-
       id = Jamf::PatchInternalSource.valid_id ident, refresh, cnx: cnx
       id ||= Jamf::PatchExternalSource.valid_id ident, refresh, cnx: cnx
       id

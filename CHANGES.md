@@ -15,6 +15,14 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
+## \[Unreleased] 
+
+### Fixed
+
+  - `LdapServer.check_membership` no longer fails or gives invalid responses when you provide a connection object via `cnx:`
+  - A bug in Jamf::PatchTitle which prevented use of non-default connection objects.
+  
+--------
 ## \[4.1.0] 2024-04-06
 
 ### Changed

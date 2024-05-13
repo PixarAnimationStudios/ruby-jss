@@ -1567,10 +1567,10 @@ module Jamf
 
       raise Jamf::InvalidConnectionError, 'Not connected to MySQL' unless Jamf::DB_CNX.connected?
 
-      unless defined? self.class::OBJECT_HISTORY_OBJECT_TYPE
-        raise Jamf::UnsupportedError,
-              "Object History access is not supported for #{self.class} objects at this time"
-      end
+      return if defined? self.class::OBJECT_HISTORY_OBJECT_TYPE
+
+      raise Jamf::UnsupportedError,
+            "Object History access is not supported for #{self.class} objects at this time"
     end
 
     # If we're making a new object in the JSS, make sure we were given

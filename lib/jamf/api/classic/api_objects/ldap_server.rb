@@ -97,6 +97,7 @@ module Jamf
 
       all_objects(:refresh, cnx: cnx).each do |ldap|
         next if ldap.find_user(user, :exact).empty?
+
         return ldap.id
       end
       nil
@@ -130,6 +131,7 @@ module Jamf
 
       all_objects(:refresh, cnx: cnx).each do |ldap|
         next if ldap.find_group(group, :exact).empty?
+
         return ldap.id
       end
       nil
@@ -167,7 +169,7 @@ module Jamf
     def self.check_membership(ldap_server, user, group, api: nil, cnx: Jamf.cnx)
       cnx = api if api
 
-      ldap_server_id = valid_id ldap_server
+      ldap_server_id = valid_id ldap_server, cnx: cnx
       raise Jamf::NoSuchItemError, "No LdapServer matching #{ldap_server}" unless ldap_server_id
 
       rsrc = "#{RSRC_BASE}/id/#{ldap_server_id}/group/#{CGI.escape group.to_s}/user/#{CGI.escape user.to_s}"
@@ -313,6 +315,7 @@ module Jamf
     #
     def find_user(user, exact = false)
       raise Jamf::NoSuchItemError, 'LdapServer not yet saved in the JSS' unless @in_jss
+
       raw = cnx.c_get("#{RSRC_BASE}/id/#{@id}/user/#{CGI.escape user.to_s}")[:ldap_users]
       exact ? raw.select { |u| u[:username] == user } : raw
     end
@@ -325,6 +328,7 @@ module Jamf
     #
     def find_group(group, exact = false)
       raise Jamf::NoSuchItemError, 'LdapServer not yet saved in the JSS' unless @in_jss
+
       raw = cnx.c_get("#{RSRC_BASE}/id/#{@id}/group/#{CGI.escape group.to_s}")[:ldap_groups]
       exact ? raw.select { |u| u[:groupname] == group } : raw
     end
@@ -337,6 +341,7 @@ module Jamf
     #
     def check_membership(user, group)
       raise Jamf::NoSuchItemError, 'LdapServer not yet saved in the JSS' unless @in_jss
+
       self.class.check_membership @id, user, group, cnx: @cnx
     end
 
