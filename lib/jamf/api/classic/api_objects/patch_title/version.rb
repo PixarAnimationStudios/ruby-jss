@@ -26,7 +26,6 @@
 ###
 module Jamf
 
-  #
   class PatchTitle < Jamf::APIObject
 
     # A Patch Software Title Version in the JSS.
@@ -148,7 +147,7 @@ module Jamf
         return if @package_id == pkgid
 
         @package_id = pkgid
-        @package_name = pkgid == :none ? nil : Jamf::Package.map_all_ids_to(:name)[pkgid]
+        @package_name = pkgid == :none ? nil : Jamf::Package.map_all_ids_to(:name, cnx: @title.cnx)[pkgid]
         @title.changed_pkg_for_version version
       end
 
