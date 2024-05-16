@@ -369,6 +369,8 @@ module Jamf
       unless in_jss
         @init_data[:general] ||= {}
         @init_data[:software_title_configuration_id] = validate_patch_title @init_data[:patch_title]
+        # need this set here for the validations below
+        @patch_title_id = @init_data[:software_title_configuration_id]
 
         # were we given target_version in the make params?
         validate_target_version @init_data[:target_version] if @init_data[:target_version]
@@ -424,7 +426,7 @@ module Jamf
     #
     def patch_title(refresh = false)
       @patch_title = nil if refresh
-      @patch_title ||= Jamf::PatchTitle.fetch id: patch_title_id
+      @patch_title ||= Jamf::PatchTitle.fetch id: patch_title_id, cnx: @cnx
     end
 
     # @return [String] the name of the PatchTitle for this patch policy
@@ -573,7 +575,7 @@ module Jamf
       end
       raise Jamf::MissingDataError, ':patch_title is required' unless a_title
 
-      title_id = Jamf::PatchTitle.valid_id a_title
+      title_id = Jamf::PatchTitle.valid_id a_title, cnx: @cnx
       return title_id if title_id
 
       raise Jamf::NoSuchItemError, "No Patch Title matches '#{a_title}'"
@@ -605,7 +607,7 @@ module Jamf
     # Update our local version data after the target_version is changed
     #
     def refetch_version_info
-      tmp = self.class.fetch id: id
+      tmp = self.class.fetch id: id, cnx: @cnx
       @release_date = tmp.release_date
       @incremental_update = tmp.incremental_update
       @reboot = tmp.reboot

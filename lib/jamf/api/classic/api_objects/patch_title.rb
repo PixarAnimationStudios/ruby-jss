@@ -313,6 +313,8 @@ module Jamf
     # so all other lookup values have to be converted to ID before
     # the call to super
     #
+    # NOTE:  The only truely unique identifiers are id and source_name_id
+    #
     def self.fetch(identifier = nil, **params)
       # default connection if unspecified
       cnx = params.delete :cnx
@@ -322,18 +324,11 @@ module Jamf
       # source: and source_id: are considered the same, source_id: wins
       params[:source_id] ||= params[:source]
 
-      # split or build a possible source_name_id
-      if params[:source_name_id]
-        params[:source_name_id] =~ /^(\d+)-(.+)$/
-        params[:source_id] = ::Regexp.last_match(1)
-        params[:name_id] = ::Regexp.last_match(2)
-      else
-        params[:source_name_id] ||= "#{params[:source_id]}-#{params[:name_id]}"
+      # if given a source name in params[:source_id] this converts it to an id
+      if params[:source_id]
+        params[:source_id] = Jamf::PatchInternalSource.valid_id(params[:source_id], cnx: cnx)
+        params[:source_id] ||= Jamf::PatchExternalSource.valid_id(params[:source_id], cnx: cnx)
       end
-
-      # if given a source name, this converts it to an id
-      params[:source_id] = Jamf::PatchInternalSource.valid_id(params[:source_id], cnx: cnx)
-      params[:source_id] ||= Jamf::PatchExternalSource.valid_id(params[:source_id], cnx: cnx)
 
       id =
         if identifier
@@ -344,9 +339,16 @@ module Jamf
 
         elsif params[:source_name_id]
           # TODO: make 'map_all' work with :source_name_id
-          map_all_ids_to(:source_name_id, cnx: cnx).invert[params[:source_name_id]]
           # map_all(:source_name_id, to: :id, cnx: cnx)[params[:source_name_id]]
+          map_all(:id, to: :source_name_id, cnx: cnx).invert[params[:source_name_id]]
 
+          # WARNING: name_id may not be unique
+        elsif params[:name_id]
+          # TODO: make 'map_all' work with :source_name_id
+          # map_all(:source_name_id, to: :id, cnx: cnx)[params[:source_name_id]]
+          map_all(:id, to: :name_id, cnx: cnx).invert[params[:name_id]]
+
+        # WARNING: name_id may not be unique
         elsif params[:name]
           # map_all_ids_to(:name, cnx: cnx).invert[params[:name]]
           map_all(:name, to: :id, cnx: cnx)[params[:name]]
