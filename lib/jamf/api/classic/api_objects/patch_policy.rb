@@ -262,9 +262,12 @@ module Jamf
     # @see APIObject#fetch
     #
     def self.fetch(searchterm = nil, **args)
+      cnx = args[:cnx]
+      cnx ||= Jamf.cnx
+
       name_search = args.delete :name
       if name_search
-        id = valid_id name_search
+        id = valid_id name_search, cnx: cnx
         raise Jamf::NoSuchItemError, "No #{self::RSRC_OBJECT_KEY} found #{err_detail}" unless id
 
         args[:id] = id
