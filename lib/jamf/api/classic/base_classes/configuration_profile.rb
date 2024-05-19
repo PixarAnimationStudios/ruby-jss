@@ -151,7 +151,7 @@ module Jamf
     def payload_content=(new_content)
       payload_plist_data = parsed_payloads
       payload_plist_data['PayloadContent'] = new_content
-      @payloads = JSS.xml_plist_from new_content
+      @payloads = JSS.xml_plist_from payload_plist_data
       @need_to_update = true
       @update_payloads = true
     end
