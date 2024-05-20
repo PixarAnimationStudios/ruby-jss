@@ -142,7 +142,7 @@ module Jamf
     #   *ruby* Array full of *ruby* hashes, and they will be converted to a
     #   Plist and embedded into the API XML appropriately.
     #
-    #   WARNING: This is experimental! Editing the Plist Payload of a Config
+    #   WARNING: This can be dangerous! Editing the Plist Payload of a Config
     #   profile may break the profile. Make sure you test on a fake profile
     #   before using this method in production.
     #
@@ -151,7 +151,7 @@ module Jamf
     def payload_content=(new_content)
       payload_plist_data = parsed_payloads
       payload_plist_data['PayloadContent'] = new_content
-      @payloads = JSS.xml_plist_from payload_plist_data
+      @payloads = Jamf.xml_plist_from payload_plist_data
       @need_to_update = true
       @update_payloads = true
     end
