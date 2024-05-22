@@ -134,6 +134,8 @@ module Jamf
         validate_connected
         rsrc = rsrc.delete_prefix Jamf::Connection::SLASH
         resp = @jp_cnx.patch(rsrc) do |req|
+          # Patch requests must use this content type!
+          req.headers['Content-Type'] = 'application/merge-patch+json'
           req.body = data
         end
         @last_http_response = resp
