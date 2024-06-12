@@ -133,7 +133,7 @@ class App
         #
         #{OAPI_DESC_PLACEHOLDER}
         #
-        # This class was automatically genereated from the #{OAPI_SCHEMA_URL_PATH}
+        # This class was automatically generated from the #{OAPI_SCHEMA_URL_PATH}
         # URL path on a Jamf Pro server version #{JAMF_PRO_VERSION_PLACEHOLDER}
         #
         # This class may be used directly, e.g instances of other classes may
