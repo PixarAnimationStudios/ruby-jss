@@ -444,7 +444,7 @@ class App
         oapi_properties_const_for_non_object(class_name, object_schema, enum_consts)
 
       # This schema defines a 'subclass' of another object
-      elsif object_schema[:allOf]
+      elsif object_schema[:allOf] || object_schema[:oneOf]
         oapi_properties_const_for_sub_object(class_name, object_schema, enum_consts)
 
       elsif object_schema[:type] == 'object'
@@ -506,26 +506,28 @@ class App
   # This schema defines a 'subclass' of another object
   ##################################
   def oapi_properties_const_for_sub_object(class_name, object_schema, enum_consts)
-    unless object_schema[:allOf]
-      puts "WARNING: object schema in #{class_name} has no 'allOf'"
+    unless object_schema[:allOf] || object_schema[:oneOf]
+      puts "WARNING: object schema in #{class_name} has no 'allOf' or 'oneOf'"
       return
     end
 
     merges = []
-    const = +"#{OAPI_PROPERTIES_CONST_NAME} = "
+    const = +"#{OAPI_PROPERTIES_CONST_NAME} = {"
 
-    object_schema[:allOf].each do |all_of_item|
+    parent_object = object_schema[:allOf] || object_schema[:oneOf]
+
+    parent_object.each do |item|
       # this item of allOf points to the parent-object
       # We will merge its OAPI_PROPERTIES constant with the one for
       # this object
-      if all_of_item[:$ref]
-        merged_model_name = all_of_item[:$ref].split('/').last
+      if item[:$ref]
+        merged_model_name = item[:$ref].split('/').last
         merges << "Jamf::#{OAPIOBJECT_NAMESPACE}::#{merged_model_name}::#{OAPI_PROPERTIES_CONST_NAME}"
         puts "  Merging properties from #{merged_model_name}"
 
-      # this item of allOf is the schema for the sub-object
+      # this item of allOf or oneOf is the schema for the sub-object
       else
-        const << const_from_properties(all_of_item, enum_consts)
+        const << const_from_properties(item, enum_consts)
       end
     end
 
