@@ -558,8 +558,9 @@ class App
 
     attr_defs = []
     required_attrs = object_schema[:required] || []
+    properties = object_schema[:properties] || []
 
-    object_schema[:properties].each do |attr, deets|
+    properties.each do |attr, deets|
       attr_defs << object_property_to_attr_def(attr, deets, required_attrs, enum_consts)
     end # properties.each do |attr, deets|
 
