@@ -546,7 +546,7 @@ class App
       return
     end
 
-    const = +"#{OAPI_PROPERTIES_CONST_NAME} = "
+    const = +"#{OAPI_PROPERTIES_CONST_NAME} = {"
     const << const_from_properties(object_schema, enum_consts)
     const << "\n      } # end #{OAPI_PROPERTIES_CONST_NAME}"
     const
@@ -555,7 +555,7 @@ class App
   ########################
   def const_from_properties(object_schema, enum_consts)
     const_def = []
-    const_def << '{'
+    const_def << ''
     const_def << ''
 
     attr_defs = []
