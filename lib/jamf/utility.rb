@@ -75,7 +75,17 @@ module Jamf
       17 => 12,
       18 => 12,
       19 => 12,
-      20 => 12
+      20 => 12,
+      21 => 12,
+      22 => 12,
+      23 => 12,
+      24 => 12,
+      25 => 12,
+      26 => 12,
+      27 => 12,
+      28 => 12,
+      29 => 12,
+      30 => 12
     }
 
     # Converts an OS Version into an Array of equal or higher OS versions, up to
@@ -176,9 +186,9 @@ module Jamf
       ok_oses << '10.16' if ['11', '11.x', '11.x.x', '11.0', '11.0.0'].include?(min_os) && !ok_oses.include?('10.16')
 
       # e.g. 11.x, or 11.x.x
-      # expand to 11.x, 12.x, 13.x, ... 20.x
+      # expand to 11.x, 12.x, 13.x, ... 30.x
       if minor == 'x'
-        ((major.to_i)..20).each { |v| ok_oses << "#{v}.x" }
+        ((major.to_i)..MAC_OS_MAXS.keys.max).each { |v| ok_oses << "#{v}.x" }
 
       # e.g. 11.2.x
       # expand to 11.2.x, 11.3.x, ... 11.12.x,
@@ -192,7 +202,7 @@ module Jamf
         end # each m
 
         # then add the majors out to 20
-        ((major.to_i + 1)..20).each { |v| ok_oses << "#{v}.x" }
+        ((major.to_i + 1)...MAC_OS_MAXS.keys.max).each { |v| ok_oses << "#{v}.x" }
 
       # e.g. 11.2.3
       # expand to 11.2.3, 11.2.4, ... 11.2.10,
@@ -209,7 +219,7 @@ module Jamf
         ((minor.to_i + 1)..max_minor_for_major).each { |min| ok_oses << "#{major}.#{min}.x" }
 
         # then add the majors out to 20
-        ((major.to_i + 1)..20).each { |v| ok_oses << "#{v}.x" }
+        ((major.to_i + 1)..MAC_OS_MAXS.keys.max).each { |v| ok_oses << "#{v}.x" }
       end
 
       ok_oses
@@ -533,7 +543,7 @@ module Jamf
     #   # if content is :id, then, eg. <name>kimchi</name> would be <id>2</id>
     #
     def item_list_to_rexml_list(list_element, item_element, item_list, content = :name)
-      xml_list = REXML::Element.new  list_element.to_s
+      xml_list = REXML::Element.new list_element.to_s
       item_list.each do |i|
         xml_list.add_element(item_element.to_s).add_element(content.to_s).text = i[content]
       end
