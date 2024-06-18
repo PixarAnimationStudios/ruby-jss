@@ -133,7 +133,7 @@ class App
         #
         #{OAPI_DESC_PLACEHOLDER}
         #
-        # This class was automatically genereated from the #{OAPI_SCHEMA_URL_PATH}
+        # This class was automatically generated from the #{OAPI_SCHEMA_URL_PATH}
         # URL path on a Jamf Pro server version #{JAMF_PRO_VERSION_PLACEHOLDER}
         #
         # This class may be used directly, e.g instances of other classes may
@@ -558,8 +558,9 @@ class App
 
     attr_defs = []
     required_attrs = object_schema[:required] || []
+    properties = object_schema[:properties] || []
 
-    object_schema[:properties].each do |attr, deets|
+    properties.each do |attr, deets|
       attr_defs << object_property_to_attr_def(attr, deets, required_attrs, enum_consts)
     end # properties.each do |attr, deets|
 
