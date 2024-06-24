@@ -15,13 +15,20 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
-## \[Unreleased] 
+## \[4.1.1] In testing
+
+### Changed
+  - `expand_min_os` (used when specifying min. OS for Packages and Scripts) now expands up to macOS v30, so we have 15 years to hopefully not need to use it anymore.
 
 ### Fixed
 
   - `LdapServer.check_membership` no longer fails or gives invalid responses when you provide a connection object via `cnx:`
   - A bug in Jamf::PatchTitle which prevented use of non-default connection objects.
-  
+  - Some ObjectModel classes from the OAPI3 schema were not getting generated, causing problems when using Zeitwerk's `eager_load`. Thanks to @j-o-lantern0422 and @jcruce13 for reporting the issue, and @nick-f for providing a fix!
+
+    
+    NOTE: Given the nature of this issue, along with known inconsistencies in the data structures and naming of items in the OAPI3 schema, plus the fact that we're starting to migrate to the JP API for more complex object handling (e.g. `Jamf::MobileDevice`)  we're probably going to stop using the auto-generated `Jamf::OAPISchemas` classes - at least in the way we have been using them. Most likely we'll still generate them, but then hand-edit them to create more robust, bespoke classes for the items we implement (as we did in the Classic API), and only include those required for the objects implemented. Feedback is welcome, via GitHub or The [#ruby-jss channel in Macadmins Slack](https://macadmins.slack.com/archives/C03C7F563MK)
+
 --------
 ## \[4.1.0] 2024-04-06
 
