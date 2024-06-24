@@ -35,6 +35,10 @@
 # So instead we'll tell it to ignore lib/jamf/api/jamf_pro/oapi_schemas/api_role.rb
 # and we'll load that manually here
 #
+# TODO: Stop using auto-generated Jamf::OAPISchemas as we have, use them
+# as starting points for bespoke classes to help avoid problems like this.
+#
+# See Also: lib/jamf/api/jamf_pro/api_objects/api_role.rb
 require 'jamf/api/jamf_pro/oapi_schemas/api_role'
 
 # The Module

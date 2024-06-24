@@ -21,6 +21,23 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
+# Manually require Jamf::OAPISchemas::ApiRole ....
+######################################
+# because this file defining Jamf::APIRole is at
+#      lib/jamf/api/jamf_pro/api_objects/api_role.rb
+# has the same filename as the file defining Jamf::OAPISchemas::ApiRole
+#      lib/jamf/api/jamf_pro/oapi_schemas/api_role.rb
+# telling zeitwerk to use the file 'api_role.rb' to load Jamf::APIRole
+# confuses it because it also finds the other one.
+#
+# So instead we'll tell it to ignore lib/jamf/api/jamf_pro/oapi_schemas/api_role.rb
+# and we'll load that manually here, since its needed below
+#
+# TODO: Stop using auto-generated Jamf::OAPISchemas as we have, use them
+# as starting points for bespoke classes to help avoid problems like this.
+#
+# See Also: lib/jamf/api/jamf_pro/api_objects/api_role.rb
+require 'jamf/api/jamf_pro/oapi_schemas/api_role'
 
 module Jamf
 
@@ -28,7 +45,6 @@ module Jamf
   # in the OAPI JSON schema under the components => schemas key
   #
   module OAPISchemas
-
 
     # OAPI Object Model and Enums for: ApiRoleResult
     #
@@ -48,7 +64,7 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #  
+    #
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
@@ -62,8 +78,6 @@ module Jamf
     #
     #
     class ApiRoleResult < Jamf::OAPIObject
-
-      
 
       OAPI_PROPERTIES = {
 
