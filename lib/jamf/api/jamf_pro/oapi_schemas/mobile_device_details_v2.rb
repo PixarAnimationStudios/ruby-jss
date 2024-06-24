@@ -1,4 +1,4 @@
-# Copyright 2023 Pixar
+# Copyright 2024 Pixar
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -34,8 +34,8 @@ module Jamf
     #
     #
     #
-    # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.50.0-t1693149930
+    # This class was automatically generated from the api/schema
+    # URL path on a Jamf Pro server version 11.6.1-t1718634702
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -55,8 +55,10 @@ module Jamf
     #  - Jamf::OAPISchemas::V1Site
     #  - Jamf::OAPISchemas::ExtensionAttributeV2
     #  - Jamf::OAPISchemas::LocationV2
-    #  - Jamf::OAPISchemas::IosDetailsV2
+    #  - Jamf::OAPISchemas::DetailsV2
     #  - Jamf::OAPISchemas::TvOsDetails
+    #  - Jamf::OAPISchemas::WatchOsDetailsV2
+    #  - Jamf::OAPISchemas::DetailsV2
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
@@ -72,6 +74,8 @@ module Jamf
       TYPE_OPTIONS = [
         'ios',
         'tvos',
+        'watchos',
+        'visionos',
         'unknown'
       ]
 
@@ -92,7 +96,7 @@ module Jamf
           class: :string
         },
 
-        # Enforce the mobile device name. Device must be supervised. If set to true, Jamf Pro will revert the Mobile Device Name to the ‘name’ value each time the device checks in.
+        # Enforce the mobile device name. Device must be supervised. If set to true, Jamf Pro will revert the Mobile Device Name to the ���name��� value each time the device checks in.
         # @!attribute enforceName
         #   @return [Boolean]
         enforceName: {
@@ -250,7 +254,7 @@ module Jamf
           class: Jamf::OAPISchemas::LocationV2
         },
 
-        # Based on the value of this either ios, appleTv, android objects will be populated.
+        # Based on the value of this either iOS, tvOS, watch or visionOS objects will be populated.
         # @!attribute type
         #   @return [String]
         type: {
@@ -259,15 +263,27 @@ module Jamf
         },
 
         # @!attribute ios
-        #   @return [Jamf::OAPISchemas::IosDetailsV2]
+        #   @return [Jamf::OAPISchemas::DetailsV2]
         ios: {
-          class: Jamf::OAPISchemas::IosDetailsV2
+          class: Jamf::OAPISchemas::DetailsV2
         },
 
         # @!attribute tvos
         #   @return [Jamf::OAPISchemas::TvOsDetails]
         tvos: {
           class: Jamf::OAPISchemas::TvOsDetails
+        },
+
+        # @!attribute watchos
+        #   @return [Jamf::OAPISchemas::WatchOsDetailsV2]
+        watchos: {
+          class: Jamf::OAPISchemas::WatchOsDetailsV2
+        },
+
+        # @!attribute visionos
+        #   @return [Jamf::OAPISchemas::DetailsV2]
+        visionos: {
+          class: Jamf::OAPISchemas::DetailsV2
         }
 
       } # end OAPI_PROPERTIES

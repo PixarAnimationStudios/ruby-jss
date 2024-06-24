@@ -1,4 +1,4 @@
-# Copyright 2023 Pixar
+# Copyright 2024 Pixar
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -34,8 +34,8 @@ module Jamf
     #
     #
     #
-    # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.50.0-t1693149930
+    # This class was automatically generated from the api/schema
+    # URL path on a Jamf Pro server version 11.6.1-t1718634702
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -85,6 +85,10 @@ module Jamf
     #    - Read Jamf Protect Settings
     #  - '/v1/mobile-device-prestages/{id}/history:GET' needs permissions:
     #    - Read Mobile Device PreStage Enrollments
+    #  - '/v1/onboarding/history:GET' needs permissions:
+    #    - Read Onboarding Configuration
+    #  - '/v1/packages/{id}/history:GET' needs permissions:
+    #    - Read Packages
     #  - '/v1/parent-app/history:GET' needs permissions:
     #    - Read Parent App Settings
     #  - '/v1/pki/venafi/{id}/history:GET' needs permissions:
@@ -99,6 +103,8 @@ module Jamf
     #    - Read Teacher App Settings
     #  - '/v1/volume-purchasing-locations/{id}/history:GET' needs permissions:
     #    - Read Volume Purchasing Locations
+    #  - '/v1/volume-purchasing-subscriptions/{id}/history:GET' needs permissions:
+    #    - Read Volume Purchasing Locations
     #  - '/v2/engage/history:GET' needs permissions:
     #    - Read Engage Settings
     #  - '/v2/enrollment-customizations/{id}/history:GET' needs permissions:
@@ -111,6 +117,8 @@ module Jamf
     #    - Read Mobile Device PreStage Enrollments
     #  - '/v2/patch-software-title-configurations/{id}/history:GET' needs permissions:
     #    - Read Patch Management Software Titles
+    #  - '/v2/sso/history:GET' needs permissions:
+    #    - Read SSO Settings
     #
     #
     class HistorySearchResults < Jamf::OAPIObject

@@ -1,4 +1,4 @@
-# Copyright 2023 Pixar
+# Copyright 2024 Pixar
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -34,8 +34,8 @@ module Jamf
     #
     #
     #
-    # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.50.0-t1693149930
+    # This class was automatically generated from the api/schema
+    # URL path on a Jamf Pro server version 11.6.1-t1718634702
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -109,6 +109,19 @@ module Jamf
         #   @return [Array<Jamf::OAPISchemas::MobileDeviceSharedUser>]
         sharedUsers: {
           class: Jamf::OAPISchemas::MobileDeviceSharedUser,
+          multi: true
+        },
+
+        # @!attribute purchasing
+        #   @return [Jamf::OAPISchemas::MobileDevicePurchasing]
+        purchasing: {
+          class: Jamf::OAPISchemas::MobileDevicePurchasing
+        },
+
+        # @!attribute userProfiles
+        #   @return [Array<Jamf::OAPISchemas::MobileDeviceUserProfile>]
+        userProfiles: {
+          class: Jamf::OAPISchemas::MobileDeviceUserProfile,
           multi: true
         }
 

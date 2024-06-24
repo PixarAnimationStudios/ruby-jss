@@ -1,4 +1,4 @@
-# Copyright 2023 Pixar
+# Copyright 2024 Pixar
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -34,8 +34,8 @@ module Jamf
     #
     #
     #
-    # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.50.0-t1693149930
+    # This class was automatically generated from the api/schema
+    # URL path on a Jamf Pro server version 11.6.1-t1718634702
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -91,6 +91,12 @@ module Jamf
         'DISALLOW_BOOTING_FROM_EXTERNAL_MEDIA',
         'NOT_SUPPORTED',
         'UNKNOWN'
+      ]
+
+      BOOTSTRAP_TOKEN_ESCROWED_STATUS_OPTIONS = [
+        'ESCROWED',
+        'NOT_ESCROWED',
+        'NOT_SUPPORTED'
       ]
 
       OAPI_PROPERTIES = {
@@ -168,6 +174,14 @@ module Jamf
         #   @return [Boolean]
         bootstrapTokenAllowed: {
           class: :boolean
+        },
+
+        # Collected for macOS 11 or later
+        # @!attribute bootstrapTokenEscrowedStatus
+        #   @return [String]
+        bootstrapTokenEscrowedStatus: {
+          class: :string,
+          enum: BOOTSTRAP_TOKEN_ESCROWED_STATUS_OPTIONS
         }
 
       } # end OAPI_PROPERTIES

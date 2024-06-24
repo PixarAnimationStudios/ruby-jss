@@ -1,4 +1,4 @@
-# Copyright 2023 Pixar
+# Copyright 2024 Pixar
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -34,8 +34,8 @@ module Jamf
     #
     #
     #
-    # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.50.0-t1693149930
+    # This class was automatically generated from the api/schema
+    # URL path on a Jamf Pro server version 11.6.1-t1718634702
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -75,6 +75,8 @@ module Jamf
     #    - Update Engage Settings
     #  - '/v1/enrollment-customization/{id}/history:POST' needs permissions:
     #    - Update Enrollment Customizations
+    #  - '/v1/gsx-connection/history:POST' needs permissions:
+    #    - Update GSX Connection
     #  - '/v1/inventory-preload/history:POST' needs permissions:
     #    - Update Inventory Preload Records
     #  - '/v1/jamf-connect/history:POST' needs permissions:
@@ -85,6 +87,10 @@ module Jamf
     #    - Update Jamf Protect Settings
     #  - '/v1/mobile-device-prestages/{id}/history:POST' needs permissions:
     #    - Update Mobile Device PreStage Enrollments
+    #  - '/v1/onboarding/history:POST' needs permissions:
+    #    - Update Onboarding Configuration
+    #  - '/v1/packages/{id}/history:POST' needs permissions:
+    #    - Update Packages
     #  - '/v1/parent-app/history:POST' needs permissions:
     #    - Update Parent App Settings
     #  - '/v1/pki/venafi/{id}/history:POST' needs permissions:
@@ -93,14 +99,16 @@ module Jamf
     #    - Update Re-enrollment
     #  - '/v1/scripts/{id}/history:POST' needs permissions:
     #    - Update Scripts
+    #  - '/v1/smtp-server/history:POST' needs permissions:
+    #    - Update SMTP Server
     #  - '/v1/sso/history:POST' needs permissions:
     #    - Update SSO Settings
     #  - '/v1/teacher-app/history:POST' needs permissions:
     #    - Update Teacher App Settings
     #  - '/v1/volume-purchasing-locations/{id}/history:POST' needs permissions:
     #    - Update Volume Purchasing Locations
-    #  - '/v2/check-in/history:POST' needs permissions:
-    #    - Update Computer Check-In
+    #  - '/v1/volume-purchasing-subscriptions/{id}/history:POST' needs permissions:
+    #    - Update Volume Purchasing Locations
     #  - '/v2/engage/history:POST' needs permissions:
     #    - Update Engage Settings
     #  - '/v2/enrollment-customizations/{id}/history:POST' needs permissions:
@@ -113,6 +121,8 @@ module Jamf
     #    - Update Mobile Device PreStage Enrollments
     #  - '/v2/patch-software-title-configurations/{id}/history:POST' needs permissions:
     #    - Update Patch Management Software Titles
+    #  - '/v2/sso/history:POST' needs permissions:
+    #    - Update SSO Settings
     #  - '/v3/check-in/history:POST' needs permissions:
     #    - Update Computer Check-In
     #

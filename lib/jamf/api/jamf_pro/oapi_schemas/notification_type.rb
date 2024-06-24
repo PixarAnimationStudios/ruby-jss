@@ -1,4 +1,4 @@
-# Copyright 2023 Pixar
+# Copyright 2024 Pixar
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -34,8 +34,8 @@ module Jamf
     #
     #
     #
-    # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.50.0-t1693149930
+    # This class was automatically generated from the api/schema
+    # URL path on a Jamf Pro server version 11.6.1-t1718634702
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -121,7 +121,12 @@ module Jamf
         'DEVICE_COMPLIANCE_CONNECTION_ERROR',
         'CONDITIONAL_ACCESS_CONNECTION_ERROR',
         'AZURE_AD_MIGRATION_REPORT_GENERATED',
-        'BEYOND_CORP_CONNECTION_ERROR'
+        'BEYOND_CORP_CONNECTION_ERROR',
+        'APP_INSTALLERS_NEW_APP_VERSION_AVAILABLE',
+        'APP_INSTALLERS_NEW_APP_VERSION_DEPLOYMENT_STARTED',
+        'APP_INSTALLERS_APP_VERSION_REMOVED',
+        'APP_INSTALLERS_APP_TITLE_REMOVED',
+        'APP_INSTALLERS_DEPLOYMENT_INSTALLATION_FAILED'
       ]
 
       OAPI_PROPERTIES = {

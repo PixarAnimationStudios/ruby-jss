@@ -20,6 +20,8 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
 ### Changed
   - `expand_min_os` (used when specifying min. OS for Packages and Scripts) now expands up to macOS v30, so we have 15 years to hopefully not need to use it anymore.
 
+  - Auto-generated base classes from OAPI3 schema updated to Jamf Pro 11.6.1.  See NOTE below.
+
 ### Fixed
 
   - `LdapServer.check_membership` no longer fails or gives invalid responses when you provide a connection object via `cnx:`

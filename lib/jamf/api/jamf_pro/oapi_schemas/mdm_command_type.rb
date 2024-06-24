@@ -1,4 +1,4 @@
-# Copyright 2023 Pixar
+# Copyright 2024 Pixar
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -34,8 +34,8 @@ module Jamf
     #
     #
     #
-    # This class was automatically genereated from the api/schema
-    # URL path on a Jamf Pro server version 10.50.0-t1693149930
+    # This class was automatically generated from the api/schema
+    # URL path on a Jamf Pro server version 11.6.1-t1718634702
     #
     # This class may be used directly, e.g instances of other classes may
     # use instances of this class as one of their own properties/attributes.
@@ -49,6 +49,7 @@ module Jamf
     # Other object models that use this model as the value in one
     # of their attributes.
     #  - Jamf::OAPISchemas::MdmCommand
+    #  - Jamf::OAPISchemas::MdmCommandBase
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
@@ -65,95 +66,18 @@ module Jamf
       # Enums used by this class or others
 
       VALUE_OPTIONS = [
-        'DEVICE_LOCATION',
-        'ENABLE_LOST_MODE',
-        'ACTIVATION_LOCK_BYPASS_CODE',
-        'CLEAR_ACTIVATION_LOCK_BYPASS_CODE',
-        'ACCOUNT_CONFIGURATION',
-        'REFRESH_CELLULAR_PLANS',
-        'SETTINGS',
-        'CONTENT_CACHING_INFORMATION',
-        'UNMANAGE_DEVICE',
-        'ERASE_DEVICE',
-        'DEVICE_LOCK',
-        'CLEAR_PASSCODE',
-        'DELETE_USER',
-        'DEVICE_INFORMATION',
-        'SHUT_DOWN_DEVICE',
-        'RESTART_DEVICE',
-        'INSTALL_BYO_PROFILE',
-        'REMOVE_PROFILE',
-        'INSTALL_PROFILE',
-        'REINSTALL_PROFILE',
-        'INSTALL_PROVISIONING_PROFILE',
-        'PROFILE_LIST',
-        'REMOVE_PROVISIONING_PROFILE',
-        'CERTIFICATE_LIST',
-        'INSTALLED_APPLICATION_LIST',
-        'MANAGED_APPLICATION_LIST',
-        'INSTALL_APPLICATION',
-        'INSTALL_ENTERPRISE_APPLICATION',
-        'INSTALL_PACKAGE',
-        'REMOVE_APPLICATION',
-        'MANAGED_MEDIA_LIST',
-        'INSTALL_MEDIA',
-        'REMOVE_MEDIA',
-        'APPLY_REDEMPTION_CODE',
-        'SETTINGS_ENABLE_PERSONAL_HOTSPOT',
-        'SETTINGS_DISABLE_PERSONAL_HOTSPOT',
-        'UPDATE_INVENTORY',
-        'WALLPAPER',
-        'DEVICE_CONFIGURED',
-        'RESTRICTIONS',
-        'ENABLE_REMOTE_DESKTOP',
-        'DISABLE_REMOTE_DESKTOP',
-        'SECURITY_INFO',
-        'MARK_AS_UNMANAGED',
-        'QUERY_RESPONSES',
-        'AVAILABLE_OS_UPDATES',
-        'PROVISIONING_PROFILE_LIST',
-        'SCHEDULE_OS_UPDATE',
-        'OS_UPDATE_STATUS',
-        'INVITE_TO_PROGRAM',
-        'PUSH_TRIGGER',
         'CLEAR_RESTRICTIONS_PASSWORD',
-        'BLANK_PUSH',
-        'CORPORATE_WIPE',
-        'DEVICE_INFO_ACCOUNT_HASH',
-        'DEVICE_INFO_ITUNES_ACTIVE',
-        'DEVICE_INFO_LAST_CLOUD_BACKUP_DATE',
-        'DEVICE_INFO_ACTIVE_MANAGED_USERS',
-        'DEVICE_NAME',
-        'ENABLE_ACTIVATION_LOCK',
-        'DISABLE_ACTIVATION_LOCK',
-        'LAST_CLOUD_BACKUP_DATE',
-        'MARK_AS_CORPORATE_WIPE',
-        'REQUEST_MIRRORING',
-        'SETTINGS_DISABLE_DATA_ROAMING',
-        'SETTINGS_DISABLE_VOICE_ROAMING',
-        'SETTINGS_DISABLE_DIAGNOSTIC_SUBMISSION',
-        'SETTINGS_DISABLE_APP_ANALYTICS',
-        'SETTINGS_ENABLE_DATA_ROAMING',
-        'SETTINGS_ENABLE_VOICE_ROAMING',
-        'SETTINGS_ENABLE_DIAGNOSTIC_SUBMISSION',
-        'SETTINGS_ENABLE_APP_ANALYTICS',
-        'SETTINGS_ENABLE_BLUETOOTH',
-        'SETTINGS_DISABLE_BLUETOOTH',
-        'SETTINGS_MOBILE_DEVICE_PER_APP_VPN',
-        'SETTINGS_MOBILE_DEVICE_APPLICATION_ATTRIBUTES',
-        'STOP_MIRRORING',
-        'PASSCODE_LOCK_GRACE_PERIOD',
-        'SCHEDULE_OS_UPDATE_SCAN',
-        'PLAY_LOST_MODE_SOUND',
-        'DISABLE_LOST_MODE',
-        'LOG_OUT_USER',
-        'USER_LIST',
-        'VALIDATE_APPLICATIONS',
-        'UNLOCK_USER_ACCOUNT',
-        'SET_RECOVERY_LOCK',
         'DECLARATIVE_MANAGEMENT',
+        'DELETE_USER',
+        'ENABLE_LOST_MODE',
+        'ERASE_DEVICE',
+        'LOG_OUT_USER',
+        'RESTART_DEVICE',
+        'SETTINGS',
+        'SET_RECOVERY_LOCK',
         'SET_AUTO_ADMIN_PASSWORD',
-        'UNKNOWN'
+        'SHUT_DOWN_DEVICE',
+        'DEVICE_INFORMATION'
       ]
 
       OAPI_PROPERTIES = {
