@@ -439,7 +439,7 @@ module Jamf
       # nothing to do if that id isn't one of our members
       return unless id_to_remove && member_ids.include?(id_to_remove)
 
-      @members.delete_if { |h| h[:id] == id } # { |k, v| k == :id && v == id_to_remove }
+      @members.delete_if { |h| h[:id] == id_to_remove } # { |k, v| k == :id && v == id_to_remove }
       @need_to_update = true
     end
 
