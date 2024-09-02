@@ -429,8 +429,9 @@ module Jamf
     def remove_member(mem)
       raise UnsupportedError, "Smart group members can't be changed." if smart?
 
-      # See if we have the identifier in the @members hash
+      # See if we have the identifier in the @members array of hashes
       id_to_remove = @members.select { |mm| mm.values.include? mem }.first&.dig :id
+
       # But the members hash might not have SN, macaddr, etc, and never has udid, so
       # look at the MEMBER_CLASS if needed
       id_to_remove ||= self.class::MEMBER_CLASS.valid_id mem
@@ -438,7 +439,7 @@ module Jamf
       # nothing to do if that id isn't one of our members
       return unless id_to_remove && member_ids.include?(id_to_remove)
 
-      @members.delete_if { |k, v| k == :id && v == id_to_remove }
+      @members.delete_if { |h| h[:id] == id } # { |k, v| k == :id && v == id_to_remove }
       @need_to_update = true
     end
 
@@ -482,7 +483,6 @@ module Jamf
     def refresh_members
       @members = @cnx.c_get(@rest_rsrc)[self.class::RSRC_OBJECT_KEY][self.class::MEMBER_CLASS::RSRC_LIST_KEY]
     end
-
 
     # Public Instance Methods
     #####################################
