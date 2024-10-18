@@ -816,12 +816,14 @@ module Jamf
           item_id = validate_item(:exclusion, key, ident)
           case key
           when *@target_keys
-            if @targets[key] && @exclusions[key].include?(item_id)
-              raise Jamf::AlreadyExistsError, "Can't exclude #{key} '#{ident}' because it's already explicitly included."
+            if @targets[key]&.include?(item_id)
+              msg = "Can't exclude #{key} '#{ident}' because it's already explicitly included."
+              raise Jamf::AlreadyExistsError, msg
             end
           when *LIMITATIONS
-            if @limitations[key] && @exclusions[key].include?(item_id)
-              raise Jamf::AlreadyExistsError, "Can't exclude #{key} '#{ident}' because it's already an explicit limitation."
+            if @limitations[key]&.include?(item_id)
+              msg = "Can't exclude #{key} '#{ident}' because it's already an explicit limitation."
+              raise Jamf::AlreadyExistsError, msg
             end
           end
           item_id
