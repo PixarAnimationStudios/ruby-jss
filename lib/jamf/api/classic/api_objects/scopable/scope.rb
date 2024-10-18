@@ -608,7 +608,7 @@ module Jamf
         raise Jamf::InvalidDataError, "List must be an Array of #{key} identifiers, it may be empty." unless list.is_a? Array
 
         # check the idents
-        list.map! do |ident|
+        list_of_ids = list.map do |ident|
           item_id = validate_item(:target, key, ident)
 
           if @exclusions[key]&.include?(item_id)
@@ -619,9 +619,9 @@ module Jamf
           item_id
         end # each
 
-        return nil if list.sort == @targets[key].sort
+        return nil if list_of_ids.sort == @targets[key].sort
 
-        @targets[key] = list
+        @targets[key] = list_of_ids
         @all_targets = false
         note_pending_changes
       end # sinclude_in_scope
@@ -726,7 +726,7 @@ module Jamf
         raise Jamf::InvalidDataError, "List must be an Array of #{key} identifiers, it may be empty." unless list.is_a? Array
 
         # check the idents
-        list.map! do |ident|
+        list_of_ids = list.map do |ident|
           item_id = validate_item(:limitation, key, ident)
           if @exclusions[key]&.include?(item_id)
             raise Jamf::AlreadyExistsError, "Can't set #{key} limitation for '#{name}' because it's already an explicit exclusion."
@@ -735,9 +735,9 @@ module Jamf
           item_id
         end # each
 
-        return nil if list.sort == @limitations[key].sort
+        return nil if list_of_ids.sort == @limitations[key].sort
 
-        @limitations[key] = list
+        @limitations[key] = list_of_ids
         note_pending_changes
       end # set_limitation
       alias set_limitation set_limitations
@@ -812,7 +812,7 @@ module Jamf
         raise Jamf::InvalidDataError, "List must be an Array of #{key} identifiers, it may be empty." unless list.is_a? Array
 
         # check the idents
-        list.map! do |ident|
+        list_of_ids = list.map do |ident|
           item_id = validate_item(:exclusion, key, ident)
           case key
           when *@target_keys
@@ -829,9 +829,9 @@ module Jamf
           item_id
         end # each
 
-        return nil if list.sort == @exclusions[key].sort
+        return nil if list_of_ids.sort == @exclusions[key].sort
 
-        @exclusions[key] = list
+        @exclusions[key] = list_of_ids
         note_pending_changes
       end # set_exclusion
       alias set_exclusion set_exclusions
