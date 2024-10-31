@@ -561,8 +561,10 @@ module Jamf
       gen.add_element('bundle_id').text = @bundle_id if @host_externally
       gen.add_element('version').text = @version if @host_externally
       gen.add_element('external_url').text = @external_url
-      config = gen.add_element('configuration')
+
+      config = obj.add_element('app_configuration')
       config.add_element('preferences').text = @configuration_prefs
+
       obj << @scope.scope_xml
       add_category_to_xml doc
       add_self_service_xml doc
