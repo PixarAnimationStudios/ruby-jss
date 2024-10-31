@@ -177,6 +177,9 @@ module Jamf
     #   take over managing it?
     attr_reader :take_over_management
 
+    # @return [Boolean] Can a user delete this app once it's installed?
+    attr_reader :allow_user_to_delete
+
     # @return [Boolean] Does the app itself come from outside the JSS?
     attr_reader :host_externally
 
@@ -216,6 +219,7 @@ module Jamf
       @keep_description_and_icon_up_to_date = general[:keep_description_and_icon_up_to_date]
       @free = general[:free]
       @take_over_management = general[:take_over_management]
+      @allow_user_to_delete = general[:allow_user_to_delete]
       @host_externally = general[:host_externally]
       @external_url = general[:external_url]
       @configuration_prefs = @init_data[:app_configuration][:preferences]
@@ -400,6 +404,20 @@ module Jamf
       @need_to_update = true
     end
 
+    # Set whether or not the user should be able to delete this app
+    #
+    # @param new_val[Boolean] The new value
+    #
+    # @return [void]
+    #
+    def allow_user_to_delete=(new_val)
+      return nil if new_val == @allow_user_to_delete
+      raise Jamf::InvalidDataError, 'New value must be true or false' unless new_val.jss_boolean?
+
+      @allow_user_to_delete = new_val
+      @need_to_update = true
+    end
+
     # Sets the version (only usable if you are hosting the .ipa externally)
     #
     # @param new_val[String] the version
@@ -557,6 +575,7 @@ module Jamf
       gen.add_element('keep_description_and_icon_up_to_date').text = @keep_description_and_icon_up_to_date
       gen.add_element('free').text = @free
       gen.add_element('take_over_management').text = @take_over_management
+      gen.add_element('allow_user_to_delete').text = @allow_user_to_delete
       gen.add_element('host_externally').text = @host_externally
       gen.add_element('bundle_id').text = @bundle_id if @host_externally
       gen.add_element('version').text = @version if @host_externally
