@@ -437,7 +437,10 @@ module Jamf
       return @versions unless @versions.empty?
 
       # if we are in jss, and versions is empty, re-fetch them
-      @versions = self.class.fetch(id: id).versions
+      # this SHOULDN't cause a loop, and shouldn't even ever happen
+      # because for the title to be active and fetchable, there must be
+      # at least one version.
+      @versions = self.class.fetch(id: id, cnx: cnx).versions
     end
 
     # @return [Hash] Subset of @versions, containing those which have packages
