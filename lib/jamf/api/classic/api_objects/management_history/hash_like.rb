@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -22,10 +22,8 @@
 ###    language governing permissions and limitations under the Apache License.
 ###
 
-#
 module Jamf
 
-  #
   module ManagementHistory
 
     # This is mixed in to the history event classes to

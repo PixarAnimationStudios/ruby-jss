@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -86,15 +86,7 @@ module Jamf
     ### the strftime format for reading/writing dates in the db
     SQL_DATE_FORMAT = '%Y-%m-%d %H:%M:%S'.freeze
 
-    attr_reader :server
-    attr_reader :port
-    attr_reader :socket
-    attr_reader :user
-    attr_reader :db_name
-    attr_reader :connect_timeout
-    attr_reader :read_timeout
-    attr_reader :write_timeout
-    attr_reader :connected
+    attr_reader :server, :port, :socket, :user, :db_name, :connect_timeout, :read_timeout, :write_timeout, :connected
 
     def initialize
       @mysql = Mysql.init
@@ -142,12 +134,12 @@ module Jamf
       # server might come frome several places
       # if not given in the args, use #hostname to figure out
       # which
-      @server = args[:server] ? args[:server] : hostname
+      @server = args[:server] || hostname
 
       # settings from config if they aren't in the args
-      args[:port] ||= Jamf.config.db_server_port ? Jamf.config.db_server_port : Mysql::MYSQL_TCP_PORT
-      args[:socket] ||= Jamf.config.db_server_socket ? Jamf.config.db_server_socket : DFT_SOCKET
-      args[:db_name] ||= Jamf.config.db_name ? Jamf.config.db_name : DEFAULT_DB_NAME
+      args[:port] ||= Jamf.config.db_server_port || Mysql::MYSQL_TCP_PORT
+      args[:socket] ||= Jamf.config.db_server_socket || DFT_SOCKET
+      args[:db_name] ||= Jamf.config.db_name || DEFAULT_DB_NAME
       args[:user] ||= Jamf.config.db_username
       args[:connect_timeout] ||= Jamf.config.db_connect_timeout
       args[:read_timeout] ||= Jamf.config.db_read_timeout
@@ -155,9 +147,9 @@ module Jamf
       args[:charset] ||= DFT_CHARSET
 
       ### if one timeout was given, use it for all three
-      args[:connect_timeout] ||= args[:timeout] ? args[:timeout] : DFT_TIMEOUT
-      args[:read_timeout] ||= args[:timeout] ? args[:timeout] : DFT_TIMEOUT
-      args[:write_timeout] ||= args[:timeout] ? args[:timeout] : DFT_TIMEOUT
+      args[:connect_timeout] ||= args[:timeout] || DFT_TIMEOUT
+      args[:read_timeout] ||= args[:timeout] || DFT_TIMEOUT
+      args[:write_timeout] ||= args[:timeout] || DFT_TIMEOUT
 
       @port = args[:port]
       @socket = args[:socket]
@@ -195,7 +187,8 @@ module Jamf
 
       @server
     rescue Mysql::ServerError::NotSupportedAuthMode => e
-      raise Mysql::ServerError::AccessDeniedError, "Probable unknown MySQL user '#{@user}'. Original error was 'Mysql::ServerError::NotSupportedAuthMode: #{e}' which is sometimes raised when the user does not exist on the server."
+      raise Mysql::ServerError::AccessDeniedError, 
+            "Probable unknown MySQL user '#{@user}'. Original error was 'Mysql::ServerError::NotSupportedAuthMode: #{e}' which is sometimes raised when the user does not exist on the server."
     end # connect
 
     ###
@@ -203,6 +196,7 @@ module Jamf
     ###
     def db
       raise Jamf::InvalidConnectionError, 'No database connection. Please use Jamf::DB_CNX.connect' unless Jamf::DB_CNX.connected?
+
       @mysql
     end
 
@@ -245,7 +239,6 @@ module Jamf
         # raise AccessDeniedError when credentials are invalid.
 
         mysql.connect server, 'notArealUser', "definatelyNotA#{$PROCESS_ID}password", 'not_a_db', port
-
       rescue Mysql::ServerError::AccessDeniedError, Mysql::ServerError::NotSupportedAuthMode
         return true
       rescue
@@ -263,6 +256,7 @@ module Jamf
     def hostname
       # return it if already set
       return @server if @server
+
       # otherwise, from the config
       srvr = Jamf.config.db_server_name
       # otherwise, assume its on the JSS server to which this client talks

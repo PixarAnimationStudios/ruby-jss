@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -70,7 +70,7 @@ module Jamf
 
     PURCHASABLE = true
 
-    SUBSET_PURCH = "Purchasing"
+    SUBSET_PURCH = 'Purchasing'
 
     #####################################
     ###  Variables
@@ -116,118 +116,125 @@ module Jamf
     ### @return [Time]
     attr_reader :warranty_expires
 
-
     #####################################
     ###  Mixed-in Instance Methods
     #####################################
 
-
-
-
     ### @return [void]
-    def applecare_id= (new_val)
+    def applecare_id=(new_val)
       return nil if @applecare_id == new_val
+
       @applecare_id = new_val
       @need_to_update = true
     end
 
     ### @return [void]
-    def is_leased= (new_val)
+    def is_leased=(new_val)
       return nil if @is_leased == new_val
+
       @is_leased = new_val
       @need_to_update = true
     end
 
     ### @return [void]
-    def lease_expires= (date)
+    def lease_expires=(date)
       parsed_date = Jamf.parse_time date
       return nil if @lease_expires == parsed_date
+
       @lease_expires = parsed_date
       @need_to_update = true
     end
 
     ### @return [void]
-    def is_purchased= (new_val)
+    def is_purchased=(new_val)
       return nil if @is_purchased == new_val
+
       @is_purchased = new_val
       @need_to_update = true
     end
 
     ### @return [void]
-    def purchase_price= (new_val)
+    def purchase_price=(new_val)
       return nil if @purchase_price == new_val
+
       @purchase_price = new_val
       @need_to_update = true
     end
 
     ### @return [void]
-    def life_expectancy= (new_val)
+    def life_expectancy=(new_val)
       return nil if @life_expectancy == new_val
+
       @life_expectancy = new_val
       @need_to_update = true
     end
 
     ### @return [void]
-    def po_number= (new_val)
+    def po_number=(new_val)
       return nil if @po_number == new_val
+
       @po_number = new_val
       @need_to_update = true
     end
 
     ### @return [void]
-    def po_date= (date)
+    def po_date=(date)
       parsed_date = Jamf.parse_time date
       return nil if @po_date == parsed_date
+
       @po_date = parsed_date
       @need_to_update = true
     end
 
     ### @return [void]
-    def purchasing_account= (new_val)
+    def purchasing_account=(new_val)
       return nil if @purchasing_account == new_val
+
       @purchasing_account = new_val
       @need_to_update = true
     end
 
     ### @return [void]
-    def purchasing_contact= (new_val)
+    def purchasing_contact=(new_val)
       return nil if @purchasing_contact == new_val
+
       @purchasing_contact = new_val
       @need_to_update = true
     end
 
     ### @return [void]
-    def vendor= (new_val)
+    def vendor=(new_val)
       return nil if @vendor == new_val
+
       @vendor = new_val
       @need_to_update = true
     end
 
     ### @return [void]
-    def warranty_expires= (date)
+    def warranty_expires=(date)
       parsed_date = Jamf.parse_time date
       return nil if @warranty_expires == parsed_date
+
       @warranty_expires = parsed_date
       @need_to_update = true
     end
-
 
     ###
     ### @return [Boolean] does this item have any purchasing info?
     ###
     def has_purchasing?
       @applecare_id or \
-      @is_leased or \
-      @is_purchased or \
-      @lease_expires or \
-      @life_expectancy or \
-      @po_date or \
-      @po_number or \
-      @purchase_price or \
-      @purchasing_account or \
-      @purchasing_contact or \
-      @vendor or \
-      @warranty_expires
+        @is_leased or \
+        @is_purchased or \
+        @lease_expires or \
+        @life_expectancy or \
+        @po_date or \
+        @po_number or \
+        @purchase_price or \
+        @purchasing_account or \
+        @purchasing_contact or \
+        @vendor or \
+        @warranty_expires
     end
 
     ###
@@ -239,18 +246,18 @@ module Jamf
     ###
     def purchasing
       {
-        :applecare_id => @applecare_id,
-        :is_leased => @is_leased,
-        :is_purchased => @is_purchased,
-        :lease_expires => @lease_expires,
-        :life_expectancy => @life_expectancy,
-        :po_date => @po_date,
-        :po_number => @po_number,
-        :purchase_price => @purchase_price,
-        :purchasing_account => @purchasing_account,
-        :purchasing_contact => @purchasing_contact,
-        :vendor => @vendor,
-        :warranty_expires => @warranty_expires,
+        applecare_id: @applecare_id,
+        is_leased: @is_leased,
+        is_purchased: @is_purchased,
+        lease_expires: @lease_expires,
+        life_expectancy: @life_expectancy,
+        po_date: @po_date,
+        po_number: @po_number,
+        purchase_price: @purchase_price,
+        purchasing_account: @purchasing_account,
+        purchasing_contact: @purchasing_contact,
+        vendor: @vendor,
+        warranty_expires: @warranty_expires
       }
     end
 
@@ -267,9 +274,9 @@ module Jamf
 
       @purchasing = @init_data[:purchasing]
 
-      @lease_expires = JSS.epoch_to_time  @purchasing[:lease_expires_epoch]
-      @po_date = JSS.epoch_to_time  @purchasing[:po_date_epoch]
-      @warranty_expires = JSS.epoch_to_time  @purchasing[:warranty_expires_epoch]
+      @lease_expires = JSS.epoch_to_time @purchasing[:lease_expires_epoch]
+      @po_date = JSS.epoch_to_time @purchasing[:po_date_epoch]
+      @warranty_expires = JSS.epoch_to_time @purchasing[:warranty_expires_epoch]
 
       @applecare_id = @purchasing[:applecare_id]
       @is_leased = @purchasing[:is_leased]
@@ -296,7 +303,7 @@ module Jamf
       purch.add_element('is_purchased').text = @is_purchased.to_s
       purch.add_element('lease_expires_epoch').text = @lease_expires ? @lease_expires.to_jss_epoch : nil
       # Note, life expectancy can't be an empty xml element, it must be zero if emtpy.
-      purch.add_element('life_expectancy').text = @life_expectancy ? @life_expectancy : 0
+      purch.add_element('life_expectancy').text = @life_expectancy || 0
       purch.add_element('po_date_epoch').text = @po_date ? @po_date.to_jss_epoch : nil
       purch.add_element('po_number').text = @po_number
       purch.add_element('purchase_price').text = @purchase_price
@@ -304,7 +311,7 @@ module Jamf
       purch.add_element('purchasing_contact').text = @purchasing_contact
       purch.add_element('vendor').text = @vendor
       purch.add_element('warranty_expires_epoch').text = @warranty_expires ? @warranty_expires.to_jss_epoch : nil
-      return purch
+      purch
     end
 
     ### Aliases
@@ -312,4 +319,5 @@ module Jamf
     alias purchased? is_purchased
 
   end # module Purchasable
+
 end # module Jamf

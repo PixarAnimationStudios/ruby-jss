@@ -1,4 +1,4 @@
-# Copyright 2023 Pixar
+# Copyright 2025 Pixar
 
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -429,13 +429,14 @@ module Jamf
     def unmount
       return nil unless mounted?
 
-      if system "/sbin/umount '#{@mountpoint}'"
-        sleep 1 # the umount takes time.
-        @mountpoint.rmdir if @mountpoint.directory? && !@mountpoint.mountpoint?
-        @mounted = false
-      else
-        raise Jamf::FileServiceError, "There was a problem unmounting #{@mountpoint}"
-      end
+      raise Jamf::FileServiceError, "There was a problem unmounting #{@mountpoint}" unless system "/sbin/umount '#{@mountpoint}'"
+
+      sleep 1 # the umount takes time.
+      @mountpoint.rmdir if @mountpoint.directory? && !@mountpoint.mountpoint?
+      @mounted = false
+      
+        
+      
       nil
     end # unmount
 

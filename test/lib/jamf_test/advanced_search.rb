@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -32,7 +32,6 @@ module JamfTest
     # run the tests
     def run_class_tests
       run_collection_tests do_object_tests: false
-
     end
 
   end # module

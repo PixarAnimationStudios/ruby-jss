@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -119,6 +119,7 @@ module Jamf
     def self.jss_url
       @url = jamf_plist['jss_url']
       return nil if @url.nil?
+
       @url =~ %r{(https?)://(.+):(\d+)/}
       @protocol = Regexp.last_match(1)
       @server = Regexp.last_match(2)
@@ -160,6 +161,7 @@ module Jamf
     #
     def self.jamf_plist
       return {} unless JAMF_PLIST.file?
+
       JSS.parse_plist JAMF_PLIST
     end
 
@@ -169,6 +171,7 @@ module Jamf
     #
     def self.receipts
       raise Jamf::NoSuchItemError, "The JAMF Receipts folder doesn't exist on this computer." unless RECEIPTS_FOLDER.exist?
+
       RECEIPTS_FOLDER.children.select(&:file?)
     end
 
@@ -265,6 +268,7 @@ module Jamf
       myudid = udid
       nc_prefs_file = Pathname.new "#{home}/#{USER_PREFS_BYHOST_FOLDER}/com.apple.notificationcenterui.#{myudid}.plist"
       return nil unless nc_prefs_file.readable?
+
       JSS.parse_plist(nc_prefs_file)['doNotDisturb']
     end
 

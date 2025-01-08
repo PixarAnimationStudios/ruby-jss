@@ -1,4 +1,4 @@
-# Copyright 2023 Pixar
+# Copyright 2025 Pixar
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -185,7 +185,7 @@ module Jamf
         note_unsaved_change attr_name, old_value
       end # define method
 
-      return unless attr_def[:aliases]
+      nil unless attr_def[:aliases]
     end # create_full_array_setter
     private_class_method :create_full_array_setters
 
@@ -572,8 +572,8 @@ module Jamf
     # @return (see parse_single_init_value)
     #
     def parse_enum_value(api_value, attr_name, attr_def)
-      Jamf::Validate.in_enum  api_value, enum: attr_def[:enum],
-                                         msg: "#{api_value} is not in the allowed values for attribute #{attr_name}. Must be one of: #{attr_def[:enum].join ', '}"
+      Jamf::Validate.in_enum api_value, enum: attr_def[:enum],
+                                        msg: "#{api_value} is not in the allowed values for attribute #{attr_name}. Must be one of: #{attr_def[:enum].join ', '}"
     end
 
     # call to_jamf on a single value if it knows that method

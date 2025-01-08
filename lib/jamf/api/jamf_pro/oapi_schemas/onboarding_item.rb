@@ -1,4 +1,4 @@
-# Copyright 2024 Pixar
+# Copyright 2025 Pixar
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -21,14 +21,12 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
-
 module Jamf
 
   # This module is the namespace for all objects defined
   # in the OAPI JSON schema under the components => schemas key
   #
   module OAPISchemas
-
 
     # OAPI Object Model and Enums for: OnboardingItem
     #
@@ -52,7 +50,7 @@ module Jamf
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #  
+    #
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
@@ -64,14 +62,14 @@ module Jamf
 
       # Enums used by this class or others
 
-      SELF_SERVICE_ENTITY_TYPE_OPTIONS = [
-        'OS_X_POLICY',
-        'OS_X_CONFIG_PROFILE',
-        'OS_X_MAC_APP',
-        'OS_X_APP_INSTALLER',
-        'OS_X_EBOOK',
-        'OS_X_PATCH_POLICY',
-        'UNKNOWN'
+      SELF_SERVICE_ENTITY_TYPE_OPTIONS = %w[
+        OS_X_POLICY
+        OS_X_CONFIG_PROFILE
+        OS_X_MAC_APP
+        OS_X_APP_INSTALLER
+        OS_X_EBOOK
+        OS_X_PATCH_POLICY
+        UNKNOWN
       ]
 
       OAPI_PROPERTIES = {
@@ -86,7 +84,7 @@ module Jamf
 
         # The id of the Jamf Pro object that should be added to the onboarding workflow for end users.
         # Use this in conjunction with the selfServiceEntityType. For example, if the policy with id 132
-        # should be added to onboarding, then entityId should be 132 and selfServiceEntityType should be 
+        # should be added to onboarding, then entityId should be 132 and selfServiceEntityType should be
         # OS_X_POLICY.
         # @!attribute entityId
         #   @return [String]

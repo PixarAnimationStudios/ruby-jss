@@ -1,4 +1,4 @@
-# Copyright 2023 Pixar
+# Copyright 2025 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -137,9 +137,6 @@ module Jamf
     # Instance Attributes and Methods
     ###########################
 
-
-
-
     # For this API Client, replace the existing clientSecret with a new one, to be
     # used with the clientID for generating a connection token.
     #
@@ -166,7 +163,6 @@ module Jamf
     alias roles_delete_if authorizationScopes_delete_if
     alias roles_insert authorizationScopes_insert
     alias roles_prepend authorizationScopes_prepend
-
 
   end # class
 

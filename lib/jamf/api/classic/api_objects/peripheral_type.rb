@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -42,7 +42,7 @@ module Jamf
   ###
   ### @see Jamf::APIObject
   ###
-  class PeripheralType  < Jamf::APIObject
+  class PeripheralType < Jamf::APIObject
 
     #####################################
     ### MixIns
@@ -60,7 +60,7 @@ module Jamf
     #####################################
 
     ### The base for REST resources of this class
-    RSRC_BASE = "peripheraltypes"
+    RSRC_BASE = 'peripheraltypes'
 
     ### the hash key used for the JSON list output of all objects in the JSS
     RSRC_LIST_KEY = :peripheral_types
@@ -69,9 +69,8 @@ module Jamf
     ### It's also used in various error messages
     RSRC_OBJECT_KEY = :peripheral_type
 
-
     ### field types can be one of these, either String or Symbol
-    FIELD_TYPES = [:text, :menu]
+    FIELD_TYPES = %i[text menu]
 
     # the object type for this object in
     # the object history table.
@@ -90,13 +89,13 @@ module Jamf
     ### Initialize
     ###
     def initialize(**args)
-
       super
 
       @fields = []
-      if @init_data[:fields]
-        @init_data[:fields].each{ |f|  @fields[f[:order]] = f }
-      end
+      return unless @init_data[:fields]
+
+      @init_data[:fields].each { |f| @fields[f[:order]] = f }
+      
     end # initialize
 
     ### The definitions of the fields stored for this peripheral type.
@@ -131,9 +130,7 @@ module Jamf
     ###
     ### @return [Array<Hash>] The field definitions
     ###
-    def fields
-      @fields
-    end
+    attr_reader :fields
 
     ###
     ### Replace the entire Array of field definitions.
@@ -144,12 +141,11 @@ module Jamf
     ###
     ### @return [void]
     ###
-    def fields= (new_fields)
-      unless new_fields.kind_of? Array and  new_fields.reject{|c| c.kind_of? Hash }.empty?
-        raise Jamf::InvalidDataError, "Argument must be an Array of Hashes."
-      end
-      raise "A peripheral type can have a maximmum of 20 fields"  if new_fields.count > 20
-      new_fields.each{ |f| field_ok? f }
+    def fields=(new_fields)
+      raise Jamf::InvalidDataError, 'Argument must be an Array of Hashes.' unless new_fields.is_a? Array and new_fields.reject { |c| c.is_a? Hash }.empty?
+      raise 'A peripheral type can have a maximmum of 20 fields' if new_fields.count > 20
+
+      new_fields.each { |f| field_ok? f }
       @fields = new_fields
       order_fields
       @need_to_update = true
@@ -169,6 +165,7 @@ module Jamf
     ###
     def set_field(order, **field)
       raise Jamf::NoSuchItemError, "No field with number '#{order}'. Use #append_field, #prepend_field, or #insert_field" unless @fields[order]
+
       field_ok? field
       @fields[order] = field
       @need_to_update = true
@@ -213,7 +210,7 @@ module Jamf
     ###
     def insert_field(order, **field)
       field_ok? field
-      @fields.insert((order -1), field)
+      @fields.insert((order - 1), field)
       order_fields
       @need_to_update = true
     end
@@ -226,15 +223,14 @@ module Jamf
     ### @return [void]
     ###
     def delete_field(order)
-      if @fields[order]
-        raise Jamf::MissingDataError, "Fields can't be empty" if @fields.count == 1
-        @fields.delete_at index
-        order_fields
-        @need_to_update = true
-      end
+      return unless @fields[order]
+      raise Jamf::MissingDataError, "Fields can't be empty" if @fields.count == 1
+
+      @fields.delete_at index
+      order_fields
+      @need_to_update = true
+      
     end
-
-
 
     ##############################
     ### private methods
@@ -246,13 +242,13 @@ module Jamf
     ### Return true or raise an exception
     ###
     def field_ok?(field)
-      raise Jamf::InvalidDataError, "Field elements must be hashes with :name, :type, and possibly :choices" unless field.kind_of? Hash
-      raise Jamf::InvalidDataError, "Fields require names" if field[:name].to_s.empty?
+      raise Jamf::InvalidDataError, 'Field elements must be hashes with :name, :type, and possibly :choices' unless field.is_a? Hash
+      raise Jamf::InvalidDataError, 'Fields require names' if field[:name].to_s.empty?
       raise Jamf::InvalidDataError, "Fields :type must be one of: :#{FIELD_TYPES.join(', :')}" unless FIELD_TYPES.include? field[:type].to_sym
 
       if field[:type].to_sym == :menu
-        unless field[:choices].kind_of? Array and  field[:choices].reject{|c| c.kind_of? String}.empty?
-          raise Jamf::InvalidDataError, "Choices for menu fields must be an Array of Strings"
+        unless field[:choices].is_a? Array and field[:choices].reject { |c| c.is_a? String }.empty?
+          raise Jamf::InvalidDataError, 'Choices for menu fields must be an Array of Strings'
         end # unless
       else
         field[:choices] = []
@@ -265,10 +261,9 @@ module Jamf
     ###
     def order_fields
       @fields.compact!
-      @fields.each_index{|i| @fields[i][:order] = i+1}
+      @fields.each_index { |i| @fields[i][:order] = i + 1 }
       @fields.unshift nil
     end
-
 
     ###
     ###
@@ -281,19 +276,18 @@ module Jamf
       pkg.add_element('name').text = @name
       fields = pkg.add_element 'fields'
 
-      flds =  @fields.compact
+      flds = @fields.compact
       flds.each_index do |i|
         field = fields.add_element 'field'
-        field.add_element('order').text =flds[i][:order]
+        field.add_element('order').text = flds[i][:order]
         field.add_element('name').text = flds[i][:name]
         field.add_element('type').text = flds[i][:type].to_s
         choices = field.add_element('choices')
-        unless flds[i][:choices].empty?
-          flds[i][:choices].each{|c| choices.add_element('choice').text = c}
-        end
+        flds[i][:choices].each { |c| choices.add_element('choice').text = c } unless flds[i][:choices].empty?
       end # each index do i
-      return doc.to_s
+      doc.to_s
     end # rest xml
 
   end # class Peripheral
+
 end # module

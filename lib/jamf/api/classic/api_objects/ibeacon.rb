@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -67,7 +67,7 @@ module Jamf
     OBJECT_HISTORY_OBJECT_TYPE = 360
 
     # The major & minor values, if used, must be in this range
-    MAJOR_MINOR_RANGE = 0..65_535.freeze
+    MAJOR_MINOR_RANGE = 0..65_535
 
     # If not used, this is the value for the major and minor
     MAJOR_MINOR_UNUSED = -1
@@ -100,7 +100,6 @@ module Jamf
       @major ||= MAJOR_MINOR_UNUSED
       @minor ||= MAJOR_MINOR_UNUSED
     end # init
-
 
     # Public Instance Methods
     #####################################
@@ -191,7 +190,6 @@ module Jamf
       ns.add_element('minor').text = @minor.to_s
       doc.to_s
     end # rest_xml
-
 
   end # class ibeacon
 

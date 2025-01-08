@@ -1,4 +1,4 @@
-# Copyright 2023 Pixar
+# Copyright 2025 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -23,7 +23,6 @@
 #
 #
 
-#
 module Jamf
 
   # Module Constants
@@ -86,7 +85,7 @@ module Jamf
     DEFAULT_PRIORITY = 'After'.freeze
 
     # The keys used in the @parameters Hash
-    PARAMETER_KEYS = [:parameter4, :parameter5, :parameter6, :parameter7, :parameter8, :parameter9, :parameter10, :parameter11].freeze
+    PARAMETER_KEYS = %i[parameter4 parameter5 parameter6 parameter7 parameter8 parameter9 parameter10 parameter11].freeze
 
     # the object type for this object in
     # the object history table.
@@ -98,7 +97,6 @@ module Jamf
 
     # How is the category stored in the API data?
     CATEGORY_DATA_TYPE = String
-
 
     # Attributes
     #####################################
@@ -132,7 +130,6 @@ module Jamf
     # Constructor
     #####################################
 
-    #
     def initialize(**args)
       super
 
@@ -140,13 +137,14 @@ module Jamf
       @info = @init_data[:info]
       @notes = @init_data[:notes]
       @os_requirements = @init_data[:os_requirements] ? JSS.to_s_and_a(@init_data[:os_requirements])[:arrayform] : []
-      @parameters = @init_data[:parameters] ? @init_data[:parameters] : {}
+      @parameters = @init_data[:parameters] || {}
       @priority = @init_data[:priority] || DEFAULT_PRIORITY
       @script_contents = @init_data[:script_contents]
       @script_contents_encoded = @init_data[:script_contents_encoded]
-      if @script_contents && @script_contents_encoded.to_s.empty?
-        @script_contents_encoded = Base64.encode64 @script_contents
-      end
+      return unless @script_contents && @script_contents_encoded.to_s.empty?
+
+      @script_contents_encoded = Base64.encode64 @script_contents
+      
     end # initialize
 
     # Change the script filename
@@ -162,7 +160,7 @@ module Jamf
     #
     def filename=(new_val)
       new_val = nil if new_val == ''
-      new_val = @name unless new_val
+      new_val ||= @name
 
       return nil if new_val == @filename
 
@@ -242,8 +240,10 @@ module Jamf
     #
     def priority=(new_val)
       return nil if new_val == @priority
+
       new_val = DEFAULT_PRIORITY if new_val.nil? || (new_val == '')
       raise Jamf::InvalidDataError, ":priority must be one of: #{PRIORITIES.join ', '}" unless PRIORITIES.include? new_val
+
       @priority = new_val
       @need_to_update = true
     end # priority=
@@ -256,6 +256,7 @@ module Jamf
     #
     def info=(new_val)
       return nil if new_val == @info
+
       # line breaks should be \r
       new_val = new_val.to_s.tr("\n", "\r")
       @info = new_val
@@ -270,6 +271,7 @@ module Jamf
     #
     def notes=(new_val)
       return nil if new_val == @notes
+
       # line breaks should be \r
       new_val = new_val.to_s.tr("\n", "\r")
       @notes = new_val
@@ -286,11 +288,13 @@ module Jamf
     #
     def parameters=(new_val)
       return nil if new_val == @parameters
+
       new_val = {} if new_val.nil? || (new_val == '')
 
       # check the values
       raise Jamf::InvalidDataError, ':parameters must be a Hash with keys :parameter4 thru :parameter11' unless \
         new_val.is_a?(Hash) && ((new_val.keys & PARAMETER_KEYS) == new_val.keys)
+
       new_val.each do |_k, v|
         raise Jamf::InvalidDataError, ':parameter values must be strings or nil' unless v.nil? || v.is_a?(String)
       end
@@ -309,9 +313,11 @@ module Jamf
     #
     def set_parameter(param_num, new_val)
       raise Jamf::NoSuchItemError, 'Parameter numbers must be from 4-11' unless (4..11).cover? param_num
+
       pkey = "parameter#{param_num}".to_sym
       raise Jamf::InvalidDataError, 'parameter values must be strings or nil' unless new_val.nil? || new_val.is_a?(String)
       return nil if new_val == @parameters[pkey]
+
       @parameters[pkey] = new_val
       @need_to_update = true
     end
@@ -403,13 +409,13 @@ module Jamf
       params << opts[:p11]
 
       # everything must be a string
-      params.map! &:to_s
+      params.map!(&:to_s)
 
       # remove nils
       params.compact!
 
       # remove empty strings
-      params.delete_if &:empty?
+      params.delete_if(&:empty?)
 
       return_value = []
 

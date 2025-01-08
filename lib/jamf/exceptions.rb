@@ -1,4 +1,4 @@
-# Copyright 2023 Pixar
+# Copyright 2025 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -89,7 +89,7 @@ module Jamf
   # Authorization error - rause this when the
   # user doesn't have permission to do something
   #
-  class AuthorizationError < RuntimeError ; end
+  class AuthorizationError < RuntimeError; end
 
   # ConflictError - raise this when
   # attempts to PUT or PUSH to the API

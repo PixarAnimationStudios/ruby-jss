@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -275,7 +275,7 @@ Notes:
       @columns.include?(:cidr) || \
       @columns.include?(:mask)
 
-    @use_cidr = (@columns.include?(:cidr) || @columns.include?(:mask))
+    @use_cidr = @columns.include?(:cidr) || @columns.include?(:mask)
   end
 
   def parse_a_data_line(line)

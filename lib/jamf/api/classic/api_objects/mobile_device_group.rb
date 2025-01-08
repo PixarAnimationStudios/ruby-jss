@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -63,7 +63,7 @@ module Jamf
     #####################################
 
     ### The base for REST resources of this class
-    RSRC_BASE = "mobiledevicegroups"
+    RSRC_BASE = 'mobiledevicegroups'
 
     ### the hash key used for the JSON list output of all objects in the JSS
     RSRC_LIST_KEY = :mobile_device_groups
@@ -111,7 +111,7 @@ module Jamf
     ### @return [Array<String>] the member udids
     ###
     def member_udids
-      @members.map{|m| m[:udid]}
+      @members.map { |m| m[:udid] }
     end
 
     ###
@@ -120,7 +120,7 @@ module Jamf
     ### @return [Array<String>] the member serial numbers
     ###
     def member_serial_numbers
-      @members.map{|m| m[:serial_number]}
+      @members.map { |m| m[:serial_number] }
     end
 
     ###
@@ -129,7 +129,7 @@ module Jamf
     ### @return [Array<String>] the member mac addresses
     ###
     def member_mac_addresses
-      @members.map{|m| m[:mac_address]}
+      @members.map { |m| m[:mac_address] }
     end
 
     ###
@@ -138,13 +138,12 @@ module Jamf
     ### @return [Array<String>] the member wifi mac addresses
     ###
     def member_wifi_mac_addresses
-      @members.map{|m| m[:wifi_mac_address]}
+      @members.map { |m| m[:wifi_mac_address] }
     end
 
     #####################################
     ### Private Instance Methods
     #####################################
-
 
   end # class ComputerGroup
 

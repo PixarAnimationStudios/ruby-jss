@@ -1,4 +1,4 @@
-# Copyright 2023 Pixar
+# Copyright 2025 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -102,7 +102,6 @@ module Jamf
     #   PUT_PATH and others via a PATCH_PATH.
     #   When this gets set, it will contain the appropriate one.
     attr_reader :update_path
-
 
     # constructor
     #####################################

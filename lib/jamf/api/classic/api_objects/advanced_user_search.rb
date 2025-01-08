@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -64,7 +64,7 @@ module Jamf
 
     # what data fields come back along with the display fields
     # for each user?
-    RESULT_ID_FIELDS = [:id, :name].freeze
+    RESULT_ID_FIELDS = %i[id name].freeze
 
     # the object type for this object in
     # the object history table.

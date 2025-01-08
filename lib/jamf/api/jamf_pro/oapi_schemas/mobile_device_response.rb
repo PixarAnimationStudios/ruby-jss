@@ -1,4 +1,4 @@
-# Copyright 2024 Pixar
+# Copyright 2025 Pixar
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -21,14 +21,12 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
-
 module Jamf
 
   # This module is the namespace for all objects defined
   # in the OAPI JSON schema under the components => schemas key
   #
   module OAPISchemas
-
 
     # OAPI Object Model and Enums for: MobileDeviceResponse
     #
@@ -62,10 +60,7 @@ module Jamf
     #
     class MobileDeviceResponse < Jamf::OAPIObject
 
-      
-
-      OAPI_PROPERTIES = {
-      }.merge(Jamf::OAPISchemas::MobileDeviceIosInventory::OAPI_PROPERTIES).merge(Jamf::OAPISchemas::MobileDeviceTvOsInventory::OAPI_PROPERTIES).merge(Jamf::OAPISchemas::MobileDeviceWatchOsInventory::OAPI_PROPERTIES) # end OAPI_PROPERTIES
+      OAPI_PROPERTIES = {}.merge(Jamf::OAPISchemas::MobileDeviceIosInventory::OAPI_PROPERTIES).merge(Jamf::OAPISchemas::MobileDeviceTvOsInventory::OAPI_PROPERTIES).merge(Jamf::OAPISchemas::MobileDeviceWatchOsInventory::OAPI_PROPERTIES) # end OAPI_PROPERTIES
 
     end # class MobileDeviceResponse
 

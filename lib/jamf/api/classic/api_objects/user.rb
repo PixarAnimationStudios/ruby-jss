@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -61,7 +61,7 @@ module Jamf
     #####################################
 
     ### The base for REST resources of this class
-    RSRC_BASE = "users"
+    RSRC_BASE = 'users'
 
     ### the hash key used for the JSON list output of all objects in the JSS
     RSRC_LIST_KEY = :users
@@ -113,7 +113,6 @@ module Jamf
     ###
     attr_reader :sites
 
-
     ### @return [Array<Hash>]
     ###
     ### The computers associated with this user
@@ -121,7 +120,6 @@ module Jamf
     ### Each Hash has then :id and :name for one computer
     ###
     attr_reader :computers
-
 
     ### @return [Array<Hash>]
     ###
@@ -169,54 +167,54 @@ module Jamf
       @position = @init_data[:position]
       @ldap_server = Jamf::APIObject.get_name @init_data[:ldap_server]
       @ldap_server_id = @init_data[:ldap_server][:id] unless @init_data[:ldap_server].nil?
-      @sites = @init_data[:sites] ? @init_data[:sites]  : []
+      @sites = @init_data[:sites] || []
 
-      if @init_data[:links]
-        @computers = @init_data[:links][:computers]
-        @peripherals = @init_data[:links][:peripherals]
-        @mobile_devices = @init_data[:links][:mobile_devices]
-        @vpp_assignments = @init_data[:links][:vpp_assignments]
-        @total_vpp_code_count = @init_data[:links][:total_vpp_code_count]
-      end
+      return unless @init_data[:links]
 
+      @computers = @init_data[:links][:computers]
+      @peripherals = @init_data[:links][:peripherals]
+      @mobile_devices = @init_data[:links][:mobile_devices]
+      @vpp_assignments = @init_data[:links][:vpp_assignments]
+      @total_vpp_code_count = @init_data[:links][:total_vpp_code_count]
+      
     end
 
     #####################################
     ### Public Instance Methods
     #####################################
 
-
     ###
     ### Simple Setters
     ###
 
     ###
-    def full_name= (new_val)
+    def full_name=(new_val)
       @full_name = new_val
       @need_to_update = true
     end
 
     ###
-    def email= (new_val)
+    def email=(new_val)
       @email = new_val
       @need_to_update = true
     end
 
     ###
-    def phone_number= (new_val)
+    def phone_number=(new_val)
       @phone_number = new_val
       @need_to_update = true
     end
 
     ###
-    def position= (new_val)
+    def position=(new_val)
       @position = new_val
       @need_to_update = true
     end
 
     ###
-    def ldap_server= (new_val)
+    def ldap_server=(new_val)
       raise Jamf::InvalidDataError, "No LDAP server in the JSS named #{new_val}" unless Jamf::LdapServer.all_names(cnx: @cnx).include? new_val
+
       @ldap_server = new_val
       @ldap_server_id = Jamf::LdapServer.valid_id @ldap_server
       @need_to_update = true
@@ -229,10 +227,11 @@ module Jamf
     ###
     ### @return [void]
     ###
-    def add_site (site)
-      return nil if @sites.map{|s| s[:name]}.include? site
+    def add_site(site)
+      return nil if @sites.map { |s| s[:name] }.include? site
       raise Jamf::InvalidDataError, "No site in the JSS named #{site}" unless Jamf::Site.all_names(cnx: @cnx).include? site
-      @sites << {:name => site}
+
+      @sites << { name: site }
       @need_to_update = true
     end
 
@@ -243,9 +242,10 @@ module Jamf
     ###
     ### @return [void]
     ###
-    def remove_site (site)
-      return nil unless @sites.map{|s| s[:name]}.include? site
-      @sites.reject!{|s| s[:name] == site}
+    def remove_site(site)
+      return nil unless @sites.map { |s| s[:name] }.include? site
+
+      @sites.reject! { |s| s[:name] == site }
       @need_to_update = true
     end
 
@@ -313,7 +313,7 @@ module Jamf
 
       user << ext_attr_xml if unsaved_eas?
 
-      return doc.to_s
+      doc.to_s
     end
 
   end # class user

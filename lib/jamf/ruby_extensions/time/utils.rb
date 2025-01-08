@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -22,7 +22,6 @@
 ###    language governing permissions and limitations under the Apache License.
 ###
 ###
-
 
 ### The Classic API can take incoming timestamp data in three formats:
 ### - plain date: YYYY-mm-dd HH:MM:SS, which is assumed to be in the local timezone
@@ -54,7 +53,7 @@ module JamfRubyExtensions
 
       ### @return [Integer] The Time as a unix epoch with milliseconds appended
       def to_j_epoch
-        msec = strftime('%L').rjust(3, "0")
+        msec = strftime('%L').rjust(3, '0')
         epoch = strftime('%s')
         "#{epoch}#{msec}".to_i
       end

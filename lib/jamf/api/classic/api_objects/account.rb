@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -44,7 +44,7 @@ module Jamf
   #
   class Account < Jamf::APIObject
 
-    # Note: This class is not fully extended and since the resource
+    # NOTE: This class is not fully extended and since the resource
     # is different than the rest, methods like Jamf::Account.all do not work
 
     # Mix-Ins
@@ -104,19 +104,19 @@ module Jamf
     end
 
     # @return [Array<Hash>] all JSS account groups
-    def self.all_groups(refresh = false,  api: nil, cnx: Jamf.cnx)
+    def self.all_groups(refresh = false, api: nil, cnx: Jamf.cnx)
       cnx = api if api
       all(refresh, cnx: cnx)[:groups]
     end
 
     # @return [Array<Hash>] all JSS account group ids
-    def self.all_group_ids(refresh = false,  api: nil, cnx: Jamf.cnx)
+    def self.all_group_ids(refresh = false, api: nil, cnx: Jamf.cnx)
       cnx = api if api
       all(refresh, cnx: cnx)[:groups].map { |i| i[:id] }
     end
 
     # @return [Array<Hash>] all JSS account group names
-    def self.all_group_names(refresh = false,  api: nil, cnx: Jamf.cnx)
+    def self.all_group_names(refresh = false, api: nil, cnx: Jamf.cnx)
       cnx = api if api
       all(refresh, cnx: cnx)[:groups].map { |i| i[:name] }
     end
@@ -161,7 +161,7 @@ module Jamf
       super
 
       # check to see if a user has been specified, haven't built groups yet
-      is_user = [:userid, :username].any? { |key| args.keys.include? key }
+      is_user = %i[userid username].any? { |key| args.keys.include? key }
 
       return unless is_user
 
@@ -171,7 +171,6 @@ module Jamf
       @access_level = @init_data[:access_level]
       @privilege_set = @init_data[:privilege_set]
       @privileges = @init_data[:privileges]
-
     end # initialize
 
   end # class accounts

@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -61,7 +61,7 @@ module Jamf
     #####################################
 
     ### The base for REST resources of this class
-    RSRC_BASE = "departments"
+    RSRC_BASE = 'departments'
 
     ### the hash key used for the JSON list output of all objects in the JSS
     RSRC_LIST_KEY = :departments

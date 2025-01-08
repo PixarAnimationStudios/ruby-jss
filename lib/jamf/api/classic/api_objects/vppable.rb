@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -89,7 +89,6 @@ module Jamf
       end # all_vpp_device_assignable
 
     end # module ClassMethods
-
 
     # Mixed-in Attributes
     #####################################

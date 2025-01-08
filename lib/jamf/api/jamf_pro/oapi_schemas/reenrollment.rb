@@ -1,4 +1,4 @@
-# Copyright 2024 Pixar
+# Copyright 2025 Pixar
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -21,14 +21,12 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
-
 module Jamf
 
   # This module is the namespace for all objects defined
   # in the OAPI JSON schema under the components => schemas key
   #
   module OAPISchemas
-
 
     # OAPI Object Model and Enums for: Reenrollment
     #
@@ -48,11 +46,11 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #  
+    #
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #  
+    #
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
@@ -67,11 +65,11 @@ module Jamf
 
       # Enums used by this class or others
 
-      FLUSH_M_D_M_QUEUE_OPTIONS = [
-        'DELETE_NOTHING',
-        'DELETE_ERRORS',
-        'DELETE_EVERYTHING_EXCEPT_ACKNOWLEDGED',
-        'DELETE_EVERYTHING'
+      FLUSH_M_D_M_QUEUE_OPTIONS = %w[
+        DELETE_NOTHING
+        DELETE_ERRORS
+        DELETE_EVERYTHING_EXCEPT_ACKNOWLEDGED
+        DELETE_EVERYTHING
       ]
 
       OAPI_PROPERTIES = {

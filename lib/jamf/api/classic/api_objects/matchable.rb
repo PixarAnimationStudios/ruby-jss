@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -26,10 +26,9 @@
 ###
 module Jamf
 
-### A mix-in module providing access to the "match" resources for some
-### JSS API objects, like computers and mobile devices.
-###
-
+  ### A mix-in module providing access to the "match" resources for some
+  ### JSS API objects, like computers and mobile devices.
+  ###
 
   #####################################
   ### Module Variables
@@ -63,7 +62,7 @@ module Jamf
 
     MATCHABLE = true
 
-    MATCH_RSRC = "match"
+    MATCH_RSRC = 'match'
 
     #####################################
     ###  Variables
@@ -89,7 +88,7 @@ module Jamf
     def match(term, api: nil, cnx: Jamf.cnx)
       cnx = api if api
 
-      raise Jamf::InvalidDataError, "Match term may not be empty" if term.to_s.empty?
+      raise Jamf::InvalidDataError, 'Match term may not be empty' if term.to_s.empty?
 
       rsrc = "#{self::RSRC_BASE}/#{Jamf::Matchable::MATCH_RSRC}/#{CGI.escape term.to_s}"
       cnx.c_get(rsrc)[self::RSRC_LIST_KEY]

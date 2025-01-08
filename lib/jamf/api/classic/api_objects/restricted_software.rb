@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -140,6 +140,7 @@ module Jamf
     def site=(new_val)
       if new_val.is_a? Integer
         raise Jamf::NoSuchItemError, "No site found with id #{new_val}" unless Jamf::Site.all_ids(cnx: @cnx).include? new_val
+
         new_val = Jamf::Site.map_all_ids_to(:name, cnx: @cnx)[new_val]
       else
         new_val = new_val.to_s
@@ -151,12 +152,15 @@ module Jamf
 
     def create
       raise Jamf::MissingDataError, 'process_name must be set before creating' if @process_name.to_s.empty?
-      raise Jamf::AlreadyExistsError, "A #{RSRC_OBJECT_KEY} named #{@name} already exists in the JSS" if self.class.all_names(:refresh, cnx: @cnx).include? @name
+      raise Jamf::AlreadyExistsError, "A #{RSRC_OBJECT_KEY} named #{@name} already exists in the JSS" if self.class.all_names(:refresh, 
+                                                                                                                              cnx: @cnx).include? @name
+
       super
     end
 
     def update
       raise Jamf::MissingDataError, 'process_name must be set before updating' if @process_name.to_s.empty?
+
       super
     end
 

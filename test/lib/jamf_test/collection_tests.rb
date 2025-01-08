@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -160,7 +160,7 @@ module JamfTest
       fkey = collection_class::FILTER_KEYS.sample
       fval = @cached_all.sample[fkey]
       filter = "#{fkey}==\"#{fval}\""
-      filtered = collection_class.all filter: filter
+      collection_class.all filter: filter
 
       say "Ran #{collection_class}.all filter: '#{filter}'"
     end
@@ -276,7 +276,7 @@ module JamfTest
         return
       end
 
-      rando = collection_class.fetch random: true
+      collection_class.fetch random: true
       say "Ran #{collection_class}.fetch random: true "
     end
 
