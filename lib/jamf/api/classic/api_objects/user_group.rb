@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -57,13 +57,12 @@ module Jamf
     ### Mix-Ins
     #####################################
 
-
     #####################################
     ### Class Constants
     #####################################
 
     ### The base for REST resources of this class
-    RSRC_BASE = "usergroups"
+    RSRC_BASE = 'usergroups'
 
     ### the hash key used for the JSON list output of all objects in the JSS
     RSRC_LIST_KEY = :user_groups
@@ -108,7 +107,7 @@ module Jamf
     ### @return [Array<String>] the member usernames
     ###
     def member_usernames
-      @members.map{|m| m[:username]}
+      @members.map { |m| m[:username] }
     end
 
     ###
@@ -117,7 +116,7 @@ module Jamf
     ### @return [Array<String>] the member full names
     ###
     def member_full_names
-      @members.map{|m| m[:full_name]}
+      @members.map { |m| m[:full_name] }
     end
 
     ###
@@ -126,7 +125,7 @@ module Jamf
     ### @return [Array<String>] the member phone numbers
     ###
     def member_phone_numbers
-      @members.map{|m| m[:phone_number]}
+      @members.map { |m| m[:phone_number] }
     end
 
     ###
@@ -135,13 +134,12 @@ module Jamf
     ### @return [Array<String>] the member email addresses
     ###
     def member_email_addresses
-      @members.map{|m| m[:email_address]}
+      @members.map { |m| m[:email_address] }
     end
 
     #####################################
     ### Private Instance Methods
     #####################################
-
 
   end # class UserGroup
 

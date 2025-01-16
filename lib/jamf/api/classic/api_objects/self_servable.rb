@@ -1,5 +1,4 @@
-
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -365,6 +364,7 @@ module Jamf
       new_val = new_val.strip
       return nil if @self_service_display_name == new_val
       raise Jamf::InvalidDataError, 'Only macOS Self Service items have display names' unless self_service_targets.include? :macos
+
       @self_service_display_name = new_val
       @need_to_update = true
     end
@@ -379,6 +379,7 @@ module Jamf
       new_val = new_val.strip
       return nil if @self_service_install_button_text == new_val
       raise Jamf::InvalidDataError, 'Only macOS Self Service Items can have custom button text' unless self_service_targets.include? :macos
+
       @self_service_install_button_text = new_val
       @need_to_update = true
     end
@@ -391,6 +392,7 @@ module Jamf
       new_val = new_val.strip
       return nil if @self_service_reinstall_button_text == new_val
       raise Jamf::InvalidDataError, 'Only macOS Self Service Items can have custom button text' unless self_service_targets.include? :macos
+
       @self_service_reinstall_button_text = new_val
       @need_to_update = true
     end
@@ -403,6 +405,7 @@ module Jamf
       return nil if @self_service_feature_on_main_page == new_val
       return nil unless @self_service_data_config[:can_feature_in_categories]
       raise Jamf::InvalidDataError, 'New value must be true or false' unless new_val.jss_boolean?
+
       @self_service_feature_on_main_page = new_val
       @need_to_update = true
     end
@@ -416,6 +419,7 @@ module Jamf
       return nil if @self_service_force_users_to_view_description == new_val
       raise Jamf::InvalidDataError, 'Only macOS Self Service Items can force users to view description' unless self_service_targets.include? :macos
       raise Jamf::InvalidDataError, 'New value must be true or false' unless new_val.jss_boolean?
+
       @self_service_force_users_to_view_description = new_val
       @need_to_update = true
     end
@@ -503,6 +507,7 @@ module Jamf
     #
     def self_service_notifications_enabled=(new_val)
       return if new_val == self_service_notifications_enabled
+
       validate_notifications_supported
       Jamf::Validate.boolean new_val
       @self_service_notifications_enabled = new_val
@@ -538,6 +543,7 @@ module Jamf
     def self_service_notification_subject=(subj)
       subj = subj.strip
       return if subj == @self_service_notification_subject
+
       validate_notifications_supported
       @self_service_notification_subject = subj
       @need_to_update = true
@@ -550,6 +556,7 @@ module Jamf
     def self_service_notification_message=(msg)
       msg = msg.strip
       return if msg == @self_service_notification_message
+
       validate_notifications_supported
       @self_service_notification_message = msg
       @need_to_update = true
@@ -563,6 +570,7 @@ module Jamf
     #
     def self_service_reminders_enabled=(new_val)
       return if new_val == self_service_reminders_enabled
+
       validate_notification_reminders_supported
       Jamf::Validate.boolean new_val
       @self_service_reminders_enabled = new_val
@@ -577,6 +585,7 @@ module Jamf
     #
     def self_service_reminder_frequency=(days)
       return if days == self_service_reminder_frequency
+
       validate_notification_reminders_supported
       Jamf::Validate.integer days
       @self_service_reminder_frequency = days
@@ -600,6 +609,7 @@ module Jamf
     def icon=(new_icon)
       if new_icon.is_a? Integer
         return if @icon && new_icon == @icon.id
+
         validate_icon new_icon
         @new_icon_id = new_icon
         @need_to_update = true
@@ -607,11 +617,11 @@ module Jamf
         unless uploadable? && defined?(self.class::UPLOAD_TYPES) && self.class::UPLOAD_TYPES.key?(:icon)
           raise Jamf::UnsupportedError, "Class #{self.class} does not support icon uploads."
         end
+
         new_icon = Pathname.new new_icon
         upload(:icon, new_icon)
         refresh_icon
       end # new_icon.is_a? Integer
-      new_icon
     end # icon =
     alias self_service_icon= icon=
     alias assign_icon icon=
@@ -623,6 +633,7 @@ module Jamf
     def add_to_self_service
       return nil unless @self_service_data_config[:in_self_service_data_path]
       return nil if in_self_service?
+
       @in_self_service = true
       @need_to_update = true
     end
@@ -634,6 +645,7 @@ module Jamf
     def remove_from_self_service
       return nil unless @self_service_data_config[:in_self_service_data_path]
       return nil unless in_self_service?
+
       @in_self_service = false
       @need_to_update = true
     end
@@ -644,6 +656,7 @@ module Jamf
     #
     def user_removable?
       return nil unless self_service_payload == :profile
+
       @self_service_user_removable != :never
     end
 
@@ -708,7 +721,7 @@ module Jamf
     def parse_self_service
       @self_service_data_config = SELF_SERVICE_CLASSES[self.class.to_s]
 
-      subset_key = @self_service_data_config[:self_service_subset] ? @self_service_data_config[:self_service_subset] : :self_service
+      subset_key = @self_service_data_config[:self_service_subset] || :self_service
 
       ss_data = @init_data[subset_key]
       ss_data ||= {}
@@ -746,20 +759,23 @@ module Jamf
     #
     def in_self_service_at_init?
       return nil unless @self_service_data_config[:in_self_service_data_path]
+
       subsection, key = @self_service_data_config[:in_self_service_data_path]
       return false unless @init_data[subsection]
+
       @init_data[subsection][key] == @self_service_data_config[:in_self_service]
     end
 
     # parse incoming ssvc settings for profiles
     def parse_self_service_profile(ss_data)
       return unless self_service_payload == :profile
+
       if self_service_targets.include? :ios
         @self_service_user_removable = PROFILE_REMOVAL_BY_USER[ss_data[:security][:removal_disallowed]]
         @self_service_removal_password = ss_data[:security][:password]
         return
       end
-      @self_service_user_removable =  @init_data[:general][:user_removable]
+      @self_service_user_removable = @init_data[:general][:user_removable]
     end
 
     # parse incoming ssvc notification settings
@@ -800,8 +816,9 @@ module Jamf
     #
     def refresh_icon
       return nil unless @in_jss
+
       fresh_data = @cnx.c_get(@rest_rsrc)[self.class::RSRC_OBJECT_KEY]
-      subset_key = @self_service_data_config[:self_service_subset] ? @self_service_data_config[:self_service_subset] : :self_service
+      subset_key = @self_service_data_config[:self_service_subset] || :self_service
 
       ss_data = fresh_data[subset_key]
 
@@ -898,7 +915,6 @@ module Jamf
       ssvc.add_element('reinstall_button_text').text = self_service_reinstall_button_text if self_service_reinstall_button_text
     end
 
-
     # set ssvc notification settings in xml
     def add_self_service_notification_xml(ssvc)
       return unless @self_service_data_config[:notifications_supported]
@@ -923,7 +939,6 @@ module Jamf
       reminds = notif.add_element('reminders')
       reminds.add_element('notification_reminders_enabled').text = self_service_reminders_enabled.to_s
       reminds.add_element('notification_reminder_frequency').text = self_service_reminder_frequency.to_s if self_service_reminder_frequency
-
     end
 
     # Raise an error if user_removable settings are wrong

@@ -1,4 +1,4 @@
-# Copyright 2023 Pixar
+# Copyright 2025 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -220,8 +220,9 @@ module Jamf
     #
     # @return [String] The checksum of the file
     #
-    def self.calculate_checksum(filepath, type = DEFAULT_CHECKSUM_HASH_TYPE )
+    def self.calculate_checksum(filepath, type = DEFAULT_CHECKSUM_HASH_TYPE)
       raise ArgumentError, 'Unknown checksum hash type' unless CHECKSUM_HASH_TYPES.key? type
+
       CHECKSUM_HASH_TYPES[type].file(filepath).hexdigest
     end
 
@@ -319,9 +320,8 @@ module Jamf
       @send_notification = @init_data[:send_notification]
       @switch_with_package = @init_data[:switch_with_package] || DO_NOT_INSTALL
 
-      @checksum = @init_data[:hash_value] #ill be nil if no checksum
+      @checksum = @init_data[:hash_value] # ill be nil if no checksum
       @checksum_type = @checksum ? @init_data[:hash_type] : DEFAULT_CHECKSUM_HASH_TYPE
-
 
       # the receipt is the filename with any .zip extension removed.
       @receipt = @filename ? (Jamf::Client::RECEIPTS_FOLDER + @filename.to_s.sub(/.zip$/, '')) : nil
@@ -357,8 +357,10 @@ module Jamf
     #
     def boot_volume_required=(new_val)
       return nil if new_val == @boot_volume_required
+
       new_val = false if new_val.to_s.empty?
       raise Jamf::InvalidDataError, 'install_if_reported_available must be boolean true or false' unless Jamf::TRUE_FALSE.include? new_val
+
       @boot_volume_required = new_val
       @need_to_update = true
     end
@@ -387,8 +389,10 @@ module Jamf
     #
     def fill_existing_users=(new_val)
       return nil if new_val == @fill_existing_users
+
       new_val = false if new_val.to_s.empty?
       raise Jamf::InvalidDataError, "fill_existing_users must be boolean 'true' or 'false'" unless Jamf::TRUE_FALSE.include? new_val
+
       @fill_existing_users = new_val
       @need_to_update = true
     end
@@ -401,8 +405,10 @@ module Jamf
     #
     def fill_user_template=(new_val)
       return nil if new_val == @fill_user_template
+
       new_val = false if new_val.to_s.empty?
       raise Jamf::InvalidDataError, "fill_user_template must be boolean 'true' or 'false'" unless Jamf::TRUE_FALSE.include? new_val
+
       @fill_user_template = new_val
       @need_to_update = true
     end
@@ -415,6 +421,7 @@ module Jamf
     #
     def info=(new_val)
       return nil if new_val == @info
+
       # line breaks should be \r
       new_val = new_val.to_s.tr("\n", "\r")
       @info = new_val
@@ -429,8 +436,10 @@ module Jamf
     #
     def install_if_reported_available=(new_val)
       return nil if new_val == @install_if_reported_available
+
       new_val = false if new_val.to_s.empty?
       raise Jamf::InvalidDataError, 'install_if_reported_available must be boolean true or false' unless Jamf::TRUE_FALSE.include? new_val
+
       @install_if_reported_available = new_val
       @need_to_update = true
     end
@@ -531,8 +540,10 @@ module Jamf
     #
     def priority=(new_val)
       return nil if new_val == @priority
+
       new_val = DEFAULT_PRIORITY if new_val.to_s.empty?
       raise Jamf::InvalidDataError, ':priority must be an integer from 1-20' unless PRIORITIES.include? new_val
+
       @priority = new_val
       @need_to_update = true
     end
@@ -545,8 +556,10 @@ module Jamf
     #
     def reboot_required=(new_val)
       return nil if new_val == @reboot_required
+
       new_val = false if new_val.to_s.empty?
       raise Jamf::InvalidDataError, "reboot must be boolean 'true' or 'false'" unless Jamf::TRUE_FALSE.include? new_val
+
       @reboot_required = new_val
       @need_to_update = true
     end
@@ -588,8 +601,10 @@ module Jamf
     #
     def send_notification=(new_val)
       return nil if new_val == @send_notification
+
       new_val = false if new_val.to_s.empty?
       raise Jamf::InvalidDataError, 'send_notification must be boolean true or false' unless Jamf::TRUE_FALSE.include? new_val
+
       @send_notification = new_val
       @need_to_update = true
     end
@@ -602,6 +617,7 @@ module Jamf
     #
     def switch_with_package=(new_val)
       return nil if new_val == @switch_with_package
+
       new_val = nil if new_val.to_s.empty?
 
       raise Jamf::NoSuchItemError, "No package named '#{new_val}' exists in the JSS" if new_val && (!self.class.all_names(cnx: @cnx).include? new_val)
@@ -712,7 +728,7 @@ module Jamf
     #
     # @return [void]
     #
-    def reset_checksum(type: nil, local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true, dist_point: nil )
+    def reset_checksum(type: nil, local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true, dist_point: nil)
       type ||= DEFAULT_CHECKSUM_HASH_TYPE
 
       new_checksum = calculate_checksum(
@@ -754,7 +770,7 @@ module Jamf
     #
     # @return [String] The calculated checksum
     #
-    def calculate_checksum(type: nil, local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true, dist_point: nil )
+    def calculate_checksum(type: nil, local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true, dist_point: nil)
       type ||= DEFAULT_CHECKSUM_HASH_TYPE
       dp = self.class.fetch_dist_point(dist_point, cnx: @cnx)
 
@@ -798,8 +814,9 @@ module Jamf
     # @return [Boolean] false if there is no checksum for this pkg, otherwise,
     #   does the calculated checksum match the one stored for the pkg?
     #
-    def checksum_valid?(local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true, dist_point: nil )
+    def checksum_valid?(local_file: nil, rw_pw: nil, ro_pw: nil, unmount: true, dist_point: nil)
       return false unless @checksum
+
       new_checksum = calculate_checksum(
         type: @checksum_type,
         local_file: local_file,
@@ -829,6 +846,7 @@ module Jamf
     #
     def update_master_filename(old_file_name, new_file_name, rw_pw, unmount = true, dist_point: nil)
       raise Jamf::NoSuchItemError, "#{old_file_name} does not exist in the jss." unless @in_jss
+
       dp = self.class.fetch_dist_point(dist_point, cnx: @cnx)
 
       pkgs_dir = dp.mount(rw_pw, :rw) + DIST_POINT_PKGS_FOLDER.to_s
@@ -844,8 +862,6 @@ module Jamf
       dp.unmount if unmount
       nil
     end # update_master_filename
-
-
 
     # Delete the filename from the master distribution point, if it exists.
     #
@@ -970,9 +986,11 @@ module Jamf
           if mdp.username_password_required
             raise Jamf::MissingDataError, 'No password provided for http download' unless ro_pw
             raise Jamf::InvaldDatatError, 'Incorrect password for http access to distribution point.' unless mdp.check_pw(:http, ro_pw)
+
             # insert the name and pw into the uri
             # reserved_chars = Regexp.new("[^#{URI::REGEXP::PATTERN::UNRESERVED}]") # we'll escape all the chars that aren't unreserved
-            src_path = src_path.sub(%r{(https?://)(\S)}, "#{Regexp.last_match(1)}#{CGI.escape mdp.http_username.to_s}:#{CGI.escape ro_pw.to_s}@#{Regexp.last_match(2)}")
+            src_path = src_path.sub(%r{(https?://)(\S)}, 
+                                    "#{Regexp.last_match(1)}#{CGI.escape mdp.http_username.to_s}:#{CGI.escape ro_pw.to_s}@#{Regexp.last_match(2)}")
           end
 
         # or with filesharing?
@@ -985,9 +1003,7 @@ module Jamf
         src_path += "#{DIST_POINT_PKGS_FOLDER}/"
       end # if args[:alt_download_url]
 
-      if using_http
-        src_path += @filename.to_s unless no_filename_in_url
-      end
+      src_path += @filename.to_s if using_http && !no_filename_in_url
 
       # are we doing "fill existing users" or "fill user template"?
       do_feu = args[:feu] ? '-feu' : ''
@@ -1003,9 +1019,7 @@ module Jamf
       install_exit = Regexp.last_match(1) ? Regexp.last_match(1).to_i : nil
       install_exit ||= $CHILD_STATUS.exitstatus
 
-      if args.include? :unmount
-        mdp.unmount unless using_http
-      end
+      mdp.unmount if args.include?(:unmount) && !using_http
 
       install_exit.zero? ? true : false
     end
@@ -1032,6 +1046,7 @@ module Jamf
               'This package cannot be uninstalled. Please use CasperAdmin to index it and allow uninstalls'
       end
       raise Jamf::UnsupportedError, 'You must have root privileges to uninstall packages' unless JSS.superuser?
+
       args[:target] ||= '/'
 
       # are we doing "fill existing users" or "fill user template"?
@@ -1093,7 +1108,6 @@ module Jamf
     ################################
 
     private
-
 
     # Return the REST XML for this pkg, with the current values,
     # for saving or updating

@@ -1,4 +1,4 @@
-# Copyright 2023 Pixar
+# Copyright 2025 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -23,7 +23,6 @@
 #
 #
 
-#
 module Jamf
 
   # Classes
@@ -94,9 +93,10 @@ module Jamf
     def level=(new_val)
       return nil if @level == new_val
       raise Jamf::InvalidDataError, "New value must be one of '#{LEVELS.join("' '")}'" unless LEVELS.include? new_val
+
       @level = new_val
       @need_to_update = true
-    end #
+    end
 
     # Private Instance Methods
     ###################################

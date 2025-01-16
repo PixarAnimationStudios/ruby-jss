@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -182,6 +182,7 @@ module Jamf
       system "#{HDI_UTIL} create -volname '#{dmg_vol}' -scrub -srcfolder '#{root}' '#{dmg_out}'"
 
       raise 'There was an error building the .dmg' unless $?.exitstatus.zero?
+
       Pathname.new dmg_out
     end # mk_dmg
 

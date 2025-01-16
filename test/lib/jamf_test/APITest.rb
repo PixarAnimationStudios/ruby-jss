@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
 ###    with the following modification; you may not use this file except in
@@ -69,12 +69,13 @@ module JamfTest
         say "Hash keys are class: #{key_class}"
       end
 
-      if val_class
-        val = hash.values.sample
-        raise "Hash value '#{val}' is a #{val.class} not #{val_class}" unless val.is_a?(val_class)
+      return unless val_class
 
-        say "Hash value are class: #{val_class}"
-      end
+      val = hash.values.sample
+      raise "Hash value '#{val}' is a #{val.class} not #{val_class}" unless val.is_a?(val_class)
+
+      say "Hash value are class: #{val_class}"
+      
     end
 
     #####

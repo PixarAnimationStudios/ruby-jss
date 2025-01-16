@@ -1,4 +1,4 @@
-# Copyright 2023 Pixar
+# Copyright 2025 Pixar
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -22,7 +22,6 @@
 #
 #
 
-#
 module Jamf
 
   # Classes
@@ -62,7 +61,7 @@ module Jamf
     }.freeze
 
     # The available webhook events.
-    EVENTS = %w(
+    EVENTS = %w[
       ComputerAdded
       ComputerCheckIn
       ComputerInventoryCompleted
@@ -81,7 +80,7 @@ module Jamf
       SCEPChallenge
       SmartGroupComputerMembershipChange
       SmartGroupMobileDeviceMembershipChange
-    ).freeze
+    ].freeze
 
     # the object type for this object in
     # the object history table.
@@ -135,9 +134,11 @@ module Jamf
     #
     def enabled=(new_val)
       return nil if new_val == @enabled
+
       new_val = false if new_val.to_s.empty?
       raise Jamf::InvalidDataError, "enabled must be boolean 'true' or 'false'" unless \
         Jamf::TRUE_FALSE.include? new_val
+
       @enabled = new_val
       @need_to_update = true
     end
@@ -150,9 +151,11 @@ module Jamf
     #
     def url=(new_val)
       return nil if new_val == @url
+
       # handy - from http://stackoverflow.com/questions/1805761/check-if-url-is-valid-ruby#1805788
-      url_ok = new_val =~ /\A#{URI.regexp(%w(http https))}\z/
+      url_ok = new_val =~ /\A#{URI::DEFAULT_PARSER.make_regexp(%w[http https])}\z/
       raise Jamf::InvalidDataError, 'New value is not a valid http(s) url' unless url_ok && url_ok.zero?
+
       @url = new_val
       @need_to_update = true
     end
@@ -168,6 +171,7 @@ module Jamf
       return nil if new_val == @content_type
       raise Jamf::InvalidDataError, "content_type must be one of :#{CONTENT_TYPES.keys.join ', :'}" unless \
         CONTENT_TYPES.keys.include? new_val
+
       @content_type = new_val
       @need_to_update = true
     end
@@ -182,6 +186,7 @@ module Jamf
     def event=(new_val)
       return nil if new_val == @event
       raise Jamf::InvalidDataError, 'Unknown webhook event' unless EVENTS.include? new_val
+
       @event = new_val
       @need_to_update = true
     end
@@ -195,6 +200,7 @@ module Jamf
     #
     def enable
       raise Jamf::NoSuchItemError, 'Save the webhook before enabling it' unless @in_jss
+
       self.enabled = true
       save
     end
@@ -205,6 +211,7 @@ module Jamf
     #
     def disable
       raise Jamf::NoSuchItemError, 'Save the webhook before disabling it' unless @in_jss
+
       self.enabled = false
       save
     end

@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -204,6 +204,7 @@ module Jamf
 
         if subset
           raise "Subset must be one of :#{@hist_subsets.join ', :'}" unless @hist_subsets.include? subset
+
           subset_rsrc = @hist_rsrc + "/id/#{id}/subset/#{subset}"
           cnx.c_get(subset_rsrc)[@hist_key][subset]
         else
@@ -263,6 +264,7 @@ module Jamf
         hist = management_history(ident, subset, cnx: cnx)
         if status
           raise Jamf::InvalidDataError, 'status must be one of :completed, :pending, or :failed' unless HIST_MDM_STATUSES.include? status
+
           statuses_to_do = [status]
         else
           statuses_to_do = HIST_MDM_STATUSES
@@ -358,7 +360,6 @@ module Jamf
         epoch ? JSS.epoch_to_time(epoch) : nil
       end
 
-
       # The history of app store apps  for a computer
       #
       # @param ident [Type] The identifier for the object - id, name, sn, udid, etc.
@@ -378,6 +379,7 @@ module Jamf
         hist = management_history(ident, :mac_app_store_applications, cnx: cnx)
         if status
           raise Jamf::InvalidDataError, 'status must be one of :installed, :pending, or :failed' unless HIST_APP_STATUSES.include? status
+
           statuses_to_do = [status]
         else
           statuses_to_do = HIST_APP_STATUSES
@@ -415,6 +417,7 @@ module Jamf
         hist = management_history(ident, :applications, cnx: cnx)
         if status
           raise Jamf::InvalidDataError, 'status must be one of :installed, :pending, or :failed' unless HIST_APP_STATUSES.include? status
+
           statuses_to_do = [status]
         else
           statuses_to_do = HIST_APP_STATUSES
@@ -480,7 +483,7 @@ module Jamf
       #
       # @see #app_store_app_history
       #
-      def installed_app_store_apps(ident,api: nil, cnx: Jamf.cnx)
+      def installed_app_store_apps(ident, api: nil, cnx: Jamf.cnx)
         cnx = api if api
 
         app_store_app_history(ident, :installed, cnx: cnx)
@@ -522,6 +525,7 @@ module Jamf
         cnx = api if api
 
         raise Jamf::UnsupportedError, 'Only computers have casper imaging logs' unless self == Jamf::Computer
+
         hist = management_history(ident, :casper_imaging_logs, cnx: cnx)
         hist.map! { |evt| Jamf::ManagementHistory::CasperImagingLog.new evt }
       end
@@ -539,6 +543,7 @@ module Jamf
         cnx = api if api
 
         raise Jamf::UnsupportedError, 'Only computers have casper remote logs' unless self == Jamf::Computer
+
         hist = management_history(ident, :casper_remote_logs, cnx: cnx)
         hist.map! { |evt| Jamf::ManagementHistory::CasperRemoteLog.new evt }
       end
@@ -556,6 +561,7 @@ module Jamf
         cnx = api if api
 
         raise Jamf::UnsupportedError, 'Only computers have usage logs' unless self == Jamf::Computer
+
         hist = management_history(ident, :computer_usage_logs, cnx: cnx)
         hist.map! { |evt| Jamf::ManagementHistory::ComputerUsageLog.new evt }
       end
@@ -574,6 +580,7 @@ module Jamf
         cnx = api if api
 
         raise Jamf::UnsupportedError, 'Only computers have screen sharing logs' unless self == Jamf::Computer
+
         hist = management_history(ident, :screen_sharing_logs, cnx: cnx)
         hist.map! { |evt| Jamf::ManagementHistory::ScreenSharingLog.new evt }
       end
@@ -591,6 +598,7 @@ module Jamf
         cnx = api if api
 
         raise Jamf::UnsupportedError, 'Only computers have policy logs' unless self == Jamf::Computer
+
         hist = management_history(ident, :policy_logs, cnx: cnx)
         hist.map! { |evt| Jamf::ManagementHistory::PolicyLog.new evt }
       end
@@ -632,6 +640,7 @@ module Jamf
         hist = management_history(ident, :ebooks, cnx: cnx)
         if status
           raise Jamf::InvalidDataError, 'status must be one of :installed, :pending, or :failed' unless HIST_APP_STATUSES.include? status
+
           statuses_to_do = [status]
         else
           statuses_to_do = HIST_APP_STATUSES

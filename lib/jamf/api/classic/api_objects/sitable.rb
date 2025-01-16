@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -98,6 +98,7 @@ module Jamf
     #
     def site_object
       return nil unless site_assigned?
+
       Jamf::Site.fetch id: @site_id
     end # cat obj
 
@@ -149,6 +150,7 @@ module Jamf
     def unset_site
       # no change, go home
       return nil if @site_name.nil?
+
       @site_name = nil
       @site_id = nil
       @need_to_update = true

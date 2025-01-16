@@ -1,4 +1,4 @@
-# Copyright 2024 Pixar
+# Copyright 2025 Pixar
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -21,14 +21,12 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
-
 module Jamf
 
   # This module is the namespace for all objects defined
   # in the OAPI JSON schema under the components => schemas key
   #
   module OAPISchemas
-
 
     # OAPI Object Model and Enums for: LapsUserV2
     #
@@ -53,7 +51,7 @@ module Jamf
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #  
+    #
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
@@ -65,9 +63,9 @@ module Jamf
 
       # Enums used by this class or others
 
-      USER_SOURCE_OPTIONS = [
-        'MDM',
-        'JMF'
+      USER_SOURCE_OPTIONS = %w[
+        MDM
+        JMF
       ]
 
       OAPI_PROPERTIES = {

@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -61,7 +61,6 @@ module Jamf
     include Jamf::Updatable
     include Jamf::Criteriable
     include Jamf::Sitable
-
 
     # Class Constants
     #####################################
@@ -144,7 +143,7 @@ module Jamf
     # @see APIObject#initialize
     #
     def initialize(**args)
-      super **args
+      super(**args)
 
       # @init_data now has the raw data
       # so fill in our attributes or set defaults
@@ -220,13 +219,14 @@ module Jamf
     def save(get_results = false)
       if @in_jss
         raise Jamf::UnsupportedError, 'Updating this object in the JSS is currently not supported by ruby-jss' unless updatable?
+
         update get_results
       else
         raise Jamf::UnsupportedError, 'Creating this object in the JSS is currently not supported by ruby-jss' unless creatable?
+
         create get_results
       end
     end
-
 
     # Requery the API for the search results.
     #
@@ -257,6 +257,7 @@ module Jamf
     def display_fields=(new_val)
       raise Jamf::InvalidDataError, 'display_fields must be an Array.' unless new_val.is_a? Array
       return if new_val.sort == @display_fields.sort
+
       @display_fields = new_val
       @need_to_update = true
     end
@@ -287,9 +288,7 @@ module Jamf
 
       out = Pathname.new output_file
 
-      unless overwrite
-        raise Jamf::AlreadyExistsError, "The output file already exists: #{out}" if out.exist?
-      end
+      raise Jamf::AlreadyExistsError, "The output file already exists: #{out}" if !overwrite && out.exist?
 
       case format
       when :csv

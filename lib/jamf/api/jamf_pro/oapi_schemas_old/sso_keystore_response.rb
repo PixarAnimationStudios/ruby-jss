@@ -1,4 +1,4 @@
-# Copyright 2024 Pixar
+# Copyright 2025 Pixar
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -21,14 +21,12 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
-
 module Jamf
 
   # This module is the namespace for all objects defined
   # in the OAPI JSON schema under the components => schemas key
   #
   module OAPISchemas
-
 
     # OAPI Object Model and Enums for: SsoKeystoreResponse
     #
@@ -64,16 +62,16 @@ module Jamf
 
       # Enums used by this class or others
 
-      TYPE_OPTIONS = [
-        'PKCS12',
-        'JKS',
-        'NONE'
+      TYPE_OPTIONS = %w[
+        PKCS12
+        JKS
+        NONE
       ]
 
-      KEYSTORE_SETUP_TYPE_OPTIONS = [
-        'NONE',
-        'UPLOADED',
-        'GENERATED'
+      KEYSTORE_SETUP_TYPE_OPTIONS = %w[
+        NONE
+        UPLOADED
+        GENERATED
       ]
 
       OAPI_PROPERTIES = {

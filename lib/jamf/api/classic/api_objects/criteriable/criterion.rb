@@ -1,4 +1,4 @@
-# Copyright 2023 Pixar
+# Copyright 2025 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -132,6 +132,7 @@ module Jamf
 
         if args[:search_type]
           raise Jamf::InvalidDataError, 'Invalid :search_type' unless SEARCH_TYPES.include? args[:search_type]
+
           @search_type = args[:search_type]
         end
 
@@ -190,6 +191,7 @@ module Jamf
       #
       def search_type=(new_val)
         raise Jamf::InvalidDataError, 'Invalid :search_type' unless SEARCH_TYPES.include? new_val
+
         @search_type = new_val
       end
 

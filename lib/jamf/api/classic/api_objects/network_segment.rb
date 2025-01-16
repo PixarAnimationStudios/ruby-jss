@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -197,6 +197,7 @@ module Jamf
         validate_ip_range(startip, endip)
       else
         raise ArgumentError, 'Must provide ending_address:, mask:, cidr: or a masked starting_address:' unless starting_address.include? '/'
+
         subnet = IPAddr.new starting_address
         startip = subnet.to_range.first.mask 32
         endip = subnet.to_range.last.mask 32
@@ -433,6 +434,7 @@ module Jamf
     def overlap?(other_segment)
       raise TypeError, 'Argument must be a Jamf::NetworkSegment' unless \
         other_segment.is_a? Jamf::NetworkSegment
+
       other_range = other_segment.range
       range.include?(other_range.begin) || range.include?(other_range.end)
     end
@@ -464,6 +466,7 @@ module Jamf
     def ==(other)
       raise TypeError, 'Argument must be a Jamf::NetworkSegment' unless \
         other.is_a? Jamf::NetworkSegment
+
       range == other.range
     end
 
@@ -496,6 +499,7 @@ module Jamf
     ###
     def override_buildings=(newval)
       raise Jamf::InvalidDataError, 'New value must be boolean true or false' unless Jamf::TRUE_FALSE.include? newval
+
       @override_buildings = newval
       @need_to_update = true
     end
@@ -512,7 +516,7 @@ module Jamf
           Jamf::BLANK
         else
           id = Jamf::Department.valid_id newval
-          raise Jamf::MissingDataError , "No department matching '#{newval}' in the JSS" unless id
+          raise Jamf::MissingDataError, "No department matching '#{newval}' in the JSS" unless id
 
           Jamf::Department.map_all_ids_to(:name)[id]
         end
@@ -529,6 +533,7 @@ module Jamf
     ###
     def override_departments=(newval)
       raise Jamf::InvalidDataError, 'New value must be boolean true or false' unless Jamf::TRUE_FALSE.include? newval
+
       @override_departments = newval
       @need_to_update = true
     end

@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -158,7 +158,7 @@ module Jamf
 
       new_val = new_val.to_s.strip
       unless new_val.empty? or Jamf::Building.all_names(cnx: @cnx).include? new_val
-        raise Jamf::NoSuchItemError, 
+        raise Jamf::NoSuchItemError,
               "No building named #{new_val} exists in the JSS"
       end
 
@@ -172,7 +172,7 @@ module Jamf
 
       new_val = new_val.to_s.strip
       unless new_val.empty? or Jamf::Department.all_names(cnx: @cnx).include? new_val
-        raise Jamf::NoSuchItemError, 
+        raise Jamf::NoSuchItemError,
               "No department named #{new_val} exists in the JSS"
       end
 

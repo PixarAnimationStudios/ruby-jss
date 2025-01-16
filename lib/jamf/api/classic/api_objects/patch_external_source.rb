@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -48,7 +48,6 @@ module Jamf
     # It's also used in various error messages
     RSRC_OBJECT_KEY = :patch_external_source
 
-
     # Instance Methods
     #####################################
 
@@ -58,6 +57,7 @@ module Jamf
     #
     def enable
       return if enabled?
+
       validate_host_port('enable a patch source')
       @enabled = true
       @need_to_update = true
@@ -69,6 +69,7 @@ module Jamf
     #
     def disable
       return unless enabled?
+
       @enabled = false
       @need_to_update = true
     end
@@ -78,6 +79,7 @@ module Jamf
     def host_name=(newname)
       return if newname == host_name
       raise Jamf::InvalidDataError, 'names must be String' unless name.is_a? String
+
       @host_name = name
       @need_to_update = true
     end
@@ -89,6 +91,7 @@ module Jamf
     def port=(new_port)
       return if new_port == port
       raise Jamf::InvalidDataError, 'ports must be Integers' unless port.is_a? Integer
+
       @port = new_port
       @need_to_update = true
     end
@@ -99,6 +102,7 @@ module Jamf
     #
     def use_ssl
       return if ssl_enabled?
+
       @ssl_enabled = true
       @need_to_update = true
     end
@@ -110,6 +114,7 @@ module Jamf
     #
     def no_ssl
       return unless ssl_enabled?
+
       @ssl_enabled = false
       @need_to_update = true
     end

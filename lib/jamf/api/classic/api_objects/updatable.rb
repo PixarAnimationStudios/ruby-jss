@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -80,6 +80,7 @@ module Jamf
       raise Jamf::InvalidDataError, "Names can't be empty!" if newname.to_s.empty?
       raise Jamf::AlreadyExistsError, "A #{self.class::RSRC_OBJECT_KEY} named '#{newname}' already exsists in the JSS" \
         if self.class.all_names(:refresh, cnx: @cnx).include? newname
+
       @name = newname
       @rest_rsrc = "#{self.class::RSRC_BASE}/name/#{CGI.escape @name.to_s}" if @rest_rsrc.include? '/name/'
       @need_to_update = true

@@ -1,4 +1,4 @@
-# Copyright 2023 Pixar
+# Copyright 2025 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -38,7 +38,6 @@ module Jamf
     # @param cnx [void] unused, but required
     #
     def initialize(an_ip)
-
       if an_ip.nil?
         @empty_ip = true
         return
@@ -51,9 +50,9 @@ module Jamf
     #
     def to_jamf
       return Jamf::BLANK if @empty_ip
+
       to_s
     end
-
 
   end # class  Timestamp
 

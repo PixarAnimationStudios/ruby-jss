@@ -1,4 +1,4 @@
-# Copyright 2023 Pixar
+# Copyright 2025 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -272,9 +272,7 @@ module Jamf
     #
     def web_display=(new_val)
       return if @web_display == new_val
-      unless WEB_DISPLAY_CHOICES.include? new_val
-        raise Jamf::InvalidDataError, "inventory_display must be a string, one of: #{WEB_DISPLAY_CHOICES.join(', ')}"
-      end
+      raise Jamf::InvalidDataError, "inventory_display must be a string, one of: #{WEB_DISPLAY_CHOICES.join(', ')}" unless WEB_DISPLAY_CHOICES.include? new_val
 
       @web_display = new_val
       @need_to_update = true

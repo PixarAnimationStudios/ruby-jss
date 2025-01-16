@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -60,7 +60,7 @@ module Jamf
     #####################################
 
     ### The base for REST resources of this class
-    RSRC_BASE = "softwareupdateservers"
+    RSRC_BASE = 'softwareupdateservers'
 
     ### the hash key used for the JSON list output of all objects in the JSS
     RSRC_LIST_KEY = :software_update_servers
@@ -87,7 +87,6 @@ module Jamf
     ### @return [Boolean]
     attr_reader :set_system_wide
 
-
     #####################################
     ### Constructor
     #####################################
@@ -105,7 +104,6 @@ module Jamf
     #####################################
     ### Public Instance Methods
     #####################################
-
 
   end # class NetbootServer
 

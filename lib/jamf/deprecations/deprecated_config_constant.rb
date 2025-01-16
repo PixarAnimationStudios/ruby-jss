@@ -1,4 +1,4 @@
-# Copyright 2023 Pixar
+# Copyright 2025 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -23,5 +23,7 @@
 
 # @deprecated Use Jamf.config to access the module-wide config settings
 module Jamf
+
   CONFIG = Jamf.config
+
 end

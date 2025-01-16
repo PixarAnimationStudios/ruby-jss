@@ -1,4 +1,4 @@
-# Copyright 2023 Pixar
+# Copyright 2025 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -325,7 +325,7 @@ module Jamf
 
       params[:criteria] = [] if params[:criteria].nil?
 
-      criteria = params[:criteria]
+      params[:criteria]
 
       @is_smart = true
       @need_to_update = true
@@ -482,7 +482,6 @@ module Jamf
     def refresh_members
       @members = @cnx.c_get(@rest_rsrc)[self.class::RSRC_OBJECT_KEY][self.class::MEMBER_CLASS::RSRC_LIST_KEY]
     end
-
 
     # Public Instance Methods
     #####################################

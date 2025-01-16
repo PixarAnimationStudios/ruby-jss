@@ -1,4 +1,4 @@
-# Copyright 2023 Pixar
+# Copyright 2025 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -39,9 +39,9 @@ module JamfRubyExtensions
       ### @example
       ###   IPAddr.j_masked_v4addr '10.0.0.0', '10.0.0.255' # => #<IPAddr: IPv4:10.0.0.0/255.255.255.0>
       ###
-      def j_masked_v4addr(starting,ending)
-        IPAddr.new "#{starting}/#{self.j_cidr_from_ends(starting,ending)}"
-      end #self.j_masked_v4addr(starting,ending)
+      def j_masked_v4addr(starting, ending)
+        IPAddr.new "#{starting}/#{j_cidr_from_ends(starting, ending)}"
+      end # self.j_masked_v4addr(starting,ending)
       alias jss_masked_v4addr j_masked_v4addr
 
       ### Given starting and ending IPv4 IP addresses (either Strings or IPAddrs)
@@ -56,21 +56,19 @@ module JamfRubyExtensions
       ### @example
       ###   IPAddr.j_cidr_from_ends '10.0.0.0', '10.0.0.255' # => 24
       ###
-      def j_cidr_from_ends(starting,ending)
-
-        starting = IPAddr.new(starting) unless starting.kind_of? IPAddr
-        ending = IPAddr.new(ending) unless ending.kind_of? IPAddr
+      def j_cidr_from_ends(starting, ending)
+        starting = IPAddr.new(starting) unless starting.is_a? IPAddr
+        ending = IPAddr.new(ending) unless ending.is_a? IPAddr
 
         ### how many possible addresses in the range?
-        num_addrs =  ending.to_i - starting.to_i + 1
+        num_addrs = ending.to_i - starting.to_i + 1
 
         ### convert the number of possible addresses to
         ### binary then subtract the number of bits from
         ### the full length of an IPv4 addr
         ### (32 bits) and that gives the CIDR prefix
-        return 32 - num_addrs.to_s(2).length + 1
-
-      end #self.get_cidr(starting,ending)
+        32 - num_addrs.to_s(2).length + 1
+      end # self.get_cidr(starting,ending)
       alias jss_cidr_from_ends j_cidr_from_ends
 
       ### Convert a starting address (either String or IPAddr) and a
@@ -87,7 +85,7 @@ module JamfRubyExtensions
       ###   IPAddr.j_ending_address '10.0.0.0', 24 # => #<IPAddr: IPv4:10.0.0.255>
       ###
       def j_ending_address(starting, cidr)
-        IPAddr.new( "#{starting}/#{cidr}").to_range.max
+        IPAddr.new("#{starting}/#{cidr}").to_range.max
       end # ending_address
       alias jss_ending_address j_ending_address
 

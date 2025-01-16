@@ -1,4 +1,4 @@
-# Copyright 2023 Pixar
+# Copyright 2025 Pixar
 
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -25,7 +25,6 @@ module Jamf
   # Classes
   #####################################
 
-
   # An extension attribute as defined in the JSS
   #
   # @see Jamf::ExtensionAttribute
@@ -51,7 +50,8 @@ module Jamf
     TARGET_CLASS = Jamf::MobileDevice
 
     # A criterion that will return all members of the TARGET_CLASS
-    ALL_TARGETS_CRITERION = Jamf::Criteriable::Criterion.new(and_or: 'and', name: 'Last Inventory Update', search_type: 'after (yyyy-mm-dd)', value: '2003-01-01')
+    ALL_TARGETS_CRITERION = Jamf::Criteriable::Criterion.new(and_or: 'and', name: 'Last Inventory Update', search_type: 'after (yyyy-mm-dd)', 
+                                                             value: '2003-01-01')
 
     # the object type for this object in
     # the object history table.

@@ -1,4 +1,4 @@
-# Copyright 2023 Pixar
+# Copyright 2025 Pixar
 
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -187,6 +187,6 @@ module Jamf
       @need_to_update = true if @in_jss
     end
 
-    end # module Criteriable
+  end # module Criteriable
 
 end # module Jamf

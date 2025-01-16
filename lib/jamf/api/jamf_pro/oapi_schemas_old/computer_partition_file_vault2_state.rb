@@ -1,4 +1,4 @@
-# Copyright 2024 Pixar
+# Copyright 2025 Pixar
 #
 #    Licensed under the Apache License, Version 2.0 (the "Apache License")
 #    with the following modification; you may not use this file except in
@@ -21,14 +21,12 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
-
 module Jamf
 
   # This module is the namespace for all objects defined
   # in the OAPI JSON schema under the components => schemas key
   #
   module OAPISchemas
-
 
     # OAPI Object Model and Enums for: ComputerPartitionFileVault2State
     #
@@ -65,18 +63,18 @@ module Jamf
 
       # Enums used by this class or others
 
-      VALUE_OPTIONS = [
-        'UNKNOWN',
-        'UNENCRYPTED',
-        'INELIGIBLE',
-        'DECRYPTED',
-        'DECRYPTING',
-        'ENCRYPTED',
-        'ENCRYPTING',
-        'RESTART_NEEDED',
-        'OPTIMIZING',
-        'DECRYPTING_PAUSED',
-        'ENCRYPTING_PAUSED'
+      VALUE_OPTIONS = %w[
+        UNKNOWN
+        UNENCRYPTED
+        INELIGIBLE
+        DECRYPTED
+        DECRYPTING
+        ENCRYPTED
+        ENCRYPTING
+        RESTART_NEEDED
+        OPTIMIZING
+        DECRYPTING_PAUSED
+        ENCRYPTING_PAUSED
       ]
 
       OAPI_PROPERTIES = {

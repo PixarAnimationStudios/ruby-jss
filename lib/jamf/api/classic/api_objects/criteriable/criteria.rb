@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -62,7 +62,7 @@ module Jamf
       #####################################
 
       ### Criterion instances we maintain need these attributes.s
-      CRITERION_ATTRIBUTES = [:priority, :and_or, :name, :search_type, :value].freeze
+      CRITERION_ATTRIBUTES = %i[priority and_or name search_type value].freeze
 
       #####################################
       ### Attributes
@@ -95,6 +95,7 @@ module Jamf
         unless new_criteria.is_a?(Array) && new_criteria.reject { |c| c.is_a?(Jamf::Criteriable::Criterion) }.empty?
           raise Jamf::InvalidDataError, 'Argument must be an Array of Jamf::Criteriable::Criterion instances.'
         end
+
         new_criteria.each { |nc| criterion_ok? nc }
         @criteria = new_criteria
         set_priorities
@@ -146,7 +147,7 @@ module Jamf
       ###
       ### @return [void]
       ###
-      def insert_criterion(priority, criterion)
+      def insert_criterion(_priority, criterion)
         criterion_ok? criterion
         @criteria.insert criterion[:priority], criterion
         set_priorities
@@ -163,6 +164,7 @@ module Jamf
       def delete_criterion(priority)
         if @criteria[priority]
           raise Jamf::MissingDataError, "Criteria can't be empty" if @criteria.count == 1
+
           @criteria.delete_at priority
           set_priorities
         end
@@ -182,6 +184,7 @@ module Jamf
       ###
       def set_criterion(priority, criterion)
         raise Jamf::NoSuchItemError, "No current criterion with priority '#{priority}'" unless @criteria[priority]
+
         criterion_ok? criterion
         @criteria[priority] = criterion
         set_priorities
@@ -240,6 +243,7 @@ module Jamf
         raise Jamf::InvalidDataError, "Missing :name for criterion: #{criterion.signature}" unless criterion.name
         raise Jamf::InvalidDataError, "Missing :search_type for criterion: #{criterion.signature}" unless criterion.search_type
         raise Jamf::InvalidDataError, "Missing :value for criterion: #{criterion.signature}" unless criterion.value
+
         true
       end
 

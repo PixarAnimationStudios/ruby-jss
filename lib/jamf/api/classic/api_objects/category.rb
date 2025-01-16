@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -116,7 +116,12 @@ module Jamf
     #
     def priority=(new_val = @priority)
       return nil if new_val == @priority
-      raise Jamf::InvalidDataError, "priority must be an integer between #{POSSIBLE_PRIORITIES.first} and #{POSSIBLE_PRIORITIES.last} (inclusive)" unless POSSIBLE_PRIORITIES.include? new_val
+
+      unless POSSIBLE_PRIORITIES.include? new_val
+        raise Jamf::InvalidDataError, 
+              "priority must be an integer between #{POSSIBLE_PRIORITIES.first} and #{POSSIBLE_PRIORITIES.last} (inclusive)"
+      end
+
       @priority = new_val
       @need_to_update = true
     end

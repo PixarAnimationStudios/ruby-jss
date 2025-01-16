@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -91,7 +91,9 @@ module JamfTest
       @cached_all = Jamf::DeviceEnrollment.all
       inst_name = Jamf::DeviceEnrollment.all_names(cached_list: @cached_all).sample
       inst_latest = Jamf::DeviceEnrollment.sync_history inst_name, latest: true
-      raise "Latest Sync History for DeviceEnrollment instance '#{inst_name}' did not return a Jamf::OAPISchemas::DeviceEnrollmentInstanceSyncStatus object" unless inst_latest.is_a? Jamf::OAPISchemas::DeviceEnrollmentInstanceSyncStatus
+      unless inst_latest.is_a? Jamf::OAPISchemas::DeviceEnrollmentInstanceSyncStatus
+        raise "Latest Sync History for DeviceEnrollment instance '#{inst_name}' did not return a Jamf::OAPISchemas::DeviceEnrollmentInstanceSyncStatus object"
+      end
 
       say "Fetched Latest Sync History for DeviceEnrollment instance '#{inst_name}'"
     end

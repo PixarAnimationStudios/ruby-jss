@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -109,6 +109,7 @@ module Jamf
     #
     def category_object
       return nil unless category_assigned?
+
       Jamf::Category.fetch id: @category_id
     end # cat obj
 
@@ -175,6 +176,7 @@ module Jamf
     def unset_category
       # no change, go home
       return nil if @category_name.nil?
+
       @category_name = nil
       @category_id = nil
       @need_to_update = true
@@ -220,6 +222,7 @@ module Jamf
     #
     def add_category_to_xml(xmldoc)
       return if category_name.to_s.empty?
+
       cat_elem = REXML::Element.new('category')
 
       if self.class::CATEGORY_DATA_TYPE == String

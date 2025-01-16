@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -139,7 +139,6 @@ module Jamf
       ssh_username: 'casper_remote',
       hide_account: 'true'
     })
-
       super args
 
       @name = @init_data[:invitation]
@@ -184,9 +183,7 @@ module Jamf
       obj = doc.add_element RSRC_OBJECT_KEY.to_s
       obj.add_element('invitation_type').text = invitation_type
       obj.add_element('create_account_if_does_not_exist').text = create_account_if_does_not_exist
-      if expiration_date_epoch
-        obj.add_element('expiration_date_epoch').text = expiration_date_epoch
-      end
+      obj.add_element('expiration_date_epoch').text = expiration_date_epoch if expiration_date_epoch
       obj.add_element('ssh_username').text = ssh_username
       obj.add_element('hide_account').text = hide_account
       obj.add_element('invitation_status').text = invitation_status

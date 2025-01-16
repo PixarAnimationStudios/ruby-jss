@@ -1,4 +1,4 @@
-### Copyright 2023 Pixar
+### Copyright 2025 Pixar
 
 ###
 ###    Licensed under the Apache License, Version 2.0 (the "Apache License")
@@ -102,7 +102,6 @@ module JamfTest
 
     ################
     def validate_changes
-
       unless @fetched_new_object.member_ids.sort == @fetched_edited_object.member_ids.sort
         raise 'Modified ruby object saved after editing does not have the same member ids as the one originally saved!'
       end
