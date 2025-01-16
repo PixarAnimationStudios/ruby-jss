@@ -38,7 +38,7 @@ module Jamf
   # collection, i.e. the 'GET_OBJECT' similar to the POST_OBJECT defined in the
   # class below.
   #
-  class ComputerPrestage < Jamf::OAPISchemas::GetComputerPrestageV2
+  class ComputerPrestage < Jamf::OAPISchemas::GetComputerPrestageV3
 
     include Jamf::CollectionResource
     include Jamf::Prestage
