@@ -53,7 +53,7 @@ module Jamf
     # The OAPI object class we get back from a 'list' query to get the
     # whole collection, or a subset of it. It contains a :results key
     # which is an array of data for objects of the parent class.
-    SEARCH_RESULT_OBJECT = Jamf::OAPISchemas::PackageSearchResults
+    SEARCH_RESULT_OBJECT = Jamf::OAPISchemas::PackagesSearchResults
 
     # The OAPI object class we send with a POST request to make a new member of
     # the collection in Jamf. This is usually the same as the parent class.
