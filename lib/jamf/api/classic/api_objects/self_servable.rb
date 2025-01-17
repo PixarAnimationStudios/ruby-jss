@@ -873,6 +873,9 @@ module Jamf
       in_ss_section_xml = doc_root.elements[in_ss_section.to_s]
       in_ss_section_xml ||= doc_root.add_element(in_ss_section.to_s)
       in_ss_section_xml.add_element(in_ss_elem.to_s).text = in_ss_value.to_s
+      return unless self.class == Jamf::MobileDeviceApplication
+
+      in_ss_section_xml.add_element('deploy_automatically').text = (!@in_self_service).to_s
     end
 
     # add the xml specific to profiles
