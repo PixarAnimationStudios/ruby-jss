@@ -21,12 +21,14 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
+
 module Jamf
 
   # This module is the namespace for all objects defined
   # in the OAPI JSON schema under the components => schemas key
   #
   module OAPISchemas
+
 
     # OAPI Object Model and Enums for: GetComputerPrestageV2
     #
@@ -63,6 +65,8 @@ module Jamf
     #
     class GetComputerPrestageV2 < Jamf::OAPIObject
 
+      
+
       OAPI_PROPERTIES = {
 
         # @!attribute [r] id
@@ -90,6 +94,7 @@ module Jamf
         versionLock: {
           class: :integer
         }
+
       }.merge(Jamf::OAPISchemas::ComputerPrestageV2::OAPI_PROPERTIES) # end OAPI_PROPERTIES
 
     end # class GetComputerPrestageV2

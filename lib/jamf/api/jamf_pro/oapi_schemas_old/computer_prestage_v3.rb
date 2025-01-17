@@ -21,12 +21,14 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
+
 module Jamf
 
   # This module is the namespace for all objects defined
   # in the OAPI JSON schema under the components => schemas key
   #
   module OAPISchemas
+
 
     # OAPI Object Model and Enums for: ComputerPrestageV3
     #
@@ -46,7 +48,7 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #
+    #  
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
@@ -62,9 +64,9 @@ module Jamf
 
       # Enums used by this class or others
 
-      RECOVERY_LOCK_PASSWORD_TYPE_OPTIONS = %w[
-        MANUAL
-        RANDOM
+      RECOVERY_LOCK_PASSWORD_TYPE_OPTIONS = [
+        'MANUAL',
+        'RANDOM'
       ]
 
       OAPI_PROPERTIES = {
@@ -117,6 +119,7 @@ module Jamf
         rotateRecoveryLockPassword: {
           class: :boolean
         }
+
       }.merge(Jamf::OAPISchemas::DeviceEnrollmentPrestageV2::OAPI_PROPERTIES) # end OAPI_PROPERTIES
 
     end # class ComputerPrestageV3

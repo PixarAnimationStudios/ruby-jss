@@ -21,12 +21,14 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
+
 module Jamf
 
   # This module is the namespace for all objects defined
   # in the OAPI JSON schema under the components => schemas key
   #
   module OAPISchemas
+
 
     # OAPI Object Model and Enums for: AuthenticationType
     #
@@ -64,17 +66,17 @@ module Jamf
 
       # Enums used by this class or others
 
-      VALUE_OPTIONS = %w[
-        JSS
-        LDAP
-        SAML
-        INVITE
-        NATIVE_APP_API_INTEGRATION
-        DEVICE_SIGNATURE
-        CLOUD_CONNECTOR
-        SYSTEM_ACCOUNT
-        USER_ENROLLMENT
-        CLIENT_CREDENTIALS
+      VALUE_OPTIONS = [
+        'JSS',
+        'LDAP',
+        'SAML',
+        'INVITE',
+        'NATIVE_APP_API_INTEGRATION',
+        'DEVICE_SIGNATURE',
+        'CLOUD_CONNECTOR',
+        'SYSTEM_ACCOUNT',
+        'USER_ENROLLMENT',
+        'CLIENT_CREDENTIALS'
       ]
 
       OAPI_PROPERTIES = {

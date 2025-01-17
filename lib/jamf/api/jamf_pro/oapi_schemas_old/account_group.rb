@@ -21,12 +21,14 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
+
 module Jamf
 
   # This module is the namespace for all objects defined
   # in the OAPI JSON schema under the components => schemas key
   #
   module OAPISchemas
+
 
     # OAPI Object Model and Enums for: AccountGroup
     #
@@ -51,7 +53,7 @@ module Jamf
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #
+    #  
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
@@ -63,17 +65,17 @@ module Jamf
 
       # Enums used by this class or others
 
-      ACCESS_LEVEL_OPTIONS = %w[
-        FullAccess
-        SiteAccess
-        GroupBasedAccess
+      ACCESS_LEVEL_OPTIONS = [
+        'FullAccess',
+        'SiteAccess',
+        'GroupBasedAccess'
       ]
 
-      PRIVILEGE_SET_OPTIONS = %w[
-        ADMINISTRATOR
-        AUDITOR
-        ENROLLMENT
-        CUSTOM
+      PRIVILEGE_SET_OPTIONS = [
+        'ADMINISTRATOR',
+        'AUDITOR',
+        'ENROLLMENT',
+        'CUSTOM'
       ]
 
       OAPI_PROPERTIES = {

@@ -21,12 +21,14 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
+
 module Jamf
 
   # This module is the namespace for all objects defined
   # in the OAPI JSON schema under the components => schemas key
   #
   module OAPISchemas
+
 
     # OAPI Object Model and Enums for: ManagedSoftwareUpdateStatus
     #
@@ -50,7 +52,7 @@ module Jamf
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #
+    #  
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
@@ -62,22 +64,22 @@ module Jamf
 
       # Enums used by this class or others
 
-      STATUS_OPTIONS = %w[
-        DOWNLOADING
-        IDLE
-        INSTALLING
-        INSTALLED
-        ERROR
-        DOWNLOAD_FAILED
-        DOWNLOAD_REQUIRES_COMPUTER
-        DOWNLOAD_INSUFFICIENT_SPACE
-        DOWNLOAD_INSUFFICIENT_POWER
-        DOWNLOAD_INSUFFICIENT_NETWORK
-        INSTALL_INSUFFICIENT_SPACE
-        INSTALL_INSUFFICIENT_POWER
-        INSTALL_PHONE_CALL_IN_PROGRESS
-        INSTALL_FAILED
-        UNKNOWN
+      STATUS_OPTIONS = [
+        'DOWNLOADING',
+        'IDLE',
+        'INSTALLING',
+        'INSTALLED',
+        'ERROR',
+        'DOWNLOAD_FAILED',
+        'DOWNLOAD_REQUIRES_COMPUTER',
+        'DOWNLOAD_INSUFFICIENT_SPACE',
+        'DOWNLOAD_INSUFFICIENT_POWER',
+        'DOWNLOAD_INSUFFICIENT_NETWORK',
+        'INSTALL_INSUFFICIENT_SPACE',
+        'INSTALL_INSUFFICIENT_POWER',
+        'INSTALL_PHONE_CALL_IN_PROGRESS',
+        'INSTALL_FAILED',
+        'UNKNOWN'
       ]
 
       OAPI_PROPERTIES = {

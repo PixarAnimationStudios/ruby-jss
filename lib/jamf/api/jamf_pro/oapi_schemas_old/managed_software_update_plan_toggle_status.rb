@@ -21,12 +21,14 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
+
 module Jamf
 
   # This module is the namespace for all objects defined
   # in the OAPI JSON schema under the components => schemas key
   #
   module OAPISchemas
+
 
     # OAPI Object Model and Enums for: ManagedSoftwareUpdatePlanToggleStatus
     #
@@ -51,7 +53,7 @@ module Jamf
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #
+    #  
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
@@ -63,19 +65,19 @@ module Jamf
 
       # Enums used by this class or others
 
-      STATE_OPTIONS = %w[
-        NOT_RUNNING
-        RUNNING
-        NEVER_RAN
+      STATE_OPTIONS = [
+        'NOT_RUNNING',
+        'RUNNING',
+        'NEVER_RAN'
       ]
 
-      EXIT_STATE_OPTIONS = %w[
-        UNKNOWN
-        EXECUTING
-        COMPLETED
-        NOOP
-        FAILED
-        STOPPED
+      EXIT_STATE_OPTIONS = [
+        'UNKNOWN',
+        'EXECUTING',
+        'COMPLETED',
+        'NOOP',
+        'FAILED',
+        'STOPPED'
       ]
 
       OAPI_PROPERTIES = {

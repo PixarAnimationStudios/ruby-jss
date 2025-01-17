@@ -21,12 +21,14 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
+
 module Jamf
 
   # This module is the namespace for all objects defined
   # in the OAPI JSON schema under the components => schemas key
   #
   module OAPISchemas
+
 
     # OAPI Object Model and Enums for: CloudLdapServerResponse
     #
@@ -64,9 +66,9 @@ module Jamf
 
       # Enums used by this class or others
 
-      CONNECTION_TYPE_OPTIONS = %w[
-        LDAPS
-        START_TLS
+      CONNECTION_TYPE_OPTIONS = [
+        'LDAPS',
+        'START_TLS'
       ]
 
       OAPI_PROPERTIES = {
@@ -101,7 +103,7 @@ module Jamf
         port: {
           class: :integer,
           minimum: 1,
-          maximum: 65_535
+          maximum: 65535
         },
 
         # @!attribute keystore

@@ -73,7 +73,7 @@ class App
   OAPI_SCHEMA_URL_PATH = 'api/schema'
 
   # The rb files for the subclasses of OAPIObject are written here.
-  OAPI_DIR = Pathname.new(__FILE__).parent.parent + 'lib/jamf/api/jamf_pro/oapi_schemas'
+  OAPI_DIR = Pathname.new(__FILE__).parent.parent + 'lib/jamf/api/jamf_pro/oapi_schemas_old'
 
   # This module is the namespace, of all the OAPI classes we're creating.
   OAPIOBJECT_NAMESPACE = 'OAPISchemas'

@@ -21,12 +21,14 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
+
 module Jamf
 
   # This module is the namespace for all objects defined
   # in the OAPI JSON schema under the components => schemas key
   #
   module OAPISchemas
+
 
     # OAPI Object Model and Enums for: GroupMappings
     #
@@ -52,7 +54,7 @@ module Jamf
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #
+    #  
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
@@ -64,14 +66,14 @@ module Jamf
 
       # Enums used by this class or others
 
-      OBJECT_CLASS_LIMITATION_OPTIONS = %w[
-        ANY_OBJECT_CLASSES
-        ALL_OBJECT_CLASSES
+      OBJECT_CLASS_LIMITATION_OPTIONS = [
+        'ANY_OBJECT_CLASSES',
+        'ALL_OBJECT_CLASSES'
       ]
 
-      SEARCH_SCOPE_OPTIONS = %w[
-        ALL_SUBTREES
-        FIRST_LEVEL_ONLY
+      SEARCH_SCOPE_OPTIONS = [
+        'ALL_SUBTREES',
+        'FIRST_LEVEL_ONLY'
       ]
 
       OAPI_PROPERTIES = {

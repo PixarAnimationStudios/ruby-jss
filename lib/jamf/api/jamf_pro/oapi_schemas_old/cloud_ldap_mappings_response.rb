@@ -21,12 +21,14 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
+
 module Jamf
 
   # This module is the namespace for all objects defined
   # in the OAPI JSON schema under the components => schemas key
   #
   module OAPISchemas
+
 
     # OAPI Object Model and Enums for: CloudLdapMappingsResponse
     #
@@ -67,6 +69,8 @@ module Jamf
     #
     #
     class CloudLdapMappingsResponse < Jamf::OAPIObject
+
+      
 
       OAPI_PROPERTIES = {
 

@@ -21,12 +21,14 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
+
 module Jamf
 
   # This module is the namespace for all objects defined
   # in the OAPI JSON schema under the components => schemas key
   #
   module OAPISchemas
+
 
     # OAPI Object Model and Enums for: ComputerGeneral
     #
@@ -63,6 +65,8 @@ module Jamf
     #
     #
     class ComputerGeneral < Jamf::OAPIObject
+
+      
 
       OAPI_PROPERTIES = {
 

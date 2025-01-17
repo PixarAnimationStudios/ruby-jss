@@ -21,12 +21,14 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
+
 module Jamf
 
   # This module is the namespace for all objects defined
   # in the OAPI JSON schema under the components => schemas key
   #
   module OAPISchemas
+
 
     # OAPI Object Model and Enums for: MdmCommandType
     #
@@ -63,19 +65,19 @@ module Jamf
 
       # Enums used by this class or others
 
-      VALUE_OPTIONS = %w[
-        CLEAR_RESTRICTIONS_PASSWORD
-        DECLARATIVE_MANAGEMENT
-        DELETE_USER
-        ENABLE_LOST_MODE
-        ERASE_DEVICE
-        LOG_OUT_USER
-        RESTART_DEVICE
-        SETTINGS
-        SET_RECOVERY_LOCK
-        SET_AUTO_ADMIN_PASSWORD
-        SHUT_DOWN_DEVICE
-        DEVICE_INFORMATION
+      VALUE_OPTIONS = [
+        'CLEAR_RESTRICTIONS_PASSWORD',
+        'DECLARATIVE_MANAGEMENT',
+        'DELETE_USER',
+        'ENABLE_LOST_MODE',
+        'ERASE_DEVICE',
+        'LOG_OUT_USER',
+        'RESTART_DEVICE',
+        'SETTINGS',
+        'SET_RECOVERY_LOCK',
+        'SET_AUTO_ADMIN_PASSWORD',
+        'SHUT_DOWN_DEVICE',
+        'DEVICE_INFORMATION'
       ]
 
       OAPI_PROPERTIES = {

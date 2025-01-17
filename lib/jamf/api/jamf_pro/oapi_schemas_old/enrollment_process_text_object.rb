@@ -21,12 +21,14 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
+
 module Jamf
 
   # This module is the namespace for all objects defined
   # in the OAPI JSON schema under the components => schemas key
   #
   module OAPISchemas
+
 
     # OAPI Object Model and Enums for: EnrollmentProcessTextObject
     #
@@ -50,7 +52,7 @@ module Jamf
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #
+    #  
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
@@ -66,6 +68,8 @@ module Jamf
     #
     #
     class EnrollmentProcessTextObject < Jamf::OAPIObject
+
+      
 
       OAPI_PROPERTIES = {
 

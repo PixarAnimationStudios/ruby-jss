@@ -36,7 +36,7 @@ module Jamf
   # Also the API provides no access to the package's
   # file list (index), so indexing must be done separately (usually via Casper Admin)
   #
-  class Package < Jamf::APIObject
+  class PackageClassic < Jamf::APIObject
 
     # Mix-Ins
     #####################################
@@ -989,7 +989,7 @@ module Jamf
 
             # insert the name and pw into the uri
             # reserved_chars = Regexp.new("[^#{URI::REGEXP::PATTERN::UNRESERVED}]") # we'll escape all the chars that aren't unreserved
-            src_path = src_path.sub(%r{(https?://)(\S)}, 
+            src_path = src_path.sub(%r{(https?://)(\S)},
                                     "#{Regexp.last_match(1)}#{CGI.escape mdp.http_username.to_s}:#{CGI.escape ro_pw.to_s}@#{Regexp.last_match(2)}")
           end
 

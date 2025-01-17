@@ -21,12 +21,14 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
+
 module Jamf
 
   # This module is the namespace for all objects defined
   # in the OAPI JSON schema under the components => schemas key
   #
   module OAPISchemas
+
 
     # OAPI Object Model and Enums for: GetEnrollmentCustomizationPanel
     #
@@ -61,6 +63,8 @@ module Jamf
     #
     class GetEnrollmentCustomizationPanel < Jamf::OAPIObject
 
+      
+
       OAPI_PROPERTIES = {
 
         # @!attribute id
@@ -75,6 +79,7 @@ module Jamf
         type: {
           class: :string
         }
+
       }.merge(Jamf::OAPISchemas::EnrollmentCustomizationPanel::OAPI_PROPERTIES) # end OAPI_PROPERTIES
 
     end # class GetEnrollmentCustomizationPanel

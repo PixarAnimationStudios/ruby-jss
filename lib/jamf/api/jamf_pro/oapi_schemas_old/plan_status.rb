@@ -21,12 +21,14 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
+
 module Jamf
 
   # This module is the namespace for all objects defined
   # in the OAPI JSON schema under the components => schemas key
   #
   module OAPISchemas
+
 
     # OAPI Object Model and Enums for: PlanStatus
     #
@@ -50,7 +52,7 @@ module Jamf
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #
+    #  
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
@@ -62,38 +64,38 @@ module Jamf
 
       # Enums used by this class or others
 
-      STATE_OPTIONS = %w[
-        Init
-        PendingPlanValidation
-        AcceptingPlan
-        RejectingPlan
-        ProcessingPlanType
-        StartingPlan
-        PlanFailed
-        SchedulingScanForOSUpdates
-        ProcessingScheduleOSUpdateScanResponse
-        WaitingForScheduledOSUpdateScanToComplete
-        CollectingAvailableOSUpdates
-        ProcessingAvailableOSUpdatesResponse
-        ProcessingSchedulingType
-        SchedulingDDM
-        DDMPlanScheduled
-        WaitingToStartDDMUpdate
-        ProcessingDDMStatusResponse
-        CollectingDDMStatus
-        SchedulingMDM
-        MDMPlanScheduled
-        SchedulingOSUpdate
-        ProcessingScheduleOSUpdateResponse
-        CollectingOSUpdateStatus
-        ProcessingOSUpdateStatusResponse
-        WaitingToCollectOSUpdateStatus
-        VerifyingInstallation
-        ProcessingInstallationVerification
-        PlanCompleted
-        PlanCanceled
-        PlanException
-        Unknown
+      STATE_OPTIONS = [
+        'Init',
+        'PendingPlanValidation',
+        'AcceptingPlan',
+        'RejectingPlan',
+        'ProcessingPlanType',
+        'StartingPlan',
+        'PlanFailed',
+        'SchedulingScanForOSUpdates',
+        'ProcessingScheduleOSUpdateScanResponse',
+        'WaitingForScheduledOSUpdateScanToComplete',
+        'CollectingAvailableOSUpdates',
+        'ProcessingAvailableOSUpdatesResponse',
+        'ProcessingSchedulingType',
+        'SchedulingDDM',
+        'DDMPlanScheduled',
+        'WaitingToStartDDMUpdate',
+        'ProcessingDDMStatusResponse',
+        'CollectingDDMStatus',
+        'SchedulingMDM',
+        'MDMPlanScheduled',
+        'SchedulingOSUpdate',
+        'ProcessingScheduleOSUpdateResponse',
+        'CollectingOSUpdateStatus',
+        'ProcessingOSUpdateStatusResponse',
+        'WaitingToCollectOSUpdateStatus',
+        'VerifyingInstallation',
+        'ProcessingInstallationVerification',
+        'PlanCompleted',
+        'PlanCanceled',
+        'PlanException',
+        'Unknown'
       ]
 
       OAPI_PROPERTIES = {

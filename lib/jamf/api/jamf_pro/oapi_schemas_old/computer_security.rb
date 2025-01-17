@@ -21,12 +21,14 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
+
 module Jamf
 
   # This module is the namespace for all objects defined
   # in the OAPI JSON schema under the components => schemas key
   #
   module OAPISchemas
+
 
     # OAPI Object Model and Enums for: ComputerSecurity
     #
@@ -50,7 +52,7 @@ module Jamf
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #
+    #  
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
@@ -62,39 +64,39 @@ module Jamf
 
       # Enums used by this class or others
 
-      SIP_STATUS_OPTIONS = %w[
-        NOT_COLLECTED
-        NOT_AVAILABLE
-        DISABLED
-        ENABLED
+      SIP_STATUS_OPTIONS = [
+        'NOT_COLLECTED',
+        'NOT_AVAILABLE',
+        'DISABLED',
+        'ENABLED'
       ]
 
-      GATEKEEPER_STATUS_OPTIONS = %w[
-        NOT_COLLECTED
-        DISABLED
-        APP_STORE_AND_IDENTIFIED_DEVELOPERS
-        APP_STORE
+      GATEKEEPER_STATUS_OPTIONS = [
+        'NOT_COLLECTED',
+        'DISABLED',
+        'APP_STORE_AND_IDENTIFIED_DEVELOPERS',
+        'APP_STORE'
       ]
 
-      SECURE_BOOT_LEVEL_OPTIONS = %w[
-        NO_SECURITY
-        MEDIUM_SECURITY
-        FULL_SECURITY
-        NOT_SUPPORTED
-        UNKNOWN
+      SECURE_BOOT_LEVEL_OPTIONS = [
+        'NO_SECURITY',
+        'MEDIUM_SECURITY',
+        'FULL_SECURITY',
+        'NOT_SUPPORTED',
+        'UNKNOWN'
       ]
 
-      EXTERNAL_BOOT_LEVEL_OPTIONS = %w[
-        ALLOW_BOOTING_FROM_EXTERNAL_MEDIA
-        DISALLOW_BOOTING_FROM_EXTERNAL_MEDIA
-        NOT_SUPPORTED
-        UNKNOWN
+      EXTERNAL_BOOT_LEVEL_OPTIONS = [
+        'ALLOW_BOOTING_FROM_EXTERNAL_MEDIA',
+        'DISALLOW_BOOTING_FROM_EXTERNAL_MEDIA',
+        'NOT_SUPPORTED',
+        'UNKNOWN'
       ]
 
-      BOOTSTRAP_TOKEN_ESCROWED_STATUS_OPTIONS = %w[
-        ESCROWED
-        NOT_ESCROWED
-        NOT_SUPPORTED
+      BOOTSTRAP_TOKEN_ESCROWED_STATUS_OPTIONS = [
+        'ESCROWED',
+        'NOT_ESCROWED',
+        'NOT_SUPPORTED'
       ]
 
       OAPI_PROPERTIES = {

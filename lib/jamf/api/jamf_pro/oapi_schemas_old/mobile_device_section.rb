@@ -21,12 +21,14 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
+
 module Jamf
 
   # This module is the namespace for all objects defined
   # in the OAPI JSON schema under the components => schemas key
   #
   module OAPISchemas
+
 
     # OAPI Object Model and Enums for: MobileDeviceSection
     #
@@ -46,7 +48,7 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #
+    #  
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
@@ -62,22 +64,22 @@ module Jamf
 
       # Enums used by this class or others
 
-      VALUE_OPTIONS = %w[
-        GENERAL
-        HARDWARE
-        USER_AND_LOCATION
-        PURCHASING
-        SECURITY
-        APPLICATIONS
-        EBOOKS
-        NETWORK
-        SERVICE_SUBSCRIPTIONS
-        CERTIFICATES
-        PROFILES
-        USER_PROFILES
-        PROVISIONING_PROFILES
-        SHARED_USERS
-        EXTENSION_ATTRIBUTES
+      VALUE_OPTIONS = [
+        'GENERAL',
+        'HARDWARE',
+        'USER_AND_LOCATION',
+        'PURCHASING',
+        'SECURITY',
+        'APPLICATIONS',
+        'EBOOKS',
+        'NETWORK',
+        'SERVICE_SUBSCRIPTIONS',
+        'CERTIFICATES',
+        'PROFILES',
+        'USER_PROFILES',
+        'PROVISIONING_PROFILES',
+        'SHARED_USERS',
+        'EXTENSION_ATTRIBUTES'
       ]
 
       OAPI_PROPERTIES = {

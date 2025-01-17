@@ -21,12 +21,14 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
+
 module Jamf
 
   # This module is the namespace for all objects defined
   # in the OAPI JSON schema under the components => schemas key
   #
   module OAPISchemas
+
 
     # OAPI Object Model and Enums for: InventoryPreloadCsvValidationErrorCause
     #
@@ -60,6 +62,8 @@ module Jamf
     #
     class InventoryPreloadCsvValidationErrorCause < Jamf::OAPIObject
 
+      
+
       OAPI_PROPERTIES = {
 
         # @!attribute value
@@ -91,6 +95,7 @@ module Jamf
         deviceType: {
           class: :string
         }
+
       }.merge(Jamf::OAPISchemas::ApiErrorCause::OAPI_PROPERTIES) # end OAPI_PROPERTIES
 
     end # class InventoryPreloadCsvValidationErrorCause

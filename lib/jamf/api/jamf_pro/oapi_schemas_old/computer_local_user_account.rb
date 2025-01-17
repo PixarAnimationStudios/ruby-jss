@@ -21,12 +21,14 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
+
 module Jamf
 
   # This module is the namespace for all objects defined
   # in the OAPI JSON schema under the components => schemas key
   #
   module OAPISchemas
+
 
     # OAPI Object Model and Enums for: ComputerLocalUserAccount
     #
@@ -50,7 +52,7 @@ module Jamf
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #
+    #  
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
@@ -62,17 +64,17 @@ module Jamf
 
       # Enums used by this class or others
 
-      USER_ACCOUNT_TYPE_OPTIONS = %w[
-        LOCAL
-        MOBILE
-        UNKNOWN
+      USER_ACCOUNT_TYPE_OPTIONS = [
+        'LOCAL',
+        'MOBILE',
+        'UNKNOWN'
       ]
 
-      AZURE_ACTIVE_DIRECTORY_ID_OPTIONS = %w[
-        ACTIVATED
-        DEACTIVATED
-        UNRESPONSIVE
-        UNKNOWN
+      AZURE_ACTIVE_DIRECTORY_ID_OPTIONS = [
+        'ACTIVATED',
+        'DEACTIVATED',
+        'UNRESPONSIVE',
+        'UNKNOWN'
       ]
 
       OAPI_PROPERTIES = {

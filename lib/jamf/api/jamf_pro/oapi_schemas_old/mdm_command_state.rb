@@ -21,12 +21,14 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
+
 module Jamf
 
   # This module is the namespace for all objects defined
   # in the OAPI JSON schema under the components => schemas key
   #
   module OAPISchemas
+
 
     # OAPI Object Model and Enums for: MdmCommandState
     #
@@ -62,11 +64,11 @@ module Jamf
 
       # Enums used by this class or others
 
-      VALUE_OPTIONS = %w[
-        PENDING
-        ACKNOWLEDGED
-        NOT_NOW
-        ERROR
+      VALUE_OPTIONS = [
+        'PENDING',
+        'ACKNOWLEDGED',
+        'NOT_NOW',
+        'ERROR'
       ]
 
       OAPI_PROPERTIES = {

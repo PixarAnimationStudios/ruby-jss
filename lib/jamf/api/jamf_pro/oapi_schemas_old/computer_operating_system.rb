@@ -21,12 +21,14 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
+
 module Jamf
 
   # This module is the namespace for all objects defined
   # in the OAPI JSON schema under the components => schemas key
   #
   module OAPISchemas
+
 
     # OAPI Object Model and Enums for: ComputerOperatingSystem
     #
@@ -62,12 +64,12 @@ module Jamf
 
       # Enums used by this class or others
 
-      FILE_VAULT2_STATUS_OPTIONS = %w[
-        NOT_APPLICABLE
-        NOT_ENCRYPTED
-        BOOT_ENCRYPTED
-        SOME_ENCRYPTED
-        ALL_ENCRYPTED
+      FILE_VAULT2_STATUS_OPTIONS = [
+        'NOT_APPLICABLE',
+        'NOT_ENCRYPTED',
+        'BOOT_ENCRYPTED',
+        'SOME_ENCRYPTED',
+        'ALL_ENCRYPTED'
       ]
 
       OAPI_PROPERTIES = {

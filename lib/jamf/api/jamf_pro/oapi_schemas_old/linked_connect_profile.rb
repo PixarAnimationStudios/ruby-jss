@@ -21,12 +21,14 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
+
 module Jamf
 
   # This module is the namespace for all objects defined
   # in the OAPI JSON schema under the components => schemas key
   #
   module OAPISchemas
+
 
     # OAPI Object Model and Enums for: LinkedConnectProfile
     #
@@ -50,7 +52,7 @@ module Jamf
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #
+    #  
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
@@ -63,11 +65,11 @@ module Jamf
 
       # Enums used by this class or others
 
-      AUTO_DEPLOYMENT_TYPE_OPTIONS = %w[
-        PATCH_UPDATES
-        MINOR_AND_PATCH_UPDATES
-        INITIAL_INSTALLATION_ONLY
-        NONE
+      AUTO_DEPLOYMENT_TYPE_OPTIONS = [
+        'PATCH_UPDATES',
+        'MINOR_AND_PATCH_UPDATES',
+        'INITIAL_INSTALLATION_ONLY',
+        'NONE'
       ]
 
       OAPI_PROPERTIES = {
