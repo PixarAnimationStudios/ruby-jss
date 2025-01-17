@@ -265,6 +265,7 @@ module Jamf
       doc_root = xdoc.root
       vpp = doc_root.add_element 'vpp'
       vpp.add_element('assign_vpp_device_based_licenses').text = @assign_vpp_device_based_licenses.to_s
+      vpp.add_element('vpp_admin_account_id').text = @vpp_admin_account_id.to_s
     end
 
   end # VPPable
