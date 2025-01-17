@@ -66,7 +66,7 @@ module Jamf
 
     ############# API PATHS
 
-    # The path for GETting the list of all objects in the collection, possibly
+    # LIST_PATH: The path for GETting the list of all objects in the collection, possibly
     # filtered, sorted, and/or paged
     # REQUIRED for all collection resources
     #

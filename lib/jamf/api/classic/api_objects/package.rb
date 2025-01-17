@@ -36,7 +36,10 @@ module Jamf
   # Also the API provides no access to the package's
   # file list (index), so indexing must be done separately (usually via Casper Admin)
   #
-  class PackageClassic < Jamf::APIObject
+  # For accessing packages via the Jamf Pro API, see {Jamf::JPackage}
+  # which provides access to the other package-related attributes such as manifests and
+  # installer file uploads
+  class Package < Jamf::APIObject
 
     # Mix-Ins
     #####################################

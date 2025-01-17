@@ -38,7 +38,7 @@ module Jamf
   # collection, i.e. the 'GET_OBJECT' similar to the POST_OBJECT defined in the
   # class below.
   #
-  class JpBuilding < Jamf::OAPISchemas::Building
+  class JBuilding < Jamf::OAPISchemas::Building
 
     include Jamf::CollectionResource
     extend Jamf::Filterable
@@ -112,5 +112,8 @@ module Jamf
     ].freeze
 
   end # class
+
+  # Backwards compatibility with the old name of JBuilding
+  JpBuilding = JBuilding
 
 end # module

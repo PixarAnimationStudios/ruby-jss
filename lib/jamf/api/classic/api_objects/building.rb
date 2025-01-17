@@ -40,6 +40,9 @@ module Jamf
   #
   # @see Jamf::APIObject
   #
+  # For accessing buildings via the Jamf Pro API, see {Jamf::JBuiding}, which
+  # provides access to the other building-related attributes.
+  #
   class Building < Jamf::APIObject
 
     # Mix-Ins

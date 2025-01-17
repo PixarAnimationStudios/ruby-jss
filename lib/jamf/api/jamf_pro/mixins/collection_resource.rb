@@ -164,8 +164,6 @@ module Jamf
       # By default, this method will return a single Array data about all items
       # in the CollectionResouce, in the server's default sort order, or a sort
       # order you specify.
-      # As long as you don't request a filtered result, this full list is cached
-      # for future use (see Caching, below)
       #
       # If you specify a filter, the Array returned by the server will contain
       # only matching objects, and it will not be cached.
@@ -189,10 +187,6 @@ module Jamf
       #
       # Please see the JamfPro API documentation for the resource for details
       # about available sorting properties and default sorting criteria
-      #
-      # When the sort: param is provided, the server is always queried, and
-      # the results will be cached, as long as the results were not filtered.
-      # See Caching, below.
       #
       # #### Filtering
       #
