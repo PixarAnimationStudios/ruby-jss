@@ -15,6 +15,43 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
+## \[Unreleased]
+
+### Changed
+  - Jamf::Package is now fully migrated to the Jamf Pro API, which allows use of the new `#uploa`d method and `#manifest` rw-attribute.
+
+### Added
+  - `Jamf::Package#upload`
+
+  - Getter and setter for `Jamf::Package#manifest`
+
+### Fixed
+  - [Github issue #102](https://github.com/PixarAnimationStudios/ruby-jss/issues/102): Apply redundant boolean value to indicate that a MobileDeviceApplication is/is not in Self Service. Thanks @carolinebeauchamp!
+
+  - [Github #103](https://github.com/PixarAnimationStudios/ruby-jss/pull/103) Fixed and issue where linking a mobile device application to VPP failed as the vpp_admin_account_id wasn't included in the XML. Thanks @carolinebeauchamp!
+
+  - [Github #104](https://github.com/PixarAnimationStudios/ruby-jss/pull/104) Add allow_user_to_delete attribute. Thanks @carolinebeauchamp!
+
+  - [Github #105](https://github.com/PixarAnimationStudios/ruby-jss/pull/105) Fix configuration preferences in MobileDeviceApplication. Thanks @carolinebeauchamp!
+
+  - Some lingering method parameter fixes for ruby 3.x compatibility
+
+  - Fix for `Jamf::Group#remove_member`
+
+  - Fixes for `Jamf::Scopable::Scope#set_exclusions`, `#set_limitations` and more.
+
+  - Fix to ensure passing correct connection object when fetching.
+
+### Deprecated
+  - Auto-generated OAPISchemas are no longer used _directly_. There's still too much inconsistency and other problems that arise from using them as we were. See the NOTE from the previous release. 
+
+    For the forseeable future we'll keep the overall structure of the class/mixin hierarchy, and will probably use the auto-generated classes for reference, but as new classes are added to ruby-jss via the Jamf Pro API, the `OAPISchemas` classes will be hand-crafted and hand-maintained as needed, just like APIObject classes always have been for objects in the Classic API. 
+
+    To start with, we're keeping the ones currently in use (about 40 of them) where they've always lived, in the `lib/jamf/api/jamf_pro/oapi_schemas` directory, and the new bespoke ones will go there also. The other ~550 unused classes will be removed from ruby-jss.  
+    
+    For details about how the've been auto-generated, see the `generate_object_models` tool in the bin directory.
+
+--------
 ## \[4.1.1] 2024-06-25
 
 ### Changed
