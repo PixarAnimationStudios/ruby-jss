@@ -21,7 +21,6 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
-
 module Jamf
 
   # This module is the namespace for all objects defined
@@ -29,8 +28,7 @@ module Jamf
   #
   module OAPISchemas
 
-
-    # OAPI Object Model and Enums for: ApiError
+    # OAPI Object Model and Enums for: ApiErrorCause
     #
     #
     #
@@ -48,11 +46,12 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #  
+    #  - Jamf::OAPISchemas::ApiError
+    #  - Jamf::OAPISchemas::MacOsManagedSoftwareUpdateResponse
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #  - Jamf::OAPISchemas::ApiErrorCause
+    #
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
@@ -60,29 +59,44 @@ module Jamf
     #
     #
     #
-    class ApiError < Jamf::OAPIObject
-
-      
+    class ApiErrorCause < Jamf::OAPIObject
 
       OAPI_PROPERTIES = {
 
-        # HTTP status of the response
-        # @!attribute httpStatus
-        #   @return [Integer]
-        httpStatus: {
-          class: :integer
+        # Error-specific code that can be used to identify localization string, etc.
+        # @!attribute code
+        #   @return [String]
+        code: {
+          class: :string
         },
 
-        # @!attribute errors
-        #   @return [Array<Jamf::OAPISchemas::ApiErrorCause>]
-        errors: {
-          class: Jamf::OAPISchemas::ApiErrorCause,
-          multi: true
+        # Name of the field that caused the error.
+        # @!attribute field
+        #   @return [String]
+        field: {
+          class: :string,
+          required: true
+        },
+
+        # A general description of error for troubleshooting/debugging. Generally this text should not be displayed to a user; instead refer to errorCode and it's localized text
+        # @!attribute description
+        #   @return [String]
+        description: {
+          class: :string
+        },
+
+        # id of object with error. Optional.
+        # @!attribute id
+        #   @return [String]
+        id: {
+          class: :j_id,
+          nil_ok: true,
+          identifier: :primary
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class ApiError
+    end # class ApiErrorCause
 
   end # module OAPISchemas
 

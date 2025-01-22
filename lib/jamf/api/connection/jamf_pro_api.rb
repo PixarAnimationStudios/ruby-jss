@@ -35,7 +35,7 @@ module Jamf
 
       # create the faraday JPAPI connection object
       #######################################################
-      def create_jp_connection(parse_json: true)
+      def create_jp_connection(parse_json: true, upload: false)
         Faraday.new(@jp_base_url, ssl: ssl_options) do |cnx|
           # use a proc for the token value, so its looked up on every request
           # meaning we don't have to validate that the token is still valid before every request
@@ -45,8 +45,10 @@ module Jamf
           cnx.options[:timeout] = @timeout
           cnx.options[:open_timeout] = @open_timeout
 
+          cnx.request :multipart if upload
+
           if parse_json
-            cnx.request :json
+            cnx.request :json unless upload
             cnx.response :json, parser_options: { symbolize_names: true }
           end
 
@@ -177,6 +179,30 @@ module Jamf
 
         raise Jamf::Connection::JamfProAPIError, resp
       end
+
+      # @param rsrc[String] the API resource being uploadad-to,
+      #   the URL part after 'JSSResource/'
+      #
+      # @param local_file[String, Pathname] the local file to upload
+      #
+      # @return [String] the xml response from the server.
+      #
+      def jp_upload(rsrc, local_file)
+        upload_cnx = create_jp_connection upload: true
+
+        rsrc = rsrc.delete_prefix Jamf::Connection::SLASH
+
+        payload = {}
+        payload[:file] = Faraday::Multipart::FilePart.new(local_file.to_s, 'application/octet-stream')
+
+        resp = upload_cnx.post rsrc, payload
+
+        @last_http_response = resp
+
+        return resp.body if resp.success?
+
+        raise Jamf::Connection::JamfProAPIError, resp
+      end # upload
 
     end # module
 
