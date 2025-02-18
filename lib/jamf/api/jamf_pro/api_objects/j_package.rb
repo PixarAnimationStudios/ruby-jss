@@ -346,7 +346,7 @@ module Jamf
     # New checksums are always SHA512
     #
     # @param filepath [String, Pathname] the path to a local copy of the package file
-    # @param type [String] the type of checksum to calculate, one of CHECKSUM_HASH_TYPES
+    #
     # @return [String] The new checksum of the package file
     ##############################
     def recalculate_checksum(filepath)
@@ -416,16 +416,20 @@ module Jamf
     # Generate a manifest plist (xml) for this package, update the #manifest attribute,
     # and assign an appropriate #manifestFileName.
     #
-    # You will need to call #save on the object to save the new values to the server.
+    # Afterwards, you will need to call #save on the object to save the new values to
+    # the server.
     #
     # The download URL used in the manifest will be the default for the class
-    # (if you have set one) or the URL passed in, with the fileName appended
+    # (if you have set one) or the URL passed in, with the fileName appended. The
+    # class default may come from the ruby-jss config, or be set directly on the class.
     #
-    # Unless set explicitly, the manifest filename will be the fileName of the filepath
-    # with spaces converted to dashes, followed by MANIFEST_FILENAME_DEFAULT_SUFFIX.
+    # Unless set explicitly afterward using #manifestFileName= the manifest filename
+    # will be the fileName of the Package object, with spaces converted to dashes,
+    # followed by MANIFEST_FILENAME_DEFAULT_SUFFIX.
     # e.g. my-app.pkg-manifest.plist
     #
-    # You can also do this when uploading the pkg file by providing appropriate options to #upload,
+    # You can also generate the manifest when uploading the pkg file by providing
+    # appropriate options to #upload,
     # in which case the new values will be saved to the Jamf Pro server automatically.
     #
     # @param filepath [String, Pathname] the path to a local copy of the package file for which
@@ -434,19 +438,20 @@ module Jamf
     #
     # @param opts [Hash] a hash of keyword arguments
     #
-    # @options opts url[String] the URL where the package will be downloaded from,
+    # @options opts url [String] the URL where the package will be downloaded from,
     #   defaults to the class default
     #
     # @option opts append_filename_to_url [Boolean] should the fileName be appended to the URL,
-    #   defaults to true
+    #   defaults to true.
     #   If false, the url given must be the full URL to download the individual package file.
     #
-    # @option opts bundle_identifier [String, Symbol] the bundle identifier of the package,
-    #   Should match that in the .pkg itself. Defaults to 'xolo.fileName'
-    #
     # @option opts chunk_size [Integer] the size of each chunk in the manifest, in bytes.
-    #   if omitted, the whole file will be checksummed at once and downloads will not be chunked.
-    #   A common chunk size is 10MB, or 1024 * 1024 * 10
+    #   If omitted, the whole file will be checksummed at once and downloads will not be chunked.
+    #   A common chunk size is 10MB, or 1024 * 1024 * 10.
+    #   NOTE: Not all distribution points support chunked downloads.
+    #
+    # @option opts bundle_identifier [String, Symbol] the bundle identifier of the package,
+    #   Should match that in the .pkg itself, but defaults to 'xolo.fileName'
     #
     # @option opts bundle_version [String, Symbol] the version of the package.
     #   Defaults to '0'
@@ -462,59 +467,21 @@ module Jamf
     def generate_manifest(filepath, **opts)
       # make sure the file exists
       file = Pathname.new(filepath)
-      raise ArgumentError, 'No locally-readable file provided' unless file.readable?
+      validate_local_file(file)
 
       filesize = file.size
+      url = parse_manifest_url given_url: opts[:url], append_filename: opts[:append_filename_to_url]
 
-      opts[:url] ||= self.class.default_manifest_base_url
-      raise ArgumentError, 'No URL provided for manifest generation' unless opts[:url]
-
-      # append the filename to the URL if needed
-      url = opts[:url].to_s.chomp('/') + "/#{CGI.escape fileName}" unless opts[:append_filename_to_url] == false
-
-      # make sure it's valid a URI
-      url = URI.parse url.to_s
-
-      # remember the orig manifest
-      manifest
       # make the manifest
       new_manifest = MANIFEST_PLIST_TEMPLATE.dup
       new_manifest[:items][0][:assets][0]['url'] = url.to_s
 
-      # are we chunking the download?
-      if opts[:chunk_size].is_a? Integer
-        new_manifest[:items][0][:assets][0]['sha256-size'] = opts[:chunk_size]
-        file.open do |f|
-          while chunk = f.read(chunk_size) # only load chunk_size bytes at a time
-            new_manifest[:items][0][:assets][0]['sha256s'] << Digest::SHA256.hexdigest(chunk)
-          end
-        end
+      # get the checksum(s)
+      calculate_manifest_checksums(file, new_manifest, chunk_size: opts[:chunk_size])
 
-      # not chunking, use the file filesize
-      else
-        new_manifest[:items][0][:assets][0]['sha256-size'] = filesize
-        new_manifest[:items][0][:assets][0]['sha256s'] = [Digest::SHA256.hexdigest(file.read)]
-      end
+      append_manifest_image('full-size-image', opts[:full_size_image_url], new_manifest) if opts[:full_size_image_url]
 
-      if opts[:full_size_image_url]
-        # make sure it's valid a URI
-        URI.parse opts[:full_size_image_url]
-
-        new_manifest[:items][0][:assets] << {
-          'kind' => 'full-size-image',
-          'url' => opts[:full_size_image_url]
-        }
-      end
-
-      if opts[:display_image_url]
-        # make sure it's valid a URI
-        URI.parse opts[:display_image_url]
-
-        new_manifest[:items][0][:assets] << {
-          'kind' => 'display-image',
-          'url' => opts[:display_image_url]
-        }
-      end
+      append_manifest_image('display-image', opts[:display_image_url], new_manifest) if opts[:display_image_url]
 
       new_manifest[:items][0][:metadata]['title'] = packageName
       new_manifest[:items][0][:metadata]['subtitle'] = opts[:subtitle] if opts[:subtitle]
@@ -538,19 +505,96 @@ module Jamf
       plist = CFPropertyList::List.new
       plist.value = CFPropertyList.guess(new_manifest)
       self.manifest = plist.to_str CFPropertyList::List::FORMAT_XML, formatted: true
-      # note_unsaved_change :manifest, orig_manifest
       self.manifestFileName = default_manifestFileName
     end
+
+    # validate a local file path, raising an error if it's not valid
+    #
+    # @param filepath [Pathname] the path to a local copy of the package file for which
+    # @return [void]
+    ##############################
+    def validate_local_file(file)
+      raise ArgumentError, 'No locally-readable file provided' unless file.readable?
+    end
+    private :validate_local_file
+
+    # Figure out the url to use for a manifest, based on the class default or
+    # one provided in the options.
+    # Raises an error if no URL is provided directly or via the class default, or if
+    # the url is not valid.
+    #
+    # @param given_url [String] the URL to use, if provided
+    #
+    # @return [URI] the URI object for the URL
+    ##############################
+    def parse_manifest_url(given_url = nil, append_filename: true)
+      url = given_url || self.class.default_manifest_base_url
+      raise ArgumentError, 'No URL provided for manifest' unless url
+
+      # append the filename to the URL if needed
+      url = "#{url.to_s.chomp('/')}/#{CGI.escape fileName}" unless append_filename == false
+
+      # check validity and return
+      URI.parse url
+    end
+    private :parse_manifest_url
+
+    # calculate the manifest checksum[s] for a given file, and store in the manifest data
+    #
+    # @param file [Pathname] the path to the file to checksum
+    # @param chunk_size [Integer] the size of each chunk in the manifest, in bytes.
+    #   if omitted, the whole file will be checksummed at once and downloads will not be chunked.
+    #   A common chunk size is 10MB, or 1024 * 1024 * 10
+    # @param new_manifest [Hash] the manifest data to update with the checksums
+    #
+    # @return [void]
+    ##############################
+    def calculate_manifest_checksums(file, new_manifest, chunk_size: nil)
+      # are we chunking the download?
+      if chunk_size.is_a? Integer
+        new_manifest[:items][0][:assets][0]['sha256-size'] = chunk_size
+        file.open do |f|
+          while chunk = f.read(chunk_size) # only load chunk_size bytes at a time
+            new_manifest[:items][0][:assets][0]['sha256s'] << Digest::SHA256.hexdigest(chunk)
+          end
+        end
+
+      # not chunking, use the file filesize
+      else
+        new_manifest[:items][0][:assets][0]['sha256-size'] = file.size
+        new_manifest[:items][0][:assets][0]['sha256s'] = [Digest::SHA256.hexdigest(file.read)]
+      end
+    end
+    private :calculate_manifest_checksums
+
+    # Append an image URL to the manifest, validating it as a URI
+    #
+    # @param asset_kind [String] the kind of asset, either 'full-size-image' or 'display-image'
+    # @param url [String] the URL to append
+    # @param new_manifest [Hash] the manifest data to update with the image URL
+    #
+    # @return [void]
+    ##############################
+    def append_manifest_image(asset_kind, url, new_manifest)
+      new_manifest[:items][0][:assets] << {
+        'kind' => asset_kind,
+        'url' => URI.parse(url).to_s
+      }
+    end
+    private :append_manifest_image
 
     # Upload a package file to Jamf Pro for this package object.
     # After uploading, the upload response is in the @upload_response attribute.
     #
-    # The fileName attribute of the JPackage object will be updated to the local filename
-    # if it differs.
+    # This uses the Jamf Pro API to upload the file via the package/upload endpoint.
+    # If you don't use an appropriate primary distribution point, this may not work.
+    # Also, that endpoint may not upload to any other distribution points.
+    #
+    # The fileName attribute of the JPackage object will be updated to the local filename.
     # If that filename is in use by some other package, you'll get an error:
     #    Field: fileName, Error: DUPLICATE_FIELD duplicate name
     #
-    # IMPORTANT: This will automatically call #save.
+    # IMPORTANT: This will automatically call #save at least once, and possibly twice.
     # First, in order to ensure the correct fileName in Jamf based on the file being uploaded,
     # and second, in order to update the checksum and manifest in Jamf Pro, if needed.
     # *** Any other outstanding changes will also be saved!
@@ -565,45 +609,41 @@ module Jamf
     # @option opts :update_manifest [Boolean] update the manifest of the package in Jamf Pro
     #   Defaults to false
     #
-    # @options opts :url [String] the URL where the package will be downloaded from,
+    # @options opts url [String] the URL where the package will be downloaded from,
     #   defaults to the class default
     #
     # @option opts append_filename_to_url [Boolean] should the fileName be appended to the URL,
-    #   defaults to true
+    #   defaults to true.
     #   If false, the url given must be the full URL to download the individual package file.
     #
-    # @option opts bundle_identifier [String, Symbol] the bundle identifier of the package,
-    #   Should match that in the .pkg itself. Defaults to 'xolo.fileName'
-    #
     # @option opts chunk_size [Integer] the size of each chunk in the manifest, in bytes.
-    #   if omitted, the whole file will be checksummed at once and downloads will not be chunked.
-    #   A common chunk size is 10MB, or 1024 * 1024 * 10
+    #   If omitted, the whole file will be checksummed at once and downloads will not be chunked.
+    #   A common chunk size is 10MB, or 1024 * 1024 * 10.
+    #   NOTE: Not all distribution points support chunked downloads.
+    #
+    # @option opts bundle_identifier [String, Symbol] the bundle identifier of the package,
+    #   Should match that in the .pkg itself, but defaults to 'xolo.fileName'
     #
     # @option opts bundle_version [String, Symbol] the version of the package.
     #   Defaults to '0'
     #
     # @option opts subtitle [String] a subtitle for the package, optional
     #
-    # @option opts full_size_image_url [String] optional
+    # @option opts full_size_image_url [String] optional, used during MDM deployment
     #
-    # @option opts display_image_url [String] optional
+    # @option opts display_image_url [String] optional, used during MDM deployment
     #
     # @return [void]
     ##############################
     def upload(filepath, **opts)
-      raise Jamf::NoSuchItemError, 'This package has no id, it must be saved in Jamf Pro before uploading' unless id
-      raise Jamf::MissingDataError, 'No file path provided for upload' unless filepath
-
       file = Pathname.new(filepath)
-      raise Jamf::MissingDataError, 'No readable file at the provided path' unless file.readable?
+      validate_local_file(file)
 
       # update the filename if needed
       # must happen before the upload
       real_filename = file.basename.to_s
-      unless fileName == real_filename
-        self.fileName = real_filename
-        save
-      end
+      self.fileName = real_filename unless fileName == real_filename
+      save
 
       # upload the file
       @upload_response = cnx.jp_upload("#{get_path}/#{UPLOAD_ENDPOINT}", file)
@@ -624,13 +664,12 @@ module Jamf
     # REQUIREMENTS:
     # - The package must have a manifest, see #generate_manifest
     # - The .pkg file must be a product archive (.pkg) built with Xcode or productbuild.
-    #   Simple packages built with pkgbuild are not supported.
+    #   (it must contain a 'Distribution' file, usually generated by those tools)
+    #   Simple 'component' packages built with pkgbuild are not supported.
     # - The .pkg file must be signed with a Developer ID Installer certificate
     #
     # This will send a command to install the package to one or more
     # computers, and/or the members of a single computer group.
-    #
-    # The package must have a manifest set, see #generate_manifest
     #
     # @param computers [Array<Integer>,Integer] The ids of the computers to deploy to
     #
@@ -642,14 +681,16 @@ module Jamf
     ##############################
     def deploy_via_mdm(computers: nil, group: nil, managed: false)
       raise Jamf::MissingDataError, 'No manifest set for this package' unless manifest
+      raise Jamf::NoSuchItemError, 'This package has no id, it must be saved in Jamf Pro before uploading' unless id
 
-      # convert the manifest to a hash
+      # convert the manifest to a ruby hash
       parsed_manifest = manifest_hash
 
-      # manifest for the MDMDeploy command, which is a hash.
-      # hopefully some day jamf will just use the manifest for the pkg
+      # manifest data for the MDMDeploy command, which is a hash.
+      # hopefully some day Jamf will just use the manifest for the pkg
       mdm_manifest = {}
       mdm_manifest['url'] = parsed_manifest['items'][0]['assets'][0]['url']
+      # See the TESTING note in #generate_manifest
       mdm_manifest['hash'] = parsed_manifest['items'][0]['metadata']['sha256-whole']
       mdm_manifest['hashType'] = CHECKSUM_HASH_TYPE_SHA256_MDM_DEPLOY
       mdm_manifest['sizeInBytes'] = parsed_manifest['items'][0]['metadata']['sizeInBytes']
@@ -674,9 +715,6 @@ module Jamf
         devices: computers,
         groupId: group.to_s
       }
-      puts '-----'
-      puts payload
-      puts '-----'
       # send the command
       @deploy_response = cnx.post(DEPLOYMENT_ENDPOINT, payload)
     end
