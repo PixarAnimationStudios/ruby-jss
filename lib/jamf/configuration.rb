@@ -1,104 +1,103 @@
-### Copyright 2025 Pixar
+# Copyright 2025 Pixar
 
-###
-###    Licensed under the Apache License, Version 2.0 (the "Apache License")
-###    with the following modification; you may not use this file except in
-###    compliance with the Apache License and the following modification to it:
-###    Section 6. Trademarks. is deleted and replaced with:
-###
-###    6. Trademarks. This License does not grant permission to use the trade
-###       names, trademarks, service marks, or product names of the Licensor
-###       and its affiliates, except as required to comply with Section 4(c) of
-###       the License and to reproduce the content of the NOTICE file.
-###
-###    You may obtain a copy of the Apache License at
-###
-###        http://www.apache.org/licenses/LICENSE-2.0
-###
-###    Unless required by applicable law or agreed to in writing, software
-###    distributed under the Apache License with the above modification is
-###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-###    KIND, either express or implied. See the Apache License for the specific
-###    language governing permissions and limitations under the Apache License.
-###
-###
+#
+#    Licensed under the Apache License, Version 2.0 (the "Apache License")
+#    with the following modification; you may not use this file except in
+#    compliance with the Apache License and the following modification to it:
+#    Section 6. Trademarks. is deleted and replaced with:
+#
+#    6. Trademarks. This License does not grant permission to use the trade
+#       names, trademarks, service marks, or product names of the Licensor
+#       and its affiliates, except as required to comply with Section 4(c) of
+#       the License and to reproduce the content of the NOTICE file.
+#
+#    You may obtain a copy of the Apache License at
+#
+#        http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the Apache License with the above modification is
+#    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#    KIND, either express or implied. See the Apache License for the specific
+#    language governing permissions and limitations under the Apache License.
+#
+#
 
-###
 module Jamf
 
-  ### A class for working with pre-defined settings & preferences for the JSS Gem
-  ###
-  ### This is a singleton class, only one instance can exist at a time.
-  ###
-  ### When the JSS module loads, that instance is created, and can then be used via
-  ### Jamf.config in applications to avoid always having to pass in server names, API user names
-  ### and so on.
-  ###
-  ### When the Jamf::Configuration instance is created, the {GLOBAL_CONF} file (/etc/jss_gem.conf) is examined if it exists, and
-  ### the items in it are loaded into the attributes.
-  ###
-  ### Then the user-specific {USER_CONF} file (~/.jss_gem.conf) is examined if it exists, and any attributes defined there will
-  ### override those values from the {GLOBAL_CONF}.
-  ###
-  ### The file format is one attribute per line, thus:
-  ###   attr_name: value
-  ###
-  ### Lines that don't start with a known attribute name followed by a colon are ignored. If an attribute is defined
-  ### more than once, the last one wins.
-  ###
-  ### The known attributes are:
-  ### - api_server_name [String] the hostname of the JSS API server
-  ### - api_server_port [Integer] the port number for the API connection
-  ### - api_ssl_version [String] the SSL version (from the open_ssl module) to use for the connection.
-  ### - api_verify_cert [Boolean] if SSL is used, should the SSL certificate be verified (usually false for a self-signed cert)
-  ### - api_username [String] the JSS username for connecting to the API
-  ### - api_timeout_open [Integer] the number of seconds for the open-connection timeout
-  ### - api_timeout [Integer] the number of seconds for the response timeout
-  ###
-  ### The {APIConnection#connect} method will first use any values given as method arguments. For any not given, it will
-  ### look at the Preferences instance for any values there, and if still none, will use default values or raise an exception.
-  ###
-  ### At any point, the attributes can read or changed using standard Ruby getter/setter methods matching the name of the attribute,
-  ### e.g.
-  ###   Jamf.config.api_server_name  # => 'myjss.mycompany.com'
-  ###   Jamf.config.api_server_name = 'otherjss.mycompany.com'  # sets the api_server_name to a new value
-  ###
-  ###
-  ### The current settings may be saved to the GLOBAL_CONF file, the USER_CONF file, or an arbitrary file using {#save}.
-  ### The argument to {#save} should be either :user, :global, or a String or Pathname file path.
-  ### NOTE: This overwrites any existing file.
-  ###
-  ### To re-load the settings use {#reload}. This clears the current settings, and re-reads both the global and user files.
-  ### If a pathname is provided, e.g.
-  ###   Jamf::CONFIG.reload '/path/to/other/file'
-  ### the current settings are cleared and reloaded from that other file.
-  ###
-  ### To view the current settings, use {#print}.
-  ###
-  ### @note Passwords are not saved in prefs files. Your application will have to acquire them using the :prompt or :stdin options to
-  ###   {APIConnection#connect}, or by custom means.
-  ###
+  # A class for working with pre-defined settings & preferences for the JSS Gem
+  #
+  # This is a singleton class, only one instance can exist at a time.
+  #
+  # When the JSS module loads, that instance is created, and can then be used via
+  # Jamf.config in applications to avoid always having to pass in server names, API user names
+  # and so on.
+  #
+  # When the Jamf::Configuration instance is created, the {GLOBAL_CONF} file (/etc/jss_gem.conf) is examined if it exists, and
+  # the items in it are loaded into the attributes.
+  #
+  # Then the user-specific {USER_CONF} file (~/.jss_gem.conf) is examined if it exists, and any attributes defined there will
+  # override those values from the {GLOBAL_CONF}.
+  #
+  # The file format is one attribute per line, thus:
+  #   attr_name: value
+  #
+  # Lines that don't start with a known attribute name followed by a colon are ignored. If an attribute is defined
+  # more than once, the last one wins.
+  #
+  # The known attributes are:
+  # - api_server_name [String] the hostname of the JSS API server
+  # - api_server_port [Integer] the port number for the API connection
+  # - api_ssl_version [String] the SSL version (from the open_ssl module) to use for the connection.
+  # - api_verify_cert [Boolean] if SSL is used, should the SSL certificate be verified (usually false for a self-signed cert)
+  # - api_username [String] the JSS username for connecting to the API
+  # - api_timeout_open [Integer] the number of seconds for the open-connection timeout
+  # - api_timeout [Integer] the number of seconds for the response timeout
+  #
+  # The {APIConnection#connect} method will first use any values given as method arguments. For any not given, it will
+  # look at the Preferences instance for any values there, and if still none, will use default values or raise an exception.
+  #
+  # At any point, the attributes can read or changed using standard Ruby getter/setter methods matching the name of the attribute,
+  # e.g.
+  #   Jamf.config.api_server_name  # => 'myjss.mycompany.com'
+  #   Jamf.config.api_server_name = 'otherjss.mycompany.com'  # sets the api_server_name to a new value
+  #
+  #
+  # The current settings may be saved to the GLOBAL_CONF file, the USER_CONF file, or an arbitrary file using {#save}.
+  # The argument to {#save} should be either :user, :global, or a String or Pathname file path.
+  # NOTE: This overwrites any existing file.
+  #
+  # To re-load the settings use {#reload}. This clears the current settings, and re-reads both the global and user files.
+  # If a pathname is provided, e.g.
+  #   Jamf::CONFIG.reload '/path/to/other/file'
+  # the current settings are cleared and reloaded from that other file.
+  #
+  # To view the current settings, use {#print}.
+  #
+  # @note Passwords are not saved in prefs files. Your application will have to acquire them using the :prompt or :stdin options to
+  #   {APIConnection#connect}, or by custom means.
+  #
   class Configuration
 
     include Singleton
 
     #####################################
-    ### Class Constants
+    # Class Constants
     #####################################
 
-    ### The filename for storing the config, globally or user-level.
-    ### The first matching file is used - the array provides
-    ### backward compatibility with earlier versions.
-    ### Saving will always happen to the first filename
+    # The filename for storing the config, globally or user-level.
+    # The first matching file is used - the array provides
+    # backward compatibility with earlier versions.
+    # Saving will always happen to the first filename
     CONF_FILES = ['ruby-jss.conf', 'jss_gem.conf']
 
-    ### The Pathname to the machine-wide preferences plist
+    # The Pathname to the machine-wide preferences plist
     GLOBAL_CONFS = CONF_FILES.map { |cf| Pathname.new "/etc/#{cf}" }
 
-    ### The Pathname to the user-specific preferences plist
+    # The Pathname to the user-specific preferences plist
     USER_CONFS = CONF_FILES.map { |cf| ENV['HOME'] ? Pathname.new("~/.#{cf}").expand_path : nil }.compact
 
-    ### The attribute keys we maintain, and the type they should be stored as
+    # The attribute keys we maintain, and the type they should be stored as
     CONF_KEYS = {
       api_server_name: :to_s,
       api_server_port: :to_i,
@@ -114,54 +113,55 @@ module Jamf
       db_name: :to_s,
       db_connect_timeout: :to_i,
       db_read_timeout: :to_i,
-      db_write_timeout: :to_i
+      db_write_timeout: :to_i,
+      package_manifest_base_url: :to_s
     }
 
     #####################################
-    ### Class Variables
+    # Class Variables
     #####################################
 
     #####################################
-    ### Class Methods
+    # Class Methods
     #####################################
 
     #####################################
-    ### Attributes
+    # Attributes
     #####################################
 
     # automatically create accessors for all the CONF_KEYS
     CONF_KEYS.keys.each { |k| attr_accessor k }
 
     #####################################
-    ### Constructor
+    # Constructor
     #####################################
 
-    ###
-    ### Initialize!
-    ###
+    #
+    # Initialize!
+    #
     def initialize
       read_global
       read_user
     end
 
     #####################################
-    ### Public Instance Methods
+    # Public Instance Methods
     #####################################
 
-    ###
-    ### Clear all values
-    ###
-    ### @return [void]
-    ###
+    #
+    # Clear all values
+    #
+    # @return [void]
+    #
     def clear_all
       CONF_KEYS.keys.each { |k| send "#{k}=".to_sym, nil }
     end
 
-    ###
-    ### (Re)read the global prefs, if it exists.
-    ###
-    ### @return [void]
-    ###
+    #
+    # (Re)read the global prefs, if it exists.
+    #
+    # @return [void]
+    #
     def read_global
       GLOBAL_CONFS.each do |gcf|
         if gcf.file? and gcf.readable?
@@ -171,11 +171,11 @@ module Jamf
       end
     end
 
-    ###
-    ### (Re)read the user prefs, if it exists.
-    ###
-    ### @return [void]
-    ###
+    #
+    # (Re)read the user prefs, if it exists.
+    #
+    # @return [void]
+    #
     def read_user
       USER_CONFS.each do |ucf|
         if ucf.file? and ucf.readable?
@@ -185,13 +185,13 @@ module Jamf
       end
     end
 
-    ###
-    ### Clear the settings and reload the prefs files, or another file if provided
-    ###
-    ### @param file[String,Pathname] a non-standard prefs file to load
-    ###
-    ### @return [void]
-    ###
+    #
+    # Clear the settings and reload the prefs files, or another file if provided
+    #
+    # @param file[String,Pathname] a non-standard prefs file to load
+    #
+    # @return [void]
+    #
     def reload(file = nil)
       clear_all
       if file
@@ -203,13 +203,13 @@ module Jamf
       true
     end
 
-    ###
-    ### Save the prefs into a file
-    ###
-    ### @param file[Symbol,String,Pathname] either :user, :global, or an arbitrary file to save.
-    ###
-    ### @return [void]
-    ###
+    #
+    # Save the prefs into a file
+    #
+    # @param file[Symbol,String,Pathname] either :user, :global, or an arbitrary file to save.
+    #
+    # @return [void]
+    #
     def save(file)
       path = case file
              when :global then GLOBAL_CONFS.first
@@ -247,27 +247,27 @@ module Jamf
       path.jss_save data
     end # read file
 
-    ###
-    ### Print out the current settings to stdout
-    ###
-    ### @return [void]
-    ###
+    #
+    # Print out the current settings to stdout
+    #
+    # @return [void]
+    #
     def print
       CONF_KEYS.keys.sort.each { |k| puts "#{k}: #{send k}" }
     end
 
     #####################################
-    ### Private Instance Methods
+    # Private Instance Methods
     #####################################
     private
 
-    ###
-    ### Read in any prefs file
-    ###
-    ### @param file[String,Pathname] the file to read
-    ###
-    ### @return [void]
-    ###
+    #
+    # Read in any prefs file
+    #
+    # @param file[String,Pathname] the file to read
+    #
+    # @return [void]
+    #
     def read(file)
       Pathname.new(file).read.each_line do |line|
         # skip blank lines and those starting with #
