@@ -1160,7 +1160,15 @@ module Jamf
     def self.new(**args)
       validate_not_metaclass(self)
 
-      calling_method = caller_locations(1..1).first.label
+      # calling_method = caller_locations(1..1).first.label
+      #
+      # Temp workaround for ruby 3.4 until I figure out the best way to deal with 
+      # the new behavior of caller_locations. `label` used to return just the method name
+      # e.g. `fetch` but now it returns, e.g. `Jamf::APIObject.fetch`
+      # See https://docs.ruby-lang.org/en/3.4/Thread/Backtrace/Location.html
+      # and investigate the `base_label` method
+      calling_method = caller_locations(1..1).first.label.to_s.split('.').last
+
       raise Jamf::UnsupportedError, 'Use .fetch or .create to instantiate APIObject classes' unless OK_INSTANTIATORS.include? calling_method
 
       super
