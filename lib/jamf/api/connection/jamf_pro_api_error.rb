@@ -93,10 +93,10 @@ module Jamf
         msg << errors.map do |err|
           err_str = +''
           err_str << " Field: #{err.field}" unless err.field.to_s.empty?
-          err_str << ' Error:' if err.code || err.description
-          err_str << " #{err.code}" if err.code
-          err_str << " #{err.description}" if err.description
-          err_str << " Object ID: '#{err.id}'" if err.id
+          err_str << ', Error:' if err.code || err.description
+          err_str << ", #{err.code}" if err.code
+          err_str << ", #{err.description}" if err.description
+          err_str << ", Object ID: '#{err.id}'" if err.id
           err_str
         end.join('; ')
         msg
