@@ -470,7 +470,7 @@ module Jamf
       validate_local_file(file)
 
       filesize = file.size
-      url = parse_manifest_url given_url: opts[:url], append_filename: opts[:append_filename_to_url]
+      url = parse_manifest_url opts[:url], append_filename: opts[:append_filename_to_url]
 
       # make the manifest
       new_manifest = MANIFEST_PLIST_TEMPLATE.dup
@@ -607,7 +607,7 @@ module Jamf
     #   Defaults to true. All new checksums are SHA_512.
     #
     # @option opts :update_manifest [Boolean] update the manifest of the package in Jamf Pro
-    #   Defaults to false
+    #   Defaults to true
     #
     # @options opts url [String] the URL where the package will be downloaded from,
     #   defaults to the class default
@@ -653,7 +653,7 @@ module Jamf
       recalculate_checksum(file) unless opts[:update_checksum] == false
 
       # generate a manifest if needed
-      generate_manifest file, **opts if opts[:update_manifest]
+      generate_manifest file, **opts unless opts[:update_manifest] == false
 
       # save the new checksum and manifest
       save
@@ -671,15 +671,15 @@ module Jamf
     # This will send a command to install the package to one or more
     # computers, and/or the members of a single computer group.
     #
-    # @param computers [Array<Integer>,Integer] The ids of the computers to deploy to
+    # @param computer_ids [Array<Integer>,Integer] The ids of the computers to deploy to
     #
-    # @param group [Integer] The id of the computer group to deploy to
+    # @param group_id [Integer] The id of the computer group to deploy to
     #
     # @param managed [Boolean] Should the installed package be managed by Jamf Pro, default is false.
     #
     # @return [void]
     ##############################
-    def deploy_via_mdm(computers: nil, group: nil, managed: false)
+    def deploy_via_mdm(computer_ids: nil, group_id: nil, managed: false)
       raise Jamf::MissingDataError, 'No manifest set for this package' unless manifest
       raise Jamf::NoSuchItemError, 'This package has no id, it must be saved in Jamf Pro before uploading' unless id
 
@@ -706,14 +706,14 @@ module Jamf
       end
 
       # make sure the computers are in an array
-      computers = [computers].flatten.compact.uniq
+      computer_ids = [computer_ids].flatten.compact.uniq
 
       # make the payload
       payload = {
         manifest: mdm_manifest,
         installAsManaged: managed,
-        devices: computers,
-        groupId: group.to_s
+        devices: computer_ids,
+        groupId: group_id.to_s
       }
       # send the command
       @deploy_response = cnx.post(DEPLOYMENT_ENDPOINT, payload)
