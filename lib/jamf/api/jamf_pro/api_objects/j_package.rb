@@ -375,30 +375,42 @@ module Jamf
     end
 
     # Set the manifest from a local file or XML plist string.
-    # If from a file, update the manifestFileName attribute to use the filename
+    # If from a file, set the manifestFileName attribute to use the filename
     #
-    # To generate a basic manifest plist for this package, use #generate_manifest
+    # To generate a manifest plist for this package from a locally-readable
+    # file, use #generate_manifest
     #
     # When using this method, if you want to be able to deploy the pkg using
     # #deploy_via_mdm, the manifest MUST include a metadata dictionary
     # with at least the following keys
-    #  - 'bundle-identifier' that matches the bundle identifier of the pkg
-    #  - 'bundle-version' = the version of the pkg
-    #  - 'kind' = 'software'
-    #  - 'title' = the name of the pkg or what it installs
-    #  - 'sizeInBytes' = the size of the pkg in bytes
-    # optional keys include bundle-version, and subtitle
+    #   - 'bundle-identifier' that preferably matches the bundle identifier of the pkg
+    #   - 'bundle-version' = that preferably matches the version of the pkg
+    #   - 'kind' = 'software'
+    #   - 'title' = the name of the pkg or what it installs
+    #   - 'sizeInBytes' = the size of the pkg in bytes
+    # Also,
+    #   - the checksum must be a single SHA256 digest for the whole file
+    #     in the 'sha256s' array for the item,
+    #   - the 'sha256-size' must be the size of the file in bytes.
     #
-    # @param manifest [String, Pathname] the manifest plist data or path to a local file
+    # @param new_manifest [String, Pathname] the manifest plist data or path to a local file
     #
     # @return [void]
     ##############################
-    def manifest=(manifest)
-      if manifest.is_a? Pathname
-        @manifest = manifest.read
+    def manifest=(new_manifest)
+      # if its a string but not an xml plist, assume its a path
+      new_manifest = Pathname.new(new_manifest) if new_manifest.is_a?(String) && !new_manifest.start_with?('<?xml')
+
+      if new_manifest.is_a? Pathname
+        self.manifest = new_manifest.read
         self.manifestFileName = manifest.basename.to_s
+
+      elsif new_manifest.is_a? String
+        self.manifest = new_manifest
+        self.manifestFileName ||= default_manifestFileName
+
       else
-        @manifest = manifest
+        raise ArgumentError, 'Argument must be a Pathname, or a String containing a path or an XML plist'
       end
     end
 
@@ -584,7 +596,9 @@ module Jamf
     private :append_manifest_image
 
     # Upload a package file to Jamf Pro for this package object.
-    # After uploading, the upload response is in the @upload_response attribute.
+    #
+    # WARNING: This will automatically call #save, saving any pending changes to
+    # the Jamf Pro server!
     #
     # This uses the Jamf Pro API to upload the file via the package/upload endpoint.
     # If you don't use an appropriate primary distribution point, this may not work.
@@ -594,10 +608,13 @@ module Jamf
     # If that filename is in use by some other package, you'll get an error:
     #    Field: fileName, Error: DUPLICATE_FIELD duplicate name
     #
-    # IMPORTANT: This will automatically call #save at least once, and possibly twice.
+    # This will automatically call #save at least once, and possibly twice.
     # First, in order to ensure the correct fileName in Jamf based on the file being uploaded,
     # and second, in order to update the checksum and manifest in Jamf Pro, if needed.
     # *** Any other outstanding changes will also be saved!
+    #
+    # After uploading, the response from the server is in the #upload_response attribute,
+    # with a timestamp added to the data from the API.
     #
     # @param filepath [String, Pathname] the path to the package file to upload
     #
@@ -607,7 +624,7 @@ module Jamf
     #   Defaults to true. All new checksums are SHA_512.
     #
     # @option opts :update_manifest [Boolean] update the manifest of the package in Jamf Pro
-    #   Defaults to true
+    #   Defaults to true.
     #
     # @options opts url [String] the URL where the package will be downloaded from,
     #   defaults to the class default
@@ -681,7 +698,7 @@ module Jamf
     ##############################
     def deploy_via_mdm(computer_ids: nil, group_id: nil, managed: false)
       raise Jamf::MissingDataError, 'No manifest set for this package' unless manifest
-      raise Jamf::NoSuchItemError, 'This package has no id, it must be saved in Jamf Pro before uploading' unless id
+      raise Jamf::NoSuchItemError, 'This package has no id, it must be saved in Jamf Pro before uploading' unless exist?
 
       # convert the manifest to a ruby hash
       parsed_manifest = manifest_hash
