@@ -34,7 +34,7 @@ These changes have been in mind for some time, but the requirement in late 2022 
   - [The valid_id method for Classic API collection classes](#the-valid_id-method-for-classic-api-collection-classes)
 - [Planned deprecations](#planned-deprecations)
   - [Use of the term 'api'](#use-of-the-term-api)
-  - [.map_all_ids_to method for Classic API collection classes](#map_all_ids_to-method-for-classic-api-collection-classes)
+  - [map_all_ids_to method for Classic API collection classes](#map_all_ids_to-method-for-classic-api-collection-classes)
   - [Using .make, #create, and #update for Classic API objects](#using-make-create-and-update-for-classic-api-objects)
   - [JSS::CONFIG](#jssconfig)
   - [Jamf::Connection instance methods #next_refresh, #secs_to_refresh, &  #time_to_refresh](#jamfconnection-instance-methods-next_refresh-secs_to_refresh---time_to_refresh)
@@ -384,11 +384,11 @@ Or when you try to set the value of an extension attribute on a Computer object,
 
 This validation happens before you try to send the new data to the server.
 
-This type of pre-validation will be removed over time from objects in the Classic API, for 3 reasons:
+This type of pre-validation will not be use when using the Jamf Pro API, for 3 reasons:
 
 1) The API itself will perform this validation when you send the data, and will return an error if there's a problem.
 2) Removing this validation will simplify the code, and reduce interdependency between objects
-3) Removing this code will make it easier to understand the permissions needed to do things in ruby-jss
+3) Removing this code will make it easier to understand the permissions needed to do things in ruby-jss, removing 'hidden permissions requirements' when interacting with class-specific API endpoints.
 
 The last point is very important.  Right now, in order to be able to manipulate the scope of any scopable object, the account with which you're accessing the API must have at least 'read' permission on all the different kinds of objects that _might_ be in the scope: computers, computer groups, buildings, departments, network segments, and so on. Removing or limiting the validation-based interdependency will make it easier to limit the access needed for API service accounts, and thereby increase overall security.
 
