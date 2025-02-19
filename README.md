@@ -37,7 +37,7 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
 
 - [Version 2.0.0 has been released](#version-200-has-been-released)
   - [Highlights](#highlights)
-- [_IMPORTANT_: Known Security Issue in v1.5.3 and below](#_important_-known-security-issue-in-v153-and-below)
+- [IMPORTANT: Known Security Issue in v1.5.3 and below](#important-known-security-issue-in-v153-and-below)
 - [DESCRIPTION](#description)
 - [SYNOPSIS](#synopsis)
 - [USAGE](#usage)
@@ -479,7 +479,7 @@ Full documentation is available at [rubydoc.info](http://www.rubydoc.info/gems/r
 
 There's a [wiki on the github page](https://github.com/PixarAnimationStudios/ruby-jss/wiki), feel free to contribute examples and tidbits.
 
-If you have questions or feedback about ruby-jss, please reach out  to us via:
+If you have questions or feedback about ruby-jss, please reach out to us via:
 - [Open an issue on github](https://github.com/PixarAnimationStudios/ruby-jss/issues)
 - [Email the developers at ruby-jss@pixar.com](mailto:ruby-jss@pixar.com)
 - Join the conversation in the [#ruby-jss Macadmins Slack Channel](https://macadmins.slack.com/archives/C03C7F563MK)
