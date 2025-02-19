@@ -124,6 +124,7 @@ module Jamf
       vars.delete :@cnx
       vars
     end
+    private :pretty_print_instance_variables
 
     # TODO: error handling
     def save
