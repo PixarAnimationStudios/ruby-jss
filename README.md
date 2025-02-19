@@ -1,24 +1,6 @@
 # ruby-jss: Working with the Jamf Pro APIs in Ruby
 [![Gem Version](https://badge.fury.io/rb/ruby-jss.svg)](http://badge.fury.io/rb/ruby-jss)
 
-## Version 2.0.0 has been released
-
-Version 2.0.0 has major changes! While we've strived for _mostly_ being backward compatible, and have done lots of testing, YMMV.  Please report any issues.
-
-_NOTE_: ruby-jss 2.0 is not completely backward compatible, please see  [README-2.0.0.md](README-2.0.0.md) for more info
-
-### Highlights
-
-- Support for Ruby 3.x
-  - tested in 3.0 and 3.1
-- Combined access to both the Classic and Jamf Pro APIs
-  - A single namespace module
-  - Connection objects talk to both APIs & automatically handle details like bearer tokens
-- Auto-generated code for Jamf Pro API objects
-- Autoloading of code using [Zeitwerk](https://github.com/fxn/zeitwerk)
-
-For details about the changes, the document [README-2.0.0.md](README-2.0.0.md).
-
 ## _IMPORTANT_: Known Security Issue in v1.5.3 and below
 
 Versions of ruby-jss prior to 1.6.0 contain a known security issue due to how we were using the 'plist' gem.
@@ -35,8 +17,6 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
 
 <!-- TOC -->
 
-- [Version 2.0.0 has been released](#version-200-has-been-released)
-  - [Highlights](#highlights)
 - [IMPORTANT: Known Security Issue in v1.5.3 and below](#important-known-security-issue-in-v153-and-below)
 - [DESCRIPTION](#description)
 - [SYNOPSIS](#synopsis)
@@ -64,7 +44,7 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
 
 ## DESCRIPTION
 
-ruby-jss defines a Ruby module called `Jamf`, which is used for accessing the 'Classic' and
+ruby-jss defines a Ruby module called `Jamf`, which is used for accessing both the 'Classic' and
 'Jamf Pro' APIs of a Jamf Pro server. Jamf Pro is an enterprise-level management tool for Apple
 devices from [Jamf.com](http://www.jamf.com/). ruby-jss is available as a [ruby gem](https://rubygems.org/gems/ruby-jss), and the
 [source is on github](https://github.com/PixarAnimationStudios/ruby-jss).
@@ -74,16 +54,17 @@ Details like authentication tokens, token refreshing, JSON and XML parsing, and 
 which API are all handled under-the-hood.
 
 The Jamf module abstracts many API resources as Ruby objects, and provides methods for interacting with those
-resources. It also provides some features that aren't a part of the API itself, but come with other
-Jamf-related tools, such as uploading {Jamf::Package} files to the primary fileshare distribution
-point, and the installation of those objects on client machines. (See [BEYOND THE API](#beyond-the-api))
+resources. It can also provide some features that aren't a part of the API itself, but come with other
+Jamf-related tools.
 
 The Jamf module is not a complete implementation of the Jamf Pro APIs. Only some objects are modeled,
 some only minimally. Of those, some are read-only, some partially writable, some fully read-write.
 We've implemented the things we need in our environment, and as our needs grow, we'll add more.
 Hopefully others will find it useful, and add more to it as well.
 
-[Full technical documentation can be found here.](http://www.rubydoc.info/gems/ruby-jss/)
+For some of the major changes that happened with the release of v2.0.0, see [README-2.0.0](README-2.0.0.md)
+
+[Full technical documentation can be found at rubydoc.info](http://www.rubydoc.info/gems/ruby-jss/)
 
 ## SYNOPSIS
 
@@ -172,6 +153,8 @@ server connection parameters in a simple config file.
 Most of the time, you'll only need a single connection to a single server, and the default connection will be sufficient. However
 you can also create multiple Connection objects, to different servers, or perhaps the same server with different credentials and
 access, and pass those connection objects into methods using the `cnx:` parameter as appropriate.
+
+This is especially important when creating tools that use threads or fibers to perform different tasks concurrently. In such cases the default connection should never be used, and every task should use its own connection object, preferably closing it when done.
 
 ```ruby
 # Make connections to 2 different Jamf servers.
