@@ -15,15 +15,39 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
-## \[Unreleased]
+## \[4.2.0] Unreleased
 
-### Changed
-  - Jamf::Package is now fully migrated to the Jamf Pro API, which allows use of the new `#uploa`d method and `#manifest` rw-attribute.
+### Moving forward with the Jamf Pro API
+With this release, we begin the long process of porting existing classes from the Classic API to the Jamf Pro API where possible, starting with `Jamf::Package`. So far, our implementation of classes from the Jamf Pro API has been limited to those not already implemented via the Classic API.
+
+However, because of our stated goals for implementing things in the Jamf Pro API (see [README-2.0.0.md](README-2.0.0.md)), we can't just change the existing classes without breaking lots of code. For example, in order to eliminate various 'hidden permissions requirements' and adhere more closely to the actual API, we're [eliminating cross-object validation](README-2.0.0.md#cross-object-validation-in-setters). 
+
+For Packages, this means that when setting the categoryId, you must provide an id, not a category name. In Jamf::Package, using the Classic API, you could provide a name, and ruby-jss would look at the categories in the API and validate/convert to and id. This required 'undocumented' permissions to see the category endpoints when working with the package endpoints.
+
+In order to move forward with Jamf Pro-based classes, while providing reasonable backward compatibility, here's the plan:
+
+  - For each class being migrated, and new class, prepended with `J` will be created.  So for accessing packages via the Jamf Pro API, we are introducing the class `Jamf::JPackage`. We've had an experimental  Jamf Pro version of Jamf::JpBuilding for a while, and it has been renamed to `Jamf::JBuilding` 
+  - The original Classic API-based class will be marked as deprecated when the matching J-class is released.
+  - The deprecated classes will exist for at least one year (probably longer) but will get few, if any, updates, mostly limited to security-related fixes. As of this release, `Jamf::Package` and `Jamf::Building` are deprecated. 
+  - During the deprecation period, please update all your code to use the new Jamf Pro API-based classes.
+  - When the older Classic API-based class is actually removed, the remaning Jamf Pro API-based class will be aliased back to the original name, without the `J`. So at that point `Jamf::Package` and `Jamf::JPackage` will be the same class. At this time please start updating your code to use the non-J version of the class name.
+  - After some long-ish period of time (2-5 years?), the `J` version of the class name will be removed. Or - maybe not! Aliases are cheap :-)
+
+If you have thoughts or comments on this, please reach out:
+  - [Open an issue on github](https://github.com/PixarAnimationStudios/ruby-jss/issues)
+  - [Email the developers at ruby-jss@pixar.com](mailto:ruby-jss@pixar.com)
+  - Join the conversation in the [#ruby-jss Macadmins Slack Channel](https://macadmins.slack.com/archives/C03C7F563MK)
 
 ### Added
-  - `Jamf::Package#upload`
+  - `Jamf::JPackage`: The first major migration of a class from the Classic to the Jamf Pro API.
+    - Implements the /v1/packages endpoints
+    - Support for manifests
+    - Support for uploads to the /v1/packages/{id}/upload endpoint via the `#upload` method
+    - Implements the /v1/deploy-package endpoint via the `#deploy_via_mdm` instance method.
+  
 
-  - Getter and setter for `Jamf::Package#manifest`
+### Changed
+  - `Jamf::JpBuilding` is now known as `Jamf::JBuilding`
 
 ### Fixed
   - [Github issue #102](https://github.com/PixarAnimationStudios/ruby-jss/issues/102): Apply redundant boolean value to indicate that a MobileDeviceApplication is/is not in Self Service. Thanks @carolinebeauchamp!
@@ -43,11 +67,13 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
   - Fix to ensure passing correct connection object when fetching.
 
 ### Deprecated
+  - `Jamf::Package` and `Jamf::Building` are now deprecated amd will be removed in a future release. Please update your code to use `Jamf::JBuilding` and `Jamf::JPackage`
+
   - Auto-generated OAPISchemas are no longer used _directly_. There's still too much inconsistency and other problems that arise from using them as we were. See the NOTE from the previous release. 
 
-    For the forseeable future we'll keep the overall structure of the class/mixin hierarchy, and will probably use the auto-generated classes for reference, but as new classes are added to ruby-jss via the Jamf Pro API, the `OAPISchemas` classes will be hand-crafted and hand-maintained as needed, just like APIObject classes always have been for objects in the Classic API. 
+    For the forseeable future we'll keep the overall structure of the class/mixin hierarchy, and will probably use the auto-generated classes for reference, but as new classes are added to ruby-jss via the Jamf Pro API, the `OAPISchemas` classes will be hand-tweaked and hand-maintained as needed, just like APIObject classes always have been for objects in the Classic API. 
 
-    To start with, we're keeping the ones currently in use (about 40 of them) where they've always lived, in the `lib/jamf/api/jamf_pro/oapi_schemas` directory, and the new bespoke ones will go there also. The other ~550 unused classes will be removed from ruby-jss.  
+    To start with, we're keeping the ones currently in use (about 40 of them) where they've always lived, in the `lib/jamf/api/jamf_pro/oapi_schemas` directory, and the new bespoke ones will go there also. The other ~550 unused auto-generated classes will be removed from ruby-jss.  
     
     For details about how the've been auto-generated, see the `generate_object_models` tool in the bin directory.
 
@@ -66,7 +92,6 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
   - A bug in Jamf::PatchTitle which prevented use of non-default connection objects.
   
   - Some ObjectModel classes from the OAPI3 schema were not getting generated, causing problems when using Zeitwerk's `eager_load`. Thanks to @j-o-lantern0422 and @jcruce13 for reporting the issue, and @nick-f for providing a fix!
-
     
     NOTE: Given the nature of this issue, along with known inconsistencies in the data structures and naming of items in the OAPI3 schema, plus the fact that we're starting to migrate to the JP API for more complex object handling (e.g. `Jamf::MobileDevice`)  we're probably going to stop using the auto-generated `Jamf::OAPISchemas` classes - at least in the way we have been using them. Most likely we'll still generate them, but then hand-edit them to create more robust, bespoke classes for the items we implement (as we did in the Classic API), and only include those required for the objects implemented. These changes shouldn't affect compatibility. Feedback is welcome, via GitHub or The [#ruby-jss channel in Macadmins Slack](https://macadmins.slack.com/archives/C03C7F563MK) 
 
