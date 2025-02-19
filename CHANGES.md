@@ -22,7 +22,7 @@ With this release, we begin the long process of porting existing classes from th
 
 However, because of our stated goals for implementing things in the Jamf Pro API (see [README-2.0.0.md](README-2.0.0.md)), we can't just change the existing classes without breaking lots of code. For example, in order to eliminate various 'hidden permissions requirements' and adhere more closely to the actual API, we're [eliminating cross-object validation](README-2.0.0.md#cross-object-validation-in-setters). 
 
-For Packages, this means that when setting the categoryId, you must provide an id, not a category name. In Jamf::Package, using the Classic API, you could provide a name, and ruby-jss would look at the categories in the API and validate/convert to and id. This required 'undocumented' permissions to see the category endpoints when working with the package endpoints.
+For Packages, this means that when setting the categoryId, you must provide an id, not a category name. In Jamf::Package, using the Classic API, you could provide a name, and ruby-jss would look at the categories in the API and validate/convert to an id. This required 'undocumented' permissions to see the category endpoints when working with the package endpoints. NOTE: if you have read-permissions on categories, you can still use the `Jamf::Category.valid_id` method to convert from names to ids yourself. That method is available for all collection classes in both APIs.
 
 In order to move forward with Jamf Pro-based classes, while providing reasonable backward compatibility, here's the plan:
 
@@ -43,9 +43,12 @@ If you have thoughts or comments on this, please reach out:
     - Implements the /v1/packages endpoints
     - Support for manifests
     - Support for uploads to the /v1/packages/{id}/upload endpoint via the `#upload` method
-    - Implements the /v1/deploy-package endpoint via the `#deploy_via_mdm` instance method.
+    - Implements the /v1/deploy-package endpoint via the `#deploy_via_mdm` instance method. For this to work:
+      - The endpoint must be enabled - contact Jamf Support.
+      - The package must have a manifest
+      - The .pkg file must be a "Product Archive", e.g. it must contain a 'Distribution' file, as when created with the `productbuild` command. Component packages created with `pkgbuild` will not work.
+      - The .pkg file must be signed.
   
-
 ### Changed
   - `Jamf::JpBuilding` is now known as `Jamf::JBuilding`
 
