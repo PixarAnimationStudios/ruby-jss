@@ -31,6 +31,9 @@ module Jamf
   # Classes
   #####################################
 
+  # @deprecated Use {Jamf::JPackage} instead.
+  # This class will be removed in a future release.
+  #
   # A Package in the JSS
   #
   # Also the API provides no access to the package's

@@ -38,6 +38,8 @@ module Jamf
   # A Building in the JSS.
   # These are simple, in that they only have an ID and a name.
   #
+  # @deprecated Use {Jamf::JBuiding} instead. This class will be removed in a future release.
+  #
   # @see Jamf::APIObject
   #
   # For accessing buildings via the Jamf Pro API, see {Jamf::JBuiding}, which
