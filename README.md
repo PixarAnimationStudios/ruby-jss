@@ -30,6 +30,7 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
     - [Updating Objects](#updating-objects)
     - [Deleting Objects](#deleting-objects)
 - [OBJECTS IMPLEMENTED](#objects-implemented)
+    - [Migrating classes from the Classic to the Jamf Pro API](#migrating-classes-from-the-classic-to-the-jamf-pro-api)
     - [Other useful classes & modules:](#other-useful-classes--modules)
 - [Object-related API endpoints](#object-related-api-endpoints)
 - [CONFIGURATION](#configuration)
@@ -299,27 +300,34 @@ Here's some of what we've implemented so far. See each Class's [documentation(ht
 * {Jamf::AdvancedComputerSearch}
 * {Jamf::AdvancedMobileDeviceSearch}
 * {Jamf::AdvancedUserSearch}
-* {Jamf::Building}
+* {Jamf::APIClient}
+* {Jamf::APIRole}
+* {Jamf::Building} (Classic, deprecated), {Jamf::JBuilding} (Jamf Pro)
 * {Jamf::Category}
 * {Jamf::Computer}
 * {Jamf::ComputerExtensionAttribute}
 * {Jamf::ComputerGroup}
 * {Jamf::ComputerInvitation}
+* {Jamf::ComputerPrestage}
 * {Jamf::Department}
+* {Jamf::DeviceEnrollment}
 * {Jamf::DistributionPoint}
 * {Jamf::DockItem}
 * {Jamf::EBook}
 * {Jamf::IBeacon}
+* {Jamf::InventoryPreloadRecord}
 * {Jamf::LdapServer}
+* {Jamf::MacApplication}
 * {Jamf::MobileDevice}
 * {Jamf::MobileDeviceApplication}
 * {Jamf::MobileDeviceConfigurationProfile}
 * {Jamf::MobileDeviceExtensionAttribute}
 * {Jamf::MobileDeviceGroup}
+* {Jamf::MobileDevicePrestage}
 * {Jamf::NetBootServer}
 * {Jamf::NetworkSegment}
 * {Jamf::OSXConfigurationProfile}
-* {Jamf::Package}
+* {Jamf::Package} (Classic, deprecated), {Jamf::JPackage} (Jamf Pro)
 * {Jamf::PatchTitle}
 * {Jamf::PatchTitle::Version}
 * {Jamf::PatchExternalSource}
@@ -327,7 +335,8 @@ Here's some of what we've implemented so far. See each Class's [documentation(ht
 * {Jamf::PatchPolicy}
 * {Jamf::Peripheral}
 * {Jamf::PeripheralType}
-* {Jamf::Policy} (not fully implemented)
+* {Jamf::Policy} 
+* {Jamf::Printer} 
 * {Jamf::RemovableMacAddress}
 * {Jamf::RestrictedSoftware}
 * {Jamf::Script}
@@ -336,9 +345,27 @@ Here's some of what we've implemented so far. See each Class's [documentation(ht
 * {Jamf::User}
 * {Jamf::UserExtensionAttribute}
 * {Jamf::UserGroup}
+* {Jamf::VPPAccount}
 * {Jamf::WebHook}
 
 **NOTE** Most Computer and MobileDevice data gathered by an Inventory Upate (a.k.a. 'recon') is not editable.
+
+#### Migrating classes from the Classic to the Jamf Pro API
+
+With the release of version 4.2.0, we begin the long process of porting existing classes from the Classic API to the Jamf Pro API where possible, starting with `Jamf::Package`. Before that, our implementation of classes from the Jamf Pro API has been limited to those not already implemented via the Classic API, such as `Jamf::InventoryPreloadRecord`.
+
+However, because of our stated goals for implementing things in the Jamf Pro API (see [README-2.0.0.md](README-2.0.0.md)), we can't just change the existing classes without breaking lots of code. For example, in order to eliminate various 'hidden permissions requirements' and adhere more closely to the actual API, we're [eliminating cross-object validation](README-2.0.0.md#cross-object-validation-in-setters). 
+
+For example, for Packages this means that when setting the categoryId, you must provide an id, not a category name. In Jamf::Package, using the Classic API, you could provide a name, and behind-the-scenes ruby-jss would look at the categories in the API and validate/convert to an id. This required 'undocumented' read-permissions to the categories when working with packages. NOTE: if you do have read-permissions on categories, you can still use the `Jamf::Category.valid_id` method to convert from names to ids yourself. That method is available for all collection classes in both APIs.
+
+In order to move forward with Jamf Pro-based classes, while providing reasonable backward compatibility, here's the plan:
+
+  - For each class being migrated, and new class, prepended with `J` will be created.  So for accessing packages via the Jamf Pro API, we are introducing the class `Jamf::JPackage`.
+  - The original Classic API-based class will be marked as deprecated when the matching J-class is released.
+  - The deprecated classes will exist for at least one year (probably longer) but will get few, if any, updates, mostly limited to security-related fixes.
+  - During the deprecation period, please update all your code to use the new Jamf Pro API-based classes.
+  - When the older Classic API-based class is actually removed, the remaning Jamf Pro API-based class will be aliased back to the original name, without the `J`. So at that point `Jamf::Package` and `Jamf::JPackage` will be the same class. At this time please start updating your code to use the non-J version of the class name.
+  - After some long-ish period of time (2-5 years?), the `J` version of the class name will be removed. Or - maybe not! Aliases are cheap :-)
 
 #### Other useful classes & modules:
 
@@ -350,7 +377,7 @@ These modules either provide stand-alone methods, or are mixed in to other class
 
 * {Jamf::Scopable} - a module that handles Scope for those objects that can be scoped. It defines the Scope class used in those objects. Instances of Scope are where you change targets, limitations, and exclusions.
 
-* {Jamf::MDM} - a module that handles sending MDM commands. It is accessed via the Computer and MobileDevice classes and their instances.
+* {Jamf::MDM} - a module that handles sending MDM commands via the Classic API. It is accessed via the Computer and MobileDevice classes and their instances.
 
 ## Object-related API endpoints
 
@@ -381,10 +408,13 @@ The currently known attributes are:
 
 * api_server_name [String] the hostname of the Jamf API server
 * api_server_port [Integer] the port number for the API connection
-* api_verify_cert [Boolean] 'true' or 'false' - if SSL is used, should the certificate be verified? (usually false for a self-signed cert)
+# api_ssl_version [String] the SSL version to use for the connection. Default is TLSv1_2
+* api_verify_cert [Boolean] if SSL is used, should the certificate be verified? (usually false for a self-signed cert)
 * api_username [String] the Jamf username for connecting to the API
 * api_timeout_open [Integer] the number of seconds for the open-connection timeout
 * api_timeout [Integer] the number of seconds for the response timeout
+* package_manifest_base_url [String] Used by JPackage#generate_manifest. 
+  The base-url for downloading a package for installation. The JPackage#fileName is appended to this to create the full URL.
 
 To put a standard server & username on all client machines, and auto-accept the Jamf's self-signed https certificate, create the file /etc/ruby-jss.conf containing three lines like this:
 
