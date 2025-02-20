@@ -400,13 +400,16 @@ module Jamf
     def manifest=(new_manifest)
       # if its a string but not an xml plist, assume its a path
       new_manifest = Pathname.new(new_manifest) if new_manifest.is_a?(String) && !new_manifest.start_with?('<?xml')
+      orig_manifest = manifest
 
       if new_manifest.is_a? Pathname
-        self.manifest = new_manifest.read
+        note_unsaved_change :manifest, orig_manifest
+        @manifest = new_manifest.read
         self.manifestFileName = manifest.basename.to_s
 
       elsif new_manifest.is_a? String
-        self.manifest = new_manifest
+        note_unsaved_change :manifest, orig_manifest
+        @manifest = new_manifest
         self.manifestFileName ||= default_manifestFileName
 
       else
@@ -482,10 +485,12 @@ module Jamf
       validate_local_file(file)
 
       filesize = file.size
-      url = parse_manifest_url opts[:url], append_filename: opts[:append_filename_to_url]
 
       # make the manifest
       new_manifest = MANIFEST_PLIST_TEMPLATE.dup
+
+      url = parse_manifest_url opts[:url], append_filename: opts[:append_filename_to_url]
+
       new_manifest[:items][0][:assets][0]['url'] = url.to_s
 
       # get the checksum(s)
@@ -669,8 +674,8 @@ module Jamf
       # recalulate the checksum unless told no to
       recalculate_checksum(file) unless opts[:update_checksum] == false
 
-      # generate a manifest if needed
-      generate_manifest file, **opts unless opts[:update_manifest] == false
+      # generate a manifest using the new fileName
+      generate_manifest(file, **opts) unless opts[:update_manifest] == false
 
       # save the new checksum and manifest
       save
