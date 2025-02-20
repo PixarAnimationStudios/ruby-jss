@@ -409,19 +409,19 @@ module Jamf
       new_manifest = Pathname.new(new_manifest) if new_manifest.is_a?(String) && !new_manifest.start_with?('<?xml')
       orig_manifest = manifest
 
-      if new_manifest.is_a? Pathname
-        note_unsaved_change :manifest, orig_manifest
-        @manifest = new_manifest.read
-        self.manifestFileName = manifest.basename.to_s
+      new_xml =
+        if new_manifest.is_a? Pathname
+          new_manifest.read
 
-      elsif new_manifest.is_a? String
-        note_unsaved_change :manifest, orig_manifest
-        @manifest = new_manifest
-        self.manifestFileName ||= default_manifestFileName
+        elsif new_manifest.is_a? String
+          new_manifest
 
-      else
-        raise ArgumentError, 'Argument must be a Pathname, or a String containing a path or an XML plist'
-      end
+        else
+          raise ArgumentError, 'Argument must be a Pathname, or a String containing a path or an XML plist'
+        end
+
+      @manifest = new_xml
+      note_unsaved_change :manifest, orig_manifest
     end
 
     # return the manifest as a ruby hash converted from the plist
@@ -496,7 +496,7 @@ module Jamf
       # make the manifest
       new_manifest = MANIFEST_PLIST_TEMPLATE.dup
 
-      url = parse_manifest_url opts[:url], append_filename: opts[:append_filename_to_url]
+      url = build_manifest_url opts[:url], append_filename: opts[:append_filename_to_url]
 
       new_manifest[:items][0][:assets][0]['url'] = url.to_s
 
@@ -528,7 +528,7 @@ module Jamf
 
       plist = CFPropertyList::List.new
       plist.value = CFPropertyList.guess(new_manifest)
-      self.manifest = plist.to_str CFPropertyList::List::FORMAT_XML, formatted: true
+      self.manifest = plist.to_str(CFPropertyList::List::FORMAT_XML, formatted: true)
       self.manifestFileName = default_manifestFileName
     end
 
@@ -551,7 +551,7 @@ module Jamf
     #
     # @return [URI] the URI object for the URL
     ##############################
-    def parse_manifest_url(given_url = nil, append_filename: true)
+    def build_manifest_url(given_url = nil, append_filename: true)
       url = given_url || self.class.default_manifest_base_url
       raise ArgumentError, 'No URL provided for manifest' unless url
 
