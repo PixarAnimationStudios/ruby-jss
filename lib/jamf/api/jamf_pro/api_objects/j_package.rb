@@ -337,9 +337,34 @@ module Jamf
     #####################################
 
     # @return [Pathname] the local receipt when this pkg is installed by a policy
+    #############################
     def receipt
       # the receipt is the filename with any .zip extension removed.
       fileName ? (Jamf::Client::RECEIPTS_FOLDER + fileName.to_s.sub(/.zip$/, '')) : nil
+    end
+
+    # Change the os_requirements field in the JSS
+    # E.g. 10.5, 10.5.3, 10.6.x
+    #
+    # Extra feature: Minumum OS's can now be specified as a
+    # string using the notation ">=10.6.7".
+    #
+    # @see Jamf.expand_min_os
+    #
+    # @param new_val [String,Array<String>] comma-separated string, or array of os versions
+    #
+    # @return [void]
+    #############################
+    def osRequirements=(new_val)
+      # make sure we have an array
+      new_val = [new_val].flatten.compact.uniq.map(&:to_s)
+      new_val.map! do |vers|
+        vers.start_with?('>=') ? Jamf.expand_min_os(vers) : vers
+      end
+
+      orig_osRequirements = osRequirements
+      @osRequirements = new_val.join(', ')
+      note_unsaved_change :osRequirements, orig_osRequirements
     end
 
     # Recalculate the checksum of the package file from a given filepath, and update the
