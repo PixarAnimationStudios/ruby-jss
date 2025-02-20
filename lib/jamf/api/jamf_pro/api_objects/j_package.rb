@@ -244,18 +244,22 @@ module Jamf
     #####################################
 
     # Checksums
+    #
     # Packages in Jamf Pro can have a checksum in either MD5 or SHA512, or possibly
     # SHA256 - none of our 1500 pkgs have 256, but given the existence of the sha256
     # attribute in the API data, I'm assuming it existed at some point, and behaves like
     # md5 (read on)
     #
-    # In all cases, the hashType indicates the type of checksum, as a string, one of
-    # 'MD5', 'SHA_256', or 'SHA_512'.
+    # In all cases, the hashType attribute indicates the type of checksum, as a string,
+    # one of 'MD5', 'SHA_256', or 'SHA_512'.
     #
-    # In the case of md5 and sha256, the actually digest value (the checksum) is in the
+    # In the case of md5 and sha256, the actual digest value (the checksum) is in the
     # 'md5' or 'sha256' attribute. In the case of sha512, the digest is in the 'hashValue'
     # attribute.
-    # In anycase, the digest value will be stored in the checksum attribute of this class
+    # In anycase, the digest value will also be stored in the checksum attribute
+    #
+    # NOTE: This is the checksum used when installing via a Policy.
+    # The checksum(s) used when deploying via MDM is stored in the manifest.
     #
     # @return [String] the checksum of the package, either an MD5, SHA256, or SHA512
     #   digest of the package file.
@@ -340,6 +344,9 @@ module Jamf
 
     # Recalculate the checksum of the package file from a given filepath, and update the
     # object's checksum and hashValue attributes.
+    #
+    # NOTE: This updates the checksum used when installing via a Policy.
+    # The checksum(s) used when deploying via MDM is stored in the manifest.
     #
     # You will need to call #save on the object to save the new checksum to the server.
     #
@@ -600,7 +607,7 @@ module Jamf
     end
     private :append_manifest_image
 
-    # Upload a package file to Jamf Pro for this package object.
+    # Upload a package file to Jamf Pro.
     #
     # WARNING: This will automatically call #save, saving any pending changes to
     # the Jamf Pro server!
@@ -627,9 +634,14 @@ module Jamf
     #
     # @option opts :update_checksum [Boolean] update the checksum of the package in Jamf Pro.
     #   Defaults to true. All new checksums are SHA_512.
+    #   WARNING: If you set this to false, the checksum in the object will not be updated
+    #   and installs may fail. Be sure to set it to the correct value yourself.
     #
     # @option opts :update_manifest [Boolean] update the manifest of the package in Jamf Pro
     #   Defaults to true.
+    #   WARNING: If you set this to false, the manifest in the object will not be updated
+    #   and PreStage & MDM deployments may fail. Be sure to set it to the correct value
+    #   using #generate_manifest or #manifest= yourself.
     #
     # @options opts url [String] the URL where the package will be downloaded from,
     #   defaults to the class default
