@@ -22,7 +22,7 @@ With this release, we begin the long process of porting existing classes from th
 
 However, because of our stated goals for implementing things in the Jamf Pro API (see [README-2.0.0.md](README-2.0.0.md)), we can't just change the existing classes without breaking lots of code. For example, in order to eliminate various 'hidden permissions requirements' and adhere more closely to the actual API, we're [eliminating cross-object validation](README-2.0.0.md#cross-object-validation-in-setters). 
 
-For Packages, this means that when setting the categoryId, you must provide an id, not a category name. In Jamf::Package, using the Classic API, you could provide a name, and ruby-jss would look at the categories in the API and validate/convert to an id. This required 'undocumented' permissions to see the category endpoints when working with the package endpoints. NOTE: if you have read-permissions on categories, you can still use the `Jamf::Category.valid_id` method to convert from names to ids yourself. That method is available for all collection classes in both APIs.
+For Packages, this means that when setting the categoryId, you must provide an id, not a category name. In the existing `Jamf::Package`, using the Classic API, you could provide a name, and ruby-jss would look at the categories in the API and validate/convert to an id. This required 'undocumented' permissions to see the category endpoints when working with the package endpoints. NOTE: if you have read-permissions on categories, you can still use the `Jamf::Category.valid_id` method to convert from names to ids yourself. That method is available for all collection classes in both APIs.
 
 In order to move forward with Jamf Pro-based classes, while providing reasonable backward compatibility, here's the plan:
 
@@ -30,12 +30,12 @@ In order to move forward with Jamf Pro-based classes, while providing reasonable
   - The original Classic API-based class will be marked as deprecated when the matching J-class is released.
   - The deprecated classes will exist for at least one year (probably longer) but will get few, if any, updates, mostly limited to security-related fixes. As of this release, `Jamf::Package` and `Jamf::Building` are deprecated. 
   - During the deprecation period, please update all your code to use the new Jamf Pro API-based classes.
-  - When the older Classic API-based class is actually removed, the remaning Jamf Pro API-based class will be aliased back to the original name, without the `J`. So at that point `Jamf::Package` and `Jamf::JPackage` will be the same class. At this time please start updating your code to use the non-J version of the class name.
+  - When the older Classic API-based class is actually removed, the remaining Jamf Pro API-based class will be aliased back to the original name, without the `J`. So at that point `Jamf::Package` and `Jamf::JPackage` will be the same class. At this time please start updating your code to use the non-J version of the class name.
   - After some long-ish period of time (2-5 years?), the `J` version of the class name will be removed. Or - maybe not! Aliases are cheap :-)
 
 If you have thoughts or comments on this, please reach out:
   - [Open an issue on github](https://github.com/PixarAnimationStudios/ruby-jss/issues)
-  - [Email the developers at ruby-jss@pixar.com](mailto:ruby-jss@pixar.com)
+  - [Email us at ruby-jss@pixar.com](mailto:ruby-jss@pixar.com)
   - Join the conversation in the [#ruby-jss Macadmins Slack Channel](https://macadmins.slack.com/archives/C03C7F563MK)
 
 ### Added

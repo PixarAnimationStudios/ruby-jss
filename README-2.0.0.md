@@ -76,7 +76,7 @@ The announcement with Jamf Pro 10.35 that the Classic API can use, and will even
 
 #### A single Connection class
 
-There is now one `Jamf::Connection` class, instances of which are connections to a Jamf Pro server. Once connected, the connection instance maintains connections to _both_ APIs and other classes use them as needed. As before, there are low-level methods available for sending HTTP requests manually, which are specific to each API. See the documentation for `Jamf::Connection` (link TBA) for details.
+There is now one `Jamf::Connection` class, instances of which are connections to a Jamf Pro server. Once connected, the connection instance maintains connections to _both_ APIs and other classes use them as needed. As before, there are low-level methods available for sending HTTP requests manually, which are specific to each API. See the documentation for [Jamf::Connection](https://www.rubydoc.info/gems/ruby-jss/Jamf/Connection) for details.
 
 ##### Connecting to the API
 
@@ -91,7 +91,7 @@ Other connection parameters can be passed in as normal.
 
 ###### The default connection
 
-The top-level module methods for accessing the 'default' connection are still available and are now synonyms: `Jamf.cnx` and `JSS.api` both return the current default Jamf::Connection instance. There is also a top-level methods`Jamf.connect` which is the same as `Jamf.cnx.connect`. The top-level methods for changing the default connection are still there. 
+The top-level module methods for accessing the 'default' connection are still available and are now synonyms: `Jamf.cnx` and `JSS.api` both return the current default Jamf::Connection instance. There is also a top-level method`Jamf.connect` which is the same as `Jamf.cnx.connect`. The top-level methods for changing the default connection are still there. 
 
 NOTE: The use of `JSS::API` has been deprecated for years now, and still is (see below).
 
@@ -118,6 +118,13 @@ The `.all` method, and its relatives like `.all_ids`, `.all_names`, etc. exist f
 To confirm which API a class comes from, just look at its `API_SOURCE` constant, e.g. `Jamf::Computer::API_SOURCE`. This constant will return a symbol, either `:classic` or `:jamf_pro`
 
 ### Automatic code generation
+---
+**UPDATE** 
+
+As of version 4.2.0, the auto-generated class definitions will only be used as a starting point for more bespoke, hand-maintained classes. This is due to ongoing inconsistencies across the Jamf Pro API, and occasional name-clashes.
+See the Deprecations section for version 4.2.0 in the [CHANGES](CHANGES.md) file for a longer explaination.
+
+---
 
 While the Classic API classes in ruby-jss are very hand-built and must be manually edited to add access to new data, the Jamf Pro API has an OpenAPI3 specification - a JSON document that fully describes the entire API and what it can do.
 
@@ -133,7 +140,7 @@ If you develop ruby-jss, please see (documentation link will go here) for more i
 
 ### Autoloading with Zeitwerk
 
-Because the classes generated from the OAPI spec number in the hundreds, it's a waste of memory and time to load all of them in every time you `require 'ruby-jss'`, since most of them will never be used for any given application.
+Because ruby-jss implements so many classes and modules, it's a waste of memory and time to load all of them in every time you `require 'ruby-jss'`, since most of them will never be used for any given application.
 
 To deal with this, ruby-jss now uses the wonderfully cool [Zeitwerk gem](https://github.com/fxn/zeitwerk) to automatically load only the files needed for classes and modules as they are used.
 
@@ -172,7 +179,11 @@ The `.all` method will never deliver paged results, however if you give it a `fi
 
 ### API data are no longer cached (?)
 
-**NOTE:** As of this writing, caching has been removed for the objects from the Jamf Pro API, but caching remains in the Classic API. Its removal, or the re-instatement of caching for JP API objects, are pending discussion with other users of ruby-jss.
+---
+**NOTE:** 
+Caching has been removed for the objects from the Jamf Pro API, but remains for those from the Classic API. The re-instatement of caching for JP API objects is pending discussion with other users of ruby-jss.
+
+---
 
 Pre-2.0, methods that would fetch large datasets from the server would always cache that data in the Connection object, and by default use the cache in future calls unless a `refresh` parameter is given. These datasets included:
 
@@ -274,7 +285,7 @@ Here are the things we are planning on removing or changing in the coming months
 
 In ruby-jss < 2.0, the term `api` is used with the Classic API in method names, method parameters, instance variables, attributes, and constants. It is used to pass, access, refer to, or hold instances of JSS::APIConnnection, e.g. so a method that talks to the server would use the passed connection rather than the module-wide default connection.  
 
-The term 'api' is inappropriate because the thing being passed is a 'connection' not an 'api'. Now that there are actually two APIs at play, that usage is even less appropriate.
+The term 'api' is inappropriate because the thing being referred to is a 'connection' not an 'api'. Now that there are actually two APIs at play, that usage is even less appropriate.
 
 Going forward, use `cnx` (simpler to type than 'connection') instead. Example:
 
