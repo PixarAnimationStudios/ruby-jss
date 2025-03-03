@@ -421,6 +421,7 @@ module Jamf
         return pager(filter: "#{identifier}==\"#{value}\"", page_size: 1, cnx: cnx).page(:first).first if filterable? && filter_keys.include?(identifier)
 
         # otherwise we have to loop thru all the objects looking for the value
+        # which can be slow if there are lots of objects.
         cmp_val = value.to_s
         all(cnx: cnx).each do |data|
           return data if data[identifier].to_s.casecmp? cmp_val
@@ -469,7 +470,16 @@ module Jamf
       #
       ######################################
       def valid_id(searchterm = nil, cnx: Jamf.cnx, **ident_and_val)
-        raw_data(searchterm, cnx: cnx, **ident_and_val)&.dig(:id)
+        data =
+          if ident_and_val
+            ident = ident_and_val.keys.first
+            value = ident_and_val.values.first
+            raw_data(cnx: cnx, ident: ident, value: value)
+          else
+            raw_data(searchterm, cnx: cnx)
+          end
+
+        data&.dig(:id)
       end
 
       # By default, Collection Resources are creatable,
