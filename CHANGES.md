@@ -20,9 +20,9 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
 ### Moving forward with the Jamf Pro API
 With this release, we begin the long process of porting existing classes from the Classic API to the Jamf Pro API where possible, starting with `Jamf::Package`. So far, our implementation of classes from the Jamf Pro API has been limited to those not already implemented via the Classic API.
 
-However, because of our stated goals for implementing things in the Jamf Pro API (see [README-2.0.0.md](README-2.0.0.md)), we can't just change the existing classes without breaking lots of code. For example, in order to eliminate various 'hidden permissions requirements' and adhere more closely to the actual API, we're [eliminating cross-object validation](README-2.0.0.md#cross-object-validation-in-setters). 
+However, because of our stated goals and changes for implementing things in the Jamf Pro API (see [README-2.0.0.md](README-2.0.0.md)), we can't just change the existing classes without breaking lots of code. For example, in order to eliminate various 'hidden permissions requirements' and adhere more closely to the actual API, we're [eliminating cross-object validation](README-2.0.0.md#cross-object-validation-in-setters). 
 
-For Packages, this means that when setting the categoryId, you must provide an id, not a category name. In the existing `Jamf::Package`, using the Classic API, you could provide a name, and ruby-jss would look at the categories in the API and validate/convert to an id. This required 'undocumented' permissions to see the category endpoints when working with the package endpoints. NOTE: if you have read-permissions on categories, you can still use the `Jamf::Category.valid_id` method to convert from names to ids yourself. That method is available for all collection classes in both APIs.
+For Packages this means that when setting the categoryId, for example, you must provide an id, not a category name. In the existing `Jamf::Package` class using the Classic API, you could provide a name, and ruby-jss would look at the categories in the API and validate/convert to an id. This required 'undocumented' permissions to see the category endpoints when working with the package endpoints. NOTE: if you have read-permissions on categories, you can still use the `Jamf::Category.valid_id` method to convert from names to ids yourself. That method is available for all collection classes in both APIs.
 
 In order to move forward with Jamf Pro-based classes, while providing reasonable backward compatibility, here's the plan:
 
@@ -69,14 +69,16 @@ If you have thoughts or comments on this, please reach out:
 
   - Fix to ensure passing correct connection object when fetching.
 
+  - Fix for `CollectionResource.valid_id` for JP API objects, it now works when given an identifier and value, eg `SomeClass.valid_id displayName: 'foobar'`
+
 ### Deprecated
   - `Jamf::Package` and `Jamf::Building` are now deprecated amd will be removed in a future release. Please update your code to use `Jamf::JBuilding` and `Jamf::JPackage`
 
   - Auto-generated OAPISchemas are no longer used _directly_. There's still too much inconsistency and other problems that arise from using them as we were. See the NOTE from the previous release. 
 
-    For the forseeable future we'll keep the overall structure of the class/mixin hierarchy, and will probably use the auto-generated classes for reference, but as new classes are added to ruby-jss via the Jamf Pro API, the `OAPISchemas` classes will be hand-tweaked and hand-maintained as needed, just like APIObject classes always have been for objects in the Classic API. 
+    For the forseeable future we'll keep the overall structure of the class/mixin hierarchy, and will probably use auto-generated classes as a starting point, but as new classes are added to ruby-jss via the Jamf Pro API, the `OAPISchemas` classes will be hand-built and maintained as needed, just like APIObject classes always have been for objects in the Classic API. 
 
-    To start with, we're keeping the ones currently in use (about 40 of them) where they've always lived, in the `lib/jamf/api/jamf_pro/oapi_schemas` directory, and the new bespoke ones will go there also. The other ~550 unused auto-generated classes will be removed from ruby-jss.  
+    To start with, we're keeping the ones currently in use (about 40 of them) where they've always lived, in the `lib/jamf/api/jamf_pro/oapi_schemas` directory, and the new bespoke ones will go there also. The other ~550 unused auto-generated classes have been removed from ruby-jss.  
     
     For details about how the've been auto-generated, see the `generate_object_models` tool in the bin directory.
 
