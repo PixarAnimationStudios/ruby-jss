@@ -128,7 +128,7 @@ module Jamf
     # The hashType value in the API or manifests for md5
     CHECKSUM_HASH_TYPE_MD5 = 'MD5'
 
-    # The hashType value in the API for sha256 - IF it exists
+    # The hashType value in the API for sha256 - IF it exists?
     CHECKSUM_HASH_TYPE_SHA256 = 'SHA_256'
 
     # The hashType value in MDM deploy manifests for sha256
@@ -151,7 +151,15 @@ module Jamf
     # fileName, with spaces converted to dashes.
     MANIFEST_FILENAME_DEFAULT_SUFFIX = '-manifest.plist'
 
-    # Not doing chunking by default in generated manifests
+    # If no manifest bundle identifier is provided, this will be used before
+    # the packageName.
+    MANIFEST_BUNDLE_ID_PREFIX = 'com.pixar.ruby-jss.'
+
+    # if no manifest bundle version is provided, this will be used.
+    MANIFEST_BUNDLE_VERSION_DEFAULT = '0'
+
+    # Not doing chunking by default in generated manifests,
+    # but if we do, we'll use this
     MANIFEST_CHUNK_SIZE = 1024 * 1024 * 10 # 10MB
 
     MANIFEST_PLIST_TEMPLATE = {
@@ -166,10 +174,11 @@ module Jamf
           ], # end assets array,
           metadata: {
             'kind' => 'software',
-            'bundle-identifier' => 'com.example.pkg',
-            'bundle-version' => '0',
+            'bundle-identifier' => "#{MANIFEST_BUNDLE_ID_PREFIX}example",
+            'bundle-version' => MANIFEST_BUNDLE_VERSION_DEFAULT,
             'title' => 'title',
-            'sizeInBytes' => 1
+            'sizeInBytes' => 1,
+            'sha256-whole' => 'sha256-goes-here'
           } # end metadata
         } # end hash
       ] # end items array
@@ -212,8 +221,8 @@ module Jamf
     # for all Jamf::JPackage objects in this ruby session.
     #
     # Setting this in the config or here means you don't have to provide a base URL
-    # each time when calling #generate_manifest, however you can still provide one
-    # at that time to override any default.
+    # each time when calling #generate_manifest or #upload, however you can still provide
+    # one at that time to override any default.
     #
     # Normally, the package's fileName is appended to this URL to generate the full
     # download URL. E.g. for a package with a fileName 'my-app.pkg', with the base URL of
@@ -408,24 +417,36 @@ module Jamf
       "#{fileName.gsub(' ', '-')}#{MANIFEST_FILENAME_DEFAULT_SUFFIX}"
     end
 
-    # Set the manifest from a local file or XML plist string.
-    # If from a file, set the manifestFileName attribute to use the filename
+    # Set the manifest from a local file or a String containing an XML plist.
+    # If from a file, the manifestFileName attribute is set to the filename
     #
-    # To generate a manifest plist for this package from a locally-readable
-    # file, use #generate_manifest
+    # To automatically generate a manifest plist for this package from a
+    # locally-readable .pkg file, use #generate_manifest
     #
-    # When using this method, if you want to be able to deploy the pkg using
+    # All manifests require a valid URL for downloading the .pkg file when
+    # installing on a client.
+    #
+    # No validation of the manifest is done here.
+    #
+    # DEPLOYING VIA MDM:
+    #
+    # When using this method, if you want to be able to deploy the package using
     # #deploy_via_mdm, the manifest MUST include a metadata dictionary
-    # with at least the following keys
+    # with at least the following keys:
+    #   - 'kind' = 'software'
     #   - 'bundle-identifier' that preferably matches the bundle identifier of the pkg
     #   - 'bundle-version' = that preferably matches the version of the pkg
-    #   - 'kind' = 'software'
     #   - 'title' = the name of the pkg or what it installs
-    #   - 'sizeInBytes' = the size of the pkg in bytes
-    # Also,
-    #   - the checksum must be a single SHA256 digest for the whole file
-    #     in the 'sha256s' array for the item,
-    #   - the 'sha256-size' must be the size of the file in bytes.
+    #   - 'sizeInBytes' = the size of the .pkg in bytes
+    # as well as one of these non-standard keys:
+    #   - 'sha256-whole' = the SHA256 digest of the whole file, regardless of chunking data in the 'assets' array
+    # OR
+    #   - 'md5-whole' = the MD5 digest of the whole file, regardless of chunking data in the 'assets' array
+    #
+    # The non-standard keys are because the Jamf Pro API endpoint for deploying via MDM requires
+    # a whole-file checksum even if the file is chunked in the manifest.
+    #
+    # See the MANIFEST_PLIST_TEMPLATE constant for an example of the data structure (as a ruby hash, not a plist)
     #
     # @param new_manifest [String, Pathname] the manifest plist data or path to a local file
     #
@@ -462,24 +483,34 @@ module Jamf
       CFPropertyList.native_types(CFPropertyList::List.new(data: manifest).value)
     end
 
-    # Generate a manifest plist (xml) for this package, update the #manifest attribute,
-    # and assign an appropriate #manifestFileName.
+    # Generate a manifest plist (xml) for this package from a local .pkg file,
+    # and update the #manifest and #manifestFileName attributes
     #
     # Afterwards, you will need to call #save on the object to save the new values to
     # the server.
     #
+    # See also #manifest= for setting the manifest from a file or string.
+    #
     # The download URL used in the manifest will be the default for the class
-    # (if you have set one) or the URL passed in, with the fileName appended. The
-    # class default may come from the ruby-jss config, or be set directly on the class.
+    # (if you have set one) usually with the fileName appended. The
+    # class default may come from the ruby-jss config, or be set directly on the class,
+    # see JPackage.default_manifest_base_url=
     #
     # Unless set explicitly afterward using #manifestFileName= the manifest filename
     # will be the fileName of the Package object, with spaces converted to dashes,
     # followed by MANIFEST_FILENAME_DEFAULT_SUFFIX.
     # e.g. my-app.pkg-manifest.plist
     #
-    # You can also generate the manifest when uploading the pkg file by providing
-    # appropriate options to #upload,
-    # in which case the new values will be saved to the Jamf Pro server automatically.
+    # By default, this method is invoked when uploading the pkg file using #upload
+    # and the opts will be passed from that method to this one.
+    # When invoked from #upload, the new values will be saved to the Jamf Pro server automatically.
+    #
+    # The manifests generated by this method are suitable for use in MDM deployments.
+    #
+    # If you don't provide a bundle_identifier, it will be generated from the packageName,
+    # prefixed with 'com.pixar.ruby-jss.' and with spaces converted to dashes.
+    #
+    # If you don't provide a bundle_version, it will be '0'
     #
     # @param filepath [String, Pathname] the path to a local copy of the package file for which
     #   this manifest is being generated. This MUST match the one uploaded to the server, as it is
@@ -499,10 +530,12 @@ module Jamf
     #   A common chunk size is 10MB, or 1024 * 1024 * 10.
     #   NOTE: Not all distribution points support chunked downloads.
     #
-    # @option opts bundle_identifier [String, Symbol] the bundle identifier of the package,
-    #   Should match that in the .pkg itself, but defaults to 'xolo.fileName'
+    # @option opts bundle_identifier [String, Symbol] The bundle identifier of the package,
+    #   Should match that in the .pkg itself.
+    #   Defaults to 'com.pixar.ruby-jss.<packageName>' where <packageName> is the
+    #   #packageName with whitespace converted to dashes.
     #
-    # @option opts bundle_version [String, Symbol] the version of the package.
+    # @option opts bundle_version [String] the version of the package.
     #   Defaults to '0'
     #
     # @option opts subtitle [String] a subtitle for the package, optional
@@ -537,21 +570,9 @@ module Jamf
       new_manifest[:items][0][:metadata]['title'] = packageName
       new_manifest[:items][0][:metadata]['subtitle'] = opts[:subtitle] if opts[:subtitle]
       new_manifest[:items][0][:metadata]['sizeInBytes'] = filesize
-      new_manifest[:items][0][:metadata]['bundle-identifier'] = opts[:bundle_identifier] || "xolo.#{fileName}"
-      new_manifest[:items][0][:metadata]['bundle-version'] = opts[:bundle_version] || '0'
-
-      # TESTING - store the whole-file checksum in
-      # manifest[:items][0][:metadata]['sha256-whole']. taking it from
-      # manifest[:items][0][:assets][0]['sha256s'][0], if available, or generate it if needed
-      # It is used by the deploy_via_mdm method.
-      # The test will be to deploy this pkg via MDM in a prestage, and see
-      # if the 'unknown' hash key 'sha256-whole' causes a problem installing.
-      new_manifest[:items][0][:metadata]['sha256-whole'] =
-        if new_manifest[:items][0][:assets][0]['sha256s'].size == 1
-          new_manifest[:items][0][:assets][0]['sha256s'][0]
-        else
-          new_manifest[:items][0][:assets][0]['sha256s'] = [Digest::SHA256.hexdigest(file.read)]
-        end
+      new_manifest[:items][0][:metadata]['bundle-identifier'] =
+        (opts[:bundle_identifier] || "#{MANIFEST_BUNDLE_ID_PREFIX}#{packageName.gsub(/\s+/, '-')}")
+      new_manifest[:items][0][:metadata]['bundle-version'] = opts[:bundle_version] if opts[:bundle_version]
 
       plist = CFPropertyList::List.new
       plist.value = CFPropertyList.guess(new_manifest)
@@ -581,7 +602,10 @@ module Jamf
     ##############################
     def build_manifest_url(given_url = nil, append_filename: true)
       url = given_url || self.class.default_manifest_base_url
-      raise ArgumentError, 'No URL provided for manifest' unless url
+      unless url
+        raise ArgumentError,
+              'No URL for manifest. Pass one with url: or set one with Jamf::JPackage.default_manifest_base_url=, or set package_manifest_base_url in the ruby-jss.conf file.'
+      end
 
       # append the filename to the URL if needed
       url = "#{url.to_s.chomp('/')}/#{CGI.escape fileName}" unless append_filename == false
@@ -591,7 +615,8 @@ module Jamf
     end
     private :build_manifest_url
 
-    # calculate the manifest checksum[s] for a given file, and store in the manifest data
+    # calculate the manifest checksum[s] for a given file, and store in the manifest data.
+    # We only do SHA256, but Apple supports MD5 as well.
     #
     # @param file [Pathname] the path to the file to checksum
     # @param chunk_size [Integer] the size of each chunk in the manifest, in bytes.
@@ -616,6 +641,18 @@ module Jamf
         new_manifest[:items][0][:assets][0]['sha256-size'] = file.size
         new_manifest[:items][0][:assets][0]['sha256s'] = [Digest::SHA256.hexdigest(file.read)]
       end
+
+      # Store the whole-file checksum in
+      # manifest[:items][0][:metadata]['sha256-whole']. taking it from
+      # manifest[:items][0][:assets][0]['sha256s'][0], if available, or generate it if needed
+      # It is used by the deploy_via_mdm method.
+      # This value is required for MDM deployments, even if the file is chunked in the manifest.
+      new_manifest[:items][0][:metadata]['sha256-whole'] =
+        if new_manifest[:items][0][:assets][0]['sha256s'].size == 1
+          new_manifest[:items][0][:assets][0]['sha256s'][0]
+        else
+          Digest::SHA256.hexdigest(file.read)
+        end
     end
     private :calculate_manifest_checksums
 
@@ -671,29 +708,21 @@ module Jamf
     #   and PreStage & MDM deployments may fail. Be sure to set it to the correct value
     #   using #generate_manifest or #manifest= yourself.
     #
-    # @options opts url [String] the URL where the package will be downloaded from,
-    #   defaults to the class default
+    # @options opts url [String] See #generate_manifest
     #
-    # @option opts append_filename_to_url [Boolean] should the fileName be appended to the URL,
-    #   defaults to true.
-    #   If false, the url given must be the full URL to download the individual package file.
+    # @option opts append_filename_to_url [Boolean] See #generate_manifest
     #
-    # @option opts chunk_size [Integer] the size of each chunk in the manifest, in bytes.
-    #   If omitted, the whole file will be checksummed at once and downloads will not be chunked.
-    #   A common chunk size is 10MB, or 1024 * 1024 * 10.
-    #   NOTE: Not all distribution points support chunked downloads.
+    # @option opts chunk_size [Integer] See #generate_manifest
     #
-    # @option opts bundle_identifier [String, Symbol] the bundle identifier of the package,
-    #   Should match that in the .pkg itself, but defaults to 'xolo.fileName'
+    # @option opts bundle_identifier [String] See #generate_manifest
     #
-    # @option opts bundle_version [String, Symbol] the version of the package.
-    #   Defaults to '0'
+    # @option opts bundle_version [String] See #generate_manifest
     #
-    # @option opts subtitle [String] a subtitle for the package, optional
+    # @option opts subtitle [String] See #generate_manifest
     #
-    # @option opts full_size_image_url [String] optional, used during MDM deployment
+    # @option opts full_size_image_url [String] See #generate_manifest
     #
-    # @option opts display_image_url [String] optional, used during MDM deployment
+    # @option opts display_image_url [String] See #generate_manifest
     #
     # @return [void]
     ##############################
@@ -724,11 +753,12 @@ module Jamf
     # Deploy this package to computers or a group via MDM.
     #
     # REQUIREMENTS:
-    # - The package must have a manifest with specific info, see #generate_manifest
+    # - The package must have a manifest with specific data. See #manifest=
+    #   and #generate_manifest for details.
     # - The .pkg file must be a product archive (.pkg) built with Xcode or productbuild.
     #   (it must contain a 'Distribution' file, usually generated by those tools)
     #   Simple 'component' packages built with pkgbuild are not supported.
-    # - The .pkg file must be signed with a Developer ID Installer certificate
+    # - The .pkg file must be signed with a trusted signing certificate
     #
     # This will send an MDM InstallEnterpriseApplication command to install the package
     # to one or more computers, and/or the members of a single computer group.
@@ -753,21 +783,14 @@ module Jamf
       # manifest data for the MDMDeploy command, which is a hash.
       # hopefully some day Jamf will just use the manifest for the pkg
       mdm_manifest = {}
-      mdm_manifest['url'] = parsed_manifest['items'][0]['assets'][0]['url']
-      # See the TESTING note in #generate_manifest
-      mdm_manifest['hash'] = parsed_manifest['items'][0]['metadata']['sha256-whole']
-      mdm_manifest['hashType'] = CHECKSUM_HASH_TYPE_SHA256_MDM_DEPLOY
-      mdm_manifest['sizeInBytes'] = parsed_manifest['items'][0]['metadata']['sizeInBytes']
-      mdm_manifest['bundleId'] = parsed_manifest['items'][0]['metadata']['bundle-identifier']
-      mdm_manifest['bundleVersion'] = parsed_manifest['items'][0]['metadata']['bundle-version']
-      mdm_manifest['title'] = parsed_manifest['items'][0]['metadata']['title']
+      mdm_manifest['url'] = manifest_url_for_deployment(parsed_manifest)
+      mdm_manifest['hash'], mdm_manifest['hashType'] = manifest_checksum_for_deployment(parsed_manifest)
+      mdm_manifest['bundleId'] = manifest_bundle_identifier_for_deployment(parsed_manifest)
+      mdm_manifest['bundleVersion'] = manifest_bundle_version_for_deployment(parsed_manifest)
+      mdm_manifest['title'] = manifest_title_for_deployment(parsed_manifest)
+      mdm_manifest['sizeInBytes'] = manifest_size_for_deployment(parsed_manifest)
 
-      mdm_manifest['subtitle'] = parsed_manifest['items'][0]['metadata']['subtitle'] if parsed_manifest['items'][0]['metadata']['subtitle']
-
-      parsed_manifest['items'][0]['assets'].each do |asset|
-        mdm_manifest['fullSizeImageURL'] = asset['url'] if asset['kind'] == 'full-size-image'
-        mdm_manifest['displayImageURL'] = asset['url'] if asset['kind'] == 'display-image'
-      end
+      set_optional_mdm_manifest_values(parsed_manifest, mdm_manifest)
 
       # make sure the computers are in an array
       computer_ids = [computer_ids].flatten.compact.uniq
@@ -782,6 +805,85 @@ module Jamf
       # send the command
       @deploy_response = cnx.post(DEPLOYMENT_ENDPOINT, payload)
     end
+
+    # the URL is required for MDM deployments
+    # @return [String] the URL in the manifest for MDM deployments
+    #####################################
+    def manifest_url_for_deployment(parsed_manifest)
+      raise Jamf::MissingDataError, 'No URL in the manifest' unless parsed_manifest['items'][0]['assets'][0]['url']
+
+      parsed_manifest['items'][0]['assets'][0]['url']
+    end
+    private :manifest_url_for_deployment
+
+    # whole-file checksums are required for MDM deployments
+    # @return [Array<String>] the checksum and checksum type in the manifest for MDM deployments
+    #####################################
+    def manifest_checksum_for_deployment(parsed_manifest)
+      if parsed_manifest['items'][0]['metadata']['sha256-whole']
+        [parsed_manifest['items'][0]['metadata']['sha256-whole'], CHECKSUM_HASH_TYPE_SHA256_MDM_DEPLOY]
+      elsif parsed_manifest['items'][0]['metadata']['md5-whole']
+        [parsed_manifest['items'][0]['metadata']['md5-whole'], CHECKSUM_HASH_TYPE_MD5]
+      else
+        raise Jamf::MissingDataError, 'No whole-file checksum in the manifest. Must have either sha256-whole or md5-whole in the metadata'
+      end
+    end
+    private :manifest_checksum_for_deployment
+
+    # size in bytes is required for MDM deployments
+    # @return [Integer] the size in bytes in the manifest for MDM deployments
+    #####################################
+    def manifest_size_for_deployment(parsed_manifest)
+      raise Jamf::MissingDataError, 'No sizeInBytes in the manifest metadata' unless parsed_manifest['items'][0]['metadata']['sizeInBytes']
+
+      parsed_manifest['items'][0]['metadata']['sizeInBytes']
+    end
+    private :manifest_size_for_deployment
+
+    # bundle identifier is required for MDM deployments
+    # @return [String] the bundle identifier in the manifest for MDM deployments
+    #####################################
+    def manifest_bundle_identifier_for_deployment(parsed_manifest)
+      raise Jamf::MissingDataError, 'No bundle-identifier in the manifest metadata' unless parsed_manifest['items'][0]['metadata']['bundle-identifier']
+
+      parsed_manifest['items'][0]['metadata']['bundle-identifier']
+    end
+    private :manifest_bundle_identifier_for_deployment
+
+    # bundle version is required for MDM deployments
+    # @return [String] the bundle version in the manifest for MDM deployments
+    #####################################
+    def manifest_bundle_version_for_deployment(parsed_manifest)
+      raise Jamf::MissingDataError, 'No bundle-version in the manifest metadata' unless parsed_manifest['items'][0]['metadata']['bundle-version']
+
+      parsed_manifest['items'][0]['metadata']['bundle-version']
+    end
+    private :manifest_bundle_version_for_deployment
+
+    # title is required for MDM deployments
+    # @return [String] the title in the manifest for MDM deployments
+    #####################################
+    def manifest_title_for_deployment(parsed_manifest)
+      raise Jamf::MissingDataError, 'No title in the manifest metadata' unless parsed_manifest['items'][0]['metadata']['title']
+
+      parsed_manifest['items'][0]['metadata']['title']
+    end
+    private :manifest_title_for_deployment
+
+    # set the optional values for the MDM deployment manifest
+    # @return [void]
+    #####################################
+    def set_optional_mdm_manifest_values(parsed_manifest, mdm_manifest)
+      # subtitle is optional for MDM deployments
+      mdm_manifest['subtitle'] = parsed_manifest['items'][0]['metadata']['subtitle'] if parsed_manifest['items'][0]['metadata']['subtitle']
+
+      # Images are optional for MDM deployments
+      parsed_manifest['items'][0]['assets']&.each do |asset|
+        mdm_manifest['fullSizeImageURL'] = asset['url'] if asset['kind'] == 'full-size-image'
+        mdm_manifest['displayImageURL'] = asset['url'] if asset['kind'] == 'display-image'
+      end
+    end
+    private :set_optional_mdm_manifest_values
 
   end # class
 
