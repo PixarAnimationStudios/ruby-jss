@@ -431,7 +431,7 @@ module Jamf
     # DEPLOYING VIA MDM:
     #
     # When using this method, if you want to be able to deploy the package using
-    # #deploy_via_mdm, the manifest MUST include a metadata dictionary
+    # deploy_via_mdm, the manifest MUST include a metadata dictionary
     # with at least the following keys:
     #   - 'kind' = 'software'
     #   - 'bundle-identifier' that preferably matches the bundle identifier of the pkg
@@ -532,8 +532,8 @@ module Jamf
     #
     # @option opts bundle_identifier [String, Symbol] The bundle identifier of the package,
     #   Should match that in the .pkg itself.
-    #   Defaults to 'com.pixar.ruby-jss.<packageName>' where <packageName> is the
-    #   #packageName with whitespace converted to dashes.
+    #   Defaults to 'com.pixar.ruby-jss.packageName' where packageName is the
+    #   packageName with whitespace converted to dashes.
     #
     # @option opts bundle_version [String] the version of the package.
     #   Defaults to '0'
