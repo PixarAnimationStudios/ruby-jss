@@ -21,6 +21,7 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
+
 module Jamf
 
   # This module is the namespace for all objects defined
@@ -28,7 +29,8 @@ module Jamf
   #
   module OAPISchemas
 
-    # OAPI Object Model and Enums for: DeviceEnrollmentDisownBody
+
+    # OAPI Object Model and Enums for: LocationInformationV2
     #
     #
     #
@@ -46,33 +48,98 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #
+    #  - Jamf::OAPISchemas::DeviceEnrollmentPrestageV2
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #
+    #  
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/device-enrollments/{id}/disown:POST' needs permissions:
-    #    - Update Device Enrollment Program Instances
     #
     #
-    class DeviceEnrollmentDisownBody < Jamf::OAPIObject
+    #
+    class LocationInformationV2 < Jamf::OAPIObject
+
+      
 
       OAPI_PROPERTIES = {
 
-        # @!attribute devices
-        #   @return [Array<String>]
-        devices: {
+        # @!attribute username
+        #   @return [String]
+        username: {
           class: :string,
-          multi: true
+          required: true
+        },
+
+        # @!attribute realname
+        #   @return [String]
+        realname: {
+          class: :string,
+          required: true
+        },
+
+        # @!attribute phone
+        #   @return [String]
+        phone: {
+          class: :string,
+          required: true
+        },
+
+        # @!attribute email
+        #   @return [String]
+        email: {
+          class: :string,
+          required: true
+        },
+
+        # @!attribute room
+        #   @return [String]
+        room: {
+          class: :string,
+          required: true
+        },
+
+        # @!attribute position
+        #   @return [String]
+        position: {
+          class: :string,
+          required: true
+        },
+
+        # @!attribute departmentId
+        #   @return [String]
+        departmentId: {
+          class: :string,
+          required: true
+        },
+
+        # @!attribute buildingId
+        #   @return [String]
+        buildingId: {
+          class: :string,
+          required: true
+        },
+
+        # @!attribute id
+        #   @return [String]
+        id: {
+          class: :j_id,
+          required: true,
+          identifier: :primary
+        },
+
+        # @!attribute versionLock
+        #   @return [Integer]
+        versionLock: {
+          class: :integer,
+          required: true
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class DeviceEnrollmentDisownBody
+    end # class LocationInformationV2
 
   end # module OAPISchemas
 

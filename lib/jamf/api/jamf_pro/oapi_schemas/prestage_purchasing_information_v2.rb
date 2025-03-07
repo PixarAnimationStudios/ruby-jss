@@ -21,6 +21,7 @@
 #    language governing permissions and limitations under the Apache License.
 #
 
+
 module Jamf
 
   # This module is the namespace for all objects defined
@@ -28,7 +29,8 @@ module Jamf
   #
   module OAPISchemas
 
-    # OAPI Object Model and Enums for: DeviceEnrollmentPrestage
+
+    # OAPI Object Model and Enums for: PrestagePurchasingInformationV2
     #
     #
     #
@@ -46,12 +48,11 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #
+    #  - Jamf::OAPISchemas::DeviceEnrollmentPrestageV2
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #  - Jamf::OAPISchemas::LocationInformation
-    #  - Jamf::OAPISchemas::PrestagePurchasingInformation
+    #  
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
@@ -59,152 +60,114 @@ module Jamf
     #
     #
     #
-    class DeviceEnrollmentPrestage < Jamf::OAPIObject
+    class PrestagePurchasingInformationV2 < Jamf::OAPIObject
+
+      
 
       OAPI_PROPERTIES = {
 
-        # @!attribute displayName
+        # @!attribute id
         #   @return [String]
-        displayName: {
-          class: :string,
-          required: true
+        id: {
+          class: :j_id,
+          required: true,
+          identifier: :primary
         },
 
-        # @!attribute isMandatory
+        # @!attribute leased
         #   @return [Boolean]
-        isMandatory: {
+        leased: {
           class: :boolean,
           required: true
         },
 
-        # @!attribute isMdmRemovable
+        # @!attribute purchased
         #   @return [Boolean]
-        isMdmRemovable: {
+        purchased: {
           class: :boolean,
           required: true
         },
 
-        # @!attribute supportPhoneNumber
+        # @!attribute appleCareId
         #   @return [String]
-        supportPhoneNumber: {
+        appleCareId: {
           class: :string,
           required: true
         },
 
-        # @!attribute supportEmailAddress
+        # @!attribute poNumber
         #   @return [String]
-        supportEmailAddress: {
+        poNumber: {
           class: :string,
           required: true
         },
 
-        # @!attribute department
+        # @!attribute vendor
         #   @return [String]
-        department: {
+        vendor: {
           class: :string,
           required: true
         },
 
-        # @!attribute isDefaultPrestage
-        #   @return [Boolean]
-        isDefaultPrestage: {
-          class: :boolean,
+        # @!attribute purchasePrice
+        #   @return [String]
+        purchasePrice: {
+          class: :string,
           required: true
         },
 
-        # @!attribute enrollmentSiteId
+        # @!attribute lifeExpectancy
         #   @return [Integer]
-        enrollmentSiteId: {
+        lifeExpectancy: {
           class: :integer,
           required: true
         },
 
-        # @!attribute isKeepExistingSiteMembership
-        #   @return [Boolean]
-        isKeepExistingSiteMembership: {
-          class: :boolean,
-          required: true
-        },
-
-        # @!attribute isKeepExistingLocationInformation
-        #   @return [Boolean]
-        isKeepExistingLocationInformation: {
-          class: :boolean,
-          required: true
-        },
-
-        # @!attribute isRequireAuthentication
-        #   @return [Boolean]
-        isRequireAuthentication: {
-          class: :boolean,
-          required: true
-        },
-
-        # @!attribute authenticationPrompt
+        # @!attribute purchasingAccount
         #   @return [String]
-        authenticationPrompt: {
+        purchasingAccount: {
           class: :string,
           required: true
         },
 
-        # @!attribute isPreventActivationLock
-        #   @return [Boolean]
-        isPreventActivationLock: {
-          class: :boolean,
+        # @!attribute purchasingContact
+        #   @return [String]
+        purchasingContact: {
+          class: :string,
           required: true
         },
 
-        # @!attribute isEnableDeviceBasedActivationLock
-        #   @return [Boolean]
-        isEnableDeviceBasedActivationLock: {
-          class: :boolean,
+        # @!attribute leaseDate
+        #   @return [String]
+        leaseDate: {
+          class: :string,
           required: true
         },
 
-        # @!attribute deviceEnrollmentProgramInstanceId
+        # @!attribute poDate
+        #   @return [String]
+        poDate: {
+          class: :string,
+          required: true
+        },
+
+        # @!attribute warrantyDate
+        #   @return [String]
+        warrantyDate: {
+          class: :string,
+          required: true
+        },
+
+        # @!attribute versionLock
         #   @return [Integer]
-        deviceEnrollmentProgramInstanceId: {
+        versionLock: {
           class: :integer,
           required: true
-        },
-
-        # @!attribute skipSetupItems
-        #   @return [Hash{Symbol: Boolean }]
-        skipSetupItems: {
-          class: :hash
-        },
-
-        # @!attribute locationInformation
-        #   @return [Jamf::OAPISchemas::LocationInformation]
-        locationInformation: {
-          class: Jamf::OAPISchemas::LocationInformation,
-          required: true
-        },
-
-        # @!attribute purchasingInformation
-        #   @return [Jamf::OAPISchemas::PrestagePurchasingInformation]
-        purchasingInformation: {
-          class: Jamf::OAPISchemas::PrestagePurchasingInformation,
-          required: true
-        },
-
-        # The Base64 encoded PEM Certificate
-        # @!attribute anchorCertificates
-        #   @return [Array<String>]
-        anchorCertificates: {
-          class: :string,
-          multi: true
-        },
-
-        # @!attribute enrollmentCustomizationId
-        #   @return [Integer]
-        enrollmentCustomizationId: {
-          class: :integer
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class DeviceEnrollmentPrestage
+    end # class PrestagePurchasingInformationV2
 
   end # module OAPISchemas
 

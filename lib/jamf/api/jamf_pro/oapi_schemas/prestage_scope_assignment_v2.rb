@@ -30,7 +30,7 @@ module Jamf
   module OAPISchemas
 
 
-    # OAPI Object Model and Enums for: PackageManifest
+    # OAPI Object Model and Enums for: PrestageScopeAssignmentV2
     #
     #
     #
@@ -48,7 +48,7 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #  - Jamf::OAPISchemas::InstallPackage
+    #  - Jamf::OAPISchemas::PrestageScopeResponseV2
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
@@ -60,88 +60,34 @@ module Jamf
     #
     #
     #
-    class PackageManifest < Jamf::OAPIObject
+    class PrestageScopeAssignmentV2 < Jamf::OAPIObject
 
-      # Enums used by this class or others
-
-      HASH_TYPE_OPTIONS = [
-        'MD5',
-        'SHA256'
-      ]
+      
 
       OAPI_PROPERTIES = {
 
-        # @!attribute url
+        # @!attribute serialNumber
         #   @return [String]
-        url: {
-          class: :string,
-          required: true
-        },
-
-        # @!attribute hash
-        #   @return [String]
-        hash: {
-          class: :string,
-          required: true
-        },
-
-        # @!attribute hashType
-        #   @return [String]
-        hashType: {
-          class: :string,
-          required: true,
-          enum: HASH_TYPE_OPTIONS
-        },
-
-        # @!attribute displayImageUrl
-        #   @return [String]
-        displayImageUrl: {
+        serialNumber: {
           class: :string
         },
 
-        # @!attribute fullSizeImageUrl
+        # @!attribute assignmentDate
+        #   @return [Jamf::Timestamp]
+        assignmentDate: {
+          class: Jamf::Timestamp,
+          format: 'date-time'
+        },
+
+        # @!attribute userAssigned
         #   @return [String]
-        fullSizeImageUrl: {
+        userAssigned: {
           class: :string
-        },
-
-        # @!attribute bundleId
-        #   @return [String]
-        bundleId: {
-          class: :string,
-          required: true
-        },
-
-        # @!attribute bundleVersion
-        #   @return [String]
-        bundleVersion: {
-          class: :string,
-          required: true
-        },
-
-        # @!attribute subtitle
-        #   @return [String]
-        subtitle: {
-          class: :string
-        },
-
-        # @!attribute title
-        #   @return [String]
-        title: {
-          class: :string,
-          required: true
-        },
-
-        # @!attribute sizeInBytes
-        #   @return [Integer]
-        sizeInBytes: {
-          class: :integer,
-          required: true
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class PackageManifest
+    end # class PrestageScopeAssignmentV2
 
   end # module OAPISchemas
 
