@@ -131,7 +131,7 @@ module Jamf
 
       # if the class has a constant 'OBJECT_NAME_ATTR' then 'name' is an alias of that
       # attr
-      alias_method('name', OBJECT_NAME_ATTR) if const_defined? 'OBJECT_NAME_ATTR'
+      alias_method('name', self::OBJECT_NAME_ATTR) if defined? self::OBJECT_NAME_ATTR
     end # create getters
     private_class_method :create_getters
 
@@ -156,7 +156,7 @@ module Jamf
 
       # if the class has a constant 'OBJECT_NAME_ATTR' then 'name=' is an alias of that
       # attr
-      alias_method('name=', "#{OBJECT_NAME_ATTR}=") if const_defined? 'OBJECT_NAME_ATTR'
+      alias_method('name=', "#{self::OBJECT_NAME_ATTR}=") if defined? self::OBJECT_NAME_ATTR
     end # create_setters
     private_class_method :create_setters
 
