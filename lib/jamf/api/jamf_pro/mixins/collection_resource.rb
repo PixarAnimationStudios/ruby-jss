@@ -471,12 +471,12 @@ module Jamf
       ######################################
       def valid_id(searchterm = nil, cnx: Jamf.cnx, **ident_and_val)
         data =
-          if ident_and_val
+          if ident_and_val.empty?
+            raw_data(searchterm, cnx: cnx)
+          else
             ident = ident_and_val.keys.first
             value = ident_and_val.values.first
             raw_data(cnx: cnx, ident: ident, value: value)
-          else
-            raw_data(searchterm, cnx: cnx)
           end
 
         data&.dig(:id)
