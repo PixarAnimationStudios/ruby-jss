@@ -25,15 +25,23 @@
 
 module Jamf
 
+  # This module provides two methods for building very simple Casper-happy .pkg and .dmg
+  # packages for deployment.
   #
-  # This module provides two methods for building very simple Casper-happy .pkg and .dmg packages for deployment.
-  #
-  # Unlike Composer.app from JAMF, this module currently doesn't offer a way to do a before/after disk scan
-  # and use the differences to build the root folder from which the package is built. Nor does the module support
+  # Unlike Composer.app from JAMF, this module currently doesn't offer a way to do a
+  # before/after disk scan
+  # and use the differences to build the root folder from which the package is built.
+  # Nor does the module support
   # editing the pre/post install scripts in .pkgs.
   #
-  # The 'root folder', a folder representing the root filesystem of the target machine where the package will be installed,
+  # The 'root folder', a folder representing the root filesystem of the target machine
+  # where the package will be installed,
   # must already exist and be fully populated and with correct permissions.
+  #
+  #
+  # TODO: Support building Distribution-style packages using the 'productbuild' tool,
+  # since they are needed for deploying packages via MDM - Component packages created
+  # by pkgbuild are not supported for MDM deployment.
   #
   module Composer
 
