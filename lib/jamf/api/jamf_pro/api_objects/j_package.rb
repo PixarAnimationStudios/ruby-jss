@@ -104,6 +104,13 @@ module Jamf
     # which usually only identifies ':id'
     ALT_IDENTIFIERS = %i[packageName fileName].freeze
 
+    # If the object does not have a 'name' attribute, this is the attribute
+    # that holds its name. Used to allow referencing objects by 'name',
+    # creates a alias of the attribute called "name" and "name=",
+    # and allows the use of "name:" as an identifier in the .fetch, .valid_id and
+    # similar methods.
+    OBJECT_NAME_ATTR = :packageName
+
     # Must define this when extending Filterable
     FILTER_KEYS = %i[
       id fileName packageName categoryId info notes manifestFileName cloudTransferStatus

@@ -380,6 +380,9 @@ module Jamf
         # if we're here, we should know our ident key and value
         raise ArgumentError, 'Required parameter "identifier: value", where identifier is id:, name: etc.' unless ident && value
 
+        # if the ident is :name, and there's a constant for the name attr, use that
+        ident = self::OBJECT_NAME_ATTR if defined?(self::OBJECT_NAME_ATTR) && ident == :name
+
         return raw_data_by_id(value, cnx: cnx) if ident == :id
         return unless identifiers.include? ident
 
@@ -600,6 +603,11 @@ module Jamf
           attr_name = available_list_methods[method.to_s]
           create_identifier_list_method attr_name.to_sym, method
           send method, *args
+        elsif method.to_s == 'all_names' && defined?(self::OBJECT_NAME_ATTR)
+          define_singleton_method(:all_names) do |_refresh = nil, cnx: Jamf.cnx, cached_list: nil|
+            send "all_#{self::OBJECT_NAME_ATTR}s", *args
+          end
+          send method, *args
         else
           super
         end
@@ -607,7 +615,7 @@ module Jamf
 
       # this is needed to prevent problems with method_missing!
       def respond_to_missing?(method, *)
-        available_list_methods.key?(method.to_s) || super
+        available_list_methods.key?(method.to_s) || method.to_s == 'all_names' || super
       end
 
       # @return [Hash{String: Symbol}] Method name to matching attribute name for
@@ -616,7 +624,6 @@ module Jamf
         return @available_list_methods if @available_list_methods
 
         @available_list_methods = {}
-
         identifiers.each do |i|
           meth_name = i.to_s.end_with?('s') ? "all_#{i}es" : "all_#{i}s"
           @available_list_methods[meth_name] = i
