@@ -25,11 +25,11 @@
 
 module JamfTest
 
-  class JpBuilding < JamfTest::APITest
+  class JBuilding < JamfTest::APITest
 
     include JamfTest::CollectionTests
 
-    COLLECTION_CLASS = Jamf::JpBuilding
+    COLLECTION_CLASS = Jamf::JBuilding
 
     # run the tests
     def run_class_tests
