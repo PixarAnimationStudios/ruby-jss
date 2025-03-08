@@ -475,6 +475,9 @@ module Jamf
     # Comparable by the sha1 hash of our properties.
     # Subclasses or mixins may override this in ways that make
     # sense for them
+    # TODO: Using this may not make sense for most objects, esp
+    # when comparing objects instantiated from Create vs those
+    # from Fetch.
     def <=>(other)
       sha1_hash <=> other.sha1_hash
     end
