@@ -54,11 +54,9 @@ If you have thoughts or comments on this, please reach out:
 
     For example, Computer and MobileDevice prestage objects, the name is in the "displayName" attribute.  For JPackages via the Jamf Pro API, the package object's name (not its file name) is in the "packageName" object.
     
-    When the OBJECT_NAME_ATTR is defined, the class can use "name" as a alias of the OBJECT_NAME_ATTR with getters & setters (`name=` is an alis of `displayName=`, etc) and can be used for .fetch and .valid_id:  `Jamf::JPackage.fetch name: 'foo'`  is the same as `Jamf::JPackage.fetch packageName: 'foo'`
+    When the OBJECT_NAME_ATTR is defined, the class can use "name" as a alias of the OBJECT_NAME_ATTR with getters & setters (`name=` is an alias of `displayName=`, etc) and can be used for .fetch and .valid_id:  `Jamf::JPackage.fetch name: 'foo'`  is the same as `Jamf::JPackage.fetch packageName: 'foo'`
 
     For some objects this isn't relevant, e.g. Inventory Preload Records, but for JPAPI that use variations on the word 'name' for the objects actual name, this will help normalize things, and keep better compatility with objects from the Classic API, which all use 'name'.
-
-    
 
   
 ### Changed
