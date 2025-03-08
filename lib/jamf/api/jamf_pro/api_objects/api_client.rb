@@ -105,6 +105,9 @@ module Jamf
       id displayName
     ].freeze
 
+    # The attribute holding the object's name
+    OBJECT_NAME_ATTR = :displayName
+
     # Class Methods
     ###############################
 

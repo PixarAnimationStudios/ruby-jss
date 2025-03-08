@@ -39,6 +39,7 @@ If you have thoughts or comments on this, please reach out:
   - Join the conversation in the [#ruby-jss Macadmins Slack Channel](https://macadmins.slack.com/archives/C03C7F563MK)
 
 ### Added
+  
   - `Jamf::JPackage`: The first major migration of a class from the Classic to the Jamf Pro API.
     - Implements the /v1/packages endpoints
     - Support for manifests
@@ -48,6 +49,17 @@ If you have thoughts or comments on this, please reach out:
       - The package must have a manifest
       - The .pkg file must be a "Product Archive", e.g. it must contain a 'Distribution' file, as when created with the `productbuild` command. Component packages created with `pkgbuild` will not work.
       - The .pkg file must be signed.
+
+  - Collection Resource classes from the Jamf Pro API can now define a constant OBJECT_NAME_ATTR, which indicates the attribute that holds the individual object's name, if that isn't "name". 
+
+    For example, Computer and MobileDevice prestage objects, the name is in the "displayName" attribute.  For JPackages via the Jamf Pro API, the package object's name (not its file name) is in the "packageName" object.
+    
+    When the OBJECT_NAME_ATTR is defined, the class can use "name" as a alias of the OBJECT_NAME_ATTR with getters & setters (`name=` is an alis of `displayName=`, etc) and can be used for .fetch and .valid_id:  `Jamf::JPackage.fetch name: 'foo'`  is the same as `Jamf::JPackage.fetch packageName: 'foo'`
+
+    For some objects this isn't relevant, e.g. Inventory Preload Records, but for JPAPI that use variations on the word 'name' for the objects actual name, this will help normalize things, and keep better compatility with objects from the Classic API, which all use 'name'.
+
+    
+
   
 ### Changed
   - `Jamf::JpBuilding` is now known as `Jamf::JBuilding`

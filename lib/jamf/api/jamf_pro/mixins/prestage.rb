@@ -59,6 +59,9 @@ module Jamf
     # You Have Been Warned!
     NON_UNIQUE_IDENTIFIERS = %i[displayName].freeze
 
+    # The name of the attribute that holds the object's name
+    OBJECT_NAME_ATTR = :displayName
+
     # Class Methods
     #####################################
     module ClassMethods
