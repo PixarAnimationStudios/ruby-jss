@@ -104,6 +104,11 @@ module Jamf
         create_setters attr_name, attr_def
       end #  do |attr_name, attr_def|
 
+      if defined? self::OBJECT_NAME_ATTR
+        alias_method(:name, self::OBJECT_NAME_ATTR)
+        alias_method('name=', "#{self::OBJECT_NAME_ATTR}=")
+      end
+
       @oapi_properties_parsed = true
     end # parse_object_model
 
@@ -128,10 +133,6 @@ module Jamf
 
       # all booleans get predicate ? aliases
       alias_method("#{attr_name}?", attr_name) if attr_def[:class] == :boolean
-
-      # if the class has a constant 'OBJECT_NAME_ATTR' then 'name' is an alias of that
-      # attr
-      alias_method('name', self::OBJECT_NAME_ATTR) if defined? self::OBJECT_NAME_ATTR
     end # create getters
     private_class_method :create_getters
 
@@ -153,10 +154,6 @@ module Jamf
         instance_variable_set("@#{attr_name}", new_value)
         note_unsaved_change attr_name, old_value
       end # define method
-
-      # if the class has a constant 'OBJECT_NAME_ATTR' then 'name=' is an alias of that
-      # attr
-      alias_method('name=', "#{self::OBJECT_NAME_ATTR}=") if defined? self::OBJECT_NAME_ATTR
     end # create_setters
     private_class_method :create_setters
 
