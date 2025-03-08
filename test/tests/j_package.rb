@@ -36,6 +36,12 @@ module JamfTest
       run_collection_tests
     end
 
+    def create_new
+      @unsaved_new_object = collection_class.create packageName: test_object_name
+      @unsaved_new_object.fileName = "#{test_object_name}.pkg"
+      say "Created new #{collection_class}, to be saved in Jamf."
+    end
+
   end # class
 
 end # module JamfTest

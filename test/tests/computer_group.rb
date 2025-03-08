@@ -47,29 +47,44 @@ module JamfTest
     ################
     def add_data_to_new
       @all_comps_shuffled = Jamf::Computer.all.dup.shuffle
+      if @all_comps_shuffled.empty?
+        say 'No computers found in Jamf to add to the new Static Group!'
+        return
+      end
+
       @comps_added_to_static_group = []
 
       comp_1 = @all_comps_shuffled.shift
-      @unsaved_new_object.add_member comp_1[:id]
-      @comps_added_to_static_group << comp_1[:id]
-      say "Added computer id #{comp_1[:id]} to unsaved Static Group"
+      if comp_1
+        @unsaved_new_object.add_member comp_1[:id]
+        @comps_added_to_static_group << comp_1[:id]
+        say "Added computer id #{comp_1[:id]} to unsaved Static Group"
+      end
 
       comp_2 = @all_comps_shuffled.shift
-      @unsaved_new_object.add_member comp_2[:name]
-      @comps_added_to_static_group << comp_2[:name]
-      say "Added computer name #{comp_2[:name]} to unsaved Static Group"
+      if comp_2
+        @unsaved_new_object.add_member comp_2[:name]
+        @comps_added_to_static_group << comp_2[:name]
+        say "Added computer name #{comp_2[:name]} to unsaved Static Group"
+      end
 
       comp_3 = @all_comps_shuffled.shift
-      @unsaved_new_object.add_member comp_3[:serial_number]
-      @comps_added_to_static_group << comp_3[:serial_number]
-      say "Added computer serial_number #{comp_3[:serial_number]} to unsaved Static Group"
+      if comp_3
+        @unsaved_new_object.add_member comp_3[:serial_number]
+        @comps_added_to_static_group << comp_3[:serial_number]
+        say "Added computer serial_number #{comp_3[:serial_number]} to unsaved Static Group"
+      end
 
       comp_4 = @all_comps_shuffled.shift
-      @unsaved_new_object.add_member comp_4[:udid]
-      @comps_added_to_static_group << comp_4[:udid]
-      say "Added computer udid #{comp_4[:udid]} to unsaved Static Group"
+      if comp_4
+        @unsaved_new_object.add_member comp_4[:udid]
+        @comps_added_to_static_group << comp_4[:udid]
+        say "Added computer udid #{comp_4[:udid]} to unsaved Static Group"
+      end
 
       comp_5 = @all_comps_shuffled.shift
+      return unless comp_5
+
       @unsaved_new_object.add_member comp_5[:mac_address]
       @comps_added_to_static_group << comp_5[:mac_address]
       say "Added computer mac_address #{comp_5[:mac_address]} to unsaved Static Group"
@@ -109,6 +124,8 @@ module JamfTest
       say "Modified/saved/refetched instance of #{collection_class} has correct membership."
 
       # Test the class method for changing membership without instantiating/saving
+      return unless @all_comps_shuffled.size > 4
+
       adds = []
       adds << @all_comps_shuffled.shift[:id]
       adds << @all_comps_shuffled.shift[:serial_number]

@@ -80,7 +80,7 @@ class App
   OPTS = GetoptLong.new(
     ['--host', '-h', GetoptLong::REQUIRED_ARGUMENT],
     ['--port', '-p', GetoptLong::REQUIRED_ARGUMENT],
-    ['--re-save', '-r', GetoptLong::REQUIRED_ARGUMENT],
+    ['--re-save', '-r', GetoptLong::NO_ARGUMENT],
     ['--help', '-H', GetoptLong::NO_ARGUMENT]
   )
 
@@ -154,7 +154,7 @@ class App
 
   ###################################
   def connect
-    JamfTest::Auth.delete_api_creds(@api_server) if @re_save_creds
+    JamfTest::Auth.delete_api_creds(host: @api_server) if @re_save_creds
     JamfTest::Auth.connect_to_api host: @api_server, port: @api_port
   end
 
