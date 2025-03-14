@@ -598,6 +598,7 @@ module Jamf
 
       # Dynamically create_identifier_list_methods
       # when one is called.
+      ######################################
       def method_missing(method, *args, &block)
         if available_list_methods.key? method.to_s
           attr_name = available_list_methods[method.to_s]
@@ -614,12 +615,14 @@ module Jamf
       end
 
       # this is needed to prevent problems with method_missing!
+      ######################################
       def respond_to_missing?(method, *)
         available_list_methods.key?(method.to_s) || method.to_s == 'all_names' || super
       end
 
       # @return [Hash{String: Symbol}] Method name to matching attribute name for
       #   all identifiers
+      ######################################
       def available_list_methods
         return @available_list_methods if @available_list_methods
 
