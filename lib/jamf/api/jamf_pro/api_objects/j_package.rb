@@ -777,7 +777,7 @@ module Jamf
     # @param managed [Boolean] Should the installed package be managed by Jamf Pro?
     #   Defaults to false. This seems to be for App Store apps only??
     #
-    # @return [void]
+    # @return [Hash] the response from the server. see #deploy_response
     ##############################
     def deploy_via_mdm(computer_ids: nil, group_id: nil, managed: false)
       raise ArgumentError, 'No computer_ids or group_id provided' unless computer_ids || group_id
