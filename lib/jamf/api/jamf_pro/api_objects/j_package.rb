@@ -781,7 +781,7 @@ module Jamf
     ##############################
     def deploy_via_mdm(computer_ids: nil, group_id: nil, managed: false)
       raise ArgumentError, 'No computer_ids or group_id provided' unless computer_ids || group_id
-      raise Jamf::MissingDataError, 'No manifest set for this package' unless manifest
+      raise Jamf::MissingDataError, 'No manifest set for this package' if manifest.to_s.empty?
       raise Jamf::NoSuchItemError, 'This package has no id, it must be saved in Jamf Pro before uploading' unless exist?
 
       # convert the full manifest to a ruby hash
@@ -806,20 +806,23 @@ module Jamf
       payload = {
         manifest: mdm_manifest,
         installAsManaged: managed,
-        devices: computer_ids,
-        groupId: group_id.to_s
+        devices: computer_ids
       }
+      payload[:groupId] = group_id.to_s if group_id
+
       # send the command
       @deploy_response = cnx.post(DEPLOYMENT_ENDPOINT, payload)
     end
 
     # the URL is required for MDM deployments
+    # @param parsed_manifest [Hash] the parsed manifest data as a ruby hash
     # @return [String] the URL in the manifest for MDM deployments
     #####################################
     def manifest_url_for_deployment(parsed_manifest)
-      raise Jamf::MissingDataError, 'No URL in the manifest' unless parsed_manifest['items'][0]['assets'][0]['url']
+      url = parsed_manifest.dig 'items', 0, 'assets', 0, 'url'
+      raise Jamf::MissingDataError, 'No URL in the manifest' unless url
 
-      parsed_manifest['items'][0]['assets'][0]['url']
+      url
     end
     private :manifest_url_for_deployment
 
@@ -827,10 +830,10 @@ module Jamf
     # @return [Array<String>] the checksum and checksum type in the manifest for MDM deployments
     #####################################
     def manifest_checksum_for_deployment(parsed_manifest)
-      if parsed_manifest['items'][0]['metadata']['sha256-whole']
-        [parsed_manifest['items'][0]['metadata']['sha256-whole'], CHECKSUM_HASH_TYPE_SHA256_MDM_DEPLOY]
-      elsif parsed_manifest['items'][0]['metadata']['md5-whole']
-        [parsed_manifest['items'][0]['metadata']['md5-whole'], CHECKSUM_HASH_TYPE_MD5]
+      if whole = parsed_manifest.dig('items', 0, 'metadata', 'sha256-whole')
+        [whole, CHECKSUM_HASH_TYPE_SHA256_MDM_DEPLOY]
+      elsif whole = parsed_manifest.dig('items', 0, 'metadata', 'md5-whole')
+        [whole, CHECKSUM_HASH_TYPE_MD5]
       else
         raise Jamf::MissingDataError, 'No whole-file checksum in the manifest. Must have either sha256-whole or md5-whole in the metadata'
       end
@@ -841,9 +844,10 @@ module Jamf
     # @return [Integer] the size in bytes in the manifest for MDM deployments
     #####################################
     def manifest_size_for_deployment(parsed_manifest)
-      raise Jamf::MissingDataError, 'No sizeInBytes in the manifest metadata' unless parsed_manifest['items'][0]['metadata']['sizeInBytes']
+      size = parsed_manifest.dig 'items', 0, 'metadata', 'sizeInBytes'
+      raise Jamf::MissingDataError, 'No sizeInBytes in the manifest metadata' unless size
 
-      parsed_manifest['items'][0]['metadata']['sizeInBytes']
+      size
     end
     private :manifest_size_for_deployment
 
@@ -851,9 +855,10 @@ module Jamf
     # @return [String] the bundle identifier in the manifest for MDM deployments
     #####################################
     def manifest_bundle_identifier_for_deployment(parsed_manifest)
-      raise Jamf::MissingDataError, 'No bundle-identifier in the manifest metadata' unless parsed_manifest['items'][0]['metadata']['bundle-identifier']
+      bid = parsed_manifest.dig 'items', 0, 'metadata', 'bundle-identifier'
+      raise Jamf::MissingDataError, 'No bundle-identifier in the manifest metadata' unless bid
 
-      parsed_manifest['items'][0]['metadata']['bundle-identifier']
+      bid
     end
     private :manifest_bundle_identifier_for_deployment
 
@@ -861,9 +866,10 @@ module Jamf
     # @return [String] the bundle version in the manifest for MDM deployments
     #####################################
     def manifest_bundle_version_for_deployment(parsed_manifest)
-      raise Jamf::MissingDataError, 'No bundle-version in the manifest metadata' unless parsed_manifest['items'][0]['metadata']['bundle-version']
+      bv = parsed_manifest.dig 'items', 0, 'metadata', 'bundle-version'
+      raise Jamf::MissingDataError, 'No bundle-version in the manifest metadata' unless bv
 
-      parsed_manifest['items'][0]['metadata']['bundle-version']
+      bv
     end
     private :manifest_bundle_version_for_deployment
 
@@ -871,9 +877,10 @@ module Jamf
     # @return [String] the title in the manifest for MDM deployments
     #####################################
     def manifest_title_for_deployment(parsed_manifest)
-      raise Jamf::MissingDataError, 'No title in the manifest metadata' unless parsed_manifest['items'][0]['metadata']['title']
+      ttl = parsed_manifest.dig 'items', 0, 'metadata', 'title'
+      raise Jamf::MissingDataError, 'No title in the manifest metadata' unless ttl
 
-      parsed_manifest['items'][0]['metadata']['title']
+      ttl
     end
     private :manifest_title_for_deployment
 
@@ -882,7 +889,8 @@ module Jamf
     #####################################
     def set_optional_mdm_manifest_values(parsed_manifest, mdm_manifest)
       # subtitle is optional for MDM deployments
-      mdm_manifest['subtitle'] = parsed_manifest['items'][0]['metadata']['subtitle'] if parsed_manifest['items'][0]['metadata']['subtitle']
+      sttl = parsed_manifest.dig 'items', 0, 'metadata', 'subtitle'
+      mdm_manifest['subtitle'] = sttl if sttl
 
       # Images are optional for MDM deployments
       parsed_manifest['items'][0]['assets']&.each do |asset|
