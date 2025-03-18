@@ -58,7 +58,6 @@ module Jamf
   #
   class PatchTitle < Jamf::APIObject
 
-    include Jamf::Sitable
     include Jamf::Categorizable
     include Jamf::Creatable
     include Jamf::Updatable
@@ -539,7 +538,6 @@ module Jamf
       add_changed_pkg_xml obj unless @changed_pkgs.empty?
 
       add_category_to_xml doc
-      add_site_to_xml doc
 
       doc.to_s
     end # rest_xml
