@@ -604,6 +604,7 @@ module Jamf
     # the url is not valid.
     #
     # @param given_url [String] the URL to use, if provided
+    # @param append_filename [Boolean] should the filename be appended to the URL?
     #
     # @return [URI] the URI object for the URL
     ##############################
@@ -738,23 +739,29 @@ module Jamf
       validate_local_file(file)
 
       # update the filename if needed
-      # must happen before the upload
-      real_filename = file.basename.to_s
-      self.fileName = real_filename unless fileName == real_filename
-      save
+      # must happen before the upload so it matches the file being uploaded
+      self.fileName = file.basename.to_s
 
-      # upload the file
-      @upload_response = cnx.jp_upload("#{get_path}/#{UPLOAD_ENDPOINT}", file)
-      @upload_response[:time] = Time.now
+      # We must save the checksum and manifest to the server before uploading
+      # the file, because otherwise jamf will likely overwrite the manifest
+      # after it uploads to the primary distribution point.
 
       # recalulate the checksum unless told no to
+      # NOTE: It appears that the checksum will always be recaluclated by
+      # the Jamf Pro server, as MD5. If you really want our default SHA512,
+      # then do this again later, manually.
       recalculate_checksum(file) unless opts[:update_checksum] == false
 
       # generate a manifest using the new file
       generate_manifest(file, **opts) unless opts[:update_manifest] == false
 
-      # save the new checksum and manifest
+      # save the new fileName, checksum and manifest
       save
+
+      # upload the file
+      @upload_response = cnx.jp_upload("#{get_path}/#{UPLOAD_ENDPOINT}", file)
+      @upload_response[:time] = Time.now
+      @upload_response
     end
 
     # Deploy this package to computers or a group via MDM.
