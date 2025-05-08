@@ -163,6 +163,7 @@ module Jamf
 
       # try to instantiate the class with the value. It should raise an error
       # if not good
+      # TODO: Does this method name need to be in Jamf::JPAPIResource::NEW_CALLERS
       klass.new val
     rescue => e
       raise_invalid_data_error(msg || "#{attr_name} value must be a #{klass}, or #{klass}.new must accept it as the only parameter, but #{klass}.new raised: #{e.class}: #{e}")
