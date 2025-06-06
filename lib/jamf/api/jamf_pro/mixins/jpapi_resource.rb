@@ -46,7 +46,15 @@ module Jamf
     API_SOURCE = :jamf_pro
 
     # These methods are allowed to call .new
-    NEW_CALLERS = ['fetch', 'create', 'all', 'cached_all', 'block in all', 'block in cached_all'].freeze
+    NEW_CALLERS = [
+      'fetch',
+      'create',
+      'all',
+      'cached_all',
+      'block in all',
+      'block in cached_all',
+      'block in page'
+    ].freeze
 
     # The resource version for previewing new features
     RSRC_PREVIEW_VERSION = 'preview'.freeze
