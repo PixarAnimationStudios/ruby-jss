@@ -88,6 +88,9 @@ class App
   # But we can still catch any that have an example that matches this Regexp
   DATE_TIME_EXAMPLE_RE = /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d+)?(([+-]\d\d\d\d)|Z)?$/.freeze
 
+  # these are the 9 HTTP methods, as they appear in the path definitions of the OAPI schema.
+  SCHEMA_HTTP_METHODS = %i[get post put patch delete head options trace connect].freeze
+
   # The placeholder for the class names we're automatically generating.
   # e.g. class OAPIObject::XyzAbc < OAPIObject, this is 'XyzAbc'
   OAPIOBJECT_SUBCLASS_NAME_PLACEHOLDER = 'OAPI_SUBCLASS_NAME_GOES HERE'
@@ -351,7 +354,12 @@ class App
   def privs_for_object(object_name)
     paths = []
     @api_definition[:paths].each do |path, pathdef|
+      puts "Processing path: #{path}"
       pathdef.each do |operation, opdef|
+        next unless SCHEMA_HTTP_METHODS.include? operation.to_sym
+        next unless opdef.is_a? Hash
+
+        puts "..Processing operation: #{operation}"
         xpriv = opdef[:'x-required-privileges'].dup
         xpriv ||= ['Unknown']
         xpriv = [xpriv] if xpriv.is_a?(String)
