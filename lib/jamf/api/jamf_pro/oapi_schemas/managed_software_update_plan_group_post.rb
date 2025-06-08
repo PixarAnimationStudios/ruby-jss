@@ -30,7 +30,7 @@ module Jamf
   module OAPISchemas
 
 
-    # OAPI Object Model and Enums for: AvailableUpdates
+    # OAPI Object Model and Enums for: ManagedSoftwareUpdatePlanGroupPost
     #
     #
     #
@@ -52,31 +52,47 @@ module Jamf
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #  
+    #  - Jamf::OAPISchemas::PlanGroupPost
+    #  - Jamf::OAPISchemas::PlanConfigurationPost
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/macos-managed-software-updates/available-updates:GET' needs permissions:
-    #    - Unknown
+    #  - '/v1/managed-software-updates/plans/group:POST' needs permissions:
+    #    - Create Managed Software Updates
+    #    - Read Computers
+    #    - Read Mobile Devices
+    #    - Read Smart Computer Groups
+    #    - Read Static Computer Groups
+    #    - Read Smart Mobile Device Groups
+    #    - Read Static Mobile Device Groups
+    #    - Send Computer Remote Command to Download and Install OS X Update
+    #    - Send Mobile Device Remote Command to Download and Install iOS Update
     #
     #
-    class AvailableUpdates < Jamf::OAPIObject
+    class ManagedSoftwareUpdatePlanGroupPost < Jamf::OAPIObject
 
       
 
       OAPI_PROPERTIES = {
 
-        # @!attribute availableUpdates
-        #   @return [Array<String>]
-        availableUpdates: {
-          class: :string,
-          multi: true
+        # @!attribute group
+        #   @return [Jamf::OAPISchemas::PlanGroupPost]
+        group: {
+          class: Jamf::OAPISchemas::PlanGroupPost,
+          required: true
+        },
+
+        # @!attribute config
+        #   @return [Jamf::OAPISchemas::PlanConfigurationPost]
+        config: {
+          class: Jamf::OAPISchemas::PlanConfigurationPost,
+          required: true
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class AvailableUpdates
+    end # class ManagedSoftwareUpdatePlanGroupPost
 
   end # module OAPISchemas
 

@@ -58,6 +58,8 @@ If you have thoughts or comments on this, please reach out:
 
     For some objects this isn't relevant, e.g. Inventory Preload Records, but for JPAPI that use variations on the word 'name' for the objects actual name, this will help normalize things, and keep better compatility with objects from the Classic API, which all use 'name'.
 
+  - `Jamf::ManagedSoftwareUpdate` This module replaces the deprecated MacOSManagedUpdates class, giving access to the `v1/managed-software-updates` endpoints for creating and querying Software Update plans and their statuses. See the `Jamf::ManagedSoftwareUpdat.send_managed_sw_update` and `Jamf::ManagedSoftwareUpdat.status` module methods, and the `Jamf::ManagedSoftwareUpdate::Plan` class, 
+
   
 ### Changed
   - `Jamf::JpBuilding` is now known as `Jamf::JBuilding`
@@ -91,6 +93,8 @@ If you have thoughts or comments on this, please reach out:
     To start with, we're keeping the ones currently in use (about 40 of them) where they've always lived, in the `lib/jamf/api/jamf_pro/oapi_schemas` directory, and the new bespoke ones will go there also. The other ~550 unused auto-generated classes have been removed from ruby-jss.  
     
     For details about how the've been auto-generated, see the `generate_object_models` tool in the bin directory.
+
+  - `Jamf::MacOSManagedUpdates` This endpoint has been deprecated by Jamf, and replaced with the more broad, and future-proof `Jamf::ManagedSoftwareUpdates` module.
 
 --------
 ## \[4.1.1] 2024-06-25

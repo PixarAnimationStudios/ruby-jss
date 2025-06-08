@@ -30,7 +30,7 @@ module Jamf
   module OAPISchemas
 
 
-    # OAPI Object Model and Enums for: AvailableUpdates
+    # OAPI Object Model and Enums for: DssDeclarations
     #
     #
     #
@@ -52,31 +52,36 @@ module Jamf
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #  
+    #  - Jamf::OAPISchemas::DssDeclaration
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/macos-managed-software-updates/available-updates:GET' needs permissions:
-    #    - Unknown
+    #  - '/v1/dss-declarations/{id}:GET' needs permissions:
+    #    - Read Mobile Devices
+    #    - Read Computers
+    #  - '/v1/managed-software-updates/plans/{id}/declarations:GET' needs permissions:
+    #    - Read Managed Software Updates
+    #    - Read Computers
+    #    - Read Mobile Devices
     #
     #
-    class AvailableUpdates < Jamf::OAPIObject
+    class DssDeclarations < Jamf::OAPIObject
 
       
 
       OAPI_PROPERTIES = {
 
-        # @!attribute availableUpdates
-        #   @return [Array<String>]
-        availableUpdates: {
-          class: :string,
+        # @!attribute declarations
+        #   @return [Array<Jamf::OAPISchemas::DssDeclaration>]
+        declarations: {
+          class: Jamf::OAPISchemas::DssDeclaration,
           multi: true
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class AvailableUpdates
+    end # class DssDeclarations
 
   end # module OAPISchemas
 

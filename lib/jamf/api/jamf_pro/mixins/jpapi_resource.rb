@@ -75,13 +75,19 @@ module Jamf
       end
 
       # Disallow direct use of ruby's .new class method for creating instances.
-      # Require use of .fetch or .create, or 'all'
+      # Require use of a method in NEW_CALLERS, or the data must include
+      # :instantiate_me
+      #
+      # WARNING: do not abuse :instantiate_me, it exists so we don't constantly
+      # have to update NEW_CALLERS
       #
       def new(**data)
         calling_method = caller_locations(1..1).first.label
-        unless NEW_CALLERS.include? calling_method
+        unless NEW_CALLERS.include? calling_method || data[:instantiate_me]
           raise Jamf::UnsupportedError, 'Use .fetch, .create, or .all(instantiate:true) to instantiate Jamf::JPAPIResource objects'
         end
+
+        data.delete :instantiate_me
 
         super(**data)
       end

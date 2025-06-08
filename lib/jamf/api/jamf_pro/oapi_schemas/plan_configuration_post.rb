@@ -30,7 +30,7 @@ module Jamf
   module OAPISchemas
 
 
-    # OAPI Object Model and Enums for: AvailableUpdates
+    # OAPI Object Model and Enums for: PlanConfigurationPost
     #
     #
     #
@@ -48,7 +48,8 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #  
+    #  - Jamf::OAPISchemas::ManagedSoftwareUpdatePlanGroupPost
+    #  - Jamf::OAPISchemas::ManagedSoftwareUpdatePlanPost
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
@@ -57,26 +58,84 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/macos-managed-software-updates/available-updates:GET' needs permissions:
-    #    - Unknown
     #
     #
-    class AvailableUpdates < Jamf::OAPIObject
+    #
+    class PlanConfigurationPost < Jamf::OAPIObject
 
-      
+      # Enums used by this class or others
+
+      UPDATE_ACTION_OPTIONS = [
+        'DOWNLOAD_ONLY',
+        'DOWNLOAD_INSTALL',
+        'DOWNLOAD_INSTALL_ALLOW_DEFERRAL',
+        'DOWNLOAD_INSTALL_RESTART',
+        'DOWNLOAD_INSTALL_SCHEDULE',
+        'UNKNOWN'
+      ]
+
+      VERSION_TYPE_OPTIONS = [
+        'LATEST_MAJOR',
+        'LATEST_MINOR',
+        'LATEST_ANY',
+        'SPECIFIC_VERSION',
+        'CUSTOM_VERSION',
+        'UNKNOWN'
+      ]
 
       OAPI_PROPERTIES = {
 
-        # @!attribute availableUpdates
-        #   @return [Array<String>]
-        availableUpdates: {
+        # @!attribute updateAction
+        #   @return [String]
+        updateAction: {
           class: :string,
-          multi: true
+          required: true,
+          enum: UPDATE_ACTION_OPTIONS
+        },
+
+        # @!attribute versionType
+        #   @return [String]
+        versionType: {
+          class: :string,
+          required: true,
+          enum: VERSION_TYPE_OPTIONS
+        },
+
+        # Optional. Indicates the specific version to update to. Only available when the version type is set to specific version or custom version, otherwise defaults to NO_SPECIFIC_VERSION.
+        # @!attribute specificVersion
+        #   @return [String]
+        specificVersion: {
+          class: :string,
+          min_length: 0
+        },
+
+        # Optional. Indicates the build version to update to. Only available when the version type is set to custom version.
+        # @!attribute buildVersion
+        #   @return [String]
+        buildVersion: {
+          class: :string,
+          nil_ok: true
+        },
+
+        # Required when the provided updateAction is DOWNLOAD_INSTALL_ALLOW_DEFERRAL, not applicable to all managed software update plans
+        # @!attribute maxDeferrals
+        #   @return [Integer]
+        maxDeferrals: {
+          class: :integer,
+          minimum: 0
+        },
+
+        # Optional. Indicates the local date and time of the device to force update by.
+        # @!attribute forceInstallLocalDateTime
+        #   @return [String]
+        forceInstallLocalDateTime: {
+          class: Jamf::Timestamp,
+          nil_ok: true
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class AvailableUpdates
+    end # class PlanConfigurationPost
 
   end # module OAPISchemas
 

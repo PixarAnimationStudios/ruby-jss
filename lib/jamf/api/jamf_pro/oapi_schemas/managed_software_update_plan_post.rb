@@ -30,7 +30,7 @@ module Jamf
   module OAPISchemas
 
 
-    # OAPI Object Model and Enums for: AvailableUpdates
+    # OAPI Object Model and Enums for: ManagedSoftwareUpdatePlanPost
     #
     #
     #
@@ -52,31 +52,46 @@ module Jamf
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #  
+    #  - Jamf::OAPISchemas::PlanDevicePost
+    #  - Jamf::OAPISchemas::PlanConfigurationPost
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/macos-managed-software-updates/available-updates:GET' needs permissions:
-    #    - Unknown
+    #  - '/v1/managed-software-updates/plans:POST' needs permissions:
+    #    - Create Managed Software Updates
+    #    - Read Computers
+    #    - Read Mobile Devices
+    #    - Send Computer Remote Command to Download and Install OS X Update
+    #    - Send Mobile Device Remote Command to Download and Install iOS Update
     #
     #
-    class AvailableUpdates < Jamf::OAPIObject
+    class ManagedSoftwareUpdatePlanPost < Jamf::OAPIObject
 
       
 
       OAPI_PROPERTIES = {
 
-        # @!attribute availableUpdates
-        #   @return [Array<String>]
-        availableUpdates: {
-          class: :string,
-          multi: true
+        # @!attribute devices
+        #   @return [Array<Jamf::OAPISchemas::PlanDevicePost>]
+        devices: {
+          class: Jamf::OAPISchemas::PlanDevicePost,
+          required: true,
+          multi: true,
+          min_items: 1,
+          unique_items: true
+        },
+
+        # @!attribute config
+        #   @return [Jamf::OAPISchemas::PlanConfigurationPost]
+        config: {
+          class: Jamf::OAPISchemas::PlanConfigurationPost,
+          required: true
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class AvailableUpdates
+    end # class ManagedSoftwareUpdatePlanPost
 
   end # module OAPISchemas
 

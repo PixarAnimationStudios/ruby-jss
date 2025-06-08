@@ -30,7 +30,7 @@ module Jamf
   module OAPISchemas
 
 
-    # OAPI Object Model and Enums for: AvailableUpdates
+    # OAPI Object Model and Enums for: PlanStatus
     #
     #
     #
@@ -48,7 +48,7 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #  
+    #  - Jamf::OAPISchemas::ManagedSoftwareUpdatePlan
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
@@ -57,26 +57,70 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/macos-managed-software-updates/available-updates:GET' needs permissions:
-    #    - Unknown
     #
     #
-    class AvailableUpdates < Jamf::OAPIObject
+    #
+    class PlanStatus < Jamf::OAPIObject
 
-      
+      # Enums used by this class or others
+
+      STATE_OPTIONS = [
+        'Init',
+        'PendingPlanValidation',
+        'AcceptingPlan',
+        'RejectingPlan',
+        'ProcessingPlanType',
+        'ProcessingPlanTypeMdm',
+        'StartingPlan',
+        'PlanFailed',
+        'SchedulingScanForOSUpdates',
+        'ProcessingScheduleOSUpdateScanResponse',
+        'WaitingForScheduledOSUpdateScanToComplete',
+        'CollectingAvailableOSUpdates',
+        'ProcessingAvailableOSUpdatesResponse',
+        'ProcessingSchedulingType',
+        'SchedulingDDM',
+        'DDMPlanScheduled',
+        'WaitingToStartDDMUpdate',
+        'ProcessingDDMStatusResponse',
+        'CollectingDDMStatus',
+        'SchedulingMDM',
+        'MDMPlanScheduled',
+        'SchedulingOSUpdate',
+        'ProcessingScheduleOSUpdateResponse',
+        'CollectingOSUpdateStatus',
+        'ProcessingOSUpdateStatusResponse',
+        'WaitingToCollectOSUpdateStatus',
+        'VerifyingInstallation',
+        'ProcessingInstallationVerification',
+        'PlanCompleted',
+        'PlanCanceled',
+        'PlanException',
+        'Unknown'
+      ]
 
       OAPI_PROPERTIES = {
 
-        # @!attribute availableUpdates
-        #   @return [Array<String>]
-        availableUpdates: {
+        # @!attribute [r] state
+        #   @return [String]
+        state: {
           class: :string,
+          readonly: true,
+          enum: STATE_OPTIONS
+        },
+
+        # @!attribute [r] errorReasons
+        #   @return [Array<String>]
+        errorReasons: {
+          class: :string,
+          nil_ok: true,
+          readonly: true,
           multi: true
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class AvailableUpdates
+    end # class PlanStatus
 
   end # module OAPISchemas
 

@@ -30,7 +30,7 @@ module Jamf
   module OAPISchemas
 
 
-    # OAPI Object Model and Enums for: AvailableUpdates
+    # OAPI Object Model and Enums for: ManagedSoftwareUpdateStatuses
     #
     #
     #
@@ -52,31 +52,50 @@ module Jamf
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #  
+    #  - Jamf::OAPISchemas::ManagedSoftwareUpdateStatus
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/macos-managed-software-updates/available-updates:GET' needs permissions:
-    #    - Unknown
+    #  - '/v1/managed-software-updates/update-statuses:GET' needs permissions:
+    #    - Read Computers
+    #    - Read Mobile Devices
+    #  - '/v1/managed-software-updates/update-statuses/computer-groups/{id}:GET' needs permissions:
+    #    - Read Computers
+    #    - Read Smart Computer Groups
+    #    - Read Static Computer Groups
+    #  - '/v1/managed-software-updates/update-statuses/computers/{id}:GET' needs permissions:
+    #    - Read Computers
+    #  - '/v1/managed-software-updates/update-statuses/mobile-device-groups/{id}:GET' needs permissions:
+    #    - Read Mobile Devices
+    #    - Read Smart Mobile Device Groups
+    #    - Read Static Mobile Device Groups
+    #  - '/v1/managed-software-updates/update-statuses/mobile-devices/{id}:GET' needs permissions:
+    #    - Read Mobile Devices
     #
     #
-    class AvailableUpdates < Jamf::OAPIObject
+    class ManagedSoftwareUpdateStatuses < Jamf::OAPIObject
 
       
 
       OAPI_PROPERTIES = {
 
-        # @!attribute availableUpdates
-        #   @return [Array<String>]
-        availableUpdates: {
-          class: :string,
+        # @!attribute totalCount
+        #   @return [Integer]
+        totalCount: {
+          class: :integer
+        },
+
+        # @!attribute results
+        #   @return [Array<Jamf::OAPISchemas::ManagedSoftwareUpdateStatus>]
+        results: {
+          class: Jamf::OAPISchemas::ManagedSoftwareUpdateStatus,
           multi: true
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class AvailableUpdates
+    end # class ManagedSoftwareUpdateStatuses
 
   end # module OAPISchemas
 

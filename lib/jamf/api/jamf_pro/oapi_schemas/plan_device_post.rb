@@ -30,7 +30,7 @@ module Jamf
   module OAPISchemas
 
 
-    # OAPI Object Model and Enums for: AvailableUpdates
+    # OAPI Object Model and Enums for: PlanDevicePost
     #
     #
     #
@@ -48,7 +48,7 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #  
+    #  - Jamf::OAPISchemas::ManagedSoftwareUpdatePlanPost
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
@@ -57,26 +57,40 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/macos-managed-software-updates/available-updates:GET' needs permissions:
-    #    - Unknown
     #
     #
-    class AvailableUpdates < Jamf::OAPIObject
+    #
+    class PlanDevicePost < Jamf::OAPIObject
 
-      
+      # Enums used by this class or others
+
+      OBJECT_TYPE_OPTIONS = [
+        'COMPUTER',
+        'MOBILE_DEVICE',
+        'APPLE_TV'
+      ]
 
       OAPI_PROPERTIES = {
 
-        # @!attribute availableUpdates
-        #   @return [Array<String>]
-        availableUpdates: {
+        # @!attribute deviceId
+        #   @return [String]
+        deviceId: {
           class: :string,
-          multi: true
+          required: true,
+          min_length: 1
+        },
+
+        # @!attribute objectType
+        #   @return [String]
+        objectType: {
+          class: :string,
+          required: true,
+          enum: OBJECT_TYPE_OPTIONS
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class AvailableUpdates
+    end # class PlanDevicePost
 
   end # module OAPISchemas
 

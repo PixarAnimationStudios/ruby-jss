@@ -31,6 +31,8 @@ module Jamf
   #
   # Classes doing so must define the FILTER_KEYS constant, an Array of
   # Symbols of keys from OAPI_PROPERTIES which can be used in filters.
+  #
+  # TODO: Actually implement this module in CollectionResources?
   module Filterable
 
     def self.extended(extender)
@@ -41,6 +43,12 @@ module Jamf
 
     # generate the RSQL filter to put into the url
     # This is callable from anywhere without mixing in.
+    #
+    # @param filter [String, nil] the filter to apply, or nil. If the
+    #   filter starts with FILTER_PARAM_PREFIX, it is returned as-is,
+    #   assuming it is already properly escaped.
+    # @return [String] the filter to use in the URL, with FILTER_PARAM_PREFIX
+    ##############################################
     def self.parse_url_filter_param(filter)
       return filter if filter.nil? || filter.start_with?(FILTER_PARAM_PREFIX)
 

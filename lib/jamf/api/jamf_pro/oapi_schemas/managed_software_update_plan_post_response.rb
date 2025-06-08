@@ -30,7 +30,7 @@ module Jamf
   module OAPISchemas
 
 
-    # OAPI Object Model and Enums for: AvailableUpdates
+    # OAPI Object Model and Enums for: ManagedSoftwareUpdatePlanPostResponse
     #
     #
     #
@@ -52,31 +52,48 @@ module Jamf
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #  
+    #  - Jamf::OAPISchemas::PlanDeviceResponse
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/macos-managed-software-updates/available-updates:GET' needs permissions:
-    #    - Unknown
+    #  - '/v1/managed-software-updates/plans:POST' needs permissions:
+    #    - Create Managed Software Updates
+    #    - Read Computers
+    #    - Read Mobile Devices
+    #    - Send Computer Remote Command to Download and Install OS X Update
+    #    - Send Mobile Device Remote Command to Download and Install iOS Update
+    #  - '/v1/managed-software-updates/plans/group:POST' needs permissions:
+    #    - Create Managed Software Updates
+    #    - Read Computers
+    #    - Read Mobile Devices
+    #    - Read Smart Computer Groups
+    #    - Read Static Computer Groups
+    #    - Read Smart Mobile Device Groups
+    #    - Read Static Mobile Device Groups
+    #    - Send Computer Remote Command to Download and Install OS X Update
+    #    - Send Mobile Device Remote Command to Download and Install iOS Update
     #
     #
-    class AvailableUpdates < Jamf::OAPIObject
+    class ManagedSoftwareUpdatePlanPostResponse < Jamf::OAPIObject
 
       
 
       OAPI_PROPERTIES = {
 
-        # @!attribute availableUpdates
-        #   @return [Array<String>]
-        availableUpdates: {
-          class: :string,
-          multi: true
+        # @!attribute [r] plans
+        #   @return [Array<Jamf::OAPISchemas::PlanDeviceResponse>]
+        plans: {
+          class: Jamf::OAPISchemas::PlanDeviceResponse,
+          readonly: true,
+          multi: true,
+          min_items: 0,
+          unique_items: true
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class AvailableUpdates
+    end # class ManagedSoftwareUpdatePlanPostResponse
 
   end # module OAPISchemas
 

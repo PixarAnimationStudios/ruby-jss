@@ -30,7 +30,7 @@ module Jamf
   module OAPISchemas
 
 
-    # OAPI Object Model and Enums for: AvailableUpdates
+    # OAPI Object Model and Enums for: DssDeclaration
     #
     #
     #
@@ -48,7 +48,7 @@ module Jamf
     # Container Objects:
     # Other object models that use this model as the value in one
     # of their attributes.
-    #  
+    #  - Jamf::OAPISchemas::DssDeclarations
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
@@ -57,26 +57,54 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/macos-managed-software-updates/available-updates:GET' needs permissions:
-    #    - Unknown
     #
     #
-    class AvailableUpdates < Jamf::OAPIObject
+    #
+    class DssDeclaration < Jamf::OAPIObject
 
-      
+      # Enums used by this class or others
+
+      GROUP_OPTIONS = [
+        'ACTIVATION',
+        'ASSET',
+        'CONFIGURATION',
+        'MANAGEMENT'
+      ]
 
       OAPI_PROPERTIES = {
 
-        # @!attribute availableUpdates
-        #   @return [Array<String>]
-        availableUpdates: {
+        # @!attribute uuid
+        #   @return [String]
+        uuid: {
+          class: :string
+        },
+
+        # @!attribute payloadJson
+        #   @return [String]
+        payloadJson: {
           class: :string,
-          multi: true
+          nil_ok: true
+        },
+
+        # @!attribute [r] type
+        #   @return [String]
+        type: {
+          class: :string,
+          nil_ok: true,
+          readonly: true
+        },
+
+        # @!attribute group
+        #   @return [String]
+        group: {
+          class: :string,
+          nil_ok: true,
+          enum: GROUP_OPTIONS
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class AvailableUpdates
+    end # class DssDeclaration
 
   end # module OAPISchemas
 

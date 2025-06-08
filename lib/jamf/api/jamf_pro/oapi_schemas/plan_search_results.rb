@@ -30,7 +30,7 @@ module Jamf
   module OAPISchemas
 
 
-    # OAPI Object Model and Enums for: AvailableUpdates
+    # OAPI Object Model and Enums for: PlanSearchResults
     #
     #
     #
@@ -52,31 +52,37 @@ module Jamf
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #  
+    #  - Jamf::OAPISchemas::JamfProtectPlan
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/macos-managed-software-updates/available-updates:GET' needs permissions:
-    #    - Unknown
+    #  - '/v1/jamf-protect/plans:GET' needs permissions:
+    #    - Read Jamf Protect Deployments
     #
     #
-    class AvailableUpdates < Jamf::OAPIObject
+    class PlanSearchResults < Jamf::OAPIObject
 
       
 
       OAPI_PROPERTIES = {
 
-        # @!attribute availableUpdates
-        #   @return [Array<String>]
-        availableUpdates: {
-          class: :string,
+        # @!attribute totalCount
+        #   @return [Integer]
+        totalCount: {
+          class: :integer
+        },
+
+        # @!attribute results
+        #   @return [Array<Jamf::OAPISchemas::JamfProtectPlan>]
+        results: {
+          class: Jamf::OAPISchemas::JamfProtectPlan,
           multi: true
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class AvailableUpdates
+    end # class PlanSearchResults
 
   end # module OAPISchemas
 

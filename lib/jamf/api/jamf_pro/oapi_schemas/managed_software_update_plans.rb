@@ -30,7 +30,7 @@ module Jamf
   module OAPISchemas
 
 
-    # OAPI Object Model and Enums for: AvailableUpdates
+    # OAPI Object Model and Enums for: ManagedSoftwareUpdatePlans
     #
     #
     #
@@ -52,31 +52,50 @@ module Jamf
     #
     # Sub Objects:
     # Other object models used by this model's attributes.
-    #  
+    #  - Jamf::OAPISchemas::ManagedSoftwareUpdatePlan
     #
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/macos-managed-software-updates/available-updates:GET' needs permissions:
-    #    - Unknown
+    #  - '/v1/managed-software-updates/plans:GET' needs permissions:
+    #    - Read Managed Software Updates
+    #    - Read Computers
+    #    - Read Mobile Devices
+    #  - '/v1/managed-software-updates/plans/group/{id}:GET' needs permissions:
+    #    - Read Managed Software Updates
+    #    - Read Computers
+    #    - Read Smart Computer Groups
+    #    - Read Static Computer Groups
+    #    - Read Mobile Devices
+    #    - Read Smart Mobile Device Groups
+    #    - Read Static Mobile Device Groups
     #
     #
-    class AvailableUpdates < Jamf::OAPIObject
+    class ManagedSoftwareUpdatePlans < Jamf::OAPIObject
 
       
 
       OAPI_PROPERTIES = {
 
-        # @!attribute availableUpdates
-        #   @return [Array<String>]
-        availableUpdates: {
-          class: :string,
-          multi: true
+        # @!attribute totalCount
+        #   @return [Integer]
+        totalCount: {
+          class: :integer,
+          minimum: 0
+        },
+
+        # @!attribute [r] results
+        #   @return [Array<Jamf::OAPISchemas::ManagedSoftwareUpdatePlan>]
+        results: {
+          class: Jamf::OAPISchemas::ManagedSoftwareUpdatePlan,
+          readonly: true,
+          multi: true,
+          min_items: 0
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class AvailableUpdates
+    end # class ManagedSoftwareUpdatePlans
 
   end # module OAPISchemas
 

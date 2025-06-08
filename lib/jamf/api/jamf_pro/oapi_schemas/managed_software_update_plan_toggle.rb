@@ -30,7 +30,7 @@ module Jamf
   module OAPISchemas
 
 
-    # OAPI Object Model and Enums for: AvailableUpdates
+    # OAPI Object Model and Enums for: ManagedSoftwareUpdatePlanToggle
     #
     #
     #
@@ -57,26 +57,58 @@ module Jamf
     # Endpoints and Privileges:
     # API endpoints and HTTP operations that use this object
     # model, and the Jamf Pro privileges needed to access them.
-    #  - '/v1/macos-managed-software-updates/available-updates:GET' needs permissions:
-    #    - Unknown
+    #  - '/v1/managed-software-updates/plans/feature-toggle:GET' needs permissions:
+    #    - Read Managed Software Updates
+    #  - '/v1/managed-software-updates/plans/feature-toggle:PUT' needs permissions:
+    #    - Read Managed Software Updates
+    #    - Create Managed Software Updates
+    #    - Update Managed Software Updates
     #
     #
-    class AvailableUpdates < Jamf::OAPIObject
+    class ManagedSoftwareUpdatePlanToggle < Jamf::OAPIObject
 
       
 
       OAPI_PROPERTIES = {
 
-        # @!attribute availableUpdates
-        #   @return [Array<String>]
-        availableUpdates: {
-          class: :string,
-          multi: true
+        # @!attribute toggle
+        #   @return [Boolean]
+        toggle: {
+          class: :boolean,
+          required: true
+        },
+
+        # @!attribute [r] forceInstallLocalDateEnabled
+        #   @return [Boolean]
+        forceInstallLocalDateEnabled: {
+          class: :boolean,
+          readonly: true
+        },
+
+        # @!attribute [r] customVersionEnabled
+        #   @return [Boolean]
+        customVersionEnabled: {
+          class: :boolean,
+          readonly: true
+        },
+
+        # @!attribute [r] dssEnabled
+        #   @return [Boolean]
+        dssEnabled: {
+          class: :boolean,
+          readonly: true
+        },
+
+        # @!attribute [r] recipeEnabled
+        #   @return [Boolean]
+        recipeEnabled: {
+          class: :boolean,
+          readonly: true
         }
 
       } # end OAPI_PROPERTIES
 
-    end # class AvailableUpdates
+    end # class ManagedSoftwareUpdatePlanToggle
 
   end # module OAPISchemas
 
