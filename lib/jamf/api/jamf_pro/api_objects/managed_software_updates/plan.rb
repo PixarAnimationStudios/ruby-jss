@@ -27,12 +27,8 @@ module Jamf
   module ManagedSoftwareUpdates
 
     # A ManagedSoftwareUpdate Plan contains the details for
-    # installing managed software updates
-    # via MDM on one or more devices or a group of devices.
-    #
-    # When created a plan for more than one device, or a group
-    # multiple Plan objects are created, one for each device.
-    #
+    # installing managed software updates via MDM/DDM on a device.
+    # When plans are created for a group there will be one for every member of the group
     #
     class Plan < Jamf::OAPISchemas::ManagedSoftwareUpdatePlan
 
@@ -118,7 +114,7 @@ module Jamf
         end
       end
 
-      # get the declarations for a plan
+      # Get the declarations for a plan
       #
       # @param plan_uuid [String] the UUID of the plan to get declarations for
       #

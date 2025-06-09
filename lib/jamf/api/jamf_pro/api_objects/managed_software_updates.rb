@@ -24,15 +24,24 @@
 
 module Jamf
 
-  # This module holds the two classes available via the managed-software-updates
-  # JPAPI resource: Plan and Status.
+  # This module provides access to the Managed Software Updates endpoints of the Jamf Pro API.
   #
-  # It also provides class methods for getting available OS updates, and
-  # sending updates to devices or groups of devices by creating plans.
+  # Sending managed software updates is done by creating a "plan" for one or more devices, or
+  # a group of devices, either computers or mobile devices. Plans are created with the
+  # send_managed_sw_update method, which takes the target devices or group, the update action,
+  # the version type, and other optional parameters such as specific version, build version.
   #
-  # I will probably not add support for the "feature-toggle" endpoints, since eventually
-  # this 'feature' will be the default behavior, and that action is better done in the
-  # web app.
+  # Once created/sent, Plans, identified by their planUuid, can be retrieved with the
+  # Jamf::ManagedSoftwareUpdate::Plan class which encapsulates the details of the plan, including
+  # the latest status of the update from the Jamf Pro server.
+  #
+  # You can also retrieve the status from the MDM server/Client Machines via the
+  # Jamf::ManagedSoftwareUpdates.status method, which returns an array of Status objects
+  # for the devices or group members you specify.
+  #
+  # We will probably not add support for the "feature-toggle" endpoints, since eventually
+  # this 'feature' will be the only way to do these updates, and that such toggling is better
+  # done in the web app.
   #
   module ManagedSoftwareUpdates
 
@@ -156,8 +165,8 @@ module Jamf
       Jamf::OAPISchemas::ManagedSoftwareUpdatePlanPostResponse.new cnx.jp_post(post_path, request_body)
     end
 
-    # Retrieve one or more Status objects for a device, group members, or the result of an arbitrary filter
-    # on all Status objects.
+    # Retrieve one or more ManagedSoftwareUpdateStatuses objects for a device, group members,
+    # or the result of an arbitrary filter on all Status objects.
     #
     # TODO: Integrate this into Jamf::Computer, Jamf::MobileDevice, Jamf::ComputerGroup,
     # and Jamf::MobileDeviceGroup as both a class method and an instance method.
@@ -205,7 +214,7 @@ module Jamf
       Jamf::OAPISchemas::ManagedSoftwareUpdateStatuses.new(cnx.jp_get(get_path)).results
     end
 
-    # validate and expand the device or group ids and type
+    # Validate the device or group ids and type
     #
     # @param deviceIds [String, Integer, Array<String, Integer>] Required if no groupId is given.
     #   Identifiers for the device targets.
