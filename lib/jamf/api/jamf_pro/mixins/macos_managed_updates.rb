@@ -24,6 +24,8 @@
 
 module Jamf
 
+  # @deprecated June 2025, Please use the {Jamf::ManagedSoftwareUpdates} module instead.
+  #
   # This module should be mixed in to Jamf::Computer and Jamf::ComputerGroup
   #
   # It provides access to the macos-managed-software-updates JPAPI resource for

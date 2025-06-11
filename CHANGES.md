@@ -58,7 +58,9 @@ If you have thoughts or comments on this, please reach out:
 
     For some objects this isn't relevant, e.g. Inventory Preload Records, but for JPAPI that use variations on the word 'name' for the objects actual name, this will help normalize things, and keep better compatility with objects from the Classic API, which all use 'name'.
 
-  - `Jamf::ManagedSoftwareUpdate` This module replaces the deprecated MacOSManagedUpdates class, giving access to the `v1/managed-software-updates` endpoints for creating and querying Software Update plans and their statuses. See the `Jamf::ManagedSoftwareUpdat.send_managed_sw_update` and `Jamf::ManagedSoftwareUpdat.status` module methods, and the `Jamf::ManagedSoftwareUpdate::Plan` class, 
+  - `Jamf::ManagedSoftwareUpdates` This module replaces the deprecated MacOSManagedUpdates class, giving access to the `v1/managed-software-updates` endpoints for creating and querying Software Update plans and their statuses. This code is preliminary and provides basic access. It will probably be enhanced in the future.
+    
+    See the `Jamf::ManagedSoftwareUpdates.send_managed_sw_update` and `Jamf::ManagedSoftwareUpdates.status` module methods, and the `Jamf::ManagedSoftwareUpdates::Plan` class, 
 
   
 ### Changed
