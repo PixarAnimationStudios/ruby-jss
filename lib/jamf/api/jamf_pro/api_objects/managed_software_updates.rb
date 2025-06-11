@@ -35,9 +35,14 @@ module Jamf
   # Jamf::ManagedSoftwareUpdate::Plan class which encapsulates the details of the plan, including
   # the latest status of the update from the Jamf Pro server.
   #
-  # You can also retrieve the status from the MDM server/Client Machines via the
+  # You can also retrieve the status of any computer or group from the MDM server/Client Machines via the
   # Jamf::ManagedSoftwareUpdates.status method, which returns an array of Status objects
   # for the devices or group members you specify.
+  #
+  # TODO: We will integrate the ManagedSoftwareUpdate::Plan class into Jamf::Computer,
+  # Jamf::MobileDevice, Jamf::ComputerGroup, and Jamf::MobileDeviceGroup (and/or their JP API versions)
+  # as both a class method and an instance method, so that you can send updates directly
+  # from those classes and instances.
   #
   # We will probably not add support for the "feature-toggle" endpoints, since eventually
   # this 'feature' will be the only way to do these updates, and that such toggling is better
