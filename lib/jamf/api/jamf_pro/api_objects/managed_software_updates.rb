@@ -28,7 +28,7 @@ module Jamf
   #
   # Sending managed software updates is done by creating a "plan" for one or more devices, or
   # a group of devices, either computers or mobile devices. Plans are created with the
-  # send_managed_sw_update method, which takes the target devices or group, the update action,
+  # {.send_managed_sw_update} module method, which takes the target devices or group, the update action,
   # the version type, and other optional parameters such as specific version, build version.
   #
   # Once created/sent, Plans, identified by their planUuid, can be retrieved with the
@@ -120,11 +120,12 @@ module Jamf
     #   Not applicable to all updateActions.
     #
     # @param forceInstallLocalDateTime [Time, Jamf::Timestamp, String] Optional. The local date and time
-    # of the device to force update by
+    # of the device to force update by. NOTE: This operation requires Declarative Device Management and
+    # is only available for Jamf Cloud customers.
     #
     # @param cnx [Jamf::Connection] The API connection to use. Defaults to Jamf.cnx
     #
-    # @return [Jamf::OAPISchemas::ManagedSoftwareUpdatePlanPostResponse] The Response object from the API
+    # @return [Hash {String => String}] deviceId => planUuid, for all devices targeted.
     ########################
     def self.send_managed_sw_update(targetType:, updateAction:, versionType:, deviceIds: nil, groupId: nil, cnx: Jamf.cnx, **opts)
       deviceIds, groupId, targetType = validate_targets(targetType: targetType, deviceIds: deviceIds, groupId: groupId)
@@ -162,7 +163,16 @@ module Jamf
         }
         post_path = GROUP_POST_PATH
       end
-      Jamf::OAPISchemas::ManagedSoftwareUpdatePlanPostResponse.new cnx.jp_post(post_path, request_body)
+
+      response = cnx.jp_post(post_path, request_body)
+      parsed_response = Jamf::OAPISchemas::ManagedSoftwareUpdatePlanPostResponse.new response
+
+      result = {}
+      parsed_response.plans.each do |plan|
+        result[plan.device.deviceId] = plan.planId
+      end
+
+      result
     end
 
     # Retrieve one or more ManagedSoftwareUpdateStatuses objects for a device, group members,
@@ -214,7 +224,7 @@ module Jamf
       Jamf::OAPISchemas::ManagedSoftwareUpdateStatuses.new(cnx.jp_get(get_path)).results
     end
 
-    # Validate the device or group ids and type
+    # Validate the device or group ids and type, returen validated values.
     #
     # @param deviceIds [String, Integer, Array<String, Integer>] Required if no groupId is given.
     #   Identifiers for the device targets.
