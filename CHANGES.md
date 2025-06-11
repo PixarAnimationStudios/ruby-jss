@@ -15,7 +15,7 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
-## \[4.2.0] Unreleased
+## \[4.2.0] 2025-06-11
 
 ### Moving forward with the Jamf Pro API
 With this release, we begin the long process of porting existing classes from the Classic API to the Jamf Pro API where possible, starting with `Jamf::Package`. So far, our implementation of classes from the Jamf Pro API has been limited to those not already implemented via the Classic API.
