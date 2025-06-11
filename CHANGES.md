@@ -22,7 +22,7 @@ With this release, we begin the long process of porting existing classes from th
 
 However, because of our stated goals and changes for implementing things in the Jamf Pro API (see [README-2.0.0.md](README-2.0.0.md)), we can't just change the existing classes without breaking lots of code. For example, in order to eliminate various 'hidden permissions requirements' and adhere more closely to the actual API, we're [eliminating cross-object validation](README-2.0.0.md#cross-object-validation-in-setters). 
 
-For Packages this means that when setting the categoryId, for example, you must provide an id, not a category name. In the existing `Jamf::Package` class using the Classic API, you could provide a name, and ruby-jss would look at the categories in the API and validate/convert to an id. This required 'undocumented' permissions to see the category endpoints when working with the package endpoints. NOTE: if you have read-permissions on categories, you can still use the `Jamf::Category.valid_id` method to convert from names to ids yourself. That method is available for all collection classes in both APIs.
+For Packages this means that when setting the categoryId, for example, you must provide an id, not a category name. In the existing `Jamf::Package` class using the Classic API, you could provide a name, and ruby-jss would look at the categories via the API and validate/convert to an id. This required 'undocumented' permissions to see the category endpoints when working with the package endpoints. NOTE: if you have read-permissions on categories, you can still use the `Jamf::Category.valid_id` method to convert from names to ids yourself. That method is available for all collection classes in both APIs.
 
 In order to move forward with Jamf Pro-based classes, while providing reasonable backward compatibility, here's the plan:
 
@@ -58,7 +58,13 @@ If you have thoughts or comments on this, please reach out:
 
     For some objects this isn't relevant, e.g. Inventory Preload Records, but for JPAPI that use variations on the word 'name' for the objects actual name, this will help normalize things, and keep better compatility with objects from the Classic API, which all use 'name'.
 
-  - `Jamf::ManagedSoftwareUpdate` This module replaces the deprecated MacOSManagedUpdates class, giving access to the `v1/managed-software-updates` endpoints for creating and querying Software Update plans and their statuses. See the `Jamf::ManagedSoftwareUpdat.send_managed_sw_update` and `Jamf::ManagedSoftwareUpdat.status` module methods, and the `Jamf::ManagedSoftwareUpdate::Plan` class, 
+    (This is one of the few exceptions to our policy of presenting JP API attributes 'as is' and avoiding lots of aliases)
+
+  - `Jamf::ManagedSoftwareUpdate` This module replaces the deprecated MacOSManagedUpdates class, giving access to the `v1/managed-software-updates` endpoints.
+
+    These endpoints are used for creating, initiating and querying Software Update plans for both Computers and MobileDevices, and retrieving their statuses. See the `Jamf::ManagedSoftwareUpdat.send_managed_sw_update` and `Jamf::ManagedSoftwareUpdat.status` module methods, and the `Jamf::ManagedSoftwareUpdate::Plan` class. 
+    
+    TODO: Access to this module will be added directly to the Computer, ComputerGroup, MobileDevice, and MobileDeviceGroup classes, as both instance and class methods.
 
   
 ### Changed
@@ -94,7 +100,7 @@ If you have thoughts or comments on this, please reach out:
     
     For details about how the've been auto-generated, see the `generate_object_models` tool in the bin directory.
 
-  - `Jamf::MacOSManagedUpdates` This endpoint has been deprecated by Jamf, and replaced with the more broad, and future-proof `Jamf::ManagedSoftwareUpdates` module.
+  - `Jamf::MacOSManagedUpdates` The matching endpoint has been deprecated by Jamf. The functionality has been replaced with the more broad, and future-proof `Jamf::ManagedSoftwareUpdates` module.
 
 --------
 ## \[4.1.1] 2024-06-25
