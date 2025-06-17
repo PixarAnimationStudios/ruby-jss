@@ -340,6 +340,12 @@ module Jamf
       self.suppressEula = DEFAULT_SUPPRESS_EULA if suppressEula.nil?
       self.suppressRegistration = DEFAULT_SUPPRESS_REGISTRATION if suppressRegistration.nil?
 
+      if creating_from_create && osRequirements
+        # if we're creating a new object, and osRequirements is set,
+        # convert it to a comma-separated string
+        @osRequirements = osRequirements_as_comma_sep_string(osRequirements)
+      end
+
       @checksum =
         case hashType
         when CHECKSUM_HASH_TYPE_MD5
@@ -374,19 +380,36 @@ module Jamf
     # @return [void]
     #############################
     def osRequirements=(new_val)
-      # make sure we have a flat array
-      new_val = new_val.split(',').map(&:strip) if new_val.is_a? String
-      new_val = [new_val].flatten.compact.uniq.map(&:to_s)
+      orig_osRequirements = osRequirements
+
+      new_val = osRequirements_as_comma_sep_string(new_val)
+      @osRequirements = new_val
+
+      note_unsaved_change :osRequirements, orig_osRequirements
+    end
+
+    # Take a value for osRequirements, and return it as a comma-separated string,
+    # possibly expanded if any of them starts with '>='.
+    #
+    # @see Jamf.expand_min_os
+    #
+    # @param val [String,Array<String>] comma-separated string, or array of os versions
+    #
+    # @return [Array<String>] the osRequirements as an array of strings
+    #############################
+    def osRequirements_as_comma_sep_string(val)
+      # make sure we have a flat array of strings
+      val = val.split(',').map(&:strip) if val.is_a? String
+      val = [val].flatten.compact.uniq.map(&:to_s)
 
       # expand any minimum OS versions
-      new_val.map! do |vers|
+      val.map! do |vers|
         vers.start_with?('>=') ? Jamf.expand_min_os(vers) : vers
       end
 
-      orig_osRequirements = osRequirements
-      @osRequirements = new_val.flatten.join(', ')
-      note_unsaved_change :osRequirements, orig_osRequirements
+      val.flatten.join(', ')
     end
+    private :osRequirements_as_comma_sep_string
 
     # Recalculate the checksum of the package file from a given filepath, and update the
     # object's checksum and hashValue attributes.
