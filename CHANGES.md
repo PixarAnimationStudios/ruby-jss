@@ -15,6 +15,19 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
+## \[4.2.1] UNRELEASED
+
+### Fixed
+
+  - `Jamf::JPackage#osRequirements=` now properly expands versions starting with '>='
+
+### Changed
+
+  - `Jamf.expand_min_os` now knows that Apple has skipped macOS v16-25, and that starting with 
+     Tahoe, the os is v26, incremented yearly. It now expands to v40, which should hold us for over 
+     a decade.
+
+--------
 ## \[4.2.0] 2025-06-11
 
 ### Moving forward with the Jamf Pro API
