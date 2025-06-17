@@ -65,27 +65,33 @@ module Jamf
     #
     # 12 is the default for the current OS and higher
     # (and hoping apple doesn't release, e.g.,  11.13)
+    #
+    # There is no 16-25 because in 2025 Apple changed the numbering
+    # scheme to match the year after release. So the OS released in
+    # 2025 is versino 26, not 16.
+    #
+    # This array should take us thru to 2039.
     MAC_OS_MAXS = {
       11 => 12,
       12 => 12,
       13 => 12,
       14 => 12,
       15 => 12,
-      16 => 12,
-      17 => 12,
-      18 => 12,
-      19 => 12,
-      20 => 12,
-      21 => 12,
-      22 => 12,
-      23 => 12,
-      24 => 12,
-      25 => 12,
       26 => 12,
       27 => 12,
       28 => 12,
       29 => 12,
-      30 => 12
+      30 => 12,
+      31 => 12,
+      32 => 12,
+      33 => 12,
+      34 => 12,
+      35 => 12,
+      36 => 12,
+      37 => 12,
+      38 => 12,
+      39 => 12,
+      40 => 12
     }
 
     # Converts an OS Version into an Array of equal or higher OS versions, up to
@@ -188,7 +194,7 @@ module Jamf
       # e.g. 11.x, or 11.x.x
       # expand to 11.x, 12.x, 13.x, ... 30.x
       if minor == 'x'
-        ((major.to_i)..MAC_OS_MAXS.keys.max).each { |v| ok_oses << "#{v}.x" }
+        ((major.to_i)..MAC_OS_MAXS.keys.max).each { |v| ok_oses << "#{v}.x" unless (16..25).include?(v) } # skip 16-25
 
       # e.g. 11.2.x
       # expand to 11.2.x, 11.3.x, ... 11.12.x,
@@ -202,7 +208,7 @@ module Jamf
         end # each m
 
         # then add the majors out to 20
-        ((major.to_i + 1)...MAC_OS_MAXS.keys.max).each { |v| ok_oses << "#{v}.x" }
+        ((major.to_i + 1)...MAC_OS_MAXS.keys.max).each { |v| ok_oses << "#{v}.x" unless (16..25).include?(v) }
 
       # e.g. 11.2.3
       # expand to 11.2.3, 11.2.4, ... 11.2.10,
@@ -219,7 +225,7 @@ module Jamf
         ((minor.to_i + 1)..max_minor_for_major).each { |min| ok_oses << "#{major}.#{min}.x" }
 
         # then add the majors out to 20
-        ((major.to_i + 1)..MAC_OS_MAXS.keys.max).each { |v| ok_oses << "#{v}.x" }
+        ((major.to_i + 1)..MAC_OS_MAXS.keys.max).each { |v| ok_oses << "#{v}.x" unless (16..25).include?(v) }
       end
 
       ok_oses
