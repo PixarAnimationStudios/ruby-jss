@@ -374,14 +374,17 @@ module Jamf
     # @return [void]
     #############################
     def osRequirements=(new_val)
-      # make sure we have an array
+      # make sure we have a flat array
+      new_val = new_val.split(',').map(&:strip) if new_val.is_a? String
       new_val = [new_val].flatten.compact.uniq.map(&:to_s)
+
+      # expand any minimum OS versions
       new_val.map! do |vers|
         vers.start_with?('>=') ? Jamf.expand_min_os(vers) : vers
       end
 
       orig_osRequirements = osRequirements
-      @osRequirements = new_val.join(', ')
+      @osRequirements = new_val.flatten.join(', ')
       note_unsaved_change :osRequirements, orig_osRequirements
     end
 
