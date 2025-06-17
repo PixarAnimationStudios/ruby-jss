@@ -353,6 +353,11 @@ module Jamf
     # @return [Hash]
     attr_reader :init_data
 
+    # If this is true, we are being created via the .create method
+    # and not fetched from the API.
+    # @return [Boolean]
+    attr_reader :creating_from_create
+
     # Constructor
     #####################################
 
@@ -364,9 +369,9 @@ module Jamf
       @init_data = data
 
       # creating a new one via ruby-jss, not fetching one from the API
-      creating = data.delete :creating_from_create if data.is_a?(Hash)
+      @creating_from_create = data.delete :creating_from_create if data.is_a?(Hash)
 
-      if creating
+      if @creating_from_create
         self.class::OAPI_PROPERTIES.each_key do |attr_name|
           # we'll enforce required values when we save
           next unless data.key? attr_name
