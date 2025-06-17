@@ -118,6 +118,9 @@ module Jamf
     # create a getter for an attribute, and any aliases needed
     ##############################
     def self.create_getters(attr_name, attr_def)
+      # if the getter has already been defined, don't overwrite it
+      return if instance_methods.include? attr_name.to_sym
+
       # multi_value - only return a frozen dup, no direct editing of the Array
       if attr_def[:multi]
         define_method(attr_name) do
@@ -139,6 +142,11 @@ module Jamf
     # create setter(s) for an attribute, and any aliases needed
     ##############################
     def self.create_setters(attr_name, attr_def)
+      setter_method_name = "#{attr_name}="
+
+      # if the setter has already been defined, don't overwrite it
+      return if instance_methods.include? setter_method_name.to_sym
+
       # multi_value
       if attr_def[:multi]
         create_array_setters(attr_name, attr_def)
@@ -146,7 +154,7 @@ module Jamf
       end
 
       # single value
-      define_method("#{attr_name}=") do |new_value|
+      define_method(setter_method_name) do |new_value|
         new_value = validate_attr attr_name, new_value
         old_value = instance_variable_get("@#{attr_name}")
         return if new_value == old_value
