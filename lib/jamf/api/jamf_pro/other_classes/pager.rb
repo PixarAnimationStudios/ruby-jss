@@ -226,7 +226,13 @@ module Jamf
 
       data = @cnx.jp_get "#{@query_path}&page=#{page_number}"
       data = data[:results]
-      data.map! { |r| @instantiate.new(**r) } if @instantiate
+
+      if @instantiate
+        data.map! do |r|
+          r[:cnx] = @cnx
+          @instantiate.new(**r)
+        end
+      end
 
       if increment_next
         @last_fetched_page = page_number
