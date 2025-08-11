@@ -31,7 +31,7 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
 
 ### Added
 
-  - `OAPIObject` subclasses now have an attr_reader indicating that they are being instantiated by the `.create` class method, as opposed to being fetched or given API data
+  - `OAPIObject` subclasses now have an attr_reader `creating_from_create` indicating that they are being instantiated by the `.create` class method, as opposed to being fetched or given API data
 
 --------
 ## \[4.2.0] 2025-06-11
