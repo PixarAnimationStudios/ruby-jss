@@ -41,7 +41,7 @@ Gem::Specification.new do |s|
 
   s.name        = proj_name
   s.version     = Jamf::VERSION
-  s.license     = 'Nonstandard'
+  s.license     = 'LicenseRef-LICENSE.txt'
   s.date        = Time.now.utc.strftime('%Y-%m-%d')
   s.summary     = 'A Ruby interface to the Jamf Pro REST APIs'
   s.authors     = ['Chris Lasell', 'Aurica Hayes']
