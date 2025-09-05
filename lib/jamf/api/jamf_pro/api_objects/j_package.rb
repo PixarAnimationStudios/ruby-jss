@@ -661,7 +661,15 @@ module Jamf
     # @return [void]
     ##############################
     def calculate_manifest_checksums(file, new_manifest, chunk_size: nil)
+      # we need the whole file checksum even if chunking, so
+      # get that first
+      # The Digest::SHA256.file method will read even huge files successfully
+      # without loading the whole file into memory, as would File.read.
+      #
+      whole_file_checksum = Digest::SHA256.file(file).hexdigest
+
       # are we chunking the download?
+      # we need checksums for each chunk, and the size of each chunk
       if chunk_size.is_a? Integer
         new_manifest[:items][0][:assets][0]['sha256-size'] = chunk_size
         file.open do |f|
@@ -670,23 +678,17 @@ module Jamf
           end
         end
 
-      # not chunking, use the file filesize
+      # not chunking, use the file filesize and whole-file checksum
       else
         new_manifest[:items][0][:assets][0]['sha256-size'] = file.size
-        new_manifest[:items][0][:assets][0]['sha256s'] = [Digest::SHA256.hexdigest(file.read)]
+        new_manifest[:items][0][:assets][0]['sha256s'] = [whole_file_checksum]
       end
 
       # Store the whole-file checksum in
-      # manifest[:items][0][:metadata]['sha256-whole']. taking it from
-      # manifest[:items][0][:assets][0]['sha256s'][0], if available, or generate it if needed
+      # manifest[:items][0][:metadata]['sha256-whole'], a non-standard key used by ruby-jss.
       # It is used by the deploy_via_mdm method.
       # This value is required for MDM deployments, even if the file is chunked in the manifest.
-      new_manifest[:items][0][:metadata]['sha256-whole'] =
-        if new_manifest[:items][0][:assets][0]['sha256s'].size == 1
-          new_manifest[:items][0][:assets][0]['sha256s'][0]
-        else
-          Digest::SHA256.hexdigest(file.read)
-        end
+      new_manifest[:items][0][:metadata]['sha256-whole'] = whole_file_checksum
     end
     private :calculate_manifest_checksums
 
