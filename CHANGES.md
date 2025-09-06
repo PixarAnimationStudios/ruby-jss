@@ -15,7 +15,7 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
-## \[4.2.2] Unreleased
+## \[4.2.2] 2025-09-06
 
 ### Fixed
   - Class `Jamf::JPackage` no longer raises `Errno::EINVAL Invalid argument @ io_fread` when generating manifest checksums for very large package files.
