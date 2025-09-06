@@ -15,18 +15,24 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
-## \[Unreleased]
+## \[4.2.2] Unreleased
+
+### Fixed
+  - Class `Jamf::JPackage` no longer raises `Errno::EINVAL Invalid argument @ io_fread` when generating manifest checksums for very large package files.
+
 
 ### Deprecated
 
-  - Class `Jamf::DBConnection`. Access to the MySQL backend database for on-prem Jamf Pro installations will be removed in a future release, probably some time in mid-late 2026. If you use this class, please update your code to make and use such connections independently of ruby-jss. This removal also includes the 'default' instance stored in `Jamf::DB_CNX` and `Jamf.db`. The following methods will also be removed, as they require that class for direct database access.
+  - Class `Jamf::DBConnection`. Access to the MySQL backend database for on-prem Jamf Pro installations will be removed in a future release, probably some time in mid-late 2026. If you use this class, please update your code to make and use such connections independently of ruby-jss. This removal also includes the 'default' instance stored in `Jamf::DB_CNX` and `Jamf.db`. 
+  
+    The following methods will also be removed, as they require that class for direct database access.
     - `Jamf::ComputerExtensionAttribute#history`
     - `Jamf::MobileDeviceExtensionAttribute#history`
     - `Jamf::Icon.all`
     - `Jamf::SelfServable#validate_icon`
     - `Jamf::APIObject#add_object_history_entry`
 
-      Note that some objects in the Jamf Pro API have access to their object_history. As classes are migrated (see release notes for 4.2.0 below) that access will be included.
+    Note that some objects in the Jamf Pro API have access to their object_history. As classes are migrated (see release notes for 4.2.0 below) that access will be included when available.
  
   
 
