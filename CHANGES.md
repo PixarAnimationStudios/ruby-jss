@@ -15,6 +15,12 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
+## \[4.2.3] Unreleased
+
+### Fixed
+  - Fixed bug were `#save` was not returning the object's Jamf ID when updating scopable objects.
+
+--------
 ## \[4.2.2] 2025-09-06
 
 ### Fixed
