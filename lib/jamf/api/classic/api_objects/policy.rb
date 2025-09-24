@@ -928,7 +928,7 @@ module Jamf
 
       # if the event is not 'none' and attempts is <= 0,
       # set events to 1, or the API won't accept it
-      @retry_attempts = 1 if !(evt == RETRY_EVENTS[:none]) && !@retry_attempts.positive?
+      @retry_attempts = 1 if !(evt == RETRY_EVENTS[:none]) && !@retry_attempts.to_i.positive?
 
       @retry_event = evt
       @need_to_update = true
@@ -1907,7 +1907,7 @@ module Jamf
       output = Jamf::Client.run_jamf('policy', "-id #{id}", show_output)
       return nil if output.include? 'No policies were found for the ID'
 
-      $CHILD_STATUS.exitstatus.zero? ? true : false
+      $CHILD_STATUS.exitstatus.zero? || false
     end
     alias execute run
 

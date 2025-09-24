@@ -109,8 +109,9 @@ module Jamf
     # when we couldn't verify all ldap users/groups due to lack of ldap connections
     #
     def update
-      super
+      resp = super
       @scope.should_update = false
+      resp
     rescue Jamf::ConflictError => e
       raise Jamf::InvalidDataError, 'Potentially non-existant LDAP user or group in new scope values.' if scope.unable_to_verify_ldap_entries == true
 
