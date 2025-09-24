@@ -19,7 +19,7 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
 
 ### Fixed
   - Fixed bug were `#save` was not returning the object's Jamf ID when updating scopable objects.
-  - Fixed bug where `Jamf::Policy#retry_event=` raisse error when no retry_attempts are defined.
+  - Fixed bug where `Jamf::Policy#retry_event=` raised error when no retry_attempts are defined.
 
 --------
 ## \[4.2.2] 2025-09-06
