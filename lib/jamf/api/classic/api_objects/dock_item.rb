@@ -1,30 +1,11 @@
-### Copyright 2019 Rixar
-
-###
-###    Licensed under the Apache License, Version 2.0 (the "Apache License")
-###    with the following modification; you may not use this file except in
-###    compliance with the Apache License and the following modification to it:
-###    Section 6. Trademarks. is deleted and replaced with:
-###
-###    6. Trademarks. This License does not grant permission to use the trade
-###       names, trademarks, service marks, or product names of the Licensor
-###       and its affiliates, except as required to comply with Section 4(c) of
-###       the License and to reproduce the content of the NOTICE file.
-###
-###    You may obtain a copy of the Apache License at
-###
-###        http://www.apache.org/licenses/LICENSE-2.0
-###
-###    Unless required by applicable law or agreed to in writing, software
-###    distributed under the Apache License with the above modification is
-###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-###    KIND, either express or implied. See the Apache License for the specific
-###    language governing permissions and limitations under the Apache License.
+# Copyright 2025 Pixar
+#
+#    Licensed under the terms set forth in the LICENSE.txt file available at
+#    at the root of this project.
 ###
 ###
 
 module Jamf
-
 
   # Module Variables
   #####################################
@@ -41,7 +22,6 @@ module Jamf
   # @see Jamf::APIObject
   #
   class DockItem < Jamf::APIObject
-
 
     # Mix-Ins
     #####################################
@@ -79,9 +59,7 @@ module Jamf
     # Attributes
     #####################################
     attr_reader :id
-    attr_reader :name
-    attr_reader :type
-    attr_reader :path
+    attr_reader :name, :type, :path
 
     # Constructor
     # @see Jamf::APIObject.initialize
@@ -121,9 +99,9 @@ module Jamf
       @need_to_update = true
     end
 
-      # private instance methods
-      ######################
-      private
+    # private instance methods
+    ######################
+    private
 
     # the xml formated data for adding or updating this in the JSS
     #
@@ -136,8 +114,6 @@ module Jamf
       doc.to_s
     end # rest_xml
 
-    end
-
-
+  end
 
 end

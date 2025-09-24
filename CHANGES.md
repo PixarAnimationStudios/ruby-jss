@@ -15,6 +15,13 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
+## \[Unreleased] 
+
+### Changed
+  - Use the 'TOMORROW OPEN SOURCE TECHNOLOGY LICENSE 1.0' (TOST) License 
+    - The terms are unchanged, but it now has an offical name.
+
+--------
 ## \[4.2.3] 2025-09-23
 
 ### Fixed

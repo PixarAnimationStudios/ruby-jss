@@ -1,25 +1,7 @@
-### Copyright 2019 Rixar
-
-###
-###    Licensed under the Apache License, Version 2.0 (the "Apache License")
-###    with the following modification; you may not use this file except in
-###    compliance with the Apache License and the following modification to it:
-###    Section 6. Trademarks. is deleted and replaced with:
-###
-###    6. Trademarks. This License does not grant permission to use the trade
-###       names, trademarks, service marks, or product names of the Licensor
-###       and its affiliates, except as required to comply with Section 4(c) of
-###       the License and to reproduce the content of the NOTICE file.
-###
-###    You may obtain a copy of the Apache License at
-###
-###        http://www.apache.org/licenses/LICENSE-2.0
-###
-###    Unless required by applicable law or agreed to in writing, software
-###    distributed under the Apache License with the above modification is
-###    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-###    KIND, either express or implied. See the Apache License for the specific
-###    language governing permissions and limitations under the Apache License.
+# Copyright 2025 Pixar
+#
+#    Licensed under the terms set forth in the LICENSE.txt file available at
+#    at the root of this project.
 ###
 ###
 
@@ -76,22 +58,8 @@ module Jamf
       # Attributes
       #####################################
 
-      attr_reader :require_confirmation
-      attr_reader :local_home
-      attr_reader :mount_style
-      attr_reader :default_shell
-      attr_reader :mount_network_home
-      attr_reader :place_home_folders
-      attr_reader :uid
-      attr_reader :user_gid
-      attr_reader :gid
-      attr_reader :admin_group
-      attr_reader :cached_credentials
-      attr_reader :add_user_to_local
-      attr_reader :users_ou
-      attr_reader :groups_ou
-      attr_reader :printers_ou
-      attr_reader :shared_folders_ou
+      attr_reader :require_confirmation, :local_home, :mount_style, :default_shell, :mount_network_home, :place_home_folders, :uid, :user_gid, :gid, 
+                  :admin_group, :cached_credentials, :add_user_to_local, :users_ou, :groups_ou, :printers_ou, :shared_folders_ou
 
       # Constructor
       #####################################
@@ -129,13 +97,13 @@ module Jamf
         if init_data[:local_home].nil? || init_data[:local_home].is_a?(String)
           unless HOME_FOLDER_TYPE.values.include? init_data[:local_home] || init_data[:local_home].nil?
             raise Jamf::InvalidDataError, "Local Home must be one of #{HOME_FOLDER_TYPE.values.join(', ')}."
-            end
+          end
 
           @local_home = init_data[:local_home]
         else
           unless HOME_FOLDER_TYPE.keys.include? init_data[:local_home]
             raise Jamf::InvalidDataError, "Local Home must be one of :#{HOME_FOLDER_TYPE.keys.join(',:')}."
-            end
+          end
         end
 
         @admin_group = if init_data[:admin_group].nil?
@@ -188,7 +156,7 @@ module Jamf
             raise Jamf::InvalidDataError, "local_home must be one of :#{HOME_FOLDER_TYPE.keys.join(',:')}." unless HOME_FOLDER_TYPE.keys.include? newvalue
 
             HOME_FOLDER_TYPE[newvalue]
-            end
+          end
 
         @local_home = new
 
@@ -213,7 +181,7 @@ module Jamf
             raise Jamf::InvalidDataError, 'default_shell must be empty or a string.' unless newvalue.is_a?(String)
 
             newvalue
-            end
+          end
 
         @default_shell = new
 
@@ -255,7 +223,7 @@ module Jamf
             raise Jamf::InvalidDataError, 'place_home_folders must be a string.' unless newvalue.is_a? String
 
             newvalue
-            end
+          end
 
         @place_home_folders = new
 
@@ -283,7 +251,7 @@ module Jamf
             raise Jamf::InvalidDataError, 'uid must be a string, integer, or nil.' unless newvalue.is_a?(String) || newvalue.is_a?(Integer) || newvalue.nil?
 
             newvalue
-            end
+          end
 
         @uid = new
 
@@ -305,10 +273,13 @@ module Jamf
             Jamf::BLANK
           else
             # Data Check
-            raise Jamf::InvalidDataError, 'user_gid must be a string, integer, or nil.' unless newvalue.is_a?(String) || newvalue.is_a?(Integer) || newvalue.nil?
+            unless newvalue.is_a?(String) || newvalue.is_a?(Integer) || newvalue.nil?
+              raise Jamf::InvalidDataError, 
+                    'user_gid must be a string, integer, or nil.'
+            end
 
             newvalue
-            end
+          end
 
         @user_gid = new
 
@@ -333,7 +304,7 @@ module Jamf
             raise Jamf::InvalidDataError, 'gid must be a string, integer, or nil.' unless newvalue.is_a?(String) || newvalue.is_a?(Integer) || newvalue.nil?
 
             newvalue
-            end
+          end
 
         @gid = new
 
@@ -358,11 +329,12 @@ module Jamf
           else
             # Data Check
             unless newvalue.is_a? Array
-              raise Jamf::InvalidDataError, 'An Array must be provided, please use add_admin_group and remove_admin_group for individual group additions and removals.'
-              end
+              raise Jamf::InvalidDataError, 
+                    'An Array must be provided, please use add_admin_group and remove_admin_group for individual group additions and removals.'
+            end
 
             newvalue
-            end
+          end
 
         @admin_group = new
 
@@ -387,7 +359,7 @@ module Jamf
             raise Jamf::InvalidDataError, 'cached_credentials must be an integer.' unless newvalue.is_a? Integer
 
             newvalue
-            end
+          end
 
         @cached_credentials = new
 
@@ -432,7 +404,7 @@ module Jamf
             raise Jamf::InvalidDataError, 'users_ou must be either a string or nil.' unless newvalue.is_a? String || newvalue.nil?
 
             newvalue
-            end
+          end
 
         @users_ou = new
 
@@ -458,7 +430,7 @@ module Jamf
             raise Jamf::InvalidDataError, 'groups_ou must be either a string or nil.' unless newvalue.is_a? String || newvalue.nil?
 
             newvalue
-            end
+          end
 
         @groups_ou = new
 
@@ -484,7 +456,7 @@ module Jamf
             raise Jamf::InvalidDataError, 'printers_ou must be either a string or nil.' unless newvalue.is_a? String || newvalue.nil?
 
             newvalue
-            end
+          end
 
         @printers_ou = new
 
@@ -510,7 +482,7 @@ module Jamf
             raise Jamf::InvalidDataError, 'shared_folders_ou must be either a string or nil.' unless newvalue.is_a? String || newvalue.nil?
 
             newvalue
-            end
+          end
 
         @shared_folders_ou = new
 

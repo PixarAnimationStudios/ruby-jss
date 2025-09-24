@@ -1,8 +1,9 @@
 
-                               Modified Apache 2.0 License
+TOMORROW OPEN SOURCE TECHNOLOGY LICENSE 1.0
 
+The Tomorrow Open Source Technology License 1.0 differs from the original Apache License 2.0 in the following manner.  The scope of the trademark grant in section 6 is different.
 
-   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
 
    1. Definitions.
 
@@ -172,3 +173,5 @@
       defend, and hold each Contributor harmless for any liability
       incurred by, or claims asserted against, such Contributor by reason
       of your accepting any such warranty or additional liability.
+
+END OF TERMS AND CONDITIONS
