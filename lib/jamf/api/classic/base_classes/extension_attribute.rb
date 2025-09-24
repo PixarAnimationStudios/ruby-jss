@@ -84,7 +84,7 @@ module Jamf
     INPUT_TYPE_FIELD = 'Text Field'.freeze
     INPUT_TYPE_POPUP = 'Pop-up Menu'.freeze
     INPUT_TYPE_SCRIPT = 'script'.freeze
-    INPUT_TYPE_LDAP = 'LDAP Attribute Mapping'.freeze
+    INPUT_TYPE_LDAP = 'Directory Service Attribute Mapping'.freeze
 
     INPUT_TYPES = [
       INPUT_TYPE_FIELD,
@@ -138,7 +138,7 @@ module Jamf
     # @return [Array<String>] the choices available in the UI when the @input_type is "Pop-up Menu"
     attr_reader :popup_choices
 
-    # @return [String] the LDAP attribute for the User's ldap entry that maps to this EA, when input type is INPUT_TYPE_LDAP
+    # @return [String] the Directory Service attribute for the User's ldap entry that maps to this EA, when input type is INPUT_TYPE_LDAP
     attr_reader :attribute_mapping
 
     # @return [String] In which part of the web UI does the data appear?
