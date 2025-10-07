@@ -1102,7 +1102,8 @@ module Jamf
     #
     def rest_xml
       doc = REXML::Document.new Jamf::Connection::XML_HEADER
-      pkg = doc.add_element 'package'
+      doc.root.name = 'package'
+      pkg = doc.root
       pkg.add_element('allow_uninstalled').text = @allow_uninstalled
       pkg.add_element('boot_volume_required').text = @boot_volume_required
       pkg.add_element('filename').text = @filename

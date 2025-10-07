@@ -462,8 +462,9 @@ module Jamf
     # Will be supported for Dist Points some day, I'm sure.
     #
     def rest_xml
-      doc = REXML::Document.new
-      dp = doc.add_element 'distribution_point'
+      doc = REXML::Document.new Jamf::Connection::XML_HEADER
+      doc.root.name = 'distribution_point'
+      dp = doc.root
       dp.add_element(:name.to_s).text = @name
       dp.add_element(:ip_address.to_s).text = @ip_address
       dp.add_element(:local_path.to_s).text = @local_path

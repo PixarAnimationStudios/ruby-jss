@@ -125,7 +125,8 @@ module Jamf
       return nil unless addx || remx
 
       doc = REXML::Document.new Jamf::Connection::XML_HEADER
-      groupelem = doc.add_element self::RSRC_OBJECT_KEY.to_s
+      doc.root.name = self::RSRC_OBJECT_KEY.to_s
+      groupelem = doc.root
       groupelem << addx if addx
       groupelem << remx if remx
       doc
@@ -489,7 +490,8 @@ module Jamf
     #
     def rest_xml
       doc = REXML::Document.new Jamf::Connection::XML_HEADER
-      group = doc.add_element self.class::RSRC_OBJECT_KEY.to_s
+      doc.root.name = self.class::RSRC_OBJECT_KEY.to_s
+      group = doc.root
       group.add_element('name').text = @name
       group.add_element('is_smart').text = @is_smart
       if @is_smart

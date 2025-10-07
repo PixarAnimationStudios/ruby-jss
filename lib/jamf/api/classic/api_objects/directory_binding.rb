@@ -103,11 +103,11 @@ module Jamf
         raise Jamf::MissingDataError, "Type must be provided, one of \":#{DIRECTORY_BINDING_TYPE.keys.join(',:')}\"." if @init_data[:type].nil?
 
         unless DIRECTORY_BINDING_TYPE.keys.include? @init_data[:type]
-          raise Jamf::InvalidDataError, 
+          raise Jamf::InvalidDataError,
                 "Type must be one of \":#{DIRECTORY_BINDING_TYPE.keys.join(',:')}\"."
         end
         if !@init_data[:priority].nil? && (@init_data[:priority] <= 1 || @init_data[:priority] >= 10)
-          raise Jamf::InvalidDataError, 
+          raise Jamf::InvalidDataError,
                 'Priority must be between 1 and 10'
         end
 
@@ -226,7 +226,8 @@ module Jamf
     # @return [String]
     def rest_xml
       doc = REXML::Document.new Jamf::Connection::XML_HEADER
-      ns = doc.add_element RSRC_OBJECT_KEY.to_s
+      doc.root.name = self.class::RSRC_OBJECT_KEY.to_s
+      ns = doc.root
       ns.add_element('id').text = @id.to_s
       ns.add_element('name').text = @name
       ns.add_element('priority').text = @priority.to_s

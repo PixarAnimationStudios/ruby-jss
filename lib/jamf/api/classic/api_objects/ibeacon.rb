@@ -165,7 +165,8 @@ module Jamf
     #
     def rest_xml
       doc = REXML::Document.new Jamf::Connection::XML_HEADER
-      ns = doc.add_element RSRC_OBJECT_KEY.to_s
+      doc.root.name = RSRC_OBJECT_KEY.to_s
+      ns = doc.root
       ns.add_element('name').text = @name
       ns.add_element('uuid').text = @uuid
       ns.add_element('major').text = @major.to_s

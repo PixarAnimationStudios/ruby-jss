@@ -56,7 +56,7 @@ module Jamf
       JAMFCLOUD_PORT = HTTPS_SSL_PORT
 
       # The top line of an XML doc for submitting data via Classic API
-      XML_HEADER = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>'.freeze
+      XML_HEADER = '<?xml version="1.0" encoding="UTF-8" standalone="no"?><root/>'.freeze
 
       DFT_OPEN_TIMEOUT = 60
       DFT_TIMEOUT = 60

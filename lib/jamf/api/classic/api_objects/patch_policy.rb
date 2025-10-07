@@ -602,7 +602,8 @@ module Jamf
 
     def rest_xml
       doc = REXML::Document.new Jamf::Connection::XML_HEADER
-      obj = doc.add_element RSRC_OBJECT_KEY.to_s
+      doc.root.name = RSRC_OBJECT_KEY.to_s
+      obj = doc.root
 
       general = obj.add_element 'general'
       general.add_element('target_version').text = target_version

@@ -489,7 +489,10 @@ module Jamf
 
     # Return a REXML doc string for this ext attr, with the current values.
     def rest_xml
-      ea = REXML::Element.new self.class::RSRC_OBJECT_KEY.to_s
+      doc = REXML::Document.new Jamf::Connection::XML_HEADER
+      doc.root.name = self.class::RSRC_OBJECT_KEY.to_s
+
+      ea = doc.root
       ea.add_element('name').text = @name
       ea.add_element('description').text = @description if @description
       ea.add_element('data_type').text = @data_type
@@ -515,8 +518,6 @@ module Jamf
         it.add_element('scripting_language').text = @scripting_language if @scripting_language
       end
 
-      doc = REXML::Document.new Jamf::Connection::XML_HEADER
-      doc << ea
       doc.to_s
     end # rest xml
 

@@ -264,7 +264,8 @@ module Jamf
     ###
     def rest_xml
       doc = REXML::Document.new Jamf::Connection::XML_HEADER
-      periph = doc.add_element RSRC_OBJECT_KEY.to_s
+      doc.root.name = RSRC_OBJECT_KEY.to_s
+      periph = doc.root
 
       general = periph.add_element('general')
       general.add_element('type').text = @type

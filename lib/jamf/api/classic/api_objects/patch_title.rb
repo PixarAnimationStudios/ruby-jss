@@ -506,8 +506,10 @@ module Jamf
     # for saving or updating.
     #
     def rest_xml
-      doc = REXML::Document.new # Jamf::Connection::XML_HEADER
-      obj = doc.add_element RSRC_OBJECT_KEY.to_s
+      doc = REXML::Document.new '<root/>'
+      doc.root.name = self.class::RSRC_OBJECT_KEY.to_s
+
+      obj = doc.root
 
       obj.add_element('name').text = name
       obj.add_element('name_id').text = name_id

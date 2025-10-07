@@ -126,8 +126,9 @@ module Jamf
     end
 
     def rest_xml
-      doc = REXML::Document.new
-      src = doc.add_element self.class::RSRC_OBJECT_KEY.to_s
+      doc = REXML::Document.new Jamf::Connection::XML_HEADER
+      doc.root.name = self.class::RSRC_OBJECT_KEY.to_s
+      src = doc.root
       src.add_element('enabled').text = @enabled.to_s
       src.add_element('name').text = @name
       src.add_element('ssl_enabled').text = @ssl_enabled.to_s

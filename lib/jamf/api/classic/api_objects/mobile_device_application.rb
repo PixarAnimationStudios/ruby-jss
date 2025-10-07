@@ -542,7 +542,9 @@ module Jamf
 
     def rest_xml
       doc = REXML::Document.new Jamf::Connection::XML_HEADER
-      obj = doc.add_element self.class::RSRC_OBJECT_KEY.to_s
+      doc.root.name = self.class::RSRC_OBJECT_KEY.to_s
+
+      obj = doc.root
       gen = obj.add_element 'general'
       gen.add_element('name').text = @display_name
       gen.add_element('display_name').text = @display_name

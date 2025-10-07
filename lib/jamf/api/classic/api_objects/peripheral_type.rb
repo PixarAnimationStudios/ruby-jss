@@ -251,7 +251,8 @@ module Jamf
     def rest_xml
       order_fields
       doc = REXML::Document.new Jamf::Connection::XML_HEADER
-      pkg = doc.add_element RSRC_OBJECT_KEY.to_s
+      doc.root.name = RSRC_OBJECT_KEY.to_s
+      pkg = doc.root
       pkg.add_element('id').text = @id
       pkg.add_element('name').text = @name
       fields = pkg.add_element 'fields'
