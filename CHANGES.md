@@ -15,14 +15,14 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
-## \[4.2.4] Unreleased
+## \[4.2.4] 2025-10-22
 
 ### Changed
   - Use the 'TOMORROW OPEN SOURCE TECHNOLOGY LICENSE 1.0' (TOST) License 
     - The terms are unchanged, but it now has an offical name.
 
 ### Fixed
-  - Resolved [GitHub Issue 106](https://github.com/PixarAnimationStudios/ruby-jss/issues/106). REXML v3.4.3 or higher doesn't allow the creation of REXML::Document instances without a root element. Many thanks to @hiboma for the  bug report and a suggested fix!
+  - Resolved [GitHub Issue 106](https://github.com/PixarAnimationStudios/ruby-jss/issues/106). REXML v3.4.3 or higher doesn't allow the creation of REXML::Document instances without a root element. Many thanks to @hiboma for the bug report and a suggested fix!
 
 --------
 ## \[4.2.3] 2025-09-23
@@ -47,11 +47,10 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
     - `Jamf::MobileDeviceExtensionAttribute#history`
     - `Jamf::Icon.all`
     - `Jamf::SelfServable#validate_icon`
+    - `Jamf::APIObject#object_history`
     - `Jamf::APIObject#add_object_history_entry`
 
-    Note that some objects in the Jamf Pro API have access to their object_history. As classes are migrated (see release notes for 4.2.0 below) that access will be included when available.
- 
-  
+    Note that some objects in the Jamf Pro API have access to their object_history without needing MySQL access. As classes are migrated (see release notes for 4.2.0 below) that access will be included when available.
 
 --------
 ## \[4.2.1] 2025-08-11
