@@ -15,14 +15,14 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
-## \[Unreleased] 
+## \[4.2.4] Unreleased
 
 ### Changed
   - Use the 'TOMORROW OPEN SOURCE TECHNOLOGY LICENSE 1.0' (TOST) License 
     - The terms are unchanged, but it now has an offical name.
 
 ### Fixed
-  - Resolved [GitHub Issue 106](https://github.com/PixarAnimationStudios/ruby-jss/issues/106). REXML v3.4.3 or higher doesn't allow the creation of REXML::Document instances without a root element. Many thanks to @hiboma for the  bug report
+  - Resolved [GitHub Issue 106](https://github.com/PixarAnimationStudios/ruby-jss/issues/106). REXML v3.4.3 or higher doesn't allow the creation of REXML::Document instances without a root element. Many thanks to @hiboma for the  bug report and a suggested fix!
 
 --------
 ## \[4.2.3] 2025-09-23
