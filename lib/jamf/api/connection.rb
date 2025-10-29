@@ -9,7 +9,7 @@ require 'faraday'
 require 'faraday/multipart'
 
 # Set a ruby-jss specific User-Agent for all Faraday connections made by ruby-jss
-Faraday.default_connection_options = { headers: { user_agent: "ruby-jss v#{Jamf::VERSION}/Faraday v#{Faraday::VERSION}" } }
+Faraday.default_connection_options = { headers: { user_agent: "ruby-jss/#{Jamf::VERSION} Faraday/#{Faraday::VERSION}" } }
 
 # The main module
 module Jamf
