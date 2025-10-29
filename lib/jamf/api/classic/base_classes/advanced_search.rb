@@ -290,8 +290,9 @@ module Jamf
         out.jss_save tabbed.chomp
 
       else # :xml
-        doc = REXML::Document.new '<?xml version="1.0" encoding="ISO-8859-1"?>'
-        members = doc.add_element self.class::RESULT_CLASS::RSRC_LIST_KEY.to_s
+        doc = REXML::Document.new Jamf::Connection::XML_HEADER
+        doc.root.name = self.class::RESULT_CLASS::RSRC_LIST_KEY.to_s
+        members = doc.root
         @search_results.each do |row|
           member = members.add_element self.class::RESULT_CLASS::RSRC_OBJECT_KEY.to_s
           @result_display_keys.each do |field|
@@ -330,7 +331,8 @@ module Jamf
 
     def rest_xml
       doc = REXML::Document.new Jamf::Connection::XML_HEADER
-      acs = doc.add_element self.class::RSRC_OBJECT_KEY.to_s
+      doc.root.name = self.class::RSRC_OBJECT_KEY.to_s
+      acs = doc.root
       acs.add_element('name').text = @name
       acs.add_element('sort_1').text = @sort_1 if @sort_1
       acs.add_element('sort_2').text = @sort_2 if @sort_2

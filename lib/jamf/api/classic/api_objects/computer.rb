@@ -1344,7 +1344,8 @@ module Jamf
     #
     def rest_xml
       doc = REXML::Document.new Jamf::Connection::XML_HEADER
-      computer = doc.add_element self.class::RSRC_OBJECT_KEY.to_s
+      doc.root.name = self.class::RSRC_OBJECT_KEY.to_s
+      computer = doc.root
 
       general = computer.add_element('general')
       general.add_element('name').text = @name

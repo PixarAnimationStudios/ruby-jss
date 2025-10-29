@@ -1763,7 +1763,8 @@ module Jamf
     #
     def rest_xml
       doc = REXML::Document.new Jamf::Connection::XML_HEADER
-      tmpl = doc.add_element self.class::RSRC_OBJECT_KEY.to_s
+      doc.root.name = self.class::RSRC_OBJECT_KEY.to_s
+      tmpl = doc.root
       tmpl.add_element('name').text = @name
       doc.to_s
     end

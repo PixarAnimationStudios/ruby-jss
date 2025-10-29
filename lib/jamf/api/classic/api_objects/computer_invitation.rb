@@ -162,7 +162,8 @@ module Jamf
     #
     def rest_xml
       doc = REXML::Document.new Jamf::Connection::XML_HEADER
-      obj = doc.add_element RSRC_OBJECT_KEY.to_s
+      doc.root.name = self.class::RSRC_OBJECT_KEY.to_s
+      obj = doc.root
       obj.add_element('invitation_type').text = invitation_type
       obj.add_element('create_account_if_does_not_exist').text = create_account_if_does_not_exist
       obj.add_element('expiration_date_epoch').text = expiration_date_epoch if expiration_date_epoch

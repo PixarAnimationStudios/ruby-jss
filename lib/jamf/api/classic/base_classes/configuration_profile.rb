@@ -171,9 +171,10 @@ module Jamf
     private
 
     def rest_xml
-      doc = REXML::Document.new
+      doc = REXML::Document.new Jamf::Connection::XML_HEADER
+      doc.root.name = self.class::RSRC_OBJECT_KEY.to_s
 
-      obj = doc.add_element self.class::RSRC_OBJECT_KEY.to_s
+      obj = doc.root
       gen = obj.add_element('general')
       gen.add_element('description').text = @description
       gen.add_element('redeploy_on_update').text = @redeploy_on_update

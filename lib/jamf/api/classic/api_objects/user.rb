@@ -279,7 +279,8 @@ module Jamf
 
     def rest_xml
       doc = REXML::Document.new Jamf::Connection::XML_HEADER
-      user = doc.add_element self.class::RSRC_OBJECT_KEY.to_s
+      doc.root.name = self.class::RSRC_OBJECT_KEY.to_s
+      user = doc.root
 
       user.add_element('name').text = @name
       user.add_element('full_name').text = @full_name

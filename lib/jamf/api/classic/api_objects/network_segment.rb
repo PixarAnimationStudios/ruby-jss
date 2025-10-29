@@ -663,7 +663,9 @@ module Jamf
     ###
     def rest_xml
       doc = REXML::Document.new Jamf::Connection::XML_HEADER
-      ns = doc.add_element 'network_segment'
+      doc.root.name = 'network_segment'
+
+      ns = doc.root
       ns.add_element('building').text = @building
       ns.add_element('department').text = @department
       ns.add_element('distribution_point').text = @distribution_point

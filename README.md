@@ -501,4 +501,6 @@ If you have questions or feedback about ruby-jss, please reach out to us via:
 
 Copyright 2025 Pixar
 
-Licensed under a modified Apache License, Version 2.0. See LICENSE.txt for details
+Licensed under the TOMORROW OPEN SOURCE TECHNOLOGY LICENSE 1.0
+
+Please see the LICENSE.txt file available at the root of this project.

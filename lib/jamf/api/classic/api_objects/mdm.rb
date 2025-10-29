@@ -490,7 +490,8 @@ module Jamf
         end # case
 
         xml = REXML::Document.new Jamf::Connection::XML_HEADER
-        cmd_xml = xml.add_element command_elem
+        xml.root.name = command_elem
+        cmd_xml = xml.root
 
         general = cmd_xml.add_element GENERAL_ELEMENT
         general.add_element(COMMAND_ELEMENT).text = command

@@ -215,7 +215,8 @@ module Jamf
     def rest_xml
       validate_before_save
       doc = REXML::Document.new Jamf::Connection::XML_HEADER
-      webhook = doc.add_element 'webhook'
+      doc.root.name = 'webhook'
+      webhook = doc.root
       webhook.add_element('name').text = @name
       webhook.add_element('enabled').text = @enabled
       webhook.add_element('url').text = @url

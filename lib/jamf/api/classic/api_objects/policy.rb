@@ -361,7 +361,8 @@ module Jamf
 
       # build the xml body for a DELETE request
       xml_doc = REXML::Document.new Jamf::Connection::XML_HEADER
-      lf = xml_doc.add_element 'logflush'
+      xml_doc.root.name = 'logflush'
+      lf = xml_doc.root
       lf.add_element('log').text = 'policy'
       lf.add_element('interval').text = "#{older_than} #{period}"
 
@@ -2070,7 +2071,8 @@ module Jamf
 
     def rest_xml
       doc = REXML::Document.new Jamf::Connection::XML_HEADER
-      obj = doc.add_element RSRC_OBJECT_KEY.to_s
+      doc.root.name = RSRC_OBJECT_KEY.to_s
+      obj = doc.root
 
       general = obj.add_element 'general'
       general.add_element('name').text = @name

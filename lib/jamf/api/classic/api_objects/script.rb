@@ -437,8 +437,9 @@ module Jamf
     # Return the xml for creating or updating this script in the JSS
     #
     def rest_xml
-      doc = REXML::Document.new
-      scpt = doc.add_element 'script'
+      doc = REXML::Document.new Jamf::Connection::XML_HEADER
+      doc.root.name = 'script'
+      scpt = doc.root
 
       scpt.add_element('filename').text = @filename
       scpt.add_element('id').text = @id
