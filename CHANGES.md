@@ -15,7 +15,10 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
-## \[4.2.4] 2025-10-22
+## \[4.2.4] 2025-10-31
+
+### Added 
+  - Set request User-Agent header to indicate ruby-jss version
 
 ### Changed
   - Use the 'TOMORROW OPEN SOURCE TECHNOLOGY LICENSE 1.0' (TOST) License 
