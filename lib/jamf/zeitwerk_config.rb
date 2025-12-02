@@ -102,6 +102,7 @@ module JamfZeitwerkConfig
     loader.inflector.inflect 'osx_configuration_profile' => 'OSXConfigurationProfile'
     loader.inflector.inflect 'jp_extendable' => 'JPExtendable'
     loader.inflector.inflect 'mdm' => 'MDM'
+    loader.inflector.inflect 'jmdm' => 'JMDM'
     loader.inflector.inflect 'ibeacon' => 'IBeacon'
     loader.inflector.inflect 'powerbroker_identity_services' => 'PowerBroker'
     loader.inflector.inflect 'admitmac' => 'ADmitMac'

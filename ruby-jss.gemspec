@@ -47,12 +47,15 @@ Gem::Specification.new do |s|
   # Dependencies
   s.required_ruby_version = '>= 2.6.3'
 
-  # https://github.com/ckruse/CFPropertyList  MIT License (no dependencies)
-  s.add_runtime_dependency 'CFPropertyList', '~> 3.0'
+  # https://github.com/PixarAnimationStudios/pixar-ruby-extensions TOST License (no dependencies)
+  s.add_runtime_dependency 'pixar-ruby-extensions', '~> 1.0', '>= 1.12'
 
   # https://github.com/tmtm/ruby-mysql Ruby License (no dependencies)
   # DEPRECATED: mysql support in ruby-jss will be removed eventually
   s.add_runtime_dependency 'ruby-mysql', '~> 2.9', '>= 2.9.12'
+
+  # https://github.com/ckruse/CFPropertyList  MIT License (no dependencies)
+  s.add_runtime_dependency 'CFPropertyList', '~> 3.0'
 
   # https://github.com/lostisland/faraday: MIT License
   s.add_runtime_dependency 'faraday', '~> 2.0'
