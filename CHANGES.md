@@ -15,6 +15,19 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
+## \[5.0.0] Unreleased
+
+### Changed
+
+  - The Jamf::MDM mixin module has been updated to use the Jamf Pro API for nearly all defined methods. As of Jamf Pro 11.21, most of the Classic API endpoints have been deprecated for a while and are now removed. We now mostly uses the `/v2/mdm/commands` endpoint for POSTing commands.
+
+    This module is mixed in to the Computer, ComputerGroup, MobileDevice, and MobileDeviceGroup classes, which are still based on the Classic API. Those classes will be ported to the Jamf Pro API (as JComputer, JMobileDevice, etc..) in the coming months, but until then, the existing classes can now continue to send MDM commands. 
+    
+    Also at that time, newer MDM commands supported by the Jamf Pro API, but not yet by ruby-jss, will be implemented.
+
+    This fixes [GitHub Issue 107](https://github.com/PixarAnimationStudios/ruby-jss/issues/107) - many thanks to @csfjeff for reporting the problem!
+
+--------
 ## \[4.2.4] 2025-10-31
 
 ### Added 
