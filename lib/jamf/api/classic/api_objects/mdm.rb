@@ -777,7 +777,7 @@ module Jamf
       # @return (see .send_mdm_command)
       #
       def update_inventory(_targets, api: nil, cnx: Jamf.cnx)
-        raise Jamf::UnsupportedError, 'The Jamf Pro no longer uses MDM commands to update MobileDevice inventory. It uses DDM.'
+        raise Jamf::UnsupportedError, 'The Jamf Pro no longer uses an MDM command to update MobileDevice inventory.'
       end
       alias recon update_inventory
 
