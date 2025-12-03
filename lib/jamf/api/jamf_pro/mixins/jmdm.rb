@@ -21,6 +21,19 @@ module Jamf
     # Constants
     #####################################
 
+    # JPAPI Resources
+
+    MDM_COMMAND_RSRC = 'v2/mdm/commands'
+    BLANK_PUSH_RSRC = 'v2/mdm/blank-push'
+
+    # computers are unmanaged via v1/computer-inventory/{id}/remove-mdm-profile
+    COMPUTER_INV_RSRC = 'v1/computer-inventory'
+    UNMANAGE_COMPUTER_RSRC = 'remove-mdm-profile'
+
+    # Devices are unmanaged via v2/mobile-devices/{id}/unmanage
+    MOBILE_DEVICE_RSRC = 'v2/mobile-devices'
+    UNMANAGE_MOBILE_DEVICE_RSRC = 'unmanage'
+
     #### target types
 
     # These targets are computers
@@ -36,10 +49,10 @@ module Jamf
 
     # Both computers & devices
 
-    BLANK_PUSH = 'BlankPush'
-    DEVICE_LOCK = 'DeviceLock'
-    ERASE_DEVICE = 'EraseDevice'
+    DEVICE_LOCK = 'DEVICE_LOCK'
+    ERASE_DEVICE = 'ERASE_DEVICE'
     UNMANGE_DEVICE = 'UnmanageDevice'
+
     # UPDATE_OS = 'UpdateOS'.freeze
 
     # computers only
@@ -277,11 +290,11 @@ module Jamf
 
       # Send an MDM command to one or more targets without instantiating them.
       #
-      # This general class method, and all the specific ones that all it, have
+      # This general class method, and all the specific ones that call it, have
       # matching instance methods. Use the class method when you don't have, or
       # don't want to retrieve, instances of all the targets.
       #
-      # If you do have an instance or a target, call the matching instance method
+      # If you do have an instance of a target, call the matching instance method
       # to send commands to that specific target.
       #
       # @example send a blank push to mobiledevice id 12 without instantiating:
@@ -325,16 +338,16 @@ module Jamf
       #   always 'Command sent' (an error will be raised if there are problems
       #   sending)
       #
-      def send_mdm_command(targets, command, opts: {}, api: nil, cnx: Jamf.cnx)
+      def send_mdm_command(targets, command_data, api: nil, cnx: Jamf.cnx)
         cnx = api if api
 
-        command = validate_command(command)
+        targets = raw_targets_to_mgmt_ids(targets, cnx: cnx)
+        targets.map! { |mid| { managementId: mid } }
 
-        rsrc = "#{send_command_rsrc}/command/#{command}"
-
-        targets = raw_targets_to_ids targets, cnx: cnx
-
-        cmd_xml = mdm_command_xml(command, opts, targets)
+        data = {
+          clientData: targets,
+          commandData: command_data
+        }
 
         if JSS.devmode?
           puts "Sending XML:\n"
@@ -342,18 +355,7 @@ module Jamf
           puts "\n\nTo rsrc: #{rsrc}"
         end
 
-        result = cnx.c_post rsrc, cmd_xml
-
-        if command == BLANK_PUSH
-          hash = {}
-          targets.each { |t| hash[t] = BLANK_PUSH_RESULT }
-        elsif COMPUTER_TARGETS.include? self::MDM_COMMAND_TARGET
-          hash = process_computer_xml_result(result)
-        elsif DEVICE_TARGETS.include? self::MDM_COMMAND_TARGET
-          hash = process_mobiledevice_xml_result(result)
-        end
-
-        hash
+        cnx.jp_post MDM_COMMAND_RSRC, data
       end
 
       # Convert the result of senting a computer MDM command into
@@ -395,19 +397,19 @@ module Jamf
       #
       # @return [String] The API rsrc.
       #
-      def send_command_rsrc
-        case self::MDM_COMMAND_TARGET
-        when *COMPUTER_TARGETS
-          COMPUTER_RSRC
-        when *DEVICE_TARGETS
-          DEVICE_RSRC
-        else
-          raise Jamf::InvalidDataError, "Unknown MDM command target: #{self::MDM_COMMAND_TARGET}"
-        end
-      end
+      # def send_command_rsrc
+      #   case self::MDM_COMMAND_TARGET
+      #   when *COMPUTER_TARGETS
+      #     COMPUTER_RSRC
+      #   when *DEVICE_TARGETS
+      #     DEVICE_RSRC
+      #   else
+      #     raise Jamf::InvalidDataError, "Unknown MDM command target: #{self::MDM_COMMAND_TARGET}"
+      #   end
+      # end
 
       # Convert the targets provided for sending a command into
-      # the final list of computers or mobile devices.
+      # the final list of computer or mobile device management ids
       #
       # @param targets[String,Integer,Array] See {#send_mdm_command}
       #
@@ -417,27 +419,25 @@ module Jamf
       #
       # @return [Array<Integer>] The ids of the target devices for a command
       #
-      def raw_targets_to_ids(targets, expand_groups: true, unmanaged_ok: false, api: nil, cnx: Jamf.cnx)
+      def raw_targets_to_mgmt_ids(targets, expand_groups: true, unmanaged_ok: false, api: nil, cnx: Jamf.cnx)
         cnx = api if api
-
         targets = targets.is_a?(Array) ? targets : [targets]
 
         # flush caches before checking ids and managment
         cnx.flushcache self::RSRC_LIST_KEY
 
-        # make sure its an array of ids
-        targets.map! do |md|
-          id = valid_id md, cnx: cnx
-          raise Jamf::NoSuchItemError, "No #{self} matches identifier: #{md}" unless id
+        target_ids = []
+        this_is_a_group_class = GROUP_TARGETS.include?(self::MDM_COMMAND_TARGET)
 
-          id
-        end # map!
+        targets.each do |ident|
+          id = valid_id ident, cnx: cnx
+          raise Jamf::NoSuchItemError, "No #{self} matches identifier: #{ident}" unless id
 
-        # expand group members if needed
-        if expand_groups && GROUP_TARGETS.include?(self::MDM_COMMAND_TARGET)
-          target_ids = []
-          targets.each { |group_id| target_ids += fetch(id: group_id).member_ids }
-          targets = target_ids
+          if this_is_a_group_class
+            target_ids += fetch(id: group_id).member_ids
+          else
+            target_ids << id
+          end
         end
 
         # make sure all of them are managed, or else the API will raise a 400
@@ -445,14 +445,16 @@ module Jamf
         # Some actions, like flushing MDM commands (see .flush_mdm_commands)
         # are OK on unmanaged machines, so they will specify 'unmanaged_ok'
         unless unmanaged_ok
+          # get all managed ids in an array
           all_mgd = map_all_ids_to(:managed, cnx: cnx).select { |_id, mgd| mgd }.keys
 
-          targets.each do |target_id|
+          target_ids.each do |target_id|
             raise Jamf::UnmanagedError, "#{self} with id #{target_id} is not managed. Cannot send command." unless all_mgd.include? target_id
           end
-        end # unles
+        end # unless
 
-        targets
+        # return the management id for each target
+        targets.map { |t| management_id t, cnx: cnx }
       end
 
       # Generate the XML to send to the API, sending the MDM command to the targets
@@ -466,40 +468,40 @@ module Jamf
       #
       # @return [String] The XML content to send to the API
       #
-      def mdm_command_xml(command, options, targets)
-        raise Jamf::MissingDataError, 'Targets cannot be empty' if targets.empty?
+      # def mdm_command_xml(command, options, targets)
+      #   raise Jamf::MissingDataError, 'Targets cannot be empty' if targets.empty?
 
-        case self::MDM_COMMAND_TARGET
-        when *COMPUTER_TARGETS
-          command_elem = COMPUTER_COMMAND_ELEMENT
-          target_list_elem = Jamf::Computer::RSRC_LIST_KEY.to_s
-          target_elem = Jamf::Computer::RSRC_OBJECT_KEY.to_s
-        when *DEVICE_TARGETS
-          command_elem = DEVICE_COMMAND_ELEMENT
-          target_list_elem = Jamf::MobileDevice::RSRC_LIST_KEY.to_s
-          target_elem = Jamf::MobileDevice::RSRC_OBJECT_KEY.to_s
-        else
-          raise Jamf::NoSuchItemError, "Unknonwn MDM command target: #{self::MDM_COMMAND_TARGET}"
-        end # case
+      #   case self::MDM_COMMAND_TARGET
+      #   when *COMPUTER_TARGETS
+      #     command_elem = COMPUTER_COMMAND_ELEMENT
+      #     target_list_elem = Jamf::Computer::RSRC_LIST_KEY.to_s
+      #     target_elem = Jamf::Computer::RSRC_OBJECT_KEY.to_s
+      #   when *DEVICE_TARGETS
+      #     command_elem = DEVICE_COMMAND_ELEMENT
+      #     target_list_elem = Jamf::MobileDevice::RSRC_LIST_KEY.to_s
+      #     target_elem = Jamf::MobileDevice::RSRC_OBJECT_KEY.to_s
+      #   else
+      #     raise Jamf::NoSuchItemError, "Unknonwn MDM command target: #{self::MDM_COMMAND_TARGET}"
+      #   end # case
 
-        xml = REXML::Document.new Jamf::Connection::XML_HEADER
-        xml.root.name = command_elem
-        cmd_xml = xml.root
+      #   xml = REXML::Document.new Jamf::Connection::XML_HEADER
+      #   xml.root.name = command_elem
+      #   cmd_xml = xml.root
 
-        general = cmd_xml.add_element GENERAL_ELEMENT
-        general.add_element(COMMAND_ELEMENT).text = command
-        options.each do |opt, val|
-          general.add_element(opt.to_s).text = val.to_s
-        end # do opt val
+      #   general = cmd_xml.add_element GENERAL_ELEMENT
+      #   general.add_element(COMMAND_ELEMENT).text = command
+      #   options.each do |opt, val|
+      #     general.add_element(opt.to_s).text = val.to_s
+      #   end # do opt val
 
-        tgt_list = cmd_xml.add_element target_list_elem
-        targets.each do |tgt_id|
-          tgt = tgt_list.add_element(target_elem)
-          tgt.add_element(TARGET_ID_ELEMENT).text = tgt_id.to_s
-        end
+      #   tgt_list = cmd_xml.add_element target_list_elem
+      #   targets.each do |tgt_id|
+      #     tgt = tgt_list.add_element(target_elem)
+      #     tgt.add_element(TARGET_ID_ELEMENT).text = tgt_id.to_s
+      #   end
 
-        xml.to_s
-      end # self.mdm_command_xml(command, options)
+      #   xml.to_s
+      # end # self.mdm_command_xml(command, options)
 
       # Validate that this command is known and can be sent to this kind of
       # object, raising an error if not.
@@ -518,6 +520,7 @@ module Jamf
           return command if COMPUTER_COMMANDS.include? command
 
           raise Jamf::UnsupportedError, "'#{command}' cannot be sent to computers or computer groups"
+
         when *DEVICE_TARGETS
           return command if DEVICE_COMMANDS.include? command
 
@@ -540,12 +543,14 @@ module Jamf
       #
       # @param cnx [Jamf::Connection] the API thru which to send the command
       #
-      # @return (see .send_mdm_command)]
+      # @return [Hash{Symbol=>Array<String>}] The array contains mgmt ids of targets that failed
       #
       def blank_push(targets, api: nil, cnx: Jamf.cnx)
         cnx = api if api
+        targets = raw_targets_to_mgmt_ids targets, cnx: cnx
 
-        send_mdm_command targets, :blank_push, cnx: cnx
+        data =  { clientManagementIds: targets }
+        cnx.jp_post BLANK_PUSH_RSRC, data
       end
       alias send_blank_push blank_push
       alias noop blank_push
@@ -554,27 +559,26 @@ module Jamf
       #
       # @param targets[String,Integer,Array<String,Integer>] @see .send_mdm_command
       #
-      # @param passcode[String] a six-char passcode, required for computers & computergroups
+      # @param passcode[String] a six-char passcode, required
       #
-      # @param message[String] An optional message to display on mobiledevices & mobiledevicegroups
+      # @param message[String] An optional message to display
+      #
+      # @param phoneNumber[String] An optional phoneNumber to display
       #
       # @param cnx [Jamf::Connection] the API thru which to send the command
       #
       # @return (see .send_mdm_command)
       #
-      def device_lock(targets, passcode: '', message: nil, api: nil, cnx: Jamf.cnx)
-        cnx = api if api
+      def device_lock(targets, passcode:, message: nil, phoneNumber: nil, api: nil, cnx: Jamf.cnx)
+        cmd_data =  {
+          commandType: DEVICE_LOCK,
+          pin: passcode
+        }
 
-        case self::MDM_COMMAND_TARGET
-        when *COMPUTER_TARGETS
-          raise Jamf::InvalidDataError, 'Locking computers requires a 6-character String passcode' unless passcode.size == 6
+        cmd_data[:message] = message if message
+        cmd_data[:phoneNumber] = phoneNumber if phoneNumber
 
-          opts = { passcode: passcode }
-        when *DEVICE_TARGETS
-          opts = {}
-          opts[:lock_message] = message if message
-        end # case
-        send_mdm_command targets, :device_lock, opts: opts, cnx: cnx
+        send_mdm_command(targets, cmd_data, cnx: cnx)
       end
       alias lock_device device_lock
       alias lock device_lock
@@ -583,27 +587,39 @@ module Jamf
       #
       # @param targets[String,Integer,Array<String,Integer>] @see .send_mdm_command
       #
-      # @param passcode[String] a six-char passcode, required for computers & computergroups
+      # @param passcode[String] a six-char pin for FindMy
       #
       # @param preserve_data_plan[Boolean] Should the data plan of the mobile device be preserved?
+      #
+      # @param obliterationBehavior[String] 'Default', 'DoNotObliterate', 'ObliterateWithWarning' or 'Always'
+      #
+      # @param returnToService[Hash] Options for Return to Service. Keys are :enabled, :mdmProfileData, :wifiProfileData, boostrapToken. The last 3 are Base64 encoded strings. See Jamf and Apple docs for details. Default is { enabled: false }
       #
       # @param cnx [Jamf::Connection] the API thru which to send the command
       #
       # @return (see .send_mdm_command)
       #
-      def erase_device(targets, passcode: '', preserve_data_plan: false, api: nil, cnx: Jamf.cnx)
+      def erase_device(targets,
+                       passcode: nil,
+                       preserve_data_plan: false,
+                       disallowProximitySetup: false,
+                       obliterationBehavior: 'Default',
+                       returnToService: nil,
+                       api: nil, cnx: Jamf.cnx)
         cnx = api if api
+        returnToService ||= { enabled: false }
 
-        case self::MDM_COMMAND_TARGET
-        when *COMPUTER_TARGETS
-          raise Jamf::InvalidDataError, 'Erasing computers requires a 6-character String passcode' unless passcode.size == 6
+        cmd_data = {
+          commandType: ERASE_DEVICE,
+          preserveDataPlan: preserve_data_plan,
+          disallowProximitySetup: disallowProximitySetup,
+          obliterationBehavior: obliterationBehavior,
+          returnToService: returnToService
+        }
 
-          opts = { passcode: passcode }
-        when *DEVICE_TARGETS
-          opts = {}
-          opts[:preserve_data_plan] = 'true' if preserve_data_plan
-        end # case
-        send_mdm_command targets, :erase_device, opts: opts, cnx: cnx
+        cmd_data[:pin] = passcode if passcode
+
+        send_mdm_command(targets, cmd_data, cnx: cnx)
       end
       alias wipe erase_device
       alias wipe_device erase_device
@@ -1057,9 +1073,9 @@ module Jamf
 
         status = FLUSHABLE_STATUSES[status]
 
-        # TODO: add 'unmanaged_ok:' param to raw_targets_to_ids method, so that we can
+        # TODO: add 'unmanaged_ok:' param to raw_targets_to_mgmt_ids method, so that we can
         # use this to flush commands for unmanaged machines.
-        target_ids = raw_targets_to_ids targets, cnx: cnx, expand_groups: false, unmanaged_ok: true
+        target_ids = raw_targets_to_mgmt_ids targets, cnx: cnx, expand_groups: false, unmanaged_ok: true
 
         command_flush_rsrc = "commandflush/#{self::MDM_COMMAND_TARGET}/id"
 
