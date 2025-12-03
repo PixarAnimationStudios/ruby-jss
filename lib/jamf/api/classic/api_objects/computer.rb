@@ -596,6 +596,20 @@ module Jamf
     end
     private_class_method :management_data_subset
 
+    # Get the MDM Management ID for a computer by identifer
+    # @param ident [Integer,String] An identifier (id, name, serialnumber, macaddr)
+    #   of the computer for which to retrieve the Management ID
+    # @param cnx [Jamf::Connection] an API connection to use for the query.
+    #
+    # @return [String, nil] the management ID, or nil if the computer is not MDM managed
+    ##########################################
+    def self.management_id(ident, cnx: Jamf.cnx)
+      jid = valid_id ident
+      raise Jamf::NoSuchItemError, "No Computer with identifier '#{ident}'" unless jid
+
+      cnx.jp_get("v2/computers-inventory/#{jid}").dig :general, :managementId
+    end
+
     # Attributes
     #####################################
 
@@ -1072,6 +1086,12 @@ module Jamf
     def application_usage(start_date, end_date = nil)
       Jamf::Computer.application_usage @id, start_date, end_date, cnx: @cnx
     end # app usage
+
+    # The management id for this computer
+    # @return [String, nil] the management ID, or nil if the computer is not MDM managed
+    def management_id
+      @management_id ||= self.class.management_id @id, cnx: @cnx
+    end
 
     # The 'computer management' data for this computer
     #

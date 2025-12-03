@@ -187,6 +187,20 @@ module Jamf
       all(refresh, cnx: cnx).select { |d| d[:model_identifier].start_with? 'AppleTV' }
     end
 
+    # Get the MDM Management ID for a device by identifer
+    # @param ident [Integer,String] An identifier (id, name, serialnumber, macaddr)
+    #   of the computer for which to retrieve the Management ID
+    # @param cnx [Jamf::Connection] an API connection to use for the query.
+    #
+    # @return [String, nil] the management ID, or nil if the computer is not MDM managed
+    ##########################################
+    def self.management_id(ident, cnx: Jamf.cnx)
+      jid = valid_id ident
+      raise Jamf::NoSuchItemError, "No MobileDevice with identifier '#{ident}'" unless jid
+
+      cnx.jp_get("v2/mobile-devices/#{jid}")[:managementId]
+    end
+
     # Attributes
     #####################################
 
@@ -490,6 +504,12 @@ module Jamf
         @asset_tag = args[:asset_tag]
       end
     end # initialize
+
+    # The management id for this device
+    # @return [String, nil] the management ID, or nil if the device is not MDM managed
+    def management_id
+      @management_id ||= self.class.management_id @id, cnx: @cnx
+    end
 
     def tv?
       model_identifier.start_with? HW_PREFIX_TV
