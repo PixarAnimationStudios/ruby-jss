@@ -355,11 +355,7 @@ module Jamf
           commandData: command_data
         }
 
-        if JSS.devmode?
-          puts "Sending XML:\n"
-          REXML::Document.new(cmd_xml).write STDOUT, 2
-          puts "\n\nTo rsrc: #{rsrc}"
-        end
+        puts "Sending data:\n#{data}" if JSS.devmode?
 
         cnx.jp_post MDM_COMMAND_RSRC, data
       end
@@ -593,7 +589,7 @@ module Jamf
         }
         cmd_data[:message] = message if message
         cmd_data[:phoneNumber] = phoneNumber if phoneNumber
-        cmd_data[:pin] = passcode if passcode
+        cmd_data[:pin] = passcode unless passcode.pix_empty?
 
         send_mdm_command(targets, cmd_data, cnx: cnx)
       end
@@ -722,8 +718,8 @@ module Jamf
         data = {
           commandType: DELETE_USER,
           userName: user,
-          force: force,
-          all: all
+          forceDeletion: force,
+          deleteAllUsers: all
         }
         send_mdm_command targets, data, cnx: cnx
       end
@@ -955,8 +951,14 @@ module Jamf
         end
 
         targets = raw_targets_to_mgmt_ids targets, jamf_ids: true, cnx: cnx
-        cmd_xml = mdm_command_xml(command, opts, targets)
+        cmd_xml = mdm_command_xml(:Wallpaper, opts, targets)
         rsrc = 'mobiledevicecommands/command/Wallpaper'
+
+        if JSS.devmode?
+          puts "Sending XML:\n"
+          REXML::Document.new(cmd_xml).write STDOUT, 2
+          puts "\n\nTo rsrc: #{rsrc}"
+        end
 
         xml_resp = cnx.c_post rsrc, cmd_xml
 
@@ -1449,11 +1451,10 @@ module Jamf
     #
     # @return (see .send_mdm_command)
     #
-    def device_name(name)
+    def set_device_name(name)
       self.class.device_name @id, name, cnx: @cnx
     end
-    alias set_name device_name
-    alias set_device_name device_name
+    alias set_name set_device_name
 
     # Send a wallpaper command to this object
     #
