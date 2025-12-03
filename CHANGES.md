@@ -18,15 +18,22 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
 ## \[5.0.0] Unreleased
 
 ### Added
-  - A new dependency on the [pixar-ruby-extensions gem](https://rubygems.org/gems/pixar-ruby-extensions) which are a superset of those found in the JamfRubyExtensions module built into ruby-jss. Once all use of JamfRubyExtensions has been replaced by the new gem, JamfRubyExtensions will be removed. Staying DRY is a good thing.
+
+  - A new dependency on the [pixar-ruby-extensions gem](https://rubygems.org/gems/pixar-ruby-extensions), which are similar to those found in the JamfRubyExtensions module built into ruby-jss. Once all use of JamfRubyExtensions has been replaced by the new gem, JamfRubyExtensions will be removed. Staying DRY is a good thing.
+
+  - Jamf::Computer and Jamf::MobileDevice now have a class method `.management_id(ident, cnx: Jamf.cnx)` and a matching instance method `#management_id`.  Even though the classes are based on the Classic API endpoints for Computers and MobileDevices, the 'managementId' value (a UUID used by Apples MDM/DDM) is not available in the Classic API data. These methods reach out to the Jamf Pro API to find the id for the instance, or the identified object.
 
 ### Changed
 
-  - The Jamf::MDM mixin module has been updated to use the Jamf Pro API for nearly all defined methods. As of Jamf Pro 11.21, most of the Classic API endpoints have been deprecated for a while and are now removed. We now mostly uses the `/v2/mdm/commands` endpoint for POSTing commands.
+  - The Jamf Pro API is now used for sending MDM commands.
+
+    The Jamf::MDM mixin module has been updated to use the Jamf Pro API for nearly all defined methods. As of Jamf Pro 11.21, most of the Classic API endpoints have been deprecated for a while and are now removed. We now mostly uses the `/v2/mdm/commands` endpoint for POSTing commands.
 
     This module is mixed in to the Computer, ComputerGroup, MobileDevice, and MobileDeviceGroup classes, which are still based on the Classic API. Those classes will be ported to the Jamf Pro API (as JComputer, JMobileDevice, etc..) in the coming months, but until then, the existing classes can now continue to send MDM commands. 
     
     Also at that time, newer MDM commands supported by the Jamf Pro API, but not yet by ruby-jss, will be implemented.
+
+    NOTE: The 'update_inventory' MDM command for mobile devices is no longer a thing and calling #update_inventory will raise an exception. Some of the MDM-based subcommands now in the JP API, such as CERTIFICATE_LIST, DEVICE_INFORMATION, INSTALLED_APPLICATION_LIST, etc, will be implemented in the future.
 
     This fixes [GitHub Issue 107](https://github.com/PixarAnimationStudios/ruby-jss/issues/107) - many thanks to @csfjeff for reporting the problem!
 
