@@ -17,6 +17,9 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
 --------
 ## \[5.0.0] Unreleased
 
+### Added
+  - A new dependency on the [pixar-ruby-extensions gem](https://rubygems.org/gems/pixar-ruby-extensions) which are a superset of those found in the JamfRubyExtensions module built into ruby-jss. Once all use of JamfRubyExtensions has been replaced by the new gem, JamfRubyExtensions will be removed. Staying DRY is a good thing.
+
 ### Changed
 
   - The Jamf::MDM mixin module has been updated to use the Jamf Pro API for nearly all defined methods. As of Jamf Pro 11.21, most of the Classic API endpoints have been deprecated for a while and are now removed. We now mostly uses the `/v2/mdm/commands` endpoint for POSTing commands.
@@ -26,6 +29,8 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
     Also at that time, newer MDM commands supported by the Jamf Pro API, but not yet by ruby-jss, will be implemented.
 
     This fixes [GitHub Issue 107](https://github.com/PixarAnimationStudios/ruby-jss/issues/107) - many thanks to @csfjeff for reporting the problem!
+
+  
 
 --------
 ## \[4.2.4] 2025-10-31
