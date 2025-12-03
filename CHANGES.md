@@ -37,8 +37,6 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
 
     This fixes [GitHub Issue 107](https://github.com/PixarAnimationStudios/ruby-jss/issues/107) - many thanks to @csfjeff for reporting the problem!
 
-  
-
 --------
 ## \[4.2.4] 2025-10-31
 
