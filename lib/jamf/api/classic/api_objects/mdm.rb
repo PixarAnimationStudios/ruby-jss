@@ -911,7 +911,7 @@ module Jamf
       alias set_name device_name
       alias set_device_name device_name
 
-      # TODO: Re-enable this when the wallpaper MDM commands are migrated to JPAPI
+      # TODO: Update/migrate this when the wallpaper MDM command is migrated to JPAPI
       #
       # Send a wallpaper command to one or more targets
       #
