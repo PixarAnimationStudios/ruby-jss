@@ -374,7 +374,7 @@ module Jamf
       #
       # @param cnx [Jamf::Connection] an API connection to use.
       #
-      # @return [Array<Integer>] The ids of the target devices for a command
+      # @return [Array<String,Integer>] The ids of the target devices for a command
       #
       def raw_targets_to_mgmt_ids(targets, expand_groups: true, unmanaged_ok: false, jamf_ids: false, api: nil, cnx: Jamf.cnx)
         cnx = api if api

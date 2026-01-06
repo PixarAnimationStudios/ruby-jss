@@ -15,13 +15,13 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
-## \[5.0.0] Unreleased
+## \[5.0.0] 2026-01-06
 
 ### Added
 
   - A new dependency on the [pixar-ruby-extensions gem](https://rubygems.org/gems/pixar-ruby-extensions), which are similar to those found in the JamfRubyExtensions module built into ruby-jss. Once all use of JamfRubyExtensions has been replaced by the new gem, JamfRubyExtensions will be removed. Staying DRY is a good thing.
 
-  - Jamf::Computer and Jamf::MobileDevice now have a class method `.management_id(ident, cnx: Jamf.cnx)` and a matching instance method `#management_id`.  Even though the classes are based on the Classic API endpoints for Computers and MobileDevices, the 'managementId' value (a UUID used by Apples MDM/DDM) is not available in the Classic API data. These methods reach out to the Jamf Pro API to find the id for the instance, or the identified object.
+  - Jamf::Computer and Jamf::MobileDevice now have a class method `.management_id(ident, cnx: Jamf.cnx)` and a matching instance method `#management_id`.  Even though the classes are based on the Classic API endpoints for Computers and MobileDevices, the 'managementId' value (a UUID used by Apple's MDM/DDM) is not available in the Classic API data. These methods reach out to the Jamf Pro API to find the id for the instance, or the identified object. The upcoming JComputer and JMobileDevice classes will embody the Jamf Pro API endpoints directly.
 
 ### Changed
 
@@ -41,19 +41,23 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
 ## \[4.2.4] 2025-10-31
 
 ### Added 
+
   - Set request User-Agent header to indicate ruby-jss version
 
 ### Changed
+
   - Use the 'TOMORROW OPEN SOURCE TECHNOLOGY LICENSE 1.0' (TOST) License 
     - The terms are unchanged, but it now has an offical name.
 
 ### Fixed
+
   - Resolved [GitHub Issue 106](https://github.com/PixarAnimationStudios/ruby-jss/issues/106). REXML v3.4.3 or higher doesn't allow the creation of REXML::Document instances without a root element. Many thanks to @hiboma for the bug report and a suggested fix!
 
 --------
 ## \[4.2.3] 2025-09-23
 
 ### Fixed
+
   - Fixed bug were `#save` was not returning the object's Jamf ID when updating scopable objects.
   - Fixed bug where `Jamf::Policy#retry_event=` raised error when no retry_attempts are defined.
 
@@ -61,6 +65,7 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
 ## \[4.2.2] 2025-09-06
 
 ### Fixed
+
   - Class `Jamf::JPackage` no longer raises `Errno::EINVAL Invalid argument @ io_fread` when generating manifest checksums for very large package files.
 
 
