@@ -15,6 +15,13 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
+## \[5.0.1] 2026-01-09
+
+### Fixed
+
+  - The `Jamf::Connection::JamfProAPI` methods for basic HTTP interaction with the server (`#jp_get`, `#jp_post`, `#jp_put`, `#jp_patch`, & `#jp_delete`) can all now optionally take a second parameter as the request body, or omit such a parameter. Omission is needed for some endpoints, such as POSTing to `/v2/mobile-devices/{id}/unmanage`, which takes no body,  and occasionally there have been GET or DELETE endpoints that require a body also (which is allowed in the HTTP spec.) Previously, `#jp_post` required such a body, so the unmanage was failing.
+
+--------
 ## \[5.0.0] 2026-01-06
 
 ### Added

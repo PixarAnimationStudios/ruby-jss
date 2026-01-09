@@ -44,15 +44,17 @@ module Jamf
 
       # @return [Hash] the result of the get
       #######################################################
-      def jp_get(rsrc)
+      def jp_get(rsrc, data = nil)
         validate_connected
+
         rsrc = rsrc.delete_prefix Jamf::Connection::SLASH
         resp = @jp_cnx.get(rsrc) do |req|
           # Modify the request here if needed.
           # puts "JPAPI Cookie is: #{req.headers['Cookie']}"
+          req.body = data if data
         end
-        @last_http_response = resp
 
+        @last_http_response = resp
         return resp.body if resp.success?
 
         raise Jamf::Connection::JamfProAPIError, resp
@@ -69,12 +71,14 @@ module Jamf
       #
       # @return [String] the response body
       #######################################################
-      def jp_post(rsrc, data)
+      def jp_post(rsrc, data = nil)
         validate_connected
+
         rsrc = rsrc.delete_prefix Jamf::Connection::SLASH
         resp = @jp_cnx.post(rsrc) do |req|
-          req.body = data
+          req.body = data if data
         end
+
         @last_http_response = resp
         return resp.body if resp.success?
 
@@ -92,12 +96,14 @@ module Jamf
       # @return [String] the response from the server.
       #
       #######################################################
-      def jp_put(rsrc, data)
+      def jp_put(rsrc, data = nil)
         validate_connected
+
         rsrc = rsrc.delete_prefix Jamf::Connection::SLASH
         resp = @jp_cnx.put(rsrc) do |req|
-          req.body = data
+          req.body = data if data
         end
+
         @last_http_response = resp
         return resp.body if resp.success?
 
@@ -115,14 +121,16 @@ module Jamf
       # @return [String] the response from the server.
       #
       #######################################################
-      def jp_patch(rsrc, data)
+      def jp_patch(rsrc, data = nil)
         validate_connected
+
         rsrc = rsrc.delete_prefix Jamf::Connection::SLASH
         resp = @jp_cnx.patch(rsrc) do |req|
           # Patch requests must use this content type!
           req.headers['Content-Type'] = 'application/merge-patch+json'
-          req.body = data
+          req.body = data if data
         end
+
         @last_http_response = resp
         return resp.body if resp.success?
 
@@ -138,10 +146,14 @@ module Jamf
       # @return [String] the response from the server.
       #
       #######################################################
-      def jp_delete(rsrc)
+      def jp_delete(rsrc, data = nil)
         validate_connected
         rsrc = rsrc.delete_prefix Jamf::Connection::SLASH
-        resp = @jp_cnx.delete rsrc
+
+        resp = @jp_cnx.delete(rsrc) do |req|
+          req.body = data if data
+        end
+
         @last_http_response = resp
         return resp.body if resp.success?
 
@@ -164,7 +176,7 @@ module Jamf
       end
 
       # @param rsrc[String] the API resource being uploadad-to,
-      #   the URL part after 'JSSResource/'
+      #   the URL part after 'api/'
       #
       # @param local_file[String, Pathname] the local file to upload
       #
