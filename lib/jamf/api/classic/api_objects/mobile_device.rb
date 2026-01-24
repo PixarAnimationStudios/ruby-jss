@@ -195,7 +195,7 @@ module Jamf
     # @return [String, nil] the management ID, or nil if the computer is not MDM managed
     ##########################################
     def self.management_id(ident, cnx: Jamf.cnx)
-      jid = valid_id ident
+      jid = valid_id ident, cnx: cnx
       raise Jamf::NoSuchItemError, "No MobileDevice with identifier '#{ident}'" unless jid
 
       cnx.jp_get("v2/mobile-devices/#{jid}")[:managementId]

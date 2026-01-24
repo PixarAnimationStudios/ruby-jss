@@ -15,6 +15,13 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
+## \[5.0.2] 2026-01-24
+
+### Fixed
+
+  - Class methods `Jamf::Computer.management_id` and `Jamf::MobileDevice.management_id` were not passing the given connection object to the `valid_id` method, and always using the default connection object. They now pass given objects as they should.
+
+--------
 ## \[5.0.1] 2026-01-09
 
 ### Fixed
