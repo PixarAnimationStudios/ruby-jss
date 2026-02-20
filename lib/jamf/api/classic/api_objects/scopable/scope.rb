@@ -1309,7 +1309,7 @@ module Jamf
         scope_list = part == :limitation ? @limitations[:jamf_ldap_users] : @exclusions[:jamf_ldap_users]
 
         # nil if the list is empty
-        return if scope_list.empty?
+        return if scope_list.pix_empty?
 
         scope_list.include? machine_data[:location][:username]
       end
