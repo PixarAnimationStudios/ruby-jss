@@ -19,9 +19,9 @@ module Jamf
 
       case sort
       when String
-        "&sort=#{CGI.escape sort}"
+        "#{SORT_PARAM_PREFIX}#{CGI.escape sort}"
       when Array
-        "&sort=#{CGI.escape sort.join(',')}"
+        "#{SORT_PARAM_PREFIX}#{CGI.escape sort.join(',')}"
       else
         raise ArgumentError, 'sort criteria must be a String or Array of Strings'
       end
