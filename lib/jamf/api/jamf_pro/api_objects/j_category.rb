@@ -5,8 +5,6 @@
 #
 #
 
-# frozen_string_literal: true
-
 # The Module
 module Jamf
 
@@ -22,12 +20,11 @@ module Jamf
   # collection, i.e. the 'GET_OBJECT' similar to the POST_OBJECT defined in the
   # class below.
   #
-  class JScript < Jamf::OAPISchemas::Script
+  class JCategory < Jamf::OAPISchemas::Category
 
     include Jamf::CollectionResource
-    include Jamf::ChangeLog
-
     extend Jamf::Filterable
+    include Jamf::ChangeLog
 
     ########### RELATED OAPI OBJECTS
     # These objects should be OAPIObjects, NOT subclasses of them and
@@ -39,16 +36,16 @@ module Jamf
     # The OAPI object class we get back from a 'list' query to get the
     # whole collection, or a subset of it. It contains a :results key
     # which is an array of data for objects of the parent class.
-    SEARCH_RESULT_OBJECT = Jamf::OAPISchemas::ScriptsSearchResults
+    SEARCH_RESULT_OBJECT = Jamf::OAPISchemas::CategoriesSearchResults
 
     # The OAPI object class we send with a POST request to make a new member of
     # the collection in Jamf. This is usually the same as the parent class.
-    POST_OBJECT = Jamf::OAPISchemas::Script
+    POST_OBJECT = Jamf::OAPISchemas::Category
 
     # The OAPI object class we send with a PUT request to change an object in
     # Jamf by specifying all its values. Most updates happen this way,
     # and this is usually the same as the parent class
-    PUT_OBJECT = Jamf::OAPISchemas::Script
+    PUT_OBJECT = Jamf::OAPISchemas::Category
 
     # The OAPI object we send with a PATCH request to change an object in
     # Jamf by replacing only some of its values. This is never the same as the
@@ -82,7 +79,7 @@ module Jamf
     # If those paths differ from the standards, the constants must be defined
     # here
     #
-    LIST_PATH = 'v1/scripts'
+    LIST_PATH = 'v1/categories'.freeze
 
     # See Jamf::CollectionResource::ClassMethods#get_path
     GET_PATH = LIST_PATH
@@ -93,7 +90,7 @@ module Jamf
 
     # Must define this when extending Filterable
     FILTER_KEYS = %i[
-      id name info notes priority categoryId categoryName scriptContents parameter4 parameter5 parameter6 parameter7 parameter8 parameter9 parameter10 parameter11 osRequirements
+      name priority
     ].freeze
 
   end # class
