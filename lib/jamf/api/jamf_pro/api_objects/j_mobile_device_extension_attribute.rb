@@ -27,7 +27,6 @@ module Jamf
     include Jamf::DataDependency
 
     extend Jamf::Filterable
-    extend Jamf::BulkDeletable
 
     ########### RELATED OAPI OBJECTS
     # These objects should be OAPIObjects, NOT subclasses of them and
