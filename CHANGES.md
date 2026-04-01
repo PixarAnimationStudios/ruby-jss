@@ -15,6 +15,18 @@ __Please update all installations of ruby-jss to at least v1.6.0.__
 Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue and providing examples of how it could be exploited.
 
 --------
+## \[5.1.0] 2026-04-03
+
+### Added
+
+  - `Jamf::JCategory`, `Jamf::JScript`, `Jamf::JComputerExtensionAttribute`, `Jamf::JMobilDeviceExtensionAttribute`  These classes are currently implemented only as presented in the Jamf Pro API. Some of the convenience features available in the Classic API implementations may or may not eventually be added. (e.g. for EAs: `#all_with_result`, `#latest_values`, `#from_ldap?` etc.)
+
+### Fixed
+
+  - Use `#pix_empty?` to better catch nils when expecting empty strings
+
+
+--------
 ## \[5.0.2] 2026-01-24
 
 ### Fixed
