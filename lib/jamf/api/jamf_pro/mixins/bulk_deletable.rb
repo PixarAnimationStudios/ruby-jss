@@ -15,7 +15,7 @@ module Jamf
 
     DELETE_MULTIPLE_ENDPOINT = 'delete-multiple'.freeze
 
-    # Delete multiple objects by providing an array of their
+    # Delete multiple objects by providing an array of their ids
     #
     # @param ids [Array<String,Integer>] The ids to delete
     #
@@ -25,7 +25,7 @@ module Jamf
     # @return [Array<Jamf::Connection::JamfProAPIError::ErrorInfo] Info about any ids
     #   that failed to be deleted.
     #
-    def bulk_delete(ids, cnx: Jamf.cnx)
+    def delete_multiple(ids, cnx: Jamf.cnx)
       ids = [ids] unless ids.is_a? Array
       request_body = { ids: ids.map(&:to_s) }
 
@@ -39,6 +39,8 @@ module Jamf
       end
     end
 
-  end # Lockable
+    alias bulk_delete delete_multiple
+
+  end # BulkDeletable
 
 end # Jamf
