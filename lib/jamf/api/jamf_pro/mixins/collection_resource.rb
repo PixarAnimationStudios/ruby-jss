@@ -587,8 +587,10 @@ module Jamf
           create_identifier_list_method attr_name.to_sym, method
           send method, *args
         elsif method.to_s == 'all_names' && defined?(self::OBJECT_NAME_ATTR)
-          define_singleton_method(:all_names) do |_refresh = nil, cnx: Jamf.cnx, cached_list: nil|
-            send "all_#{self::OBJECT_NAME_ATTR}s", *args
+          # define_singleton_method(:all_names) do |_refresh = nil, cnx: Jamf.cnx, cached_list: nil|
+          # send "all_#{self::OBJECT_NAME_ATTR}s", *args
+          define_singleton_method(:all_names) do |refresh = nil, cnx: Jamf.cnx, cached_list: nil|
+            send "all_#{self::OBJECT_NAME_ATTR}s", refresh, cnx: cnx, cached_list: cached_list
           end
           send method, *args
         else
@@ -634,6 +636,7 @@ module Jamf
             end
           end # define_singleton_method
           Jamf.load_msg "Defined method #{self}##{list_method_name}"
+
         else
 
           define_singleton_method(list_method_name) do |*|
