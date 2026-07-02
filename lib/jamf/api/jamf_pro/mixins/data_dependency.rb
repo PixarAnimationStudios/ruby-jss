@@ -11,6 +11,10 @@ module Jamf
   # some collection resources have (and eventually all will??)
   # It should be included into classes representing those resources
   #
+  # data-dependencies list other Jamf Pro objects that use the current object,
+  # e.g. Advanced Searches or Smart Groups that use an Extension Attribute in their
+  # criteria.
+  #
   module DataDependency
 
     DATA_DEPENDENCY_ENDPOINT = 'data-dependency'.freeze

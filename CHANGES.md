@@ -19,7 +19,7 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
 
 ### Added
 
-  - `Jamf::JCategory`, `Jamf::JScript`, `Jamf::JComputerExtensionAttribute`, `Jamf::JMobilDeviceExtensionAttribute`  These classes are currently implemented only as presented in the Jamf Pro API. Some of the convenience features available in the Classic API implementations may or may not eventually be added. (e.g. for EAs: `#all_with_result`, `#latest_values`, `#from_ldap?` etc.)
+  - `Jamf::JCategory`, `Jamf::JScript`, `Jamf::JComputerExtensionAttribute`, `Jamf::JMobilDeviceExtensionAttribute` These classes are currently implemented only as presented in the Jamf Pro API. Some of the convenience features available in the Classic API implementations may or may not eventually be added. (e.g. for EAs: `#all_with_result`, `#latest_values`, `#from_ldap?` etc.)
 
 ### Fixed
 
