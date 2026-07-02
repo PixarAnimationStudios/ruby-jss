@@ -24,6 +24,9 @@ Many many thanks to actae0n of Blacksun Hackers Club for reporting this issue an
 ### Fixed
 
   - Use `#pix_empty?` to better catch nils when expecting empty strings
+  - When using Zeitwerk's 'eager loading' to load the whole gem, no longer fails when it finds the unused/archived 'mdm_classic.rb' file. Thanks to @rorra for reporting this issue.
+  - When using Zeitwerk's 'eager loading' to load the whole gem, no longer fails looking for the JamfProtectPlan OAPISchema, referenced by other schemas
+  - Fixed occasional arg-parsing errors with `.all_names` API object class method.
 
 
 --------
