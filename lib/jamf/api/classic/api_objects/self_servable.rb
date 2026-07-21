@@ -914,7 +914,7 @@ module Jamf
 
       # newstyle, 'notifications' subset
       notif = ssvc.add_element('notifications')
-      notif.add_element('notifications_enabled').text = self_service_notifications_enabled.to_s
+      notif.add_element('notification_enabled').text = self_service_notifications_enabled.to_s
       notif.add_element('notification_type').text = NOTIFICATION_TYPES[self_service_notification_type] if self_service_notification_type
       notif.add_element('notification_subject').text = self_service_notification_subject if self_service_notification_subject
       notif.add_element('notification_message').text = self_service_notification_message if self_service_notification_message
