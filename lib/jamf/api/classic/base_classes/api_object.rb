@@ -1769,6 +1769,11 @@ module Jamf
       doc.to_s
     end
 
+    # Send the current rest_xml to stdout for preview
+    def show_xml
+      REXML::Document.new(rest_xml).write STDOUT, 2
+    end
+
   end # class APIObject
 
 end # module Jamf
