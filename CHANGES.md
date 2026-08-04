@@ -143,7 +143,7 @@ For Packages this means that when setting the categoryId, for example, you must 
 
 In order to move forward with Jamf Pro-based classes, while providing reasonable backward compatibility, here's the plan:
 
-  - For each class being migrated, and new class, prepended with `J` will be created.  So for accessing packages via the Jamf Pro API, we are introducing the class `Jamf::JPackage`. We've had an experimental  Jamf Pro version of Jamf::JpBuilding for a while, and it has been renamed to `Jamf::JBuilding` 
+  - For each class being migrated, a new class, prepended with `J` will be created.  So for accessing packages via the Jamf Pro API, we are introducing the class `Jamf::JPackage`. We've had an experimental  Jamf Pro version of Jamf::JpBuilding for a while, and it has been renamed to `Jamf::JBuilding` 
   - The original Classic API-based class will be marked as deprecated when the matching J-class is released.
   - The deprecated classes will exist for at least one year (probably longer) but will get few, if any, updates, mostly limited to security-related fixes. As of this release, `Jamf::Package` and `Jamf::Building` are deprecated. 
   - During the deprecation period, please update all your code to use the new Jamf Pro API-based classes.
